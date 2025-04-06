@@ -51,9 +51,66 @@ class You_Be_Hero_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
 	}
+        
+        function ybh_enqueue_checkout_block_editor_assets() {
+            wp_enqueue_script(
+                'ybh-checkout-block-settings',
+                plugins_url('js/checkout-block-settings.js', __FILE__),
+                array('wp-blocks', 'wp-element', 'wp-components', 'wp-editor', 'wp-data', 'wp-compose', 'wc-blocks-checkout'),//'wp-element', 'wc-blocks-checkout'
+                filemtime(YBH_PLUGIN_ADMIN_DIR . 'js/checkout-block-settings.js'),
+                true
+            );
+        }
+        
+        // Register settings
+        function ybh_checkout_donation_register_settings() {
+            register_setting('ybh_checkout_donation_settings', 'ybh_donation_shortcode');
+            register_setting('ybh_checkout_donation_settings', 'ybh_donation_position');
+        }
 
+        function ybh_donation_checkout_block_modifications() {
+//            die(YBH_PLUGIN_URL.'admin/js/checkout-widget.js');
+            wp_enqueue_script(
+                'custom-checkout-widget',
+                YBH_PLUGIN_URL.'admin/js/checkout-widget.js',
+                array('wp-blocks', 'wp-edit-post', 'wp-hooks'),
+                filemtime(YBH_PLUGIN_ADMIN_DIR . '/js/checkout-widget.js')
+            );
+        }
+        
+        function woocommerce_admin_order_totals_after_discount_fun($order_id) {
+            $order = wc_get_order($order_id);
+            $donation_total = 0;
+            $other_fees_total = 0;
+
+            foreach ($order->get_fees() as $fee) {
+                $fee_total = (float) $fee->get_total(); // Ensure proper numeric type
+
+                if (stripos($fee->get_name(), 'donation') !== false) {
+                    $donation_total += $fee_total;
+                } else {
+                    $other_fees_total += $fee_total;
+                }
+            }
+
+            if ($donation_total > 0) {
+                echo '<tr>';
+                echo '<td class="label">' . __('Donation:', 'woocommerce') . '</td>';
+                echo '<td width="1%"></td>';
+                echo '<td class="total"><strong>' . wc_price($donation_total) . '</strong></td>';
+                echo '</tr>';
+            }
+
+            if ($other_fees_total > 0) {
+                echo '<tr>';
+                echo '<td class="label">' . __('Other Fees:', 'woocommerce') . '</td>';
+                echo '<td width="1%"></td>';
+                echo '<td class="total"><strong>' . wc_price($other_fees_total) . '</strong></td>';
+                echo '</tr>';
+            }
+        }
+        
 	/**
 	 * Register the stylesheets for the admin area.
 	 *
@@ -99,5 +156,63 @@ class You_Be_Hero_Admin {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/you-be-hero-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
+
+    /**
+     * @return void
+     */
+    public function ybh_add_admin_menu() {
+        add_menu_page(
+            'YouBeHero API Settings',  // Page title
+            'YouBeHero',               // Menu title
+            'manage_options',          // Capability
+            'ybh-settings',            // Menu slug
+            array( $this, 'ybh_settings_page' ),       // Function to display content
+            'dashicons-admin-network', // Icon
+            56                         // Position
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function ybh_settings_page() {
+
+        $ybh_token = get_option( 'ybh_token' );
+
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/you-be-hero-api-settings.php';
+
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function ybh_get_token() {
+
+        $token = bin2hex(random_bytes( 32 / 2 ) );
+        update_option( 'ybh_token', sanitize_text_field( $token ) );
+        wp_send_json( ['success' => true, 'token' => $token] );
+
+//        $api_url = 'https://youbehero.com/shop/create-api-token';
+//
+//        $response = wp_remote_post($api_url, [
+//            'method'  => 'POST',
+//            'headers' => ['Content-Type' => 'application/json']
+//        ]);
+//
+//        if (is_wp_error($response)) {
+//            wp_send_json(['success' => false, 'message' => $response->get_error_message()]);
+//        }
+//
+//        $body = json_decode(wp_remote_retrieve_body($response), true);
+//
+//        if (!empty($body['token'])) {
+//            update_option('ybh_token', sanitize_text_field($body['token']));
+//            wp_send_json(['success' => true, 'token' => $body['token']]);
+//        } else {
+//            wp_send_json(['success' => false, 'message' => 'Failed to retrieve token.']);
+//        }
+
+    }
 
 }

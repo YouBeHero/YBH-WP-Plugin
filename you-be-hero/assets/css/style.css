@@ -1,0 +1,17 @@
+#donation-widget {
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+}
+
+#donation-cause {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#donation-amounts label {
+    display: block;
+    margin: 5px 0;
+}

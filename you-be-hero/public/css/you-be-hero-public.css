@@ -2,3 +2,239 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+#donation-widget {
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+}
+
+#donation-cause {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#donation-amounts label {
+    display: block;
+    margin: 5px 0;
+}
+
+/* Donation cheeckout widget css */
+.donation-box {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+.donation-box h3 {
+    background: #ddd;
+    padding: 10px;
+    margin: -20px -20px 15px -20px;
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+}
+.donation-box p {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.amount-box {
+    background: #e0e0e0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    font-weight: bold;
+    float: right;
+    color: #007bff;
+}
+.donation-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /*border: 1px solid #ddd;*/
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.donation-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ccc;
+}
+.donation-item select {
+    flex-grow: 1;
+    border: none;
+    background: none;
+    font-size: 14px;
+}
+.donation-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+.donation-buttons button, .donation-buttons .radio-button {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #007bff;
+    background: white;
+    color: #007bff;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.donation-buttons button:last-child,.donation-buttons .radio-button:last-child {
+    border-color: red;
+    color: red;
+}
+
+
+.visually-hidden {
+  position: absolute;
+  opacity: 0;
+}
+
+
+/* Custom styles for the dropdown */
+.custom-dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+.custom-dropdown-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    background-color: white;
+    cursor: pointer;
+}
+.custom-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    background-color: white;
+    z-index: 10;
+}
+.custom-dropdown-menu.show {
+    display: block;
+}
+.custom-dropdown-option {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+.custom-dropdown-option img {
+    width: 10%;
+}
+.custom-dropdown-option:hover {
+    background-color: #f3f4f6;
+}
+
+/*=========IQBAL=========*/
+.donation-box-container {
+    background: #F7F7F7;
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /*width: 70%;*/
+}
+
+.donation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+}
+
+.donation-amount {
+    background: #198754;
+    color: white;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.donation-select {
+    background: white;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    justify-content: space-between;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
+.donation-select img {
+    /*width: 35px;*/
+    height: 35px;
+    border-radius: 50%;
+}
+
+.donation-text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.dropdown-arrow {
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.donation-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.donation-buttons button {
+    flex: 1;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid #ccc;
+    background: white;
+    cursor: pointer;
+}
+
+.donation-buttons button.active {
+    background: #198754;
+    color: white;
+    border: 1px solid #198754;
+}
+
+.delete-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.custom-dropdown-option span {
+    margin-left: 1rem;
+    font-size: 1rem;
+}
+/*=========IQBAL=========*/
+
+
+/* Style for selected radio button */
+.radio-button.selected {
+    background-color: #3b82f6;
+    color: white;
+}

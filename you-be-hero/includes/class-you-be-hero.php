@@ -73,7 +73,12 @@ class You_Be_Hero {
 			$this->version = '1.0.0';
 		}
 		$this->plugin_name = 'you-be-hero';
+                
+                // Try WooCommerce Blocks API first (modern approach)
+                add_action('woocommerce_blocks_loaded', [$this, 'register_blocks_endpoint'], 20);
 
+                // Fallback for cases where Blocks API isn't available
+                add_action('rest_api_init', [$this, 'register_fallback_endpoint'], 20);
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
@@ -165,10 +170,22 @@ class You_Be_Hero {
 
 		$plugin_admin = new You_Be_Hero_Admin( $this->get_plugin_name(), $this->get_version() );
 
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'ybh_checkout_donation_register_settings' );
+		$this->loader->add_action( 'enqueue_block_editor_assets', $plugin_admin, 'ybh_enqueue_checkout_block_editor_assets' );
+		$this->loader->add_action( 'enqueue_block_editor_assets', $plugin_admin, 'ybh_donation_checkout_block_modifications' );
+		$this->loader->add_action( 'woocommerce_admin_order_totals_after_discount', $plugin_admin, 'woocommerce_admin_order_totals_after_discount_fun' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
-	}
+                $this->loader->add_action( 'admin_menu', $plugin_admin, 'ybh_add_admin_menu' );
+                // Register setting to save token
+                add_action( 'admin_init', function() {
+                    register_setting( 'ybh_settings_group', 'ybh_token' );
+                } );
+                // Handle AJAX request to fetch API token
+                $this->loader->add_action( 'wp_ajax_ybh_get_token', $plugin_admin,'ybh_get_token' );
+
+        }
 
 	/**
 	 * Register all of the hooks related to the public-facing functionality
@@ -180,12 +197,74 @@ class You_Be_Hero {
 	private function define_public_hooks() {
 
 		$plugin_public = new You_Be_Hero_Public( $this->get_plugin_name(), $this->get_version() );
+                
+		$this->loader->add_action( 'wp', $plugin_public, 'display_checkout_donation' );
+//		$this->loader->add_action( 'woocommerce_before_checkout_payment', $plugin_public, 'woocommerce_before_checkout_payment_fun' );
+		$this->loader->add_action( 'woocommerce_cart_calculate_fees', $plugin_public, 'donation_widget_add_fee' );
+		$this->loader->add_action( 'wp_ajax_update_donation_fee', $plugin_public, 'donation_widget_update_fee' );
+		$this->loader->add_action( 'wp_ajax_nopriv_update_donation_fee', $plugin_public, 'donation_widget_update_fee' );
+		$this->loader->add_action( 'woocommerce_checkout_update_order_meta', $plugin_public, 'woocommerce_checkout_update_order_meta_fun', 10, 2 );
+		$this->loader->add_action( 'woocommerce_checkout_create_order', $plugin_public, 'save_custom_data_from_session', 10, 2 );
+//		$this->loader->add_action( 'woocommerce_get_order_item_totals', $plugin_public, 'woocommerce_get_order_item_totals_fun', 10, 2 );
 
+		$this->loader->add_action( 'init', $plugin_public, 'donation_widget_register_block' );
+		$this->loader->add_action( 'init', $plugin_public, 'youbehero_public_shortcodes' );
+		$this->loader->add_action( 'init', $plugin_public, 'ybh_register_checkout_meta' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'donation_widget_enqueue_scripts' );
+
+        $this->loader->add_action( 'woocommerce_order_status_completed', $plugin_public, 'ybh_send_api_on_order_complete', 10, 1 );
 
 	}
 
+    /**
+         * Preferred: Register with WooCommerce Blocks Store API
+         */
+        public function register_blocks_endpoint() {
+            if (!class_exists('WooCommerce\Blocks\StoreApi\SchemasController')) {
+                return; // Exit if Blocks API isn't available
+            }
+
+            require_once __DIR__ . '/class-youbehero-endpoint.php';
+
+            WooCommerce\Blocks\StoreApi\SchemasController::register(
+                'youbehero', 
+                'YouBeHero_Endpoint_Schema'
+            );
+            WooCommerce\Blocks\StoreApi\RoutesController::register(
+                'youbehero',
+                'YouBeHero_Endpoint_Route'
+            );
+        }
+
+        /**
+         * Fallback: Register as standard REST API endpoint
+         */
+        public function register_fallback_endpoint() {
+            // Only register fallback if Blocks API didn't work
+            if (class_exists('WooCommerce\Blocks\StoreApi\SchemasController')) {
+                die('ere');
+                return;
+            }
+
+            register_rest_route('wc/store', '/youbehero', [
+                'methods'  => WP_REST_Server::READABLE,
+                'callback' => [$this, 'handle_fallback_request'],
+                'permission_callback' => '__return_true',
+            ]);
+        }
+
+        /**
+         * Handle fallback endpoint requests
+         */
+        public function handle_fallback_request(WP_REST_Request $request) {
+            return [
+                'success'    => true,
+                'message'    => 'You be hero! (Fallback Endpoint)',
+                'timestamp' => current_time('mysql'),
+            ];
+        }
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
