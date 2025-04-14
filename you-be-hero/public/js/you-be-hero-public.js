@@ -29,7 +29,7 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
     jQuery(document).ready(function($) {
-        
+
         const { causes, amounts } = ybh_donation_checkout_params;
 
         // Populate causes and amounts
@@ -109,6 +109,8 @@
                     fees: updatedFees
                 });
 
+                await wp.data.dispatch('wc/store/cart').invalidateResolution('getCartData');
+
 
 
                 //server side update
@@ -128,17 +130,18 @@
                         ]
                     },
                     success: function(response) {
+                        console.log('Donation added successfully!');
                         $('body').trigger('update_checkout');
                     }
                 });
-                console.log('Donation added successfully!');
+                console.log('Donation process ends!');
                 return true;
 
             } catch (error) {
                 console.error('Donation error:', error);
                 //show elegant notice update this
                 wp.data.dispatch('core/notices').createNotice(
-                    'error', 
+                    'error',
                     `Failed to add donation: ${error.message}`,
                     { id: 'donation-error' }
                 );
@@ -150,16 +153,16 @@
             console.log( 'add_donation_to_cart' )
             const orgId = $('#donation-cause').val();
             const amount = $('#donation-amount').val();
-            
+
             const selectedCause = causes.find(cause =>cause.value === parseInt(orgId));
             const orgName = selectedCause ? selectedCause.label : '';
             const orgImg = selectedCause ? selectedCause.image : '';
             const numericAmount = parseFloat(amount);
             addDonationFee( orgId, orgName, numericAmount, orgImg );
         }
-        
+
         function validate_donation_data(){
-            
+
             const donation_cause = $('#donation-cause').val();
             const donation_amount = $('#donation-amount').val();
 //            console.log(donation_amount);
@@ -173,7 +176,7 @@
             }
             return true;
         }
-        
+
         // Handle dynamic updates
 //        $('#donation-amounts input[type="radio"], .donation-amounts button').change(function() {
         $('#donation-amount').change(function() {
@@ -188,7 +191,7 @@
             const donation_cause = $(this).val();
 //            const donation_amount = $('#donation-amounts input[type="radio"]:checked').val();
             const donation_amount = $('#donation-amount').val();
-            
+
             if ( validate_donation_data() ) {
                 add_donation_to_cart( );
             }
@@ -197,11 +200,13 @@
         $(document).on('click', '#ybh-dd-select', function () {
             $('#dropdownMenu').toggleClass('show');
           });
-        $(document).on('click', '.ybh-dd-option', function () {
+        $(document).on('click', '.ybh-dd-option', function (event) {
+            event.preventDefault();
             const selectedOption = document.getElementById('selectedOption');
             const donationCauseEle = document.getElementById('donation-cause');
             const causeImgEle = document.getElementById('selected-cause-img');
 
+            $('#dropdownMenu').removeClass('show');
             selectedOption.textContent = $(this).data("text");
             console.log('Selected Value:', $(this).data("value"));
             donationCauseEle.value = $(this).data("value");
@@ -223,9 +228,10 @@
                 });
             }
         };
+        $('.radio-button:checked').trigger('click');
+        $(document).on('click', '.radio-button', function (event) {
+            event.preventDefault();
 
-        $(document).on('click', '.radio-button', function () {
-            
             const donation_amount = $(this).data('value');
             const donation_label = $(this).data('label');
             console.log($(this));
