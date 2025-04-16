@@ -109,10 +109,7 @@
                     fees: updatedFees
                 });
 
-                await wp.data.dispatch('wc/store/cart').invalidateResolution('getCartData');
-
-
-
+                showLoader();
                 //server side update
                 $.ajax({
                     type: 'POST',
@@ -131,7 +128,8 @@
                     },
                     success: function(response) {
                         console.log('Donation added successfully!');
-                        $('body').trigger('update_checkout');
+                        update_totals();
+//                        $('body').trigger('update_checkout');
                     }
                 });
                 console.log('Donation process ends!');
@@ -139,6 +137,7 @@
 
             } catch (error) {
                 console.error('Donation error:', error);
+                hideLoader();
                 //show elegant notice update this
                 wp.data.dispatch('core/notices').createNotice(
                     'error',
@@ -148,7 +147,21 @@
                 throw error;
             }
         };
-
+        
+        const update_totals = async () => {
+            
+            try {
+                showLoader();
+                // Invalidate the current cart data resolution
+                await wp.data.dispatch('wc/store/cart').invalidateResolution('getCartData');
+              } catch (error) {
+                console.error('Error updating cart totals:', error);
+              } finally {
+                // Hide the loader after the operations are complete
+                hideLoader();
+              }
+        };
+        
         function add_donation_to_cart(){
             console.log( 'add_donation_to_cart' )
             const orgId = $('#donation-cause').val();
@@ -228,40 +241,60 @@
                 });
             }
         };
-        $('.radio-button:checked').trigger('click');
-        $(document).on('click', '.radio-button', function (event) {
+        
+        $('.donation-amounts .radio-button:checked').trigger('click');
+        $(document).on('click', '.donation-amounts .radio-button', function (event) {
             event.preventDefault();
 
             const donation_amount = $(this).data('value');
             const donation_label = $(this).data('label');
-            console.log($(this));
+//            console.log($(this));
             const donationAmountEle = document.getElementById('donation-amount');
             donationAmountEle.value = donation_amount;
 //            selectRadioButton(donation_amount);
             $('.donation-amount-pill').text(donation_label);
-            $('.radio-button').removeClass('selected');
+            $('.donation-amounts .radio-button').removeClass('selected');
             $(this).addClass('selected');
-            $('.donation-amount').change();
+            $('.donation-amounts .donation-amount').change();
             if ( validate_donation_data() ) {
                 add_donation_to_cart( );
             }
         });
-        // JavaScript to handle radio button selection
-//        function selectRadioButton(value) {
-//             console.log('value:', value)
-//            const radioButtons = document.querySelectorAll('.radio-button');
-//            radioButtons.forEach(button => {
-//                button.classList.remove('selected');
-//            });
-//            event.target.classList.add('selected');
-//
-//            const donationAmountEle = document.getElementById('donation-amount');
-//            donationAmountEle.value = value;
-//            console.log('Selected Radio Value:', value); // Log the selected radio value
-////            const donationCauseEle = document.getElementById('donation-cause');
-////            let donation_cause = donationCauseEle.value;
-////            update_donation_to_cart( value, donation_cause );
-//        }
+        
+        $(document).on('click', '.donation-amounts .delete-button', function (event) {
+            event.preventDefault();
+
+            console.log($(this));
+            const donationAmountEle = document.getElementById('donation-amount');
+            donationAmountEle.value = '';
+            $('.donation-amount-pill').text('0,00');
+            $('.donation-amounts .radio-button').removeClass('selected');
+            $('.donation-amounts .donation-amount').change();
+            add_donation_to_cart( );
+        });
+        
+
+        // Show the loader
+        function showLoader() {
+          const loader = document.getElementById('widget-loader');
+          const bar = loader.querySelector('.widget-loader-bar');
+          loader.classList.remove('hidden');
+          bar.style.width = '0%';
+          setTimeout(() => {
+            bar.style.width = '100%';
+          }, 10); // Slight delay to trigger transition
+        }
+
+        // Hide the loader
+        function hideLoader() {
+          const loader = document.getElementById('widget-loader');
+          const bar = loader.querySelector('.widget-loader-bar');
+          bar.style.width = '100%';
+          setTimeout(() => {
+            loader.classList.add('hidden');
+            bar.style.width = '0%';
+          }, 500); // Wait for the transition to complete
+        }
 
     });
 
