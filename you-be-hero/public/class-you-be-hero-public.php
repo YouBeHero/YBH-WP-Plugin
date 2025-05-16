@@ -191,7 +191,7 @@ class You_Be_Hero_Public {
                 
                 wp_enqueue_style('donation-widget-style', YBH_PLUGIN_URL.'assets/css/style.css');
                 wp_enqueue_script('donation-widget-script', YBH_PLUGIN_URL.'assets/js/script.js', array('jquery'), null, true);
-                
+
                 if ($data) {
                     
                     // Extract causes and amounts
@@ -205,11 +205,13 @@ class You_Be_Hero_Public {
 
                     $amounts = array_values($data['donation_settings']['fixed_amounts']);
 
+                    $donation_amount = WC()->session->get('ybh_donation_amount', 0);//let's pick current selection
                     // Localize script with the data
                     wp_localize_script('donation-widget-script', 'ybh_donation_checkout_params', array(
                         'ajax_url' => admin_url('admin-ajax.php'),
                         'causes'   => $causes,
                         'amounts'  => $amounts,
+                        'selected_amount'  => $donation_amount,
                     ));
                     
                 }
@@ -240,7 +242,8 @@ class You_Be_Hero_Public {
                 $donation_amount = floatval($donation_amount);
                 $donation_cause = sanitize_text_field($donation_cause);
 
-                $fee_title = __('Donation for '.$donation_cause, 'you-be-hero') . $donation_cause;
+//                $fee_title = __('Donation for '.$donation_cause, 'you-be-hero') . $donation_cause;
+                $fee_title = __('Donation for '.$donation_cause, 'you-be-hero');
                 $fee_id = $cart->add_fee($fee_title, $donation_amount);
 
                 $last_fee_index = count($cart->fees) - 1;
@@ -342,11 +345,11 @@ class You_Be_Hero_Public {
                 $item->add_meta_data('_donation_org_img', $donation_cause_img);
                 $item->add_meta_data('Donation Organization', $donation_org_name);
                 $item->add_meta_data('_donation_org_name', $donation_org_name);
-                WC()->session->__unset('ybh_donation_amount');
-                WC()->session->__unset('ybh_donation_cause');
-                WC()->session->__unset('_donation_org_name');
-                WC()->session->__unset('_donation_org_id');
-                WC()->session->__unset('_donation_org_img');
+//                WC()->session->__unset('ybh_donation_amount');
+//                WC()->session->__unset('ybh_donation_cause');
+//                WC()->session->__unset('_donation_org_name');
+//                WC()->session->__unset('_donation_org_id');
+//                WC()->session->__unset('_donation_org_img');
             }
         }
 
@@ -401,19 +404,28 @@ class You_Be_Hero_Public {
 //
 //            if ($ybh_donation_amount && $ybh_donation_cause ) {
 //
+//                $order = wc_get_order($order_id);
+//                if (!$order) {
+//                    return;
+//                }
+//
 //                // Add custom data to the order meta
-//                $order_id = $order->get_id(); 
-//                update_post_meta($order_id, '_ybh_donation_amount', $ybh_donation_amount);
-//                update_post_meta($order_id, '_ybh_donation_cause', $ybh_donation_cause);
-//        //        
+////                $order_id = $order->get_id();
+////                update_post_meta($order_id, '_ybh_donation_amount', $ybh_donation_amount);
+//                $order->update_meta_data('_ybh_donation_amount', $ybh_donation_amount);
+////                update_post_meta($order_id, '_ybh_donation_cause', $ybh_donation_cause);
+//                $order->update_meta_data('_ybh_donation_cause', $ybh_donation_cause);
+//                $order->save();
+//        //
 //                // Clear the session data
 //                WC()->session->__unset('ybh_donation_amount');
 //                WC()->session->__unset('ybh_donation_cause');
-//            }    
+//            }
 //        }
-
+//
 //        function woocommerce_get_order_item_totals_fun( $totals, $order ) {
-//            $donation_cause = get_post_meta( $order->get_id(), '_ybh_donation_cause', true );
+////            $donation_cause = get_post_meta( $order->get_id(), '_ybh_donation_cause', true );
+//            $donation_cause = $order->get_meta('_ybh_donation_cause');
 //        echo '$donation_cause: '.$donation_cause;die();
 //            if ( ! empty( $donation_cause ) ) {
 //                foreach ( $order->get_fees() as $fee ) {
@@ -540,45 +552,67 @@ class You_Be_Hero_Public {
             error_log('API Response: ' . wp_remote_retrieve_body($response));
         }
     }
-    
+
+    /**
+     * @param $endpoints
+     * @return mixed
+     */
     function woocommerce_register_store_api_endpoints($endpoints) {
-            $endpoints[] = [
-                'namespace' => 'wc/store',
-                'route' => '/youbehero',
-                'callback' => function($request) {
-                    try {
-                        // Validate request
-                        if (!wp_verify_nonce($request->get_header('X-WC-Store-API-Nonce'), 'wc_store_api')) {
-                            throw new Exception('Invalid nonce', 403);
-                        }
-                        
-                        // Process request
-                        $params = $request->get_params();
-                        
-                        // Your custom logic here
-                        $result = [
-                            'success' => true,
-                            'data' => [
-                                'custom_field' => 'custom_value',
-                                'params' => $params
-                            ]
-                        ];
-                        
-                        return new WP_REST_Response($result, 200);
-                    } catch (Exception $e) {
-                        return new WP_Error(
-                            'youbehero_error',
-                            $e->getMessage(),
-                            ['status' => $e->getCode() ?: 400]
-                        );
+        $endpoints[] = [
+            'namespace' => 'wc/store',
+            'route' => '/youbehero',
+            'callback' => function($request) {
+                try {
+                    // Validate request
+                    if (!wp_verify_nonce($request->get_header('X-WC-Store-API-Nonce'), 'wc_store_api')) {
+                        throw new Exception('Invalid nonce', 403);
                     }
-                },
-                'methods' => ['GET', 'POST'],
-                'permission_callback' => function() {
-                    return current_user_can('read'); // Adjust capability as needed
+
+                    // Process request
+                    $params = $request->get_params();
+
+                    // Your custom logic here
+                    $result = [
+                        'success' => true,
+                        'data' => [
+                            'custom_field' => 'custom_value',
+                            'params' => $params
+                        ]
+                    ];
+
+                    return new WP_REST_Response($result, 200);
+                } catch (Exception $e) {
+                    return new WP_Error(
+                        'youbehero_error',
+                        $e->getMessage(),
+                        ['status' => $e->getCode() ?: 400]
+                    );
                 }
-            ];
-            return $endpoints;
+            },
+            'methods' => ['GET', 'POST'],
+            'permission_callback' => function() {
+                return current_user_can('read'); // Adjust capability as needed
+            }
+        ];
+        return $endpoints;
+    }
+
+    /**
+     * @param $order_id
+     * @return void
+     */
+    public function ybh_order_received_action( $order_id ) {
+        if ( ! $order_id ) {
+            return;
         }
 
+        $donation_cause_id = WC()->session->get( '_donation_org_id', 0 );
+        if (isset($donation_cause_id)) {
+            WC()->session->__unset('ybh_donation_amount');
+            WC()->session->__unset('ybh_donation_cause');
+            WC()->session->__unset('_donation_org_name');
+            WC()->session->__unset('_donation_org_id');
+            WC()->session->__unset('_donation_org_img');
+        }
+    }
 }

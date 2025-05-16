@@ -64,13 +64,15 @@ if( !empty($youbehero_data) && !empty($youbehero_data['selected_causes']) ){
     if( $checkWActive ){
         $html = $headHtml = '';
         if ( $donor == 'customer' &&  $donationType == 'fixed' && !empty($amounts) ) {
-
-                $headHtml .= '<span>Θα θέλατε να κάνετε μια δωρεά;</span><span class="donation-amount-pill">0,00'.$currency_symbol.'</span>';
+                $donation_amount = WC()->session->get('ybh_donation_amount', 0);
+                $headHtml .= '<span>Θα θέλατε να κάνετε μια δωρεά;</span><span class="donation-amount-pill">'.number_format((float)$donation_amount, 2, '.', '').$currency_symbol.'</span>';
 
                 foreach ($amounts as $amount) {
                     $amount_cents = (int)$amount * 100;
 
-                    $html .= '<button class="radio-button" data-value="'.$amount_cents.'" data-label="'.$amount.'" >'.$amount.'</button>';
+                    $selected = $donation_amount == (float)$amount ? 'selected' : '';
+
+                    $html .= '<button class="radio-button '.$selected.'" data-value="'.$amount_cents.'" data-label="'.$amount.'">'.$amount.'</button>';
 
                 }
                 $html .= '<button class="delete-button">🗑</button>';
@@ -79,18 +81,49 @@ if( !empty($youbehero_data) && !empty($youbehero_data['selected_causes']) ){
 
         } else if ($donor == 'customer' &&  $donationType == 'roundup') {
 
-            $cart = WC()->cart;
-            $subtotal = $cart->get_subtotal();
+            if (function_exists('WC') && WC() !== null && WC()->cart !== null) {
+                $cart = WC()->cart;
+                $subtotal = $cart->get_subtotal();
 
-            $roundedSubtotal = ceil($subtotal);
-            $roundupValue = $roundedSubtotal - $subtotal;
-            $amount_cents = (float)$roundupValue * 100;
-            $headHtml .= '<span>Θα θέλατε να κάνετε μια δωρεά;</span><span class="donation-amount-pill">'.$roundupValue.$currency_symbol.'</span>';
+                $roundedSubtotal = ceil($subtotal);
+                switch (true) {
+                    case ($roundedSubtotal <= 10):
+                        $rounded = ceil($roundedSubtotal * 2) / 2; // Nearest €0.50
+                        break;
 
-            $html .= '<button class="radio-button" data-value="'.$amount_cents.'" data-label="'.$roundupValue.'" >'.$roundupValue.'</button>';
-            $html .= '<button class="delete-button">🗑</button>';
-            $html .= '<input name="donation_cause" id="donation-cause" type="hidden"/>
-                    <input name="donation_amount" id="donation-amount" type="hidden" value="'.$amount_cents.'"/>';
+                    case ($roundedSubtotal <= 50):
+                        $rounded = ceil($roundedSubtotal); // Nearest €1
+                        break;
+
+                    case ($roundedSubtotal <= 100):
+                        $rounded = ceil($roundedSubtotal / 5) * 5; // Nearest €5
+                        break;
+
+                    case ($roundedSubtotal <= 500):
+                        $rounded = ceil($roundedSubtotal / 10) * 10; // Nearest €10
+                        break;
+
+                    case ($roundedSubtotal > 500):
+                        $rounded = ceil($roundedSubtotal / 10) * 10; // Also Nearest €10
+                        break;
+
+                    default:
+                        $rounded = $roundedSubtotal; // Fallback
+                }
+                $roundupValue = round($rounded - $roundedSubtotal, 2);
+            } else {
+                $roundupValue = 0;
+            }
+                //            $roundupValue = $roundedSubtotal - $subtotal;
+                $amount_cents = (float)$roundupValue * 100;
+                $headHtml .= '<span>Θα θέλατε να κάνετε μια δωρεά;</span><span class="donation-amount-pill">' . $roundupValue . $currency_symbol . '</span>';
+
+                $selected = !empty($roundupValue) ? 'selected' : '';
+                $html .= '<button class="radio-button ' . $selected . '" data-value="' . $amount_cents . '" data-label="' . $roundupValue . '" >' . $roundupValue . $currency_symbol . '</button>';
+                $html .= '<button class="delete-button">🗑</button>';
+                $html .= '<input name="donation_cause" id="donation-cause" type="hidden"/>
+                    <input name="donation_amount" id="donation-amount" type="hidden" value="' . $amount_cents . '"/>';
+
 
         } else if ($donor == 'eshop' &&  $donationType == 'fixed') {
 
@@ -137,11 +170,16 @@ if( !empty($youbehero_data) && !empty($youbehero_data['selected_causes']) ){
                     <?php echo $headHtml; ?>
                 </div>
 
-                <div class="custom-dropdown">
+                <div class="custom-dropdown" id="ybh-dd-dropdown">
                     <div class="donation-select  custom-dropdown-toggle" id="ybh-dd-select">
                         <div class="donation-text">
-                            <img id="selected-cause-img" src="<?php echo YBH_PLUGIN_URL?>public/img/save-hood-img.png" alt="Logo">
-                            <span id="selectedOption"><?php echo __( 'Please select a nonprofit organization', YBH_TEXT_DOMAIN )?></span>
+                            <?php if( isset( WC()->session ) && !empty( WC()->session->get( 'ybh_donation_cause' ) ) ) { ?>
+                                <img id="selected-cause-img" src="<?php echo WC()->session->get( '_donation_org_img' ); ?>" alt="Logo">
+                                <span id="selectedOption"><?php echo __( WC()->session->get( 'ybh_donation_cause' ), YBH_TEXT_DOMAIN )?></span>
+                            <?php } else { ?>
+                                <img id="selected-cause-img" src="<?php echo YBH_PLUGIN_URL?>public/img/save-hood-img.png" alt="Logo">
+                                <span id="selectedOption"><?php echo __( 'Please select a nonprofit organization', YBH_TEXT_DOMAIN )?></span>
+                            <?php } ?>
                         </div>
                         <span class="dropdown-arrow">▼</span>
                     </div>
@@ -150,9 +188,9 @@ if( !empty($youbehero_data) && !empty($youbehero_data['selected_causes']) ){
                         <?php
                         foreach ($causes as $key=>$cause) {?>
                         <div class="custom-dropdown-option ybh-dd-option" id="<?php echo $key;?>-ybh-dd-option" data-image="<?php echo $cause['image']?>" data-text="<?php echo $cause['label']?>" data-value="<?php echo $cause['value']?>")">
-                        <img alt="<?php echo $cause['label']?>" src="<?php echo $cause['image']?>"/>
-                        <span class="text-gray-700"><?php echo $cause['label']?></span>
-                    </div>
+                            <img alt="<?php echo $cause['label']?>" src="<?php echo $cause['image']?>"/>
+                            <span class="text-gray-700"><?php echo $cause['label']?></span>
+                        </div>
                     <?php   } ?>
                 </div>
             </div>

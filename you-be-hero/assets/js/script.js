@@ -5,12 +5,14 @@ jQuery(document).ready(function($) {
             return;
         }
 
-        const { causes, amounts } = ybh_donation_checkout_params || {};
+        const { causes, amounts, selected_amount } = ybh_donation_checkout_params || {};
 
         // Populate causes and amounts
         const $causeSelect = $('#donation-cause');
         const $amountsContainer = $('#donation-amounts');
         let currencyCode = wcSettings?.currency?.code || 'USD';
+        let currencySymbol = wcSettings?.currency?.symbol || '$';
+
         const addDonationFee = async (orgId, orgName, amount, orgImg) => {
             try {
                 // 1. Get current cart state
@@ -148,9 +150,11 @@ jQuery(document).ready(function($) {
             }
         });
 
-        $(document).on('click', '#ybh-dd-select', function () {
+        // $(document).on('click', '#ybh-dd-select', function () {
+        $(document).on('click', '#ybh-dd-dropdown', function () {
             $('#dropdownMenu').toggleClass('show');
-          });
+        });
+
         $(document).on('click', '.ybh-dd-option', function (event) {
             event.preventDefault();
             const selectedOption = document.getElementById('selectedOption');
@@ -190,7 +194,7 @@ jQuery(document).ready(function($) {
             const donationAmountEle = document.getElementById('donation-amount');
             donationAmountEle.value = donation_amount;
 //            selectRadioButton(donation_amount);
-            $('.donation-amount-pill').text(donation_label);
+            $('.donation-amount-pill').text(donation_label + currencySymbol);
             $('.donation-amounts .radio-button').removeClass('selected');
             $(this).addClass('selected');
             $('.donation-amounts .donation-amount').change();
@@ -239,7 +243,11 @@ jQuery(document).ready(function($) {
             bar.style.width = '0%';
           }, 500); // Wait for the transition to complete
         }
-
+        
+        console.log( 'selected_amount: ', selected_amount);
+        let selected_amount_cents = selected_amount * 100;
+        if(  $(`button[data-value="${selected_amount_cents}"]`).length )//let's check if there is any current selected amount
+            $(`button[data-value="${selected_amount_cents}"]`).click();
 });
 
 
