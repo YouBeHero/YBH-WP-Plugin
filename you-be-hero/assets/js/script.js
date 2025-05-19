@@ -151,8 +151,16 @@ jQuery(document).ready(function($) {
         });
 
         // $(document).on('click', '#ybh-dd-select', function () {
-        $(document).on('click', '#ybh-dd-dropdown', function () {
-            $('#dropdownMenu').toggleClass('show');
+        $(document).on('click', '#ybh-dd-dropdown, #donation-text', function () {
+            console.log( $(this).attr('class'),$('#dropdownMenu').hasClass('show'));
+            if( $('#dropdownMenu').hasClass('show') ){
+                $('#dropdownMenu').removeClass('show');
+            }else{
+                $('#dropdownMenu').addClass('show');
+                setTimeout(function(){
+                $('#dropdownMenu').addClass('show');
+                },100);
+            }
         });
 
         $(document).on('click', '.ybh-dd-option', function (event) {
@@ -194,7 +202,7 @@ jQuery(document).ready(function($) {
             const donationAmountEle = document.getElementById('donation-amount');
             donationAmountEle.value = donation_amount;
 //            selectRadioButton(donation_amount);
-            $('.donation-amount-pill').text(donation_label + currencySymbol);
+            $('.donation-amount-pill').text(donation_label);
             $('.donation-amounts .radio-button').removeClass('selected');
             $(this).addClass('selected');
             $('.donation-amounts .donation-amount').change();
