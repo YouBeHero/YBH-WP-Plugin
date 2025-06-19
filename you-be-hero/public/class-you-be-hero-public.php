@@ -341,8 +341,8 @@ class You_Be_Hero_Public {
             }
             
 //            $response = wp_remote_get('https://yousafqamar.com/ybh/youbehero-'.$ver.'.json'); // Replace with the actual API endpoint
-            $response = wp_remote_get('https://pastefy.app/EWfPlWiv/raw');
-//            $response = wp_remote_get('https://pastefy.app/2LMp5KdG/raw');
+//            $response = wp_remote_get('https://pastefy.app/EWfPlWiv/raw');
+            $response = wp_remote_get('https://pastefy.app/2LMp5KdG/raw');
             if (is_wp_error($response)) {
                 return false;
             }

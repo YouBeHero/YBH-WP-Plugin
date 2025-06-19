@@ -235,7 +235,7 @@ jQuery(document).ready(function($) {
             const donationAmountEle = document.getElementById('donation-amount');
             donationAmountEle.value = donation_amount;
 //            selectRadioButton(donation_amount);
-            $('.donation-amount-pill').text(donation_label);
+            $('.donation-amount-pill').text(donation_label + currencySymbol);
             $('.donation-amounts .radio-button').removeClass('selected');
             $(this).addClass('selected');
             $('.donation-amounts .donation-amount').change();
