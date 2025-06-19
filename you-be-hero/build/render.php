@@ -74,10 +74,13 @@ if ( ! is_admin() ) {
                     foreach ($amounts as $amount) {
                         $amount_cents = (float) str_replace(',', '.', $amount) * 100;//(float)$amount * 100;
 
-                        $selected = '';
+                        $selected = $don_cause = '';
                         if( isset( WC()->session ) && !empty( WC()->session->get( 'ybh_donation_cause' ) ) ) {
+                            $don_cause_key = array_search(WC()->session->get( 'ybh_donation_cause' ), array_column($causes, 'label'));
+                            $don_cause = $causes[$don_cause_key]['value'];
                             $donation_amount = WC()->session->get('ybh_donation_amount', 0);
-                            $selected = $donation_amount == (float)$amount ? 'selected' : '';
+                            $float = str_replace(',', '.', $amount);
+                            $selected = ($donation_amount == $float) ? 'selected' : '';
                         }
 
                         $html .= '<button style="border-color:'.$border_color.';" class="donation-btn radio-button '.$selected.'" data-btnclr="'.$btn_color.'" data-value="'.$amount_cents.'" data-label="'.$amount.'">'.$amount . $currency_symbol . '</button>';
@@ -85,7 +88,7 @@ if ( ! is_admin() ) {
                     }
 
                 $html .= '<button class="donation-btn delete-button" data-btnclr="'.$btn_color.'" style="border-color:'.$border_color.';"><svg width="13" height="15" viewBox="0 0 13 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.07187 0.983984C4.21953 0.685938 4.52305 0.5 4.85391 0.5H8.14609C8.47695 0.5 8.78047 0.685938 8.92812 0.983984L9.125 1.375H11.75C12.234 1.375 12.625 1.76602 12.625 2.25C12.625 2.73398 12.234 3.125 11.75 3.125H1.25C0.766016 3.125 0.375 2.73398 0.375 2.25C0.375 1.76602 0.766016 1.375 1.25 1.375H3.875L4.07187 0.983984ZM1.25 4H11.75V12.75C11.75 13.7152 10.9652 14.5 10 14.5H3C2.03477 14.5 1.25 13.7152 1.25 12.75V4ZM3.875 5.75C3.63438 5.75 3.4375 5.94688 3.4375 6.1875V12.3125C3.4375 12.5531 3.63438 12.75 3.875 12.75C4.11562 12.75 4.3125 12.5531 4.3125 12.3125V6.1875C4.3125 5.94688 4.11562 5.75 3.875 5.75ZM6.5 5.75C6.25938 5.75 6.0625 5.94688 6.0625 6.1875V12.3125C6.0625 12.5531 6.25938 12.75 6.5 12.75C6.74062 12.75 6.9375 12.5531 6.9375 12.3125V6.1875C6.9375 5.94688 6.74062 5.75 6.5 5.75ZM9.125 5.75C8.88437 5.75 8.6875 5.94688 8.6875 6.1875V12.3125C8.6875 12.5531 8.88437 12.75 9.125 12.75C9.36563 12.75 9.5625 12.5531 9.5625 12.3125V6.1875C9.5625 5.94688 9.36563 5.75 9.125 5.75Z" fill="#212121"/></svg></button>';
-                $html .= '<input name="donation_cause" id="donation-cause" type="hidden"/>
+                $html .= '<input name="donation_cause" id="donation-cause" value="'.$don_cause.'" type="hidden"/>
                             <input name="donation_amount" id="donation-amount" type="hidden"/>';
 
             } else if ($donor == 'customer' &&  $donationType == 'roundup') {
@@ -125,18 +128,19 @@ if ( ! is_admin() ) {
                 $amount_cents = (float) str_replace(',', '.', $roundupValue) * 100;//(float)$roundupValue * 100;
 
                 if ( $amount_cents > 0 ) {
-                    $selected = '';
+                    $selected = $don_cause = '';
                     if( isset( WC()->session ) && !empty( WC()->session->get( 'ybh_donation_cause' ) ) ) {
+                        $don_cause_key = array_search(WC()->session->get( 'ybh_donation_cause' ), array_column($causes, 'label'));
+                        $don_cause = $causes[$don_cause_key]['value'];
                         $donation_amount = WC()->session->get('ybh_donation_amount', 0);
                         $selected = $donation_amount == $roundupValue ? 'selected' : '';
                     }
 
-//                    $headHtml .= '<span style="color:'.$text_color.'">Θα θέλατε να κάνετε μια δωρεά;</span><span class="pill-container"><span class="donation-amount-pill">' .$roundupValue . $currency_symbol . '</span></span>';
-                    $headHtml .= '<span style="color:'.$text_color.'">Θα θέλατε να κάνετε μια δωρεά;</span><span style="background: '.$btn_color.'" class="pill-container"><span class="donation-amount-pill">'.number_format((float)$roundupValue, 2, '.', '').'</span>'.$currency_symbol.'</span>';
-
+                    $headHtml .= '<span style="color:'.$text_color.'">Θα θέλατε να κάνετε μια δωρεά;</span><span style="background: '.$btn_color.'" class="pill-container"><span class="donation-amount-pill">' .$roundupValue . $currency_symbol . '</span></span>';
+//
                     $html .= '<button style="border-color:'.$border_color.';" class="donation-btn radio-button ' . $selected . '" data-btnclr="'.$btn_color.'" data-value="' . $amount_cents . '" data-label="' . $roundupValue  . $currency_symbol . '" >' . $roundupValue . $currency_symbol . '</button>';
                     $html .= '<button style="border-color:'.$border_color.';" class="donation-btn delete-button" data-btnclr="'.$btn_color.'"><svg width="13" height="15" viewBox="0 0 13 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.07187 0.983984C4.21953 0.685938 4.52305 0.5 4.85391 0.5H8.14609C8.47695 0.5 8.78047 0.685938 8.92812 0.983984L9.125 1.375H11.75C12.234 1.375 12.625 1.76602 12.625 2.25C12.625 2.73398 12.234 3.125 11.75 3.125H1.25C0.766016 3.125 0.375 2.73398 0.375 2.25C0.375 1.76602 0.766016 1.375 1.25 1.375H3.875L4.07187 0.983984ZM1.25 4H11.75V12.75C11.75 13.7152 10.9652 14.5 10 14.5H3C2.03477 14.5 1.25 13.7152 1.25 12.75V4ZM3.875 5.75C3.63438 5.75 3.4375 5.94688 3.4375 6.1875V12.3125C3.4375 12.5531 3.63438 12.75 3.875 12.75C4.11562 12.75 4.3125 12.5531 4.3125 12.3125V6.1875C4.3125 5.94688 4.11562 5.75 3.875 5.75ZM6.5 5.75C6.25938 5.75 6.0625 5.94688 6.0625 6.1875V12.3125C6.0625 12.5531 6.25938 12.75 6.5 12.75C6.74062 12.75 6.9375 12.5531 6.9375 12.3125V6.1875C6.9375 5.94688 6.74062 5.75 6.5 5.75ZM9.125 5.75C8.88437 5.75 8.6875 5.94688 8.6875 6.1875V12.3125C8.6875 12.5531 8.88437 12.75 9.125 12.75C9.36563 12.75 9.5625 12.5531 9.5625 12.3125V6.1875C9.5625 5.94688 9.36563 5.75 9.125 5.75Z" fill="#212121"/></svg></button>';
-                    $html .= '<input name="donation_cause" id="donation-cause" type="hidden"/>
+                    $html .= '<input name="donation_cause" id="donation-cause" value="'.$don_cause.'" type="hidden"/>
                         <input name="donation_amount" id="donation-amount" type="hidden"/>';
                 } else {
                     $eligible = false;
