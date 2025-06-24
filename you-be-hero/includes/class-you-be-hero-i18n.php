@@ -32,7 +32,8 @@ class You_Be_Hero_i18n {
 	 *
 	 * @since    1.0.0
 	 */
-	public function load_plugin_textdomain() {
+	public function
+    load_plugin_textdomain() {
 
 		load_plugin_textdomain(
 			'you-be-hero',

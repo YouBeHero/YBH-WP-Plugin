@@ -51,111 +51,9 @@ class You_Be_Hero_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-        }
 
-        function display_custom_fee_image_based_on_meta( $value, $item) {
-            
-//            if( $value == 'Donation to Ένα παιδί μετράει τα άστρα (Look to the Stars)' ){
-////////                echo '<pre>';
-////////                var_dump($item->get_meta_data());
-////////                var_dump('_donation_org_img');
-//                var_dump($item->get_type());
-////////                echo '</pre>';
-//            }
-            if(is_admin() ){
-                $donation_org_id = $item->get_meta('_donation_org_id');
-//                if( $donation_org_id  ){
-//                    $donation_org_img = $item->get_meta('_donation_org_img');
-//
-//                    $donation_org_img = ( $donation_org_img ) ?$donation_org_img:'https://cdn.theorg.com/96d670ba-f440-464f-ac91-e156c79bb653_thumb.jpg';
-//
-//                        // Output the image
-//                        $value = '<img src="' . esc_url( $donation_org_img ) . '" alt="'.$value.'" style="max-width:100px;" class="attachment-thumbnail size-thumbnail"/>'.$value;
-//                }
-            }
-            return $value;
-        }
-        
-        function ybh_enqueue_checkout_block_editor_assets() {
-            wp_enqueue_script(
-                'ybh-checkout-block-settings',
-                plugins_url('js/checkout-block-settings.js', __FILE__),
-                array('wp-blocks', 'wp-element', 'wp-components', 'wp-editor', 'wp-data', 'wp-compose', 'wc-blocks-checkout'),//'wp-element', 'wc-blocks-checkout'
-                filemtime(YBH_PLUGIN_ADMIN_DIR . 'js/checkout-block-settings.js'),
-                true
-            );
-        }
-        
-        // Register settings
-        function ybh_checkout_donation_register_settings() {
-            register_setting('ybh_checkout_donation_settings', 'ybh_donation_shortcode');
-            register_setting('ybh_checkout_donation_settings', 'ybh_donation_position');
-        }
+    }
 
-        function ybh_donation_checkout_block_modifications() {
-//            die(YBH_PLUGIN_URL.'admin/js/checkout-widget.js');
-            wp_enqueue_script(
-                'custom-checkout-widget',
-                YBH_PLUGIN_URL.'admin/js/checkout-widget.js',
-                array('wp-blocks', 'wp-edit-post', 'wp-hooks'),
-                filemtime(YBH_PLUGIN_ADMIN_DIR . '/js/checkout-widget.js')
-            );
-        }
-        
-        function woocommerce_admin_order_totals_after_discount_fun($order_id) {
-            $order = wc_get_order($order_id);
-            $donation_total = 0;
-            $other_fees_total = 0;
-
-            foreach ($order->get_fees() as $fee) {
-                $fee_total = (float) $fee->get_total(); // Ensure proper numeric type
-//                echo '<pre>';
-//                var_dump( $fee->get_meta('_ybh_donation_amount') );
-//                echo '</pre>';
-                if (stripos($fee->get_name(), 'donation') !== false) {
-                    $donation_total += $fee_total;
-                } else {
-                    $other_fees_total += $fee_total;
-                }
-            }
-
-//            if ($donation_total > 0) {
-//                echo '<tr>';
-//                echo '<td class="label">' . __('Donation:', 'woocommerce') . '</td>';
-//                echo '<td width="1%"></td>';
-//                echo '<td class="total"><strong>' . wc_price($donation_total) . '</strong></td>';
-//                echo '</tr>';
-//            }
-
-            if ($other_fees_total > 0) {
-                echo '<tr>';
-                echo '<td class="label">' . __('Other Fees:', 'woocommerce') . '</td>';
-                echo '<td width="1%"></td>';
-                echo '<td class="total"><strong>' . wc_price($other_fees_total) . '</strong></td>';
-                echo '</tr>';
-            }
-        }
-        
-//            function woocommerce_order_item_meta_start($item_id, $item, $order) {
-//                var_dump('$item_id');
-//                var_dump($item_id);
-//                if ($item->get_meta('Donation Organization ID')) {
-//                    echo '<div class="donation-info">';
-//                    echo 'Donation to: <strong>' . esc_html($item->get_meta('Donation Organization')) . '</strong>';
-//                    echo ' (ID: ' . esc_html($item->get_meta('_donation_org_id')) . ')';
-//                    echo '</div>';
-//                }
-//            }
-            
-//        function woocommerce_add_cart_item_data($cart_item_data, $product_id) {
-//            if (isset($_POST['donation_org_id'])) {
-//                $cart_item_data['donation_meta'] = [
-//                    'org_id' => sanitize_text_field($_POST['donation_org_id']),
-//                    'org_name' => sanitize_text_field($_POST['donation_org_name'])
-//                ];
-//            }
-//            return $cart_item_data;
-//        }
             
 	/**
 	 * Register the stylesheets for the admin area.
@@ -217,6 +115,15 @@ class You_Be_Hero_Admin {
             $icon_url, // Icon
             56                         // Position
         );
+
+        add_submenu_page(
+            'ybh-settings',
+            __( 'Dashboard', 'textdomain' ),
+            __( 'Dashboard', 'textdomain' ),
+            'manage_options',
+            'ybh-dashboard',
+            array( $this, 'ybh_dashboard_page' )
+        );
     }
 
     /**
@@ -227,6 +134,18 @@ class You_Be_Hero_Admin {
         $ybh_token = get_option( 'ybh_token' );
 
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/you-be-hero-api-settings.php';
+
+    }
+
+    /**
+     * @return void
+     */
+    public function ybh_dashboard_page() {
+
+        $data = get_option( 'ybh_dashboard_json' );
+        $data = !empty( $data ) ? json_decode( $data, true ) : [];
+
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/you-be-hero-dashboard.php';
 
     }
 
@@ -260,6 +179,170 @@ class You_Be_Hero_Admin {
 //            wp_send_json(['success' => false, 'message' => 'Failed to retrieve token.']);
 //        }
 
+    }
+
+    /**
+     * @param $value
+     * @param $item
+     * @return mixed
+     */
+    public function display_custom_fee_image_based_on_meta( $value, $item ) {
+
+//            if( $value == 'Donation to Ένα παιδί μετράει τα άστρα (Look to the Stars)' ){
+////////                echo '<pre>';
+////////                var_dump($item->get_meta_data());
+////////                var_dump('_donation_org_img');
+//                var_dump($item->get_type());
+////////                echo '</pre>';
+//            }
+        if( is_admin() ){
+            $donation_org_id = $item->get_meta( '_donation_org_id' );
+//                if( $donation_org_id  ){
+//                    $donation_org_img = $item->get_meta('_donation_org_img');
+//
+//                    $donation_org_img = ( $donation_org_img ) ?$donation_org_img:'https://cdn.theorg.com/96d670ba-f440-464f-ac91-e156c79bb653_thumb.jpg';
+//
+//                        // Output the image
+//                        $value = '<img src="' . esc_url( $donation_org_img ) . '" alt="'.$value.'" style="max-width:100px;" class="attachment-thumbnail size-thumbnail"/>'.$value;
+//                }
+        }
+        return $value;
+    }
+
+    /**
+     * @return void
+     */
+    public function ybh_enqueue_checkout_block_editor_assets() {
+
+        wp_enqueue_script(
+            'ybh-checkout-block-settings',
+            plugins_url( 'js/checkout-block-settings.js', __FILE__ ),
+            array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-editor', 'wp-data', 'wp-compose', 'wc-blocks-checkout' ),//'wp-element', 'wc-blocks-checkout'
+            filemtime( YBH_PLUGIN_ADMIN_DIR . 'js/checkout-block-settings.js' ),
+            true
+        );
+
+    }
+
+    /**
+     * Register settings
+     *
+     * @return void
+     */
+    public function ybh_checkout_donation_register_settings() {
+
+        register_setting('ybh_checkout_donation_settings', 'ybh_donation_shortcode');
+        register_setting('ybh_checkout_donation_settings', 'ybh_donation_position');
+
+    }
+
+    /**
+     * @return void
+     */
+    public function ybh_donation_checkout_block_modifications() {
+
+//            die(YBH_PLUGIN_URL.'admin/js/checkout-widget.js');
+        wp_enqueue_script(
+            'custom-checkout-widget',
+            YBH_PLUGIN_URL.'admin/js/checkout-widget.js',
+            array('wp-blocks', 'wp-edit-post', 'wp-hooks'),
+            filemtime(YBH_PLUGIN_ADMIN_DIR . '/js/checkout-widget.js')
+        );
+
+    }
+
+    /**
+     * @param $order_id
+     * @return void
+     */
+    public function woocommerce_admin_order_totals_after_discount_fun( $order_id ) {
+
+        $order = wc_get_order($order_id);
+        $donation_total = 0;
+        $other_fees_total = 0;
+
+        foreach ($order->get_fees() as $fee) {
+            $fee_total = (float) $fee->get_total(); // Ensure proper numeric type
+//                echo '<pre>';
+//                var_dump( $fee->get_meta('_ybh_donation_amount') );
+//                echo '</pre>';
+            if (stripos($fee->get_name(), 'donation') !== false) {
+                $donation_total += $fee_total;
+            } else {
+                $other_fees_total += $fee_total;
+            }
+        }
+
+//            if ($donation_total > 0) {
+//                echo '<tr>';
+//                echo '<td class="label">' . __('Donation:', 'woocommerce') . '</td>';
+//                echo '<td width="1%"></td>';
+//                echo '<td class="total"><strong>' . wc_price($donation_total) . '</strong></td>';
+//                echo '</tr>';
+//            }
+
+        if ($other_fees_total > 0) {
+            echo '<tr>';
+            echo '<td class="label">' . __('Other Fees:', 'woocommerce') . '</td>';
+            echo '<td width="1%"></td>';
+            echo '<td class="total"><strong>' . wc_price($other_fees_total) . '</strong></td>';
+            echo '</tr>';
+        }
+
+    }
+
+
+//            function woocommerce_order_item_meta_start($item_id, $item, $order) {
+//                var_dump('$item_id');
+//                var_dump($item_id);
+//                if ($item->get_meta('Donation Organization ID')) {
+//                    echo '<div class="donation-info">';
+//                    echo 'Donation to: <strong>' . esc_html($item->get_meta('Donation Organization')) . '</strong>';
+//                    echo ' (ID: ' . esc_html($item->get_meta('_donation_org_id')) . ')';
+//                    echo '</div>';
+//                }
+//            }
+
+//        function woocommerce_add_cart_item_data($cart_item_data, $product_id) {
+//            if (isset($_POST['donation_org_id'])) {
+//                $cart_item_data['donation_meta'] = [
+//                    'org_id' => sanitize_text_field($_POST['donation_org_id']),
+//                    'org_name' => sanitize_text_field($_POST['donation_org_name'])
+//                ];
+//            }
+//            return $cart_item_data;
+//        }
+
+    /**
+     * @return false|void
+     */
+    public function ybh_update_dashboard_json() {
+
+        try {
+            $response = wp_remote_get( 'https://pastefy.app/D6mZfOeG/raw' );
+
+            if ( is_wp_error( $response ) ) {
+                return false;
+            }
+
+            $body = wp_remote_retrieve_body( $response );
+            $data = json_decode( $body, true );
+
+            update_option( 'ybh_dashboard_json', $body );
+
+            wp_send_json(array(
+                'status' => 'success',
+                'code' => 200,
+                'message' => 'Found ' . count($data) . ' results',
+                'data' => $data
+            ));
+        } catch (Exception $e) {
+            wp_send_json(array(
+                'status' => 'error',
+                'code' => 400,
+                'message' => $e->getMessage(),
+            ), 400);
+        }
     }
 
 }

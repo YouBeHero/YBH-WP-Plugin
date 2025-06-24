@@ -172,20 +172,23 @@ class You_Be_Hero {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
-                $this->loader->add_action( 'admin_menu', $plugin_admin, 'ybh_add_admin_menu' );
-                // Register setting to save token
-                add_action( 'admin_init', function() {
-                    register_setting( 'ybh_settings_group', 'ybh_token' );
-                } );
-                // Handle AJAX request to fetch API token
-                $this->loader->add_action( 'wp_ajax_ybh_get_token', $plugin_admin,'ybh_get_token' );
+        $this->loader->add_action( 'admin_menu', $plugin_admin, 'ybh_add_admin_menu' );
+        // Register setting to save token
+        add_action( 'admin_init', function() {
+            register_setting( 'ybh_settings_group', 'ybh_token' );
+        } );
+        // Handle AJAX request to fetch API token
+        $this->loader->add_action( 'wp_ajax_ybh_get_token', $plugin_admin,'ybh_get_token' );
 
-                // Display in admin
-                $this->loader->add_filter( 'woocommerce_order_item_get_name', $plugin_admin, 'display_custom_fee_image_based_on_meta', 10, 2 );
+        // Display in admin
+        $this->loader->add_filter( 'woocommerce_order_item_get_name', $plugin_admin, 'display_custom_fee_image_based_on_meta', 10, 2 );
 //            add_action('woocommerce_order_item_meta_start', $plugin_admin,'woocommerce_order_item_meta_start', 10, 3);
 //            add_filter('woocommerce_add_cart_item_data', $plugin_admin, 'woocommerce_add_cart_item_data', 10, 2);
 
-        }
+        $this->loader->add_action( 'wp_ajax_ybh_update_dashboard_json', $plugin_admin, 'ybh_update_dashboard_json' );
+        $this->loader->add_action( 'wp_ajax_nopriv_ybh_update_dashboard_json', $plugin_admin, 'ybh_update_dashboard_json' );
+
+    }
 
 	/**
 	 * Register all of the hooks related to the public-facing functionality

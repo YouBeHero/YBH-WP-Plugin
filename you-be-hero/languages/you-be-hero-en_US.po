@@ -1,0 +1,157 @@
+# English translation for YouBeHero Dashboard
+# Copyright (C) 2025 YouBeHero
+# This file is distributed under the same license as the YouBeHero package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: YouBeHero Dashboard 1.0\n"
+"Report-Msgid-Bugs-To: support@youbehero.com\n"
+"POT-Creation-Date: 2025-06-20 12:00+0000\n"
+"PO-Revision-Date: 2025-06-20 20:53+0500\n"
+"Last-Translator: mac <mac@macs-macbook-pro.local>\n"
+"Language-Team: English\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Header elements
+msgid "youbehero"
+msgstr "youbehero"
+
+msgid "MyEshop.gr"
+msgstr "MyEshop.gr"
+
+msgid "Active"
+msgstr "Active"
+
+# Account information
+msgid "Account Status:"
+msgstr "Account Status:"
+
+msgid "Account Balance:"
+msgstr "Account Balance:"
+
+# Statistics cards
+msgid "Total Gifts"
+msgstr "Total Gifts"
+
+msgid "Total Sales"
+msgstr "Total Sales"
+
+msgid "Average Basket Value"
+msgstr "Average Basket Value"
+
+msgid "Number of Orders"
+msgstr "Number of Orders"
+
+msgid "Pending NGOs"
+msgstr "Pending NGOs"
+
+# Orders section
+#: admin/partials/you-be-hero-dashboard.php:64
+msgid "Transaction Table"
+msgstr "Transaction Table"
+
+msgid "Refresh"
+msgstr "Refresh"
+
+msgid "Loading..."
+msgstr "Loading..."
+
+# Table headers
+msgid "#"
+msgstr "#"
+
+msgid "Order"
+msgstr "Order"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Donation"
+msgstr "Donation"
+
+msgid "Organization"
+msgstr "Organization"
+
+# Empty state message
+msgid "Welcome message"
+msgstr "Welcome!"
+
+msgid "Empty state message"
+msgstr "Transaction details will appear here once the first purchase with donation is made!"
+
+# Notifications
+msgid "Using test data (API unavailable)"
+msgstr "Using test data (API unavailable)"
+
+msgid "Data loaded successfully"
+msgstr "Data loaded successfully"
+
+msgid "Error loading data"
+msgstr "Error loading data"
+
+# Organizations (sample data)
+msgid "Genderhood"
+msgstr "Genderhood"
+
+msgid "A21 - Against Human Trafficking"
+msgstr "A21 - Against Human Trafficking"
+
+msgid "Social Care of Moschato"
+msgstr "Social Care of Moschato"
+
+msgid "MYARTIST"
+msgstr "MYARTIST"
+
+msgid "Animal Welfare Association of Chios"
+msgstr "Animal Welfare Association of Chios"
+
+msgid "Therapeutic Riding Association of Greece"
+msgstr "Therapeutic Riding Association of Greece TRAG"
+
+# Currency and formatting
+msgid "EUR"
+msgstr "€"
+
+# Months
+msgid "Jan"
+msgstr "Jan"
+
+msgid "Feb"
+msgstr "Feb"
+
+msgid "Mar"
+msgstr "Mar"
+
+msgid "Apr"
+msgstr "Apr"
+
+msgid "May"
+msgstr "May"
+
+msgid "Jun"
+msgstr "Jun"
+
+msgid "Jul"
+msgstr "Jul"
+
+msgid "Aug"
+msgstr "Aug"
+
+msgid "Sep"
+msgstr "Sep"
+
+msgid "Oct"
+msgstr "Oct"
+
+msgid "Nov"
+msgstr "Nov"
+
+msgid "Dec"
+msgstr "Dec"
