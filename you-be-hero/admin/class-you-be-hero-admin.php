@@ -60,7 +60,7 @@ class You_Be_Hero_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles( $hook_suffix ) {
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -74,7 +74,11 @@ class You_Be_Hero_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/you-be-hero-admin.css', array(), $this->version, 'all' );
+        if ( $hook_suffix == 'youbehero_page_ybh-dashboard' )  {
+
+            wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/you-be-hero-admin.css', array(), $this->version, 'all' );
+
+        }
 
 	}
 

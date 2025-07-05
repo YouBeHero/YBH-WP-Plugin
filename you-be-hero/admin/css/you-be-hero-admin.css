@@ -2,15 +2,26 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
+
+#wpcontent {
+    padding-left: 0px;
+}
+
  .toplevel_page_ybh-settings img {
     width: 20px;
     height: 20px;
 }
 
 /* == Dashboard page Style == */
+
+.ybh-blur {
+    filter: blur(4px);
+    transition: filter 0.3s ease;
+}
+
 .ybh-header {
     background: white;
-    padding: 12px 20px;
+    padding: 16px 32px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -26,8 +37,43 @@
 .ybh-header-right {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 16px;
     font-size: 14px;
+    padding: 8px;
+    border-radius: 24px;
+    background: #F5F5F5;
+}
+
+.ybh-header-right span {
+    align-items: center;
+    display: flex;
+}
+
+.ybh-status-indicator {
+    display: flex;
+    align-items: center;
+    font-family: sans-serif;
+    color: #5cb85c; /* Green text */
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.ybh-status-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #5cb85c;
+    border-radius: 50%;
+    margin-right: 6px;
+    box-shadow: 0 0 0 4px rgba(92, 184, 92, 0.2); /* light green halo */
+}
+
+.ybh-red-dot {
+    background-color: #ff415c !important;
+    box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.2);
+}
+
+.ybh-red-text {
+    color: #ff415c !important;
 }
 
 .ybh-balance {
@@ -36,20 +82,21 @@
     gap: 5px;
 }
 
-.ybh-status-dot {
-    width: 8px;
-    height: 8px;
-    background-color: #34a853;
-    border-radius: 50%;
-}
+/*.ybh-status-dot {*/
+/*    width: 8px;*/
+/*    height: 8px;*/
+/*    background-color: #34a853;*/
+/*    border-radius: 50%;*/
+/*}*/
 
 .ybh-main-container {
     padding: 20px;
-    max-width: 1200px;
+    /*max-width: 1200px;*/
     margin: 0 auto;
 }
 
 .ybh-account-info {
+    text-align: left;
     background: white;
     padding: 15px;
     border-radius: 8px;
@@ -86,30 +133,49 @@
 }
 
 .ybh-stats-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    display: flex;
+    grid-template-columns: repeat(6, 1fr);
     gap: 15px;
     margin-bottom: 30px;
+    flex-display: row;
 }
 
 .ybh-stat-card {
     background: white;
     padding: 20px;
     border-radius: 8px;
-    text-align: center;
+    text-align: left;
+}
+
+.ybh-flex-box-1 {
+    min-width: 23.5%;
+}
+
+.ybh-flex-box-2 {
+    min-width: 11%;
 }
 
 .ybh-stat-card h4 {
-    font-size: 12px;
-    color: #666;
+    font-size: 14px;
+    color: #424242;
+    font-weight: 600;
     margin-bottom: 8px;
     font-weight: normal;
 }
 
 .ybh-stat-value {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 600;
     color: #333;
+}
+
+#ybh-account-balance {
+    font-weight: 600;
+    margin: 0px 5px;
+}
+
+.ybh-account-details {
+    margin: 0px 15px;
 }
 
 .ybh-orders-section {
@@ -119,11 +185,12 @@
 }
 
 .ybh-orders-header {
-    padding: 15px 20px;
+    padding: 5px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #eee;
+    background: #eaeaea;
 }
 
 .ybh-orders-title {
@@ -179,7 +246,7 @@
 }
 
 .ybh-orders-table th {
-    background: #fafafa;
+    background: #fff;
     font-weight: 500;
     font-size: 14px;
     color: #666;
@@ -187,10 +254,15 @@
 
 .ybh-orders-table td {
     font-size: 14px;
+    border: 10px solid #fff;
 }
 
 .ybh-orders-table tr:hover {
     background: #fafafa;
+}
+
+.ybh-orders-table tr:nth-child(odd) {
+    background-color: #F5F5F5;
 }
 
 .ybh-order-link {
@@ -213,7 +285,6 @@
 .ybh-show-table .ybh-stat-card .ybh-stat-value {
     color: #333;
 }
-
 
 .ybh-fullpage-loading {
     position: fixed;

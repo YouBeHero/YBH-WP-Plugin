@@ -27,11 +27,11 @@ msgid "Active"
 msgstr "Ενεργή"
 
 # Account information
-msgid "Account Status:"
-msgstr "Κατάσταση:"
+msgid "Status"
+msgstr "Κατάσταση"
 
-msgid "Account Balance:"
-msgstr "Υπόλοιπο λογαριασμού:"
+msgid "Account Balance"
+msgstr "Υπόλοιπο λογαριασμού"
 
 # Statistics cards
 msgid "Total Gifts"
@@ -46,8 +46,8 @@ msgstr "Μ.Ο. αξίας καλαθιού"
 msgid "Number of Orders"
 msgstr "Πλήθος παραγγελιών"
 
-msgid "Pending NGOs"
-msgstr "Οφειλόμενες ΜΚΟ"
+msgid "Benefited NGO's"
+msgstr "Ωφελούμενες ΜΚΟ"
 
 # Orders section
 #: admin/partials/you-be-hero-dashboard.php:64

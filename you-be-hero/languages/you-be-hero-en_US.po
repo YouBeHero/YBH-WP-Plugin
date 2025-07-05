@@ -27,11 +27,11 @@ msgid "Active"
 msgstr "Active"
 
 # Account information
-msgid "Account Status:"
-msgstr "Account Status:"
+msgid "Status"
+msgstr "Status"
 
-msgid "Account Balance:"
-msgstr "Account Balance:"
+msgid "Account Balance"
+msgstr "Account Balance"
 
 # Statistics cards
 msgid "Total Gifts"
@@ -46,8 +46,8 @@ msgstr "Average Basket Value"
 msgid "Number of Orders"
 msgstr "Number of Orders"
 
-msgid "Pending NGOs"
-msgstr "Pending NGOs"
+msgid "Benefited NGO's"
+msgstr "Benefited NGO's"
 
 # Orders section
 #: admin/partials/you-be-hero-dashboard.php:64
