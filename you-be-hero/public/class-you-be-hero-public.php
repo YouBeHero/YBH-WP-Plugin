@@ -165,7 +165,7 @@ class You_Be_Hero_Public {
                 $ver = $_GET['ybh_update'] ?? '';
 
                 // Fetch data from the API
-                $data = $this->donation_widget_fetch_data( isset($_GET['ybh_update']), $ver );
+                $data = $this->donation_widget_fetch_data( true, $ver );
                 
                 wp_enqueue_style('donation-widget-style', YBH_PLUGIN_URL.'assets/css/style.css');
                 wp_enqueue_script('donation-widget-script', YBH_PLUGIN_URL.'assets/js/script.js', array('jquery'), null, true);
@@ -221,7 +221,8 @@ class You_Be_Hero_Public {
                 $donation_cause = sanitize_text_field($donation_cause);
 
 //                $fee_title = __('Donation for '.$donation_cause, 'you-be-hero') . $donation_cause;
-                $fee_title = __('Donation for '.$donation_cause, 'you-be-hero');
+//                $fee_title = __('Donation for '.$donation_cause, 'you-be-hero');
+                $fee_title = __('Donation for', 'you-be-hero') .' '.$donation_cause;
                 $fee_id = $cart->add_fee($fee_title, $donation_amount);
 
                 $last_fee_index = count($cart->fees) - 1;
@@ -267,7 +268,7 @@ class You_Be_Hero_Public {
 
             // Add fee (WooCommerce native method)
             WC()->cart->add_fee(
-                "Donation for {$org_name}",
+                __( 'Donation for', 'you-be-hero' ) . $org_name,//"Donation for {$org_name}",
                 $amount,
                 false, // Not taxable
             );

@@ -147,6 +147,13 @@
     text-align: left;
 }
 
+.ybh-flex-cards {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    column-gap: 15px;
+}
+
 .ybh-flex-box-1 {
     min-width: 23.5%;
 }

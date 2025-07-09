@@ -155,3 +155,36 @@ msgstr "Νοε"
 
 msgid "Dec"
 msgstr "Δεκ"
+
+msgid "Would you like to make a donation?"
+msgstr "Θα θέλατε να κάνετε μια δωρεά;"
+
+msgid "Through this market, we will offer"
+msgstr "Μέσω αυτής της αγοράς, θα προσφέρουμε"
+
+msgid "to support a non-profit organization"
+msgstr "για να υποστηρίξουμε έναν μη κερδοσκοπικό οργανισμό"
+
+msgid "We will donate it"
+msgstr "Θα δωρίσουμε το"
+
+msgid "of your order to a charity"
+msgstr "της παραγγελίας σας σε φιλανθρωπικό οργανισμό"
+
+msgid "Updating"
+msgstr "Ενημέρωση"
+
+msgid "Sorry, you are not eligible for donation."
+msgstr "Λυπούμαστε, δεν δικαιούστε δωρεά."
+
+msgid "Sorry, we couldn't load the donation details at the moment. Please try again later."
+msgstr "Λυπούμαστε, δεν ήταν δυνατή η φόρτωση των λεπτομερειών δωρεάς αυτήν τη στιγμή. Δοκιμάστε ξανά αργότερα."
+
+msgid "YouBeHero Donation"
+msgstr "Δωρεά YouBeHero"
+
+msgid "Please select a nonprofit organization"
+msgstr "Επιλέξτε έναν μη κερδοσκοπικό οργανισμό"
+
+msgid "Donation for"
+msgstr "Δωρεά για"

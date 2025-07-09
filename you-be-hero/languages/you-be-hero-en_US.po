@@ -155,3 +155,36 @@ msgstr "Nov"
 
 msgid "Dec"
 msgstr "Dec"
+
+msgid "Would you like to make a donation?"
+msgstr "Would you like to make a donation?"
+
+msgid "Through this market, we will offer"
+msgstr "Through this market, we will offer"
+
+msgid "to support a non-profit organization"
+msgstr "to support a non-profit organization"
+
+msgid "We will donate it"
+msgstr "We will donate it"
+
+msgid "of your order to a charity"
+msgstr "of your order to a charity"
+
+msgid "Updating"
+msgstr "Updating"
+
+msgid "Sorry, you are not eligible for donation."
+msgstr "Sorry, you are not eligible for donation."
+
+msgid "Sorry, we couldn't load the donation details at the moment. Please try again later."
+msgstr "Sorry, we couldn't load the donation details at the moment. Please try again later."
+
+msgid "YouBeHero Donation"
+msgstr "YouBeHero Donation"
+
+msgid "Please select a nonprofit organization"
+msgstr "Please select a nonprofit organization"
+
+msgid "Donation for"
+msgstr "Donation for"

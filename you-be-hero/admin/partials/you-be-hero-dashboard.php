@@ -24,22 +24,22 @@ $blur =  isset( $data ) && empty( $data ) ? 'ybh-blur' : '';
             <span class="ybh-status-text <?php echo ( isset( $data['status'] ) && $data['status'] != 'Active' ) ? 'ybh-red-text' : ''; ?>"><?php echo isset( $data['status'] ) ? __( $data['status'], 'you-be-hero' ) : '-'; ?></span>
         </div>
         <span class="ybh-balance"><?php echo isset( $data['account_balance'] ) ? number_format((float)$data['account_balance'], 2, ',', '') . $currency_symbol : '-'; ?>
-            <img src="<?php echo plugin_dir_url(__DIR__) .'img/fa-solid_plus-circle.svg'; ?>">
+            <a href="https://youbehero.com" target="_blank">
+                <img src="<?php echo plugin_dir_url(__DIR__) .'img/fa-solid_plus-circle.svg'; ?>">
+            </a>
         </span>
         <span>
-            <img src="<?php echo plugin_dir_url(__DIR__) .'img/setting.svg'; ?>">
+            <a href="https://youbehero.com" target="_blank"><img src="<?php echo plugin_dir_url(__DIR__) .'img/setting.svg'; ?>"></a>
         </span>
     </div>
 </header>
 
 <div class="ybh-main-container">
-
-
     <div class="ybh-stats-grid">
         <div class="ybh-stat-card ybh-flex-box-1">
             <div class="ybh-account-info <?php echo $blur; ?>">
                 <div class="ybh-account-avatar">
-                    <img src="<?php echo plugin_dir_url(__DIR__) .'img/company.svg'; ?>">
+                    <img src="<?php echo $data['logo'] ?? plugin_dir_url(__DIR__) .'img/company.svg'; ?>">
                 </div>
                 <div class="ybh-account-details">
                     <h3><?php echo isset( $data['store'] ) ? __( $data['store'], 'you-be-hero' ) : '-'; ?></h3>
@@ -54,25 +54,28 @@ $blur =  isset( $data ) && empty( $data ) ? 'ybh-blur' : '';
                 </div>
             </div>
         </div>
-        <div class="ybh-stat-card ybh-flex-box-2">
-            <h4><?php echo __( 'Total Gifts', 'you-be-hero' ); ?></h4>
-            <div class="ybh-stat-value <?php echo $blur; ?>" id="ybh-total-gifts"><?php echo isset( $data['summary']['total_donations'] ) ? number_format((float)$data['summary']['total_donations'], 2, ',', '') . $currency_symbol : '-'; ?></div>
-        </div>
-        <div class="ybh-stat-card ybh-flex-box-2">
-            <h4><?php echo __( 'Total Sales', 'you-be-hero' ); ?></h4>
-            <div class="ybh-stat-value <?php echo $blur; ?>" id="ybh-total-sales"><?php echo isset( $data['summary']['total_sales'] ) ? number_format((float)$data['summary']['total_sales'], 2, ',', '') . $currency_symbol : '-'; ?></div>
-        </div>
-        <div class="ybh-stat-card ybh-flex-box-2">
-            <h4><?php echo __( 'Average Basket Value', 'you-be-hero' ); ?></h4>
-            <div class="ybh-stat-value <?php echo $blur; ?>" id="ybh-avg-basket"><?php echo isset( $data['summary']['average_order_value'] ) ? number_format((float)$data['summary']['average_order_value'], 2, ',', '') . $currency_symbol : '-'; ?></div>
-        </div>
-        <div class="ybh-stat-card ybh-flex-box-2">
-            <h4><?php echo __( 'Number of Orders', 'you-be-hero' ); ?></h4>
-            <div class="ybh-stat-value <?php echo $blur; ?>" id="ybh-order-count"><?php echo $data['summary']['total_orders'] ?? '-'; ?></div>
-        </div>
-        <div class="ybh-stat-card ybh-flex-box-2">
-            <h4><?php echo __( "Benefited NGO's", 'you-be-hero' ); ?></h4>
-            <div class="ybh-stat-value <?php echo $blur; ?>" id="ybh-pending-ngo"><?php echo $data['summary']['benefited_organizations'] ?? '-'; ?></div>
+
+        <div class="ybh-flex-cards">
+            <div class="ybh-stat-card ybh-flex-box-2">
+                <h4><?php echo __( 'Total Gifts', 'you-be-hero' ); ?></h4>
+                <div class="ybh-stat-value <?php echo $blur; ?>" id="ybh-total-gifts"><?php echo isset( $data['summary']['total_donations'] ) ? number_format((float)$data['summary']['total_donations'], 2, ',', '') . $currency_symbol : '-'; ?></div>
+            </div>
+            <div class="ybh-stat-card ybh-flex-box-2">
+                <h4><?php echo __( 'Total Sales', 'you-be-hero' ); ?></h4>
+                <div class="ybh-stat-value <?php echo $blur; ?>" id="ybh-total-sales"><?php echo isset( $data['summary']['total_sales'] ) ? number_format((float)$data['summary']['total_sales'], 2, ',', '') . $currency_symbol : '-'; ?></div>
+            </div>
+            <div class="ybh-stat-card ybh-flex-box-2">
+                <h4><?php echo __( 'Average Basket Value', 'you-be-hero' ); ?></h4>
+                <div class="ybh-stat-value <?php echo $blur; ?>" id="ybh-avg-basket"><?php echo isset( $data['summary']['average_order_value'] ) ? number_format((float)$data['summary']['average_order_value'], 2, ',', '') . $currency_symbol : '-'; ?></div>
+            </div>
+            <div class="ybh-stat-card ybh-flex-box-2">
+                <h4><?php echo __( 'Number of Orders', 'you-be-hero' ); ?></h4>
+                <div class="ybh-stat-value <?php echo $blur; ?>" id="ybh-order-count"><?php echo $data['summary']['total_orders'] ?? '-'; ?></div>
+            </div>
+            <div class="ybh-stat-card ybh-flex-box-2">
+                <h4><?php echo __( "Benefited NGO's", 'you-be-hero' ); ?></h4>
+                <div class="ybh-stat-value <?php echo $blur; ?>" id="ybh-pending-ngo"><?php echo $data['summary']['benefited_organizations'] ?? '-'; ?></div>
+            </div>
         </div>
     </div>
 

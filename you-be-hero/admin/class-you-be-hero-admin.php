@@ -323,7 +323,8 @@ class You_Be_Hero_Admin {
     public function ybh_update_dashboard_json() {
 
         try {
-            $response = wp_remote_get( 'https://pastefy.app/D6mZfOeG/raw' );
+//            $response = wp_remote_get( 'https://pastefy.app/D6mZfOeG/raw' );
+            $response = wp_remote_get( 'https://pastefy.app/Xqzu4WNf/raw' );
 
             if ( is_wp_error( $response ) ) {
                 return false;
