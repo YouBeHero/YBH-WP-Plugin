@@ -14,14 +14,16 @@
 
 $currency_symbol = get_woocommerce_currency_symbol();
 $blur =  isset( $data ) && empty( $data ) ? 'ybh-blur' : '';
+$status_txt = isset( $data['status'] ) ? ucfirst( $data['status'] ) : '-';
+
 ?>
 <header class="ybh-header">
     <div class="ybh-logo"><img src="<?php echo plugin_dir_url(__DIR__) .'img/logo.svg'; ?>"></div>
     <div class="ybh-header-right <?php echo $blur; ?>">
         <span><img src="<?php echo plugin_dir_url(__DIR__) .'img/store.svg'; ?>"> <?php echo $data['store'] ?? '-'; ?></span>
         <div class="ybh-status-indicator">
-            <span class="ybh-status-dot <?php echo ( isset( $data['status'] ) && $data['status'] != 'Active' ) ? 'ybh-red-dot' : ''; ?>"></span>
-            <span class="ybh-status-text <?php echo ( isset( $data['status'] ) && $data['status'] != 'Active' ) ? 'ybh-red-text' : ''; ?>"><?php echo isset( $data['status'] ) ? __( $data['status'], 'you-be-hero' ) : '-'; ?></span>
+            <span class="ybh-status-dot <?php echo ( isset( $data['status'] ) && $data['status'] != 'active' ) ? 'ybh-red-dot' : ''; ?>"></span>
+            <span class="ybh-status-text <?php echo ( isset( $data['status'] ) && $data['status'] != 'active' ) ? 'ybh-red-text' : ''; ?>"><?php echo ucfirst( __( $status_txt, 'you-be-hero' ) ); ?></span>
         </div>
         <span class="ybh-balance"><?php echo isset( $data['account_balance'] ) ? number_format((float)$data['account_balance'], 2, ',', '') . $currency_symbol : '-'; ?>
             <a href="https://youbehero.com" target="_blank">
@@ -46,8 +48,8 @@ $blur =  isset( $data ) && empty( $data ) ? 'ybh-blur' : '';
                     <div class="ybh-account-status">
                         <span><?php echo __( 'Status', 'you-be-hero' ); ?> : </span>
                         <div class="ybh-status-indicator">
-                            <span class="ybh-status-dot <?php echo ( isset( $data['status'] ) && $data['status'] != 'Active' ) ? 'ybh-red-dot' : ''; ?>"></span>
-                            <span class="ybh-status-text <?php echo ( isset( $data['status'] ) && $data['status'] != 'Active' ) ? 'ybh-red-text' : ''; ?>"><?php echo isset( $data['status'] ) ? __( $data['status'], 'you-be-hero' ) : '-'; ?></span>
+                            <span class="ybh-status-dot <?php echo ( isset( $data['status'] ) && $data['status'] != 'active' ) ? 'ybh-red-dot' : ''; ?>"></span>
+                            <span class="ybh-status-text <?php echo ( isset( $data['status'] ) && $data['status'] != 'active' ) ? 'ybh-red-text' : ''; ?>"><?php echo ucfirst( __( $status_txt, 'you-be-hero' ) ); ?></span>
                         </div>
                     </div>
                     <div><?php echo __( 'Account Balance', 'you-be-hero' ); ?> :<span id="ybh-account-balance"><?php echo isset( $data['account_balance'] ) ? number_format((float)$data['account_balance'], 2, ',', '') . $currency_symbol : '-'; ?></span></div>

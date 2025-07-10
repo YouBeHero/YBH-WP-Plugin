@@ -26,6 +26,9 @@ msgstr "MyEshop.gr"
 msgid "Active"
 msgstr "Ενεργή"
 
+msgid "Inactive"
+msgstr "Αδρανής"
+
 # Account information
 msgid "Status"
 msgstr "Κατάσταση"
