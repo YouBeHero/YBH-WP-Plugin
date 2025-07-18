@@ -148,6 +148,9 @@ class You_Be_Hero_Admin {
 
         $data = get_option( 'ybh_dashboard_json' );
         $data = !empty( $data ) ? json_decode( $data, true ) : [];
+        if (isset($data['data'])) {
+            $data = $data['data'];
+        }
 
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/you-be-hero-dashboard.php';
 
@@ -325,7 +328,8 @@ class You_Be_Hero_Admin {
         try {
 //            $response = wp_remote_get( 'https://pastefy.app/D6mZfOeG/raw' );
 //            $response = wp_remote_get( 'https://pastefy.app/Xqzu4WNf/raw' );
-            $response = wp_remote_get( 'https://pastefy.app/5O7a4ICQ/raw' );
+            //$response = wp_remote_get( 'https://pastefy.app/5O7a4ICQ/raw' );
+            $response = wp_remote_get( 'https://dev.youbehero.com/api/shop-details?api_token=vpHflE5mGn1rJRNHnZ3pcY1glp54mrhZg0PIeCw6TXpD244rsqNL6F1vCQKF' );
 
             if ( is_wp_error( $response ) ) {
                 return false;
