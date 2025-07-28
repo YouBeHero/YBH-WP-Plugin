@@ -7,10 +7,10 @@
     padding-left: 0px;
 }
 
- .toplevel_page_ybh-settings img {
-    width: 20px;
-    height: 20px;
-}
+/* .toplevel_page_ybh-settings img {*/
+/*    width: 20px;*/
+/*    height: 20px;*/
+/*}*/
 
 /* == Dashboard page Style == */
 
@@ -313,4 +313,60 @@
     width: 70px;
     height: 70px;
     border-width: 5px;
+}
+
+.ybh-token-hdng {
+    font-size: 20px;
+}
+
+/*.ybh-logo-token img {*/
+/*    width: auto;*/
+/*    height: auto;*/
+/*}*/
+
+.ybh-token-txt{
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.ybh-token-settings{
+    background: #fff;
+    padding: 20px 10px;
+}
+
+.ybh-token-settings form label{
+    font-family: Proxima Nova;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+#ybh_token{
+    width: 100% !important;
+    height: 51px;
+    gap: 4px;
+    angle: 0 deg;
+    opacity: 1;
+    border-radius: 4px;
+    padding: 16px;
+    border-width: 1px;
+    margin: 10px 0px;
+    border-color: #BDBDBD;
+    color: #BDBDBD;
+}
+
+p.submit{
+    margin: 0px;
+}
+.ybh-token-settings form p input[type="submit"]{
+    width: 86px;
+    height: 35px;
+    gap: 8px;
+    angle: 0 deg;
+    opacity: 1;
+    border-radius: 4px;
+    background: #0957E8;
+}
+
+.ybh-logo-token {
+    margin: 10px 0px;
 }

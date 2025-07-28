@@ -191,3 +191,33 @@ msgstr "Επιλέξτε έναν μη κερδοσκοπικό οργανισμ
 
 msgid "Donation for"
 msgstr "Δωρεά για"
+
+msgid "Thank you for installing it"
+msgstr "Ευχαριστούμε που εγκαταστήσατε το"
+
+msgid "To connect your YouBeHero account with this online store"
+msgstr "Για να συνδέσετε τον λογαριασμό σας στο YouBeHero με αυτό το ηλεκτρονικό κατάστημα"
+
+msgid "Copy the API key from your account at"
+msgstr "Αντιγράψτε το API κλειδί από τον λογαριασμό σας στο"
+
+msgid "Paste it into the field below"
+msgstr "Επικολλήστε το στο παρακάτω πεδίο"
+
+msgid "Click \"Connect\""
+msgstr "Πατήστε «Σύνδεση»"
+
+msgid "key"
+msgstr "κλειδί"
+
+msgid "Login"
+msgstr "Σύνδεση"
+
+msgid "Don't have an API key?"
+msgstr "Δεν έχετε API κλειδί;"
+
+msgid "Create an account"
+msgstr "Δημιουργία λογαριασμού"
+
+msgid "Add donation to Cart is a YouBeHero plugin for WooCommerce that allows you to increase your corporate social responsibility with every online sale."
+msgstr "Το Add donation to Cart είναι ένα plugin της YouBeHero για το WooCommerce που σας επιτρέπει να αυξήσετε την εταιρική σας κοινωνική ευθύνη με κάθε online πώληση."

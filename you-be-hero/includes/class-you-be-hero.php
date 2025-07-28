@@ -187,6 +187,8 @@ class You_Be_Hero {
 
         $this->loader->add_action( 'wp_ajax_ybh_update_dashboard_json', $plugin_admin, 'ybh_update_dashboard_json' );
         $this->loader->add_action( 'wp_ajax_nopriv_ybh_update_dashboard_json', $plugin_admin, 'ybh_update_dashboard_json' );
+        $this->loader->add_action( 'admin_post_ybh_submit_apikey', $plugin_admin, 'ybh_submit_apikey' );
+        $this->loader->add_action( 'admin_post_nopriv_ybh_submit_apikey', $plugin_admin, 'ybh_submit_apikey' );
 
     }
 
@@ -225,7 +227,10 @@ class You_Be_Hero {
 
         $this->loader->add_action( 'woocommerce_thankyou', $plugin_public, 'ybh_order_received_action' );
         $this->loader->add_action( 'wp_head', $plugin_public, 'ybh_head_script' );
-	}
+
+        $this->loader->add_action('woocommerce_order_status_changed', $plugin_public, 'ybh_execute_api_on_order_place', 10, 3);
+
+    }
         
         /*not applied due to dependency on woo block plugin, not all of the stores might have this addon*/
         public function register_blocks_endpoint() {

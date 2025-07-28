@@ -191,3 +191,33 @@ msgstr "Please select a nonprofit organization"
 
 msgid "Donation for"
 msgstr "Donation for"
+
+msgid "Thank you for installing it"
+msgstr "Thank you for installing it"
+
+msgid "To connect your YouBeHero account with this online store"
+msgstr "To connect your YouBeHero account with this online store"
+
+msgid "Copy the API key from your account at"
+msgstr "Copy the API key from your account at"
+
+msgid "Paste it into the field below"
+msgstr "Paste it into the field below"
+
+msgid "Click \"Connect\""
+msgstr "Click \"Connect\""
+
+msgid "key"
+msgstr "key"
+
+msgid "Login"
+msgstr "Login"
+
+msgid "Don't have an API key?"
+msgstr "Don't have an API key?"
+
+msgid "Create an account"
+msgstr "Create an account"
+
+msgid "Add donation to Cart is a YouBeHero plugin for WooCommerce that allows you to increase your corporate social responsibility with every online sale."
+msgstr "Add donation to Cart is a YouBeHero plugin for WooCommerce that allows you to increase your corporate social responsibility with every online sale."

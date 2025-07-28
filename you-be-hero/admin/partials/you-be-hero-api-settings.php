@@ -12,19 +12,37 @@
  * @subpackage You_Be_Hero/admin/partials
  */
 ?>
-<div class="wrap">
-    <h1>YouBeHero API Settings</h1>
+<div class="ybh-main-container">
+    <div class="ybh-logo-token"><img src="<?php echo plugin_dir_url(__DIR__) .'img/logo.svg'; ?>"></div>
 
-    <?php if ($ybh_token) : ?>
-        <form method="post" action="options.php">
-            <?php settings_fields('ybh_settings_group'); ?>
+    <h3 class="ybh-token-hdng"><?php echo __( 'Thank you for installing it', 'you-be-hero' ); ?> Add donation to cart! 🥳</h3>
+
+    <div class="ybh-token-txt">
+        <p>
+            <?php echo __( 'To connect your YouBeHero account with this online store', 'you-be-hero' ); ?>:
+        </p>
+        <ol>
+            <li><?php echo __( 'Copy the API key from your account at', 'you-be-hero' ); ?> YouBeHero</li>
+            <li><?php echo __( 'Paste it into the field below', 'you-be-hero' ); ?></li>
+            <li><?php echo __( 'Click "Connect"', 'you-be-hero' ); ?></li>
+        </ol>
+    </div>
+
+    <div class="ybh-token-settings">
+<!--        <form method="post" action="options.php">-->
+        <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+            <input type="hidden" name="action" value="ybh_submit_apikey">
+            <?php wp_nonce_field( 'ybh_submit_apikey', 'ybh_submit_apikey_nonce' ); ?>
+
+<!--            --><?php //settings_fields('ybh_settings_group'); ?>
             <?php do_settings_sections('ybh-settings'); ?>
-            <label for="ybh_token">API Token:</label>
-            <input type="text" id="ybh_token" name="ybh_token" value="<?php echo esc_attr($ybh_token); ?>" style="width: 300px;" />
-            <?php submit_button('Save Token'); ?>
+            <label for="ybh_token">API <?php echo __( 'key', 'you-be-hero' ); ?>:</label>
+            <input type="text" id="ybh_token" name="ybh_token" value="<?php echo esc_attr($ybh_token); ?>"   />
+            <p class="submit">
+                <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php echo __( 'Login', 'you-be-hero' );?>">
+            </p>
+            <p><?php echo __( "Don't have an API key?", 'you-be-hero' );?> <a href="https://dev.youbehero.com/gr/signup-eshop"><?php echo __( "Create an account", 'you-be-hero' );?></a></p>
         </form>
-    <?php else : ?>
-        <button id="fetch-token" class="button button-primary">Get Token</button>
-        <p id="token-status"></p>
-    <?php endif; ?>
+    </div>
+    <p><?php echo __( "Add donation to Cart is a YouBeHero plugin for WooCommerce that allows you to increase your corporate social responsibility with every online sale.", 'you-be-hero' );?></p>
 </div>

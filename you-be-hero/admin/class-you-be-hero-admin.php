@@ -74,7 +74,8 @@ class You_Be_Hero_Admin {
 		 * class.
 		 */
 
-        if ( $hook_suffix == 'youbehero_page_ybh-dashboard' )  {
+        if ( $hook_suffix == 'youbehero_page_ybh-dashboard' ||
+            $hook_suffix == 'toplevel_page_ybh-settings' )  {
 
             wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/you-be-hero-admin.css', array(), $this->version, 'all' );
 
@@ -109,25 +110,26 @@ class You_Be_Hero_Admin {
      * @return void
      */
     public function ybh_add_admin_menu() {
+
         $icon_url = plugin_dir_url(__FILE__) . 'img/ybh-dark-icon-20x20.png';
         add_menu_page(
-            'YouBeHero API Settings',  // Page title
-            'YouBeHero',               // Menu title
-            'manage_options',          // Capability
-            'ybh-settings',            // Menu slug
-            array( $this, 'ybh_settings_page' ),       // Function to display content
-            $icon_url, // Icon
-            56                         // Position
+            'YouBeHero API Settings',
+            'YouBeHero',
+            'manage_options',
+            'ybh-settings',
+            array( $this, 'ybh_settings_page' ),
+            $icon_url,
+            56
         );
 
-        add_submenu_page(
-            'ybh-settings',
-            __( 'Dashboard', 'textdomain' ),
-            __( 'Dashboard', 'textdomain' ),
-            'manage_options',
-            'ybh-dashboard',
-            array( $this, 'ybh_dashboard_page' )
-        );
+//        add_submenu_page(
+//            'ybh-settings',
+//            __( 'Dashboard', 'textdomain' ),
+//            __( 'Dashboard', 'textdomain' ),
+//            'manage_options',
+//            'ybh-dashboard',
+//            array( $this, 'ybh_dashboard_page' )
+//        );
     }
 
     /**
@@ -135,21 +137,46 @@ class You_Be_Hero_Admin {
      */
     public function ybh_settings_page() {
 
-        $ybh_token = get_option( 'ybh_token' );
+        $ybh_token = $_GET['api_token'] ?? get_option( 'ybh_token' );
+        $data = get_option( 'ybh_dashboard_json' );
+        $data = !empty( $data ) ? json_decode( $data, true ) : [];
 
-        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/you-be-hero-api-settings.php';
+        if( !empty( $ybh_token ) && ( isset( $data['data'] ) && !empty( $data['data'] ) ) ) {
+            $data = $data['data'];
+            require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/you-be-hero-dashboard.php';
+        } else {
+            require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/you-be-hero-api-settings.php';
+        }
 
     }
 
     /**
      * @return void
      */
-    public function ybh_dashboard_page() {
+//    public function ybh_dashboard_page() {
+//
+//        $data = get_option( 'ybh_dashboard_json' );
+//        $data = !empty( $data ) ? json_decode( $data, true ) : [];
+//
+//        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/you-be-hero-dashboard.php';
+//
+//    }
 
-        $data = get_option( 'ybh_dashboard_json' );
-        $data = !empty( $data ) ? json_decode( $data, true ) : [];
+    /**
+     * @return void
+     */
+    public function ybh_submit_apikey() {
 
-        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/you-be-hero-dashboard.php';
+        check_admin_referer( 'ybh_submit_apikey', 'ybh_submit_apikey_nonce' );
+
+        $token = $_POST['ybh_token'] ?? '';
+
+        update_option( 'ybh_token', $token );
+
+        $this->ybh_fetch_store_info( $token );
+
+        wp_redirect( $_SERVER['HTTP_REFERER'] );
+        exit();
 
     }
 
@@ -325,7 +352,8 @@ class You_Be_Hero_Admin {
         try {
 //            $response = wp_remote_get( 'https://pastefy.app/D6mZfOeG/raw' );
 //            $response = wp_remote_get( 'https://pastefy.app/Xqzu4WNf/raw' );
-            $response = wp_remote_get( 'https://pastefy.app/5O7a4ICQ/raw' );
+//            $response = wp_remote_get( 'https://pastefy.app/5O7a4ICQ/raw' );
+            $response = wp_remote_get( 'https://dev.youbehero.com/api/shop-details?api_token='.get_option( 'ybh_token' ) );
 
             if ( is_wp_error( $response ) ) {
                 return false;
@@ -349,6 +377,27 @@ class You_Be_Hero_Admin {
                 'message' => $e->getMessage(),
             ), 400);
         }
+    }
+
+    /**
+     * @param $token
+     * @return false|mixed
+     */
+    public function ybh_fetch_store_info( $token = '' ) {
+
+        $api_key = empty( $token ) ? get_option( 'ybh_token' ) : $token;
+        $response = wp_remote_get( 'https://dev.youbehero.com/api/shop-details?api_token='.$api_key );
+
+        if ( is_wp_error( $response ) ) {
+            return false;
+        }
+
+        $body = wp_remote_retrieve_body( $response );
+
+        update_option( 'ybh_dashboard_json', $body );
+
+        return json_decode( $body, true );
+
     }
 
 }

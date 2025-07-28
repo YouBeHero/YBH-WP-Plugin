@@ -333,6 +333,7 @@ class You_Be_Hero_Public {
         }
 
         function donation_widget_fetch_data( $force_fetch = false, $ver ) {
+
             if( !$force_fetch ){
                 $youbehero = get_option('ybh_donation_checkout_params', []);
 
@@ -616,4 +617,100 @@ class You_Be_Hero_Public {
             <?php
         }
     }
+
+    /**
+     * @param $order_id
+     * @param $previous
+     * @param $new_status
+     * @return void
+     */
+    public function ybh_execute_api_on_order_place( $order_id, $previous, $new_status ) {
+
+        // Get order object if not passed
+//        if ( !$order ) {
+            $order = wc_get_order( $order_id );
+//        }
+
+        // Extract order data
+        $order_data = $this->ybh_extract_order_data( $order );
+
+        // Execute API call
+        $api_response = $this->ybh_call_external_api( $order_data );
+
+        // Log the response (optional)
+        if ( $api_response ) {
+            error_log( 'API Response for Order #' . $order_id . ': ' . print_r( $api_response, true ) );
+        }
+
+    }
+
+    /**
+     * @param $order
+     * @return array
+     */
+    public function ybh_extract_order_data( $order ) {
+
+        $donation_total = 0;
+
+        foreach ( $order->get_fees() as $fee ) {
+            $fee_total = (float) $fee->get_total();
+
+            if ( stripos( $fee->get_name(), 'donation' ) !== false ) {
+                $donation_total += $fee_total;
+            }
+        }
+
+        // Extract comprehensive order data
+        return array(
+            'transaction_id' => $order->get_order_number(),
+            'sale_amount' => $order->get_total(),
+            'commission_amount' => $donation_total,
+            'cause_id' => WC()->session->get('_donation_org_id', 0)
+        );
+    }
+
+    /**
+     * @param $order_data
+     * @return false|mixed
+     */
+    public function ybh_call_external_api( $order_data ) {
+
+        // Configure your API endpoint and credentials
+        $api_url = 'https://dev.youbehero.com/api/wp-transactions';//'https://your-api-endpoint.com/orders';
+        $api_key = get_option( 'ybh_token' );
+
+        // Prepare the request
+        $args = array(
+            'body' => json_encode($order_data),
+            'headers' => array(
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $api_key,
+                // Add other headers as needed
+            ),
+            'method' => 'POST',
+            'timeout' => 30,
+            'sslverify' => true
+        );
+
+        // Make the API call
+        $response = wp_remote_post($api_url, $args);
+
+        // Handle response
+        if (is_wp_error($response)) {
+            error_log('API Error: ' . $response->get_error_message());
+            return false;
+        }
+
+        $response_code = wp_remote_retrieve_response_code($response);
+        $response_body = wp_remote_retrieve_body($response);
+
+        if ($response_code === 200 || $response_code === 201) {
+            return json_decode($response_body, true);
+        } else {
+            error_log('API Response Error: Code ' . $response_code . ' - ' . $response_body);
+            return false;
+        }
+
+    }
+
 }
