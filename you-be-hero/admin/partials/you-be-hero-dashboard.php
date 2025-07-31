@@ -13,19 +13,20 @@
  */
 
 $currency_symbol = get_woocommerce_currency_symbol();
-$blur =  isset( $data ) && empty( $data ) ? 'ybh-blur' : '';
+
+$blur =  isset( $data['transactions'] ) && empty( $data['transactions'] ) ? 'ybh-blur' : '';
 $status_txt = isset( $data['status'] ) ? ucfirst( $data['status'] ) : '-';
 
 ?>
 <header class="ybh-header">
     <div class="ybh-logo"><img src="<?php echo plugin_dir_url(__DIR__) .'img/logo.svg'; ?>"></div>
     <div class="ybh-header-right <?php echo $blur; ?>">
-        <span><img src="<?php echo plugin_dir_url(__DIR__) .'img/store.svg'; ?>"> <?php echo $data['company_name'] ?? '-'; ?></span>
+        <span><img src="<?php echo plugin_dir_url(__DIR__) .'img/store.svg'; ?>"> <?php echo $data['store'] ?? '-'; ?></span>
         <div class="ybh-status-indicator">
             <span class="ybh-status-dot <?php echo ( isset( $data['status'] ) && $data['status'] != 'active' ) ? 'ybh-red-dot' : ''; ?>"></span>
             <span class="ybh-status-text <?php echo ( isset( $data['status'] ) && $data['status'] != 'active' ) ? 'ybh-red-text' : ''; ?>"><?php echo ucfirst( __( $status_txt, 'you-be-hero' ) ); ?></span>
         </div>
-        <span class="ybh-balance"><?php echo isset( $data['total_credits'] ) ? number_format((float)$data['total_credits'], 2, ',', '') . $currency_symbol : '-'; ?>
+        <span class="ybh-balance"><?php echo isset( $data['account_balance'] ) ? number_format((float)$data['account_balance'], 2, ',', '') . $currency_symbol : '-'; ?>
             <a href="https://youbehero.com" target="_blank">
                 <img src="<?php echo plugin_dir_url(__DIR__) .'img/fa-solid_plus-circle.svg'; ?>">
             </a>
@@ -41,10 +42,10 @@ $status_txt = isset( $data['status'] ) ? ucfirst( $data['status'] ) : '-';
         <div class="ybh-stat-card ybh-flex-box-1">
             <div class="ybh-account-info <?php echo $blur; ?>">
                 <div class="ybh-account-avatar">
-                    <img src="<?php echo $data['eshop_logo'] ?? plugin_dir_url(__DIR__) .'img/company.svg'; ?>">
+                    <img src="<?php echo $data['logo'] ?? plugin_dir_url(__DIR__) .'img/company.svg'; ?>">
                 </div>
                 <div class="ybh-account-details">
-                    <h3><?php echo isset( $data['company_name'] ) ? __( $data['company_name'], 'you-be-hero' ) : '-'; ?></h3>
+                    <h3><?php echo isset( $data['store'] ) ? __( $data['store'], 'you-be-hero' ) : '-'; ?></h3>
                     <div class="ybh-account-status">
                         <span><?php echo __( 'Status', 'you-be-hero' ); ?> : </span>
                         <div class="ybh-status-indicator">
@@ -52,7 +53,7 @@ $status_txt = isset( $data['status'] ) ? ucfirst( $data['status'] ) : '-';
                             <span class="ybh-status-text <?php echo ( isset( $data['status'] ) && $data['status'] != 'active' ) ? 'ybh-red-text' : ''; ?>"><?php echo ucfirst( __( $status_txt, 'you-be-hero' ) ); ?></span>
                         </div>
                     </div>
-                    <div><?php echo __( 'Account Balance', 'you-be-hero' ); ?> :<span id="ybh-account-balance"><?php echo isset( $data['total_credits'] ) ? number_format((float)$data['total_credits'], 2, ',', '') . $currency_symbol : '-'; ?></span></div>
+                    <div><?php echo __( 'Account Balance', 'you-be-hero' ); ?> :<span id="ybh-account-balance"><?php echo isset( $data['account_balance'] ) ? number_format((float)$data['account_balance'], 2, ',', '') . $currency_symbol : '-'; ?></span></div>
                 </div>
             </div>
         </div>
@@ -89,7 +90,7 @@ $status_txt = isset( $data['status'] ) ? ucfirst( $data['status'] ) : '-';
             </button>
         </div>
 
-        <?php if( !empty( $data ) ) { ?>
+        <?php if( !empty( $data['transactions'] ) ) { ?>
 
             <table class="ybh-orders-table" id="ybh-orders-table">
                 <thead>

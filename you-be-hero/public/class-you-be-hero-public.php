@@ -162,11 +162,12 @@ class You_Be_Hero_Public {
             if (is_checkout()) {
 
                 // For testing all widgets
-                $ver = $_GET['ybh_update'] ?? '';
+//                $ver = $_GET['ybh_update'] ?? '';
 
                 // Fetch data from the API
-                $data = $this->donation_widget_fetch_data( true, $ver );
-                
+//                $data = $this->donation_widget_fetch_data( true, $ver );
+                $data = $this->donation_widget_fetch_data();
+
                 wp_enqueue_style('donation-widget-style', YBH_PLUGIN_URL.'assets/css/style.css');
                 wp_enqueue_script('donation-widget-script', YBH_PLUGIN_URL.'assets/js/script.js', array('jquery'), null, true);
 
@@ -332,32 +333,41 @@ class You_Be_Hero_Public {
             }
         }
 
-        function donation_widget_fetch_data( $force_fetch = false, $ver ) {
+//        function donation_widget_fetch_data( $force_fetch = false, $ver ) {
+        function donation_widget_fetch_data() {
 
-            if( !$force_fetch ){
-                $youbehero = get_option('ybh_donation_checkout_params', []);
-
-                if( $youbehero && !empty($youbehero) ){
-                    return $youbehero;
-                }
-            }
+//            if( !$force_fetch ){
+//                $youbehero = get_option('ybh_donation_checkout_params', []);
+//
+//                if( $youbehero && !empty($youbehero) ){
+//                    return $youbehero;
+//                }
+//            }
             
 //            $response = wp_remote_get('https://yousafqamar.com/ybh/youbehero-'.$ver.'.json'); // Replace with the actual API endpoint
 //            $response = wp_remote_get('https://pastefy.app/EWfPlWiv/raw');
-            //$response = wp_remote_get('https://pastefy.app/2LMp5KdG/raw');
-            $response = wp_remote_get('https://dev.youbehero.com/api/shop-details?api_token=vpHflE5mGn1rJRNHnZ3pcY1glp54mrhZg0PIeCw6TXpD244rsqNL6F1vCQKF');
-            if (is_wp_error($response)) {
-                return false;
+//            $response = wp_remote_get('https://pastefy.app/2LMp5KdG/raw');
+            $api_token = get_option( 'ybh_token' );
+
+            if( !empty( $api_token ) ) {
+                $response = wp_remote_get( 'https://dev.youbehero.com/api/shop-details?api_token='.$api_token );
+
+                if (is_wp_error($response)) {
+                    return false;
+                }
+
+                $body = wp_remote_retrieve_body($response);
+                $data = json_decode($body, true);
+
+                if (json_last_error() !== JSON_ERROR_NONE || !isset($data['data'])) {
+                    return false;
+                }
+//                update_option( 'ybh_donation_checkout_params', $data['data'] );
+                update_option( 'ybh_dashboard_json', $body );
+                return $data['data'];
             }
 
-            $body = wp_remote_retrieve_body($response);
-            $data = json_decode($body, true);
-
-            if (json_last_error() !== JSON_ERROR_NONE || !isset($data['data'])) {
-                return false;
-            }
-            update_option( 'ybh_donation_checkout_params', $data['data'] );
-            return $data['data'];
+            return [];
         }
 
 
@@ -685,30 +695,31 @@ class You_Be_Hero_Public {
             'body' => json_encode($order_data),
             'headers' => array(
                 'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $api_key,
                 // Add other headers as needed
             ),
             'method' => 'POST',
-            'timeout' => 30,
-            'sslverify' => true
+//            'timeout' => 30,
+//            'sslverify' => true
         );
 
         // Make the API call
-        $response = wp_remote_post($api_url, $args);
+        $response = wp_remote_post( $api_url, $args );
 
         // Handle response
-        if (is_wp_error($response)) {
-            error_log('API Error: ' . $response->get_error_message());
+        if (is_wp_error( $response ) ) {
+            error_log( 'API Error: ' . $response->get_error_message() );
             return false;
         }
 
         $response_code = wp_remote_retrieve_response_code($response);
         $response_body = wp_remote_retrieve_body($response);
 
-        if ($response_code === 200 || $response_code === 201) {
-            return json_decode($response_body, true);
+        if ( $response_code === 200 || $response_code === 201 ) {
+            return json_decode( $response_body, true );
         } else {
-            error_log('API Response Error: Code ' . $response_code . ' - ' . $response_body);
+            error_log( 'API Response Error: Code ' . $response_code . ' - ' . $response_body );
             return false;
         }
 

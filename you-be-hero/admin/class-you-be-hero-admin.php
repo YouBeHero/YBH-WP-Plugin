@@ -138,6 +138,9 @@ class You_Be_Hero_Admin {
     public function ybh_settings_page() {
 
         $ybh_token = $_GET['api_token'] ?? get_option( 'ybh_token' );
+        //update json on page load
+        $this->ybh_fetch_store_info( $ybh_token );
+
         $data = get_option( 'ybh_dashboard_json' );
         $data = !empty( $data ) ? json_decode( $data, true ) : [];
 
@@ -162,7 +165,6 @@ class You_Be_Hero_Admin {
 //
 //    }
 
-
     /**
      * @return void
      */
@@ -174,9 +176,19 @@ class You_Be_Hero_Admin {
 
         update_option( 'ybh_token', $token );
 
-        $this->ybh_fetch_store_info( $token );
+        $data = $this->ybh_fetch_store_info( $token );
 
-        wp_redirect( $_SERVER['HTTP_REFERER'] );
+        $status = empty( $data ) ? 'fail' : 'success';
+
+        $params = [ 'status' => $status ];
+        $referer = $_SERVER['HTTP_REFERER'];
+
+        $redirect_url = add_query_arg( $params, $referer );
+
+        // Redirect
+        wp_redirect($redirect_url);
+
+//        wp_redirect( $_SERVER['HTTP_REFERER'] );
         exit();
 
     }

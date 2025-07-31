@@ -15,6 +15,12 @@
 <div class="ybh-main-container">
     <div class="ybh-logo-token"><img src="<?php echo plugin_dir_url(__DIR__) .'img/logo.svg'; ?>"></div>
 
+    <?php if ( isset( $_GET['status'] ) && $_GET['status'] == 'fail' ) { ?>
+        <div class="notice notice-error is-dismissible">
+            <p><?php echo __( 'We couldn’t verify your API key. Please double-check for any missing characters or extra spaces, then try again.', 'you-be-hero' );?></p>
+        </div>
+    <?php } ?>
+
     <h3 class="ybh-token-hdng"><?php echo __( 'Thank you for installing it', 'you-be-hero' ); ?> Add donation to cart! 🥳</h3>
 
     <div class="ybh-token-txt">
