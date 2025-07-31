@@ -224,3 +224,6 @@ msgstr "Add donation to Cart is a YouBeHero plugin for WooCommerce that allows y
 
 msgid "We couldn’t verify your API key. Please double-check for any missing characters or extra spaces, then try again."
 msgstr "We couldn’t verify your API key. Please double-check for any missing characters or extra spaces, then try again."
+
+msgid "You have successfully logged out."
+msgstr "You have successfully logged out."

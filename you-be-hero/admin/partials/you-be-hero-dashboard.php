@@ -21,7 +21,7 @@ $status_txt = isset( $data['status'] ) ? ucfirst( $data['status'] ) : '-';
 ?>
 <header class="ybh-header">
     <div class="ybh-logo"><img src="<?php echo plugin_dir_url(__DIR__) .'img/logo.svg'; ?>"></div>
-    <div class="ybh-header-right <?php echo $blur; ?>">
+    <div class="ybh-header-right">
         <span><img src="<?php echo plugin_dir_url(__DIR__) .'img/store.svg'; ?>"> <?php echo $data['company_name'] ?? '-'; ?></span>
         <div class="ybh-status-indicator">
             <span class="ybh-status-dot <?php echo ( isset( $data['status'] ) && $data['status'] != 'active' ) ? 'ybh-red-dot' : ''; ?>"></span>
@@ -35,13 +35,16 @@ $status_txt = isset( $data['status'] ) ? ucfirst( $data['status'] ) : '-';
         <span>
             <a href="https://youbehero.com" target="_blank"><img src="<?php echo plugin_dir_url(__DIR__) .'img/setting.svg'; ?>"></a>
         </span>
+        <span>
+            <a id="ybh_logout"><img src="<?php echo plugin_dir_url(__DIR__) .'img/logout.svg'; ?>"></a>
+        </span>
     </div>
 </header>
 
 <div class="ybh-main-container">
     <div class="ybh-stats-grid">
         <div class="ybh-stat-card ybh-flex-box-1">
-            <div class="ybh-account-info <?php echo $blur; ?>">
+            <div class="ybh-account-info">
                 <div class="ybh-account-avatar">
                     <img src="<?php echo $data['eshop_logo'] ?? plugin_dir_url(__DIR__) .'img/company.svg'; ?>">
                 </div>

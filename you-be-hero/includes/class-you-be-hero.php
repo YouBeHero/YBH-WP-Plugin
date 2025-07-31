@@ -190,6 +190,9 @@ class You_Be_Hero {
         $this->loader->add_action( 'admin_post_ybh_submit_apikey', $plugin_admin, 'ybh_submit_apikey' );
         $this->loader->add_action( 'admin_post_nopriv_ybh_submit_apikey', $plugin_admin, 'ybh_submit_apikey' );
 
+        $this->loader->add_action( 'wp_ajax_ybh_logout', $plugin_admin, 'ybh_logout' );
+        $this->loader->add_action( 'wp_ajax_nopriv_ybh_logout', $plugin_admin, 'ybh_logout' );
+
     }
 
 	/**

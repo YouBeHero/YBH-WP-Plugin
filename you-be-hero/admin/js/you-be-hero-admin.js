@@ -44,6 +44,30 @@
 				 });
 		 });
 
+		 document.getElementById('ybh_logout')?.addEventListener('click', function() {
+
+			 try {
+				 //server side update
+				 $.ajax({
+					 type: 'POST',
+					 url: ajaxurl,
+					 data: {
+						 action: 'ybh_logout',
+					 },
+					 success: function(response) {
+						 if ( response.status == 'success' ) {
+							 let url = new URL(window.location.href);
+							 url.searchParams.set('logout', 'yes'); // Set or update parameter
+							 window.location.href = url.toString();
+						 }
+					 }
+				 });
+
+			 } catch (error) {
+				 throw error;
+			 }
+		 });
+
 		 /**
 		  *
 		  */

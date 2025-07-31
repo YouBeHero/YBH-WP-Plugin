@@ -1,7 +1,10 @@
 <?php
 if ( ! is_admin() ) {
     $currency_symbol = get_woocommerce_currency_symbol();
-    $youbehero_data = get_option('ybh_donation_checkout_params', []);
+//    $youbehero_data = get_option('ybh_donation_checkout_params', []);
+    $youbehero_data = json_decode( get_option('ybh_dashboard_json' ), true );
+    $youbehero_data = $youbehero_data['data'] ?? [];
+
     $causes = [];
     $amounts = [];
 

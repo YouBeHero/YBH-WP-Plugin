@@ -16,8 +16,14 @@
     <div class="ybh-logo-token"><img src="<?php echo plugin_dir_url(__DIR__) .'img/logo.svg'; ?>"></div>
 
     <?php if ( isset( $_GET['status'] ) && $_GET['status'] == 'fail' ) { ?>
-        <div class="notice notice-error is-dismissible">
+        <div class="notice notice-error is-dismissible" style="color: #d63638">
             <p><?php echo __( 'We couldn’t verify your API key. Please double-check for any missing characters or extra spaces, then try again.', 'you-be-hero' );?></p>
+        </div>
+    <?php } ?>
+
+    <?php if ( isset( $_GET['logout'] ) && $_GET['logout'] == 'yes' ) { ?>
+        <div class="notice notice-success is-dismissible" style="color: #00a32a">
+            <p><?php echo __( 'You have successfully logged out.', 'you-be-hero' );?></p>
         </div>
     <?php } ?>
 
@@ -43,7 +49,7 @@
 <!--            --><?php //settings_fields('ybh_settings_group'); ?>
             <?php do_settings_sections('ybh-settings'); ?>
             <label for="ybh_token">API <?php echo __( 'key', 'you-be-hero' ); ?>:</label>
-            <input type="text" id="ybh_token" name="ybh_token" value="<?php echo esc_attr($ybh_token); ?>"   />
+            <input type="text" id="ybh_token" name="ybh_token" value="<?php echo esc_attr($ybh_token); ?>" style="border-color: <?php echo ( isset( $_GET['status'] ) && $_GET['status'] == 'fail' ) ? '#d63638': ''; ?>" />
             <p class="submit">
                 <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php echo __( 'Login', 'you-be-hero' );?>">
             </p>

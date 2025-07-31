@@ -224,3 +224,6 @@ msgstr "Το Add donation to Cart είναι ένα plugin της YouBeHero γι
 
 msgid "We couldn’t verify your API key. Please double-check for any missing characters or extra spaces, then try again."
 msgstr "Δεν ήταν δυνατή η επαλήθευση του κλειδιού API σας. Ελέγξτε ξανά για τυχόν χαρακτήρες που λείπουν ή επιπλέον κενά και δοκιμάστε ξανά."
+
+msgid "You have successfully logged out."
+msgstr "Αποσυνδεθήκατε με επιτυχία."

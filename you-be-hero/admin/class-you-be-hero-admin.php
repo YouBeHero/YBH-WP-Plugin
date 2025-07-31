@@ -413,4 +413,14 @@ class You_Be_Hero_Admin {
 
     }
 
+    /**
+     * @return void
+     */
+    public function ybh_logout() {
+
+        update_option( 'ybh_token', '' );
+        wp_send_json( ['status' => 'success' ] );
+
+    }
+
 }
