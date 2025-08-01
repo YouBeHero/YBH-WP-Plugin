@@ -167,7 +167,6 @@ class You_Be_Hero_Public {
                 // Fetch data from the API
 //                $data = $this->donation_widget_fetch_data( true, $ver );
                 $data = $this->donation_widget_fetch_data();
-
                 wp_enqueue_style('donation-widget-style', YBH_PLUGIN_URL.'assets/css/style.css');
                 wp_enqueue_script('donation-widget-script', YBH_PLUGIN_URL.'assets/js/script.js', array('jquery'), null, true);
 
@@ -614,7 +613,10 @@ class You_Be_Hero_Public {
      */
     public function ybh_head_script() {
 
-        $youbehero_data = get_option('ybh_donation_checkout_params');
+//        $youbehero_data = get_option('ybh_donation_checkout_params');
+        $youbehero_data = json_decode( get_option('ybh_dashboard_json' ), true );
+        $youbehero_data = $youbehero_data['data'] ?? [];
+
         if( !empty($youbehero_data) ){
             $btn_color = $youbehero_data['widget_configurations']['checkout_page']['checkout_page']['btn_color'] ?? "#3b82f6";
             ?>
@@ -631,17 +633,11 @@ class You_Be_Hero_Public {
 
     /**
      * @param $order_id
-     * @param $previous
-     * @param $new_status
      * @return void
      */
-    public function ybh_execute_api_on_order_place( $order_id, $previous, $new_status ) {
+    public function ybh_execute_api_on_order_place( $order_id ) {
 
-        // Get order object if not passed
-//        if ( !$order ) {
-            $order = wc_get_order( $order_id );
-//        }
-
+        $order = wc_get_order( $order_id );
         // Extract order data
         $order_data = $this->ybh_extract_order_data( $order );
 

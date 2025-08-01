@@ -8,7 +8,7 @@ if ( ! is_admin() ) {
     $causes = [];
     $amounts = [];
 
-    if( $youbehero_data['status'] == 'active' && !empty($youbehero_data) && !empty($youbehero_data['selected_causes']) ){
+    if( isset( $youbehero_data['status'] ) && $youbehero_data['status'] == 'active' && !empty($youbehero_data) && !empty($youbehero_data['selected_causes']) ){
 
         if( !empty($youbehero_data['selected_causes']) ){
             $causes = array_map(function ($cause) {
@@ -24,7 +24,6 @@ if ( ! is_admin() ) {
 
             $amounts = array_values($youbehero_data['donation_settings']['fixed_amounts']);
         }
-
         /**
          * =======================
          * Dummpy Values  - Start

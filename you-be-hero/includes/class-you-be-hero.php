@@ -231,7 +231,7 @@ class You_Be_Hero {
         $this->loader->add_action( 'woocommerce_thankyou', $plugin_public, 'ybh_order_received_action' );
         $this->loader->add_action( 'wp_head', $plugin_public, 'ybh_head_script' );
 
-        $this->loader->add_action('woocommerce_order_status_changed', $plugin_public, 'ybh_execute_api_on_order_place', 10, 3);
+        $this->loader->add_action('woocommerce_new_order', $plugin_public, 'ybh_execute_api_on_order_place', 10, 1 );
 
     }
         
