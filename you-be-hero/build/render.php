@@ -246,11 +246,5 @@ if ( ! is_admin() ) {
                 <?php
             }
         }
-    } else {
-        ?>
-        <div>
-            <?php echo esc_html__( "Sorry, we couldn't load the donation details at the moment. Please try again later.", "you-be-hero" ); ?>
-        </div>
-        <?php
     }
 }

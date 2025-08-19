@@ -185,9 +185,9 @@ if ( ! is_admin() ) {
             if ( $eligible ) {
                 ?>
                 <div class="donation-checkout-widget youbehero-donation-widget">
-                    <div class="donation-box-container <?php echo esc_html( $classString ); ?>" style="background-color: <?php echo esc_html( $style['background_color'] ); ?>; color: <?php echo esc_html( $style['text_color'] ); ?>; border-color: <?php echo esc_html( $style['border_color'] ); ?>;">
+                    <div class="donation-box-container <?php echo wp_kses_post( $classString ); ?>" style="background-color: <?php echo esc_html( $style['background_color'] ); ?>; color: <?php echo esc_html( $style['text_color'] ); ?>; border-color: <?php echo esc_html( $style['border_color'] ); ?>;">
                         <div class="donation-header">
-                            <?php echo esc_html($headHtml ); ?>
+                            <?php echo wp_kses_post($headHtml ); ?>
                         </div>
 
                         <div class="custom-dropdown" id="ybh-dd-dropdown">
@@ -224,7 +224,7 @@ if ( ! is_admin() ) {
                     </div>
 
                     <div class="donation-buttons donation-amounts">
-                        <?php echo esc_html( $html ); ?>
+                        <?php echo $html;// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                     </div>
 
                 </div>
@@ -246,11 +246,5 @@ if ( ! is_admin() ) {
                 <?php
             }
         }
-    } else {
-        ?>
-        <div>
-            <?php echo esc_html__( "Sorry, we couldn't load the donation details at the moment. Please try again later.", "you-be-hero" ); ?>
-        </div>
-        <?php
     }
 }
