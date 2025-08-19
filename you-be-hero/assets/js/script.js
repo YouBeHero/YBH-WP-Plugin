@@ -83,6 +83,7 @@ jQuery(document).ready(function($) {
                     url: ybh_donation_checkout_params.ajax_url,
                     data: {
                         action: 'update_donation_fee',
+                        nonce: ybh_donation_checkout_params.nonce,
                         org_id: orgId,
                         amount: amountF,
                         org_name: orgName,
@@ -97,7 +98,6 @@ jQuery(document).ready(function($) {
                     success: function(response) {
                         console.log('Donation added successfully!');
                         update_totals();
-//                        $('body').trigger('update_checkout');
                     }
                 });
                 console.log('Donation process ends!');
@@ -146,7 +146,7 @@ jQuery(document).ready(function($) {
 
             const donation_cause = $('#donation-cause').val();
             const donation_amount = $('#donation-amount').val();
-//            console.log(donation_amount);
+
             if( !donation_amount ){
                 console.log('Please select amount to donate');
                 return false;
@@ -159,7 +159,6 @@ jQuery(document).ready(function($) {
         }
 
         // Handle dynamic updates
-//        $('#donation-amounts input[type="radio"], .donation-amounts button').change(function() {
         $('#donation-amount').change(function() {
             const donation_amount = $(this).val();
             const donation_cause = $('#donation-cause').val();
@@ -170,7 +169,6 @@ jQuery(document).ready(function($) {
 
         $('#donation-cause').change(function() {
             const donation_cause = $(this).val();
-//            const donation_amount = $('#donation-amounts input[type="radio"]:checked').val();
             const donation_amount = $('#donation-amount').val();
 
             if ( validate_donation_data() ) {
@@ -178,13 +176,11 @@ jQuery(document).ready(function($) {
             }
         });
 
-        // $(document).on('click', '#ybh-dd-select', function () {
         $(document).on('click', '#ybh-dd-select', function () {
             console.log( $(this).attr('class'),$('#dropdownMenu').hasClass('show'));
             if( $('#dropdownMenu').hasClass('show') ){
                 $('#dropdownMenu').removeClass('show');
             }else{
-//                $('#dropdownMenu').addClass('show');
                 setTimeout(function(){
                     $('#dropdownMenu').addClass('show');
                 },100);
@@ -196,7 +192,7 @@ jQuery(document).ready(function($) {
             const selectedOption = document.getElementById('selectedOption');
             const donationCauseEle = document.getElementById('donation-cause');
             const causeImgEle = document.getElementById('selected-cause-img');
-//console.log('text: ', $(this), $(this).data("text"));
+
             $('#dropdownMenu').removeClass('show');
             selectedOption.textContent = $(this).data("text");
             console.log('Selected Value:', $(this).data("value"));
@@ -231,10 +227,10 @@ jQuery(document).ready(function($) {
 
             const donation_amount = $(this).data('value');
             const donation_label = $(this).data('label');
-//            console.log($(this));
+
             const donationAmountEle = document.getElementById('donation-amount');
             donationAmountEle.value = donation_amount;
-//            selectRadioButton(donation_amount);
+
             $('.donation-amount-pill').text(donation_label + currencySymbol);
             $('.donation-amounts .radio-button').removeClass('selected');
             $(this).addClass('selected');
@@ -255,14 +251,7 @@ jQuery(document).ready(function($) {
             $('.donation-amounts .donation-amount').change();
             add_donation_to_cart( );
         });
-//        const observer = new MutationObserver((mutations) => {
-//            if (jQuery('.ybh-dd-option').length) {
-//                jQuery('.ybh-dd-option').eq(0).click();
-//                observer.disconnect();
-//            }
-//        });
-//
-//        observer.observe(document.body, { childList: true, subtree: true });
+
         // Show the loader
         function showLoader() {
           const loader = document.getElementById('widget-loader');
@@ -318,9 +307,3 @@ function YBHeventuallyInitializeCheckoutBlock() {
                 }, YBH_CHECKOUT_STORE_KEY );
         }
 };
-// Wait for DOMContentLoaded to make sure wp.data is in place, if applicable for the page.
-//if (document.readyState === "loading") {
-//        document.addEventListener("DOMContentLoaded", YBHeventuallyInitializeCheckoutBlock);
-//} else {
-//        YBHeventuallyInitializeCheckoutBlock();
-//}

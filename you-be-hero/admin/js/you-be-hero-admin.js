@@ -19,31 +19,6 @@
 			</div>
 		 `);
 
-		 document.getElementById('fetch-token')?.addEventListener('click', function() {
-			 let button = this;
-			 button.disabled = true;
-			 document.getElementById('token-status').innerText = "Fetching token...";
-
-			 fetch(ajaxurl+'?action=ybh_get_token', {
-				 method: 'POST',
-				 headers: { 'Content-Type': 'application/json' }
-			 })
-				 .then(response => response.json())
-				 .then(data => {
-					 if (data.success) {
-						 document.getElementById('token-status').innerText = "Token received successfully! Reloading...";
-						 setTimeout(() => location.reload(), 2000);
-					 } else {
-						 document.getElementById('token-status').innerText = "Error: " + data.message;
-						 button.disabled = false;
-					 }
-				 })
-				 .catch(error => {
-					 document.getElementById('token-status').innerText = "Failed to fetch token.";
-					 button.disabled = false;
-				 });
-		 });
-
 		 document.getElementById('ybh_logout')?.addEventListener('click', function() {
 
 			 try {
