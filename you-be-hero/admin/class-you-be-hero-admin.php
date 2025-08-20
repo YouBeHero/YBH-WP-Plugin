@@ -233,7 +233,7 @@ class You_Be_Hero_Admin {
 
         if ($other_fees_total > 0) {
             echo '<tr>';
-            echo '<td class="label">' . esc_html( __( 'Other Fees:', 'you-be-hero' ) ) . '</td>';
+            echo '<td class="label">' . esc_html( __( 'Other Fees:', 'youbehero' ) ) . '</td>';
             echo '<td width="1%"></td>';
             echo '<td class="total"><strong>' . esc_html( wc_price( $other_fees_total ) ) . '</strong></td>';
             echo '</tr>';

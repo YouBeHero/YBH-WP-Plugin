@@ -187,7 +187,7 @@ class You_Be_Hero_Public {
             $donation_amount = floatval($donation_amount);
             $donation_cause = sanitize_text_field($donation_cause);
 
-            $fee_title = __('Donation for', 'you-be-hero') .' '.$donation_cause;
+            $fee_title = __('Donation for', 'youbehero') .' '.$donation_cause;
             $fee_id = $cart->add_fee($fee_title, $donation_amount);
 
             $last_fee_index = count($cart->fees) - 1;
@@ -241,7 +241,7 @@ class You_Be_Hero_Public {
 
         // Add fee (WooCommerce native method)
         WC()->cart->add_fee(
-            __( 'Donation for', 'you-be-hero' ) . $org_name,//"Donation for {$org_name}",
+            __( 'Donation for', 'youbehero' ) . $org_name,//"Donation for {$org_name}",
             $amount,
             false, // Not taxable
         );

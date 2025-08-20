@@ -63,7 +63,7 @@ if ( ! is_admin() ) {
 
             if ( $donor == 'customer' &&  $donationType == 'fixed' && !empty($amounts) ) {
                 $donation_amount = WC()->session->get('ybh_donation_amount', 0);
-                $txt = __( "Would you like to make a donation?", "you-be-hero" );
+                $txt = __( "Would you like to make a donation?", "youbehero" );
                 $headHtml .= '<span style="color:'.$text_color.'">'.$txt.'</span><span style="background: '.$btn_color.'" class="pill-container"><span class="donation-amount-pill">' .number_format((float)$donation_amount, 2, '.', '') . $currency_symbol.'</span></span>';
 
                 foreach ($amounts as $amount) {
@@ -131,7 +131,7 @@ if ( ! is_admin() ) {
                         $selected = $donation_amount == $roundupValue ? 'selected' : '';
                     }
 
-                    $txt = __( "Would you like to make a donation?", "you-be-hero" );
+                    $txt = __( "Would you like to make a donation?", "youbehero" );
                     $headHtml .= '<span style="color:'.$text_color.'">'.$txt.'</span><span style="background: '.$btn_color.'" class="pill-container"><span class="donation-amount-pill">' .number_format((float)$donation_amount, 2, '.', '') . $currency_symbol.'</span></span>';
 
                     $html .= '<button style="border-color:'.$border_color.';" class="donation-btn radio-button ' . $selected . '" data-btnclr="'.$btn_color.'" data-value="' . $amount_cents . '" data-label="' . number_format((float)$roundupValue, 2, '.', '') . '" >' . number_format((float)$roundupValue, 2, '.', '') . $currency_symbol . '</button>';
@@ -148,8 +148,8 @@ if ( ! is_admin() ) {
                 if ( $fixedValue > 0 ) {
                     $amount_cents = (float) str_replace(',', '.', $fixedValue) * 100;
 
-                    $htxt1 = __( "Through this market, we will offer", "you-be-hero" );
-                    $htxt2 = __( "to support a non-profit organization", "you-be-hero" );
+                    $htxt1 = __( "Through this market, we will offer", "youbehero" );
+                    $htxt2 = __( "to support a non-profit organization", "youbehero" );
                     $headHtml .= '<span style="color:' . $text_color . '">' . $htxt1 .' '. $fixedValue . $currency_symbol . ' ' .$htxt2 .'</span>';
                     $html .= '<input type="hidden" data-value="' . $amount_cents . '" data-label="' . $fixedValue . '" />';
                     $html .= '<input name="donation_cause" id="donation-cause" type="hidden"/>
@@ -167,8 +167,8 @@ if ( ! is_admin() ) {
                     $percentValue = $subtotal * $percent / 100;
                     $amount_cents = (float) str_replace(',', '.', $percentValue) * 100;
 
-                    $htxt1 = __( "We will donate it", "you-be-hero" );
-                    $htxt2 = __( "of your order to a charity", "you-be-hero" );
+                    $htxt1 = __( "We will donate it", "youbehero" );
+                    $htxt2 = __( "of your order to a charity", "youbehero" );
 
                     $headHtml .= '<span style="color:' . $text_color . '"> ' . $htxt1 . $percent . ' % '. $htxt2 . '</span>';
                     $html .= '<input type="hidden" data-value="' . $amount_cents . '" data-label="' . $percentValue . '" />';
@@ -200,7 +200,7 @@ if ( ! is_admin() ) {
                                         <span id="selectedOption"><?php echo esc_html( $session_cause ); ?></span>
                                     <?php } else { ?>
                                         <img id="selected-cause-img" src="<?php echo esc_url( YBH_PLUGIN_URL ); ?>public/img/save-hood-img.png" alt="Logo">
-                                        <span id="selectedOption"><?php echo esc_html__( 'Please select a nonprofit organization', 'you-be-hero' )?></span>
+                                        <span id="selectedOption"><?php echo esc_html__( 'Please select a nonprofit organization', 'youbehero' )?></span>
                                     <?php }
 
                                     ?>
@@ -211,7 +211,7 @@ if ( ! is_admin() ) {
 
                                 <div class="custom-dropdown-option ybh-dd-option <?php echo ( empty($selected_cause) )?'hidden':'';?>" id="select-np-ybh-dd-option" data-image="<?php echo esc_url( YBH_PLUGIN_URL );?>public/img/save-hood-img.png" data-text="Please select a nonprofit organization" data-value="0">
                                     <img alt="<?php echo esc_url( YBH_PLUGIN_URL );?>public/img/save-hood-img.png" src="<?php echo esc_url( YBH_PLUGIN_URL );?>public/img/save-hood-img.png"  style="width: min(5%, 2em);"/>
-                                    <span class="text-gray-700"><?php echo esc_html__( 'Please select a nonprofit organization', 'you-be-hero' ); ?></span>
+                                    <span class="text-gray-700"><?php echo esc_html__( 'Please select a nonprofit organization', 'youbehero' ); ?></span>
                                 </div>
                                 <?php
                                 foreach ($causes as $key=>$cause) {?>
@@ -234,14 +234,14 @@ if ( ! is_admin() ) {
 
                 <div id="widget-loader" class="widget-loader hidden">
                     <div class="widget-loader-bar">
-                        <?php echo esc_html__( "Updating", "you-be-hero" ); ?>...</div>
+                        <?php echo esc_html__( "Updating", "youbehero" ); ?>...</div>
                 </div>
                 </div>
                 <?php
             } else {
                 ?>
                 <div>
-                    <?php echo esc_html__( "Sorry, you are not eligible for donation.", "you-be-hero" ); ?>
+                    <?php echo esc_html__( "Sorry, you are not eligible for donation.", "youbehero" ); ?>
                 </div>
                 <?php
             }

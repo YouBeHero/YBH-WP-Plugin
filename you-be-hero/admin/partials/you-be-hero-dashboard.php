@@ -54,36 +54,36 @@ $company_name = $data['company_name'] ?? '-';
                 <div class="ybh-account-details">
                     <h3><?php echo esc_html( $company_name ); ?></h3>
                     <div class="ybh-account-status">
-                        <span><?php echo esc_html__( 'Status', 'you-be-hero' ); ?> : </span>
+                        <span><?php echo esc_html__( 'Status', 'youbehero' ); ?> : </span>
                         <div class="ybh-status-indicator">
                             <span class="ybh-status-dot <?php echo esc_html( $red_dot ); ?>"></span>
                             <span class="ybh-status-text <?php echo esc_html( $red_txt ); ?>"><?php echo esc_html( $status_txt ); ?></span>
                         </div>
                     </div>
-                    <div><?php echo esc_html__( 'Account Balance', 'you-be-hero' ); ?> :<span id="ybh-account-balance"><?php echo esc_html( isset( $data['total_credits'] ) ? number_format((float)$data['total_credits'], 2, ',', '') . $currency_symbol : '-' ); ?></span></div>
+                    <div><?php echo esc_html__( 'Account Balance', 'youbehero' ); ?> :<span id="ybh-account-balance"><?php echo esc_html( isset( $data['total_credits'] ) ? number_format((float)$data['total_credits'], 2, ',', '') . $currency_symbol : '-' ); ?></span></div>
                 </div>
             </div>
         </div>
 
         <div class="ybh-flex-cards">
             <div class="ybh-stat-card ybh-flex-box-2">
-                <h4><?php echo esc_html__( 'Total Gifts', 'you-be-hero' ); ?></h4>
+                <h4><?php echo esc_html__( 'Total Gifts', 'youbehero' ); ?></h4>
                 <div class="ybh-stat-value <?php echo esc_html( $blur ); ?>" id="ybh-total-gifts"><?php echo esc_html( isset( $data['summary']['total_donations'] ) ? number_format((float)$data['summary']['total_donations'], 2, ',', '') . $currency_symbol : '-' ); ?></div>
             </div>
             <div class="ybh-stat-card ybh-flex-box-2">
-                <h4><?php echo esc_html__( 'Total Sales', 'you-be-hero' ); ?></h4>
+                <h4><?php echo esc_html__( 'Total Sales', 'youbehero' ); ?></h4>
                 <div class="ybh-stat-value <?php echo esc_html( $blur ); ?>" id="ybh-total-sales"><?php echo esc_html( isset( $data['summary']['total_sales'] ) ? number_format((float)$data['summary']['total_sales'], 2, ',', '') . $currency_symbol : '-' ); ?></div>
             </div>
             <div class="ybh-stat-card ybh-flex-box-2">
-                <h4><?php echo esc_html__( 'Average Basket Value', 'you-be-hero' ); ?></h4>
+                <h4><?php echo esc_html__( 'Average Basket Value', 'youbehero' ); ?></h4>
                 <div class="ybh-stat-value <?php echo esc_html( $blur ); ?>" id="ybh-avg-basket"><?php echo esc_html( isset( $data['summary']['average_order_value'] ) ? number_format((float)$data['summary']['average_order_value'], 2, ',', '') . $currency_symbol : '-' ); ?></div>
             </div>
             <div class="ybh-stat-card ybh-flex-box-2">
-                <h4><?php echo esc_html__( 'Number of Orders', 'you-be-hero' ); ?></h4>
+                <h4><?php echo esc_html__( 'Number of Orders', 'youbehero' ); ?></h4>
                 <div class="ybh-stat-value <?php echo esc_html( $blur ); ?>" id="ybh-order-count"><?php echo esc_html( $data['summary']['total_orders'] ?? '-' ); ?></div>
             </div>
             <div class="ybh-stat-card ybh-flex-box-2">
-                <h4><?php echo esc_html__( "Benefited NGO's", 'you-be-hero' ); ?></h4>
+                <h4><?php echo esc_html__( "Benefited NGO's", 'youbehero' ); ?></h4>
                 <div class="ybh-stat-value <?php echo esc_html( $blur ); ?>" id="ybh-pending-ngo"><?php echo esc_html( $data['summary']['benefited_organizations'] ?? '-' ); ?></div>
             </div>
         </div>
@@ -91,9 +91,9 @@ $company_name = $data['company_name'] ?? '-';
 
     <div class="ybh-orders-section" id="ybh-orders-section">
         <div class="ybh-orders-header">
-            <h2 class="ybh-orders-title"><?php echo esc_html__( 'Transaction Table', 'you-be-hero' ); ?></h2>
+            <h2 class="ybh-orders-title"><?php echo esc_html__( 'Transaction Table', 'youbehero' ); ?></h2>
             <button id="ybh-refresh-btn" class="ybh-refresh-btn">
-                <img src="<?php echo esc_url( plugin_dir_url(__DIR__) .'img/refresh.svg' ); ?>"> <?php echo esc_html__( 'Refresh', 'you-be-hero' ); ?>
+                <img src="<?php echo esc_url( plugin_dir_url(__DIR__) .'img/refresh.svg' ); ?>"> <?php echo esc_html__( 'Refresh', 'youbehero' ); ?>
             </button>
         </div>
 
@@ -103,11 +103,11 @@ $company_name = $data['company_name'] ?? '-';
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th><?php echo esc_html__( 'Order', 'you-be-hero' ); ?></th>
-                    <th><?php echo esc_html__( 'Date', 'you-be-hero' ); ?></th>
-                    <th><?php echo esc_html__( 'Total', 'you-be-hero' ); ?></th>
-                    <th><?php echo esc_html__( 'Donation', 'you-be-hero' ); ?></th>
-                    <th><?php echo esc_html__('Organization', 'you-be-hero' ); ?></th>
+                    <th><?php echo esc_html__( 'Order', 'youbehero' ); ?></th>
+                    <th><?php echo esc_html__( 'Date', 'youbehero' ); ?></th>
+                    <th><?php echo esc_html__( 'Total', 'youbehero' ); ?></th>
+                    <th><?php echo esc_html__( 'Donation', 'youbehero' ); ?></th>
+                    <th><?php echo esc_html__('Organization', 'youbehero' ); ?></th>
                 </tr>
                 </thead>
                 <tbody id="ybh-orders-tbody">
@@ -131,7 +131,7 @@ $company_name = $data['company_name'] ?? '-';
                     <img src="<?php echo esc_url( plugin_dir_url(__DIR__) .'img/welcome-illustration.svg' ); ?>">
                 </div>
                 <div class="ybh-empty-message">
-                    <?php echo esc_html__( 'Transaction details will appear here once the first donation purchase is made!', 'you-be-hero' ); ?>
+                    <?php echo esc_html__( 'Transaction details will appear here once the first donation purchase is made!', 'youbehero' ); ?>
                 </div>
             </div>
 
