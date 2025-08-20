@@ -6,7 +6,7 @@
  * This file is used to markup the public-facing aspects of the plugin.
  *
  * @link       https://youbehero.com
- * @since      1.0.0
+ * @since      1.0.1
  *
  * @package    You_Be_Hero
  * @subpackage You_Be_Hero/public/partials

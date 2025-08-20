@@ -7,7 +7,7 @@
  * public-facing side of the site and the admin area.
  *
  * @link       https://youbehero.com
- * @since      1.0.0
+ * @since      1.0.1
  *
  * @package    You_Be_Hero
  * @subpackage You_Be_Hero/includes
@@ -22,7 +22,7 @@
  * Also maintains the unique identifier of this plugin as well as the current
  * version of the plugin.
  *
- * @since      1.0.0
+ * @since      1.0.1
  * @package    You_Be_Hero
  * @subpackage You_Be_Hero/includes
  * @author     Vasilis Kolip <bill@youbehero.com>
@@ -33,7 +33,7 @@ class You_Be_Hero {
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    1.0.1
 	 * @access   protected
 	 * @var      You_Be_Hero_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
@@ -42,7 +42,7 @@ class You_Be_Hero {
 	/**
 	 * The unique identifier of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    1.0.1
 	 * @access   protected
 	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
 	 */
@@ -51,7 +51,7 @@ class You_Be_Hero {
 	/**
 	 * The current version of the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    1.0.1
 	 * @access   protected
 	 * @var      string    $version    The current version of the plugin.
 	 */
@@ -64,13 +64,13 @@ class You_Be_Hero {
 	 * Load the dependencies, define the locale, and set the hooks for the admin area and
 	 * the public-facing side of the site.
 	 *
-	 * @since    1.0.0
+	 * @since    1.0.1
 	 */
 	public function __construct() {
 		if ( defined( 'YOU_BE_HERO_VERSION' ) ) {
 			$this->version = YOU_BE_HERO_VERSION;
 		} else {
-			$this->version = '1.0.0';
+			$this->version = '1.0.1';
 		}
 		$this->plugin_name = 'you-be-hero';
                 
@@ -94,7 +94,7 @@ class You_Be_Hero {
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
 	 *
-	 * @since    1.0.0
+	 * @since    1.0.1
 	 * @access   private
 	 */
 	private function load_dependencies() {
@@ -138,7 +138,7 @@ class You_Be_Hero {
 	 * Uses the You_Be_Hero_i18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
-	 * @since    1.0.0
+	 * @since    1.0.1
 	 * @access   private
 	 */
 	private function set_locale() {
@@ -153,7 +153,7 @@ class You_Be_Hero {
 	 * Register all of the hooks related to the admin area functionality
 	 * of the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    1.0.1
 	 * @access   private
 	 */
 	private function define_admin_hooks() {
@@ -178,7 +178,7 @@ class You_Be_Hero {
 	 * Register all of the hooks related to the public-facing functionality
 	 * of the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    1.0.1
 	 * @access   private
 	 */
 	private function define_public_hooks() {
@@ -206,7 +206,7 @@ class You_Be_Hero {
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
-	 * @since    1.0.0
+	 * @since    1.0.1
 	 */
 	public function run() {
 		$this->loader->run();
@@ -216,7 +216,7 @@ class You_Be_Hero {
 	 * The name of the plugin used to uniquely identify it within the context of
 	 * WordPress and to define internationalization functionality.
 	 *
-	 * @since     1.0.0
+	 * @since     1.0.1
 	 * @return    string    The name of the plugin.
 	 */
 	public function get_plugin_name() {
@@ -226,7 +226,7 @@ class You_Be_Hero {
 	/**
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
-	 * @since     1.0.0
+	 * @since     1.0.1
 	 * @return    You_Be_Hero_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
@@ -236,7 +236,7 @@ class You_Be_Hero {
 	/**
 	 * Retrieve the version number of the plugin.
 	 *
-	 * @since     1.0.0
+	 * @since     1.0.1
 	 * @return    string    The version number of the plugin.
 	 */
 	public function get_version() {

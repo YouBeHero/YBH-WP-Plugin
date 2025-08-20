@@ -7,7 +7,7 @@
  * so that it is ready for translation.
  *
  * @link       https://youbehero.com
- * @since      1.0.0
+ * @since      1.0.1
  *
  * @package    You_Be_Hero
  * @subpackage You_Be_Hero/includes
@@ -19,7 +19,7 @@
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
- * @since      1.0.0
+ * @since      1.0.1
  * @package    You_Be_Hero
  * @subpackage You_Be_Hero/includes
  * @author     Vasilis Kolip <bill@youbehero.com>
@@ -30,7 +30,7 @@ class You_Be_Hero_i18n {
 	/**
 	 * Load the plugin text domain for translation.
 	 *
-	 * @since    1.0.0
+	 * @since    1.0.1
 	 */
 //	public function
 //    load_plugin_textdomain() {

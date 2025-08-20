@@ -5,7 +5,7 @@ Tags: woocommerce, donations, charity, nonprofit, checkout
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,3 +67,5 @@ Yes, you can configure multiple nonprofit organizations via API.
 = 1.0.0 =
 First stable release — add donation functionality to WooCommerce checkout and product pages.
 
+= 1.0.1 =
+Fix translation problems.
