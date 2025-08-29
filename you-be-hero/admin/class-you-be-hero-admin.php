@@ -129,8 +129,12 @@ class You_Be_Hero_Admin {
      */
     public function ybh_settings_page() {
 
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'youbehero' ) );
+        }
+
         // Nonce check skipped: api_token may come from third-party service, not user-submitted form.
-        $ybh_token = isset( $_GET['api_token'] ) ? sanitize_text_field( wp_unslash( $_GET['api_token'] ) ) : get_option( 'ybh_token' );// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $ybh_token = isset( $_GET['api_token'] ) ? sanitize_text_field( wp_unslash( $_GET['api_token'] ) ) : get_option( 'ybh_token' );
 
         //update json on page load
         $this->ybh_fetch_store_info( $ybh_token );

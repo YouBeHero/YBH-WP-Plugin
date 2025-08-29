@@ -227,3 +227,6 @@ msgstr "Δεν ήταν δυνατή η επαλήθευση του κλειδι
 
 msgid "You have successfully logged out."
 msgstr "Αποσυνδεθήκατε με επιτυχία."
+
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Δεν έχετε επαρκή δικαιώματα πρόσβασης σε αυτήν τη σελίδα."

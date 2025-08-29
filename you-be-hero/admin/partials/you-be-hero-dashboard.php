@@ -12,6 +12,8 @@
  * @subpackage You_Be_Hero/admin/partials
  */
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 $currency_symbol = get_woocommerce_currency_symbol();
 
 $blur =  isset( $data['transactions'] ) && empty( $data['transactions'] ) ? 'ybh-blur' : '';

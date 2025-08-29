@@ -483,20 +483,25 @@ class You_Be_Hero_Public {
      */
     public function ybh_head_script() {
 
-        $youbehero_data = json_decode( get_option('ybh_dashboard_json' ), true );
-        $youbehero_data = $youbehero_data['data'] ?? [];
+        if ( is_checkout() ) {
+            $youbehero_data = json_decode(get_option('ybh_dashboard_json'), true);
+            $youbehero_data = $youbehero_data['data'] ?? [];
 
-        if( !empty( $youbehero_data ) ){
-            $btn_color = $youbehero_data['widget_configurations']['checkout_page']['checkout_page']['btn_color'] ?? "#3b82f6";
-            ?>
+            if (!empty($youbehero_data)) {
+                $btn_color = $youbehero_data['widget_configurations']['checkout_page']['checkout_page']['btn_color'] ?? "#3b82f6";
 
-            <style>
-                .donation-btn.selected {
-                    border-color: <?php echo esc_html( $btn_color ); ?>;
-                    background-color: <?php echo esc_html($btn_color ); ?>;
-                }
-            </style>
-            <?php
+                wp_register_style('youbehero-inline-style', false);
+                wp_enqueue_style('youbehero-inline-style');
+
+                // Add inline styles
+                $custom_css = "
+                    .donation-btn.selected {
+                        border-color: {$btn_color};
+                        background-color: {$btn_color};
+                    }
+                ";
+                wp_add_inline_style('youbehero-inline-style', $custom_css);
+            }
         }
     }
 

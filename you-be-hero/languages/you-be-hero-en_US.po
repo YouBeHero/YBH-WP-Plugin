@@ -227,3 +227,6 @@ msgstr "We couldn’t verify your API key. Please double-check for any missing c
 
 msgid "You have successfully logged out."
 msgstr "You have successfully logged out."
+
+msgid "You do not have sufficient permissions to access this page."
+msgstr "You do not have sufficient permissions to access this page."

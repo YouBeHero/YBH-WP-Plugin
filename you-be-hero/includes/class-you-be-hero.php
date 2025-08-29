@@ -27,7 +27,7 @@
  * @subpackage You_Be_Hero/includes
  * @author     Vasilis Kolip <bill@youbehero.com>
  */
-class You_Be_Hero {
+class YouBeHero_Donation {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -75,7 +75,7 @@ class You_Be_Hero {
 		$this->plugin_name = 'you-be-hero';
                 
 		$this->load_dependencies();
-//		$this->set_locale();
+		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
@@ -143,9 +143,9 @@ class You_Be_Hero {
 	 */
 	private function set_locale() {
 
-//		$plugin_i18n = new You_Be_Hero_i18n();
-//
-//		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
+		$plugin_i18n = new You_Be_Hero_i18n();
+
+		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
 	}
 
@@ -198,7 +198,8 @@ class You_Be_Hero {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'donation_widget_enqueue_scripts' );
         $this->loader->add_action( 'woocommerce_thankyou', $plugin_public, 'ybh_order_received_action' );
-        $this->loader->add_action( 'wp_head', $plugin_public, 'ybh_head_script' );
+//        $this->loader->add_action( 'wp_head', $plugin_public, 'ybh_head_script' );
+        $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'ybh_head_script' );
         $this->loader->add_action('woocommerce_new_order', $plugin_public, 'ybh_execute_api_on_order_place', 10, 1 );
 
     }

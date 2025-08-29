@@ -12,6 +12,8 @@
  * @subpackage You_Be_Hero/admin/partials
  */
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 $status = isset( $_GET['status'] ) ? sanitize_text_field( wp_unslash( $_GET['status'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $logout = isset( $_GET['logout'] ) ? sanitize_text_field( wp_unslash( $_GET['logout'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 

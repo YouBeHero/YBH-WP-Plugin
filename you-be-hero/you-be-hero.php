@@ -33,74 +33,35 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-/**
- * Currently plugin version.
- * Start at version 1.0.1 and use SemVer - https://semver.org
- * Rename this for your plugin and update it as you release new versions.
- */
-// Plugin version.
-define('YBH_VERSION', '1.0.1');
-
-// Plugin base file.
-define('YBH_PLUGIN_FILE', __FILE__);
-
 // Plugin directory path.
-define('YBH_PLUGIN_DIR', plugin_dir_path(__FILE__));
+define( 'YBH_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 // Plugin URL.
-define('YBH_PLUGIN_URL', plugin_dir_url(__FILE__));
-
-// Plugin basename.
-define('YBH_PLUGIN_BASENAME', plugin_basename(__FILE__));
-
-// Text domain for translations.
-define('YBH_TEXT_DOMAIN', 'you-be-hero');
-
-// Plugin slug (useful for hooks and filters).
-define('YBH_PLUGIN_SLUG', 'you-be-hero');
-
-// Plugin name.
-define('YBH_PLUGIN_NAME', 'YouBeHero');
-
-// Plugin author.
-define('YBH_PLUGIN_AUTHOR', 'Vasilis Kolip');
-
-// Plugin author URI.
-define('YBH_PLUGIN_AUTHOR_URI', 'https://youbehero.com/');
-
-// Plugin URI.
-define('YBH_PLUGIN_URI', 'https://youbehero.com');
-
-// Plugin license details.
-define('YBH_PLUGIN_LICENSE', 'GPL-2.0+');
-define('YBH_PLUGIN_LICENSE_URI', 'http://www.gnu.org/licenses/gpl-2.0.txt');
+define( 'YBH_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 // Directories for organized structure.
-define('YBH_PLUGIN_LANG_DIR', YBH_PLUGIN_DIR . 'languages/');
-define('YBH_PLUGIN_INCLUDES_DIR', YBH_PLUGIN_DIR . 'includes/');
-define('YBH_PLUGIN_ADMIN_DIR', YBH_PLUGIN_DIR . 'admin/');
-define('YBH_PLUGIN_PUBLIC_DIR', YBH_PLUGIN_DIR . 'public/');
+define( 'YBH_PLUGIN_ADMIN_DIR', YBH_PLUGIN_DIR . 'admin/' );
 
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-you-be-hero-activator.php
  */
-function activate_you_be_hero() {
+function activate_youbehero_donation() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-you-be-hero-activator.php';
-	You_Be_Hero_Activator::activate();
+    YouBeHero_Donation_Activator::activate();
 }
 
 /**
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-you-be-hero-deactivator.php
  */
-function deactivate_you_be_hero() {
+function deactivate_youbehero_donation() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-you-be-hero-deactivator.php';
-	You_Be_Hero_Deactivator::deactivate();
+    YouBeHero_Donation_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_you_be_hero' );
-register_deactivation_hook( __FILE__, 'deactivate_you_be_hero' );
+register_activation_hook( __FILE__, 'activate_youbehero_donation' );
+register_deactivation_hook( __FILE__, 'deactivate_youbehero_donation' );
 
 /**
  * The core plugin class that is used to define internationalization,
@@ -117,10 +78,10 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-you-be-hero.php';
  *
  * @since    1.0.1
  */
-function run_you_be_hero() {
+function run_youbehero_donation() {
 
-	$plugin = new You_Be_Hero();
+	$plugin = new YouBeHero_Donation();
 	$plugin->run();
 
 }
-run_you_be_hero();
+run_youbehero_donation();
