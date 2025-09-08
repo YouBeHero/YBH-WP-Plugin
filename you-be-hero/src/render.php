@@ -1,7 +1,7 @@
 <?php
 if ( ! is_admin() ) {
     $currency_symbol = get_woocommerce_currency_symbol();
-    $youbehero_data = json_decode( get_option('ybh_dashboard_json' ), true );
+    $youbehero_data = json_decode( get_option('ybhd_dashboard_json' ), true );
     $youbehero_data = $youbehero_data['data'] ?? [];
 
     $causes = [];
@@ -82,7 +82,7 @@ if ( ! is_admin() ) {
 
                 }
 
-                $html .= '<button class="donation-btn delete-button" data-btnclr="'.$btn_color.'" style="border-color:'.$border_color.';"><img src="'.esc_url( YBH_PLUGIN_URL ).'public/img/delete.svg"></button>';
+                $html .= '<button class="donation-btn delete-button" data-btnclr="'.$btn_color.'" style="border-color:'.$border_color.';"><img src="'.esc_url( YBHD_PLUGIN_URL ).'public/img/delete.svg"></button>';
                 $html .= '<input name="donation_cause" id="donation-cause" value="'.$don_cause.'" type="hidden"/>
                             <input name="donation_amount" id="donation-amount" type="hidden"/>';
 
@@ -135,7 +135,7 @@ if ( ! is_admin() ) {
                     $headHtml .= '<span style="color:'.$text_color.'">'.$txt.'</span><span style="background: '.$btn_color.'" class="pill-container"><span class="donation-amount-pill">' .number_format((float)$donation_amount, 2, '.', '') . $currency_symbol.'</span></span>';
 
                     $html .= '<button style="border-color:'.$border_color.';" class="donation-btn radio-button ' . $selected . '" data-btnclr="'.$btn_color.'" data-value="' . $amount_cents . '" data-label="' . number_format((float)$roundupValue, 2, '.', '') . '" >' . number_format((float)$roundupValue, 2, '.', '') . $currency_symbol . '</button>';
-                    $html .= '<button style="border-color:'.$border_color.';" class="donation-btn delete-button" data-btnclr="'.$btn_color.'"><img src="'.esc_url( YBH_PLUGIN_URL ).'public/img/delete.svg"></button>';
+                    $html .= '<button style="border-color:'.$border_color.';" class="donation-btn delete-button" data-btnclr="'.$btn_color.'"><img src="'.esc_url( YBHD_PLUGIN_URL ).'public/img/delete.svg"></button>';
                     $html .= '<input name="donation_cause" id="donation-cause" value="'.$don_cause.'" type="hidden"/>
                         <input name="donation_amount" id="donation-amount" type="hidden"/>';
                 } else {
@@ -199,7 +199,7 @@ if ( ! is_admin() ) {
                                         <img id="selected-cause-img" src="<?php echo esc_html( WC()->session->get( '_donation_org_img' ) ); ?>" alt="Logo">
                                         <span id="selectedOption"><?php echo esc_html( $session_cause ); ?></span>
                                     <?php } else { ?>
-                                        <img id="selected-cause-img" src="<?php echo esc_url( YBH_PLUGIN_URL ); ?>public/img/save-hood-img.png" alt="Logo">
+                                        <img id="selected-cause-img" src="<?php echo esc_url( YBHD_PLUGIN_URL ); ?>public/img/save-hood-img.png" alt="Logo">
                                         <span id="selectedOption"><?php echo esc_html__( 'Please select a nonprofit organization', 'youbehero' )?></span>
                                     <?php }
 
@@ -209,8 +209,8 @@ if ( ! is_admin() ) {
                             </div>
                             <div class="custom-dropdown-menu" id="dropdownMenu">
 
-                                <div class="custom-dropdown-option ybh-dd-option <?php echo ( empty($selected_cause) )?'hidden':'';?>" id="select-np-ybh-dd-option" data-image="<?php echo esc_url( YBH_PLUGIN_URL );?>public/img/save-hood-img.png" data-text="Please select a nonprofit organization" data-value="0">
-                                    <img alt="<?php echo esc_url( YBH_PLUGIN_URL );?>public/img/save-hood-img.png" src="<?php echo esc_url( YBH_PLUGIN_URL );?>public/img/save-hood-img.png"  style="width: min(5%, 2em);"/>
+                                <div class="custom-dropdown-option ybh-dd-option <?php echo ( empty($selected_cause) )?'hidden':'';?>" id="select-np-ybh-dd-option" data-image="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/save-hood-img.png" data-text="Please select a nonprofit organization" data-value="0">
+                                    <img alt="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/save-hood-img.png" src="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/save-hood-img.png"  style="width: min(5%, 2em);"/>
                                     <span class="text-gray-700"><?php echo esc_html__( 'Please select a nonprofit organization', 'youbehero' ); ?></span>
                                 </div>
                                 <?php

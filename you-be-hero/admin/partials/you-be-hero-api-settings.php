@@ -56,15 +56,15 @@ $logout = isset( $_GET['logout'] ) ? sanitize_text_field( wp_unslash( $_GET['log
 
     <div class="ybh-token-settings">
         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-            <input type="hidden" name="action" value="ybh_submit_apikey">
-            <?php wp_nonce_field( 'ybh_submit_apikey', 'ybh_submit_apikey_nonce' ); ?>
-            <?php do_settings_sections('ybh-settings'); ?>
-            <label for="ybh_token">API <?php echo esc_html__( 'key', 'youbehero' ); ?>:</label>
+            <input type="hidden" name="action" value="ybhd_submit_apikey">
+            <?php wp_nonce_field( 'ybhd_submit_apikey', 'ybhd_submit_apikey_nonce' ); ?>
+            <?php do_settings_sections('ybhd-settings'); ?>
+            <label for="ybhd_token">API <?php echo esc_html__( 'key', 'youbehero' ); ?>:</label>
             <?php
-            // Nonce verification not used here because `ybh_token` is coming from third party api or from wp_options.
+            // Nonce verification not used here because `ybhd_token` is coming from third party api or from wp_options.
             // The value is sanitized and not used for sensitive operations.
             ?>
-            <input type="text" id="ybh_token" name="ybh_token" value="<?php echo esc_attr($ybh_token); ?>" style="border-color: <?php echo ( $status == 'fail' ) ? '#d63638': ''; ?>" />
+            <input type="text" id="ybhd_token" name="ybhd_token" value="<?php echo esc_attr($ybhd_token); ?>" style="border-color: <?php echo ( $status == 'fail' ) ? '#d63638': ''; ?>" />
             <p class="submit">
                 <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php echo esc_html__( 'Login', 'youbehero' );?>">
             </p>

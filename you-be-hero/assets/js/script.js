@@ -5,6 +5,19 @@ jQuery(document).ready(function($) {
             return;
         }
 
+        let delte_svg_path = '';
+        $(document).on('mouseenter', '.delete-button', function() {
+
+            delte_svg_path = $('.delete-button img').attr("src");
+            let new_svg_path = delte_svg_path.replace("delete.svg", "delete-hover.svg");
+
+            $('.delete-button img').attr("src", new_svg_path);
+
+        }).on('mouseleave', '.delete-button', function() {
+
+            $('.delete-button img').attr("src", delte_svg_path);
+        });
+
         // Use event delegation for dynamically generated buttons
         $(document).on('mouseenter', '.donation-btn', function() {
             $(this).css({
@@ -19,17 +32,6 @@ jQuery(document).ready(function($) {
                 'color': ""
             });
         });
-
-        $(document).on('mouseenter', '.delete-button', function() {
-            $('button.donation-btn.delete-button:hover path').css({
-                'fill': '#ffffff'
-            });
-        }).on('mouseleave', '.delete-button', function() {
-            $('button.donation-btn.delete-button path').css({
-                'fill': "#000"
-            });
-        });
-
 
         const { causes, amounts, selected_amount } = ybh_donation_checkout_params || {};
 

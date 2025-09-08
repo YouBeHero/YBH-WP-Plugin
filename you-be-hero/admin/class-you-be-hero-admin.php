@@ -74,8 +74,7 @@ class You_Be_Hero_Admin {
 		 * class.
 		 */
 
-        if ( $hook_suffix == 'youbehero_page_ybh-dashboard' ||
-            $hook_suffix == 'toplevel_page_ybh-settings' )  {
+        if ( $hook_suffix == 'toplevel_page_ybhd-settings' )  {
 
             wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/you-be-hero-admin.css', array(), $this->version, 'all' );
 
@@ -109,15 +108,15 @@ class You_Be_Hero_Admin {
     /**
      * @return void
      */
-    public function ybh_add_admin_menu() {
+    public function ybhd_add_admin_menu() {
 
         $icon_url = plugin_dir_url(__FILE__) . 'img/ybh-dark-icon-20x20.png';
         add_menu_page(
             'YouBeHero API Settings',
             'YouBeHero',
             'manage_options',
-            'ybh-settings',
-            array( $this, 'ybh_settings_page' ),
+            'ybhd-settings',
+            array( $this, 'ybhd_settings_page' ),
             $icon_url,
             56
         );
@@ -127,22 +126,22 @@ class You_Be_Hero_Admin {
     /**
      * @return void
      */
-    public function ybh_settings_page() {
+    public function ybhd_settings_page() {
 
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'youbehero' ) );
         }
 
         // Nonce check skipped: api_token may come from third-party service, not user-submitted form.
-        $ybh_token = isset( $_GET['api_token'] ) ? sanitize_text_field( wp_unslash( $_GET['api_token'] ) ) : get_option( 'ybh_token' );
+        $ybhd_token = isset( $_GET['api_token'] ) ? sanitize_text_field( wp_unslash( $_GET['api_token'] ) ) : get_option( 'ybhd_token' );
 
         //update json on page load
-        $this->ybh_fetch_store_info( $ybh_token );
+        $this->ybhd_fetch_store_info( $ybhd_token );
 
-        $data = get_option( 'ybh_dashboard_json' );
+        $data = get_option( 'ybhd_dashboard_json' );
         $data = !empty( $data ) ? json_decode( $data, true ) : [];
 
-        if( !empty( $ybh_token ) && ( isset( $data['data'] ) && !empty( $data['data'] ) ) ) {
+        if( !empty( $ybhd_token ) && ( isset( $data['data'] ) && !empty( $data['data'] ) ) ) {
             $data = $data['data'];
             require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/you-be-hero-dashboard.php';
         } else {
@@ -151,20 +150,21 @@ class You_Be_Hero_Admin {
 
     }
 
+
     /**
      * @return void
      */
-    public function ybh_submit_apikey() {
+    public function ybhd_submit_apikey() {
 
-        check_admin_referer( 'ybh_submit_apikey', 'ybh_submit_apikey_nonce' );
+        check_admin_referer( 'ybhd_submit_apikey', 'ybhd_submit_apikey_nonce' );
 
-        $token = isset( $_POST['ybh_token'] )
-            ? sanitize_text_field( wp_unslash( $_POST['ybh_token'] ) )
+        $token = isset( $_POST['ybhd_token'] )
+            ? sanitize_text_field( wp_unslash( $_POST['ybhd_token'] ) )
             : '';
 
-        update_option( 'ybh_token', $token );
+        update_option( 'ybhd_token', $token );
 
-        $data = $this->ybh_fetch_store_info( $token );
+        $data = $this->ybhd_fetch_store_info( $token );
 
         $status = empty( $data ) ? 'fail' : 'success';
 
@@ -194,7 +194,7 @@ class You_Be_Hero_Admin {
             'ybh-checkout-block-settings',
             plugins_url( 'js/checkout-block-settings.js', __FILE__ ),
             array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-editor', 'wp-data', 'wp-compose', 'wc-blocks-checkout' ),//'wp-element', 'wc-blocks-checkout'
-            filemtime( YBH_PLUGIN_ADMIN_DIR . 'js/checkout-block-settings.js' ),
+            filemtime( YBHD_PLUGIN_ADMIN_DIR . 'js/checkout-block-settings.js' ),
             true
         );
 
@@ -206,10 +206,10 @@ class You_Be_Hero_Admin {
     public function ybh_donation_checkout_block_modifications() {
 
         wp_enqueue_script(
-            'custom-checkout-widget',
-            YBH_PLUGIN_URL.'admin/js/checkout-widget.js',
+            $this->plugin_name.'-checkout-widget',
+            YBHD_PLUGIN_URL.'admin/js/checkout-widget.js',
             array('wp-blocks', 'wp-edit-post', 'wp-hooks'),
-            filemtime(YBH_PLUGIN_ADMIN_DIR . '/js/checkout-widget.js'),
+            filemtime(YBHD_PLUGIN_ADMIN_DIR . '/js/checkout-widget.js'),
             false
         );
 
@@ -251,7 +251,7 @@ class You_Be_Hero_Admin {
     public function ybh_update_dashboard_json() {
 
         try {
-            $response = wp_remote_get( 'https://dev.youbehero.com/api/shop-details?api_token='.get_option( 'ybh_token' ) );
+            $response = wp_remote_get( 'https://dev.youbehero.com/api/shop-details?api_token='.get_option( 'ybhd_token' ) );
 
             if ( is_wp_error( $response ) ) {
                 return false;
@@ -260,7 +260,7 @@ class You_Be_Hero_Admin {
             $body = wp_remote_retrieve_body( $response );
             $data = json_decode( $body, true );
 
-            update_option( 'ybh_dashboard_json', $body );
+            update_option( 'ybhd_dashboard_json', $body );
 
             wp_send_json(array(
                 'status' => 'success',
@@ -281,9 +281,9 @@ class You_Be_Hero_Admin {
      * @param $token
      * @return false|mixed
      */
-    public function ybh_fetch_store_info( $token = '' ) {
+    public function ybhd_fetch_store_info( $token = '' ) {
 
-        $api_key = empty( $token ) ? get_option( 'ybh_token' ) : $token;
+        $api_key = empty( $token ) ? get_option( 'ybhd_token' ) : $token;
         $response = wp_remote_get( 'https://dev.youbehero.com/api/shop-details?api_token='.$api_key );
 
         if ( is_wp_error( $response ) ) {
@@ -292,7 +292,7 @@ class You_Be_Hero_Admin {
 
         $body = wp_remote_retrieve_body( $response );
 
-        update_option( 'ybh_dashboard_json', $body );
+        update_option( 'ybhd_dashboard_json', $body );
 
         return json_decode( $body, true );
 
@@ -301,9 +301,9 @@ class You_Be_Hero_Admin {
     /**
      * @return void
      */
-    public function ybh_logout() {
+    public function ybhd_logout() {
 
-        update_option( 'ybh_token', '' );
+        update_option( 'ybhd_token', '' );
         wp_send_json( ['status' => 'success' ] );
 
     }

@@ -27,7 +27,7 @@
  * @subpackage You_Be_Hero/includes
  * @author     Vasilis Kolip <bill@youbehero.com>
  */
-class YouBeHero_Donation {
+class You_Be_Hero {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -72,10 +72,10 @@ class YouBeHero_Donation {
 		} else {
 			$this->version = '1.0.1';
 		}
-		$this->plugin_name = 'you-be-hero';
+		$this->plugin_name = 'youbehero';
                 
 		$this->load_dependencies();
-		$this->set_locale();
+//		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
@@ -143,9 +143,9 @@ class YouBeHero_Donation {
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new You_Be_Hero_i18n();
-
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
+//		$plugin_i18n = new You_Be_Hero_i18n();
+//
+//		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
 	}
 
@@ -164,13 +164,13 @@ class YouBeHero_Donation {
 		$this->loader->add_action( 'woocommerce_admin_order_totals_after_discount', $plugin_admin, 'woocommerce_admin_order_totals_after_discount_fun' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-        $this->loader->add_action( 'admin_menu', $plugin_admin, 'ybh_add_admin_menu' );
+        $this->loader->add_action( 'admin_menu', $plugin_admin, 'ybhd_add_admin_menu' );
         $this->loader->add_action( 'wp_ajax_ybh_update_dashboard_json', $plugin_admin, 'ybh_update_dashboard_json' );
         $this->loader->add_action( 'wp_ajax_nopriv_ybh_update_dashboard_json', $plugin_admin, 'ybh_update_dashboard_json' );
-        $this->loader->add_action( 'admin_post_ybh_submit_apikey', $plugin_admin, 'ybh_submit_apikey' );
-        $this->loader->add_action( 'admin_post_nopriv_ybh_submit_apikey', $plugin_admin, 'ybh_submit_apikey' );
-        $this->loader->add_action( 'wp_ajax_ybh_logout', $plugin_admin, 'ybh_logout' );
-        $this->loader->add_action( 'wp_ajax_nopriv_ybh_logout', $plugin_admin, 'ybh_logout' );
+        $this->loader->add_action( 'admin_post_ybhd_submit_apikey', $plugin_admin, 'ybhd_submit_apikey' );
+        $this->loader->add_action( 'admin_post_nopriv_ybhd_submit_apikey', $plugin_admin, 'ybhd_submit_apikey' );
+        $this->loader->add_action( 'wp_ajax_ybhd_logout', $plugin_admin, 'ybhd_logout' );
+        $this->loader->add_action( 'wp_ajax_nopriv_ybhd_logout', $plugin_admin, 'ybhd_logout' );
 
     }
 
@@ -193,14 +193,14 @@ class YouBeHero_Donation {
         $this->loader->add_action( 'woocommerce_checkout_create_order', $plugin_public, 'save_custom_data_from_session', 10, 2 );
 		$this->loader->add_action( 'init', $plugin_public, 'donation_widget_register_block' );
 		$this->loader->add_action( 'init', $plugin_public, 'youbehero_public_shortcodes' );
-		$this->loader->add_action( 'init', $plugin_public, 'ybh_register_checkout_meta' );
+		$this->loader->add_action( 'init', $plugin_public, 'ybhd_register_checkout_meta' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'donation_widget_enqueue_scripts' );
         $this->loader->add_action( 'woocommerce_thankyou', $plugin_public, 'ybh_order_received_action' );
-//        $this->loader->add_action( 'wp_head', $plugin_public, 'ybh_head_script' );
         $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'ybh_head_script' );
         $this->loader->add_action('woocommerce_new_order', $plugin_public, 'ybh_execute_api_on_order_place', 10, 1 );
+        $this->loader->add_filter( 'wp_kses_allowed_html', $plugin_public, 'yobehero_allowed_html_tags', 10, 2 );
 
     }
 

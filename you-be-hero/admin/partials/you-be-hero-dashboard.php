@@ -41,7 +41,7 @@ $company_name = $data['company_name'] ?? '-';
             <a href="https://youbehero.com" target="_blank"><img src="<?php echo esc_url( plugin_dir_url(__DIR__) .'img/setting.svg' ); ?>"></a>
         </span>
         <span>
-            <a id="ybh_logout"><img src="<?php echo esc_url( plugin_dir_url(__DIR__) .'img/logout.svg' ); ?>"></a>
+            <a id="ybhd_logout"><img src="<?php echo esc_url( plugin_dir_url(__DIR__) .'img/logout.svg' ); ?>"></a>
         </span>
     </div>
 </header>

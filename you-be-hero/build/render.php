@@ -1,7 +1,7 @@
 <?php
 if ( ! is_admin() ) {
     $currency_symbol = get_woocommerce_currency_symbol();
-    $youbehero_data = json_decode( get_option('ybh_dashboard_json' ), true );
+    $youbehero_data = json_decode( get_option('ybhd_dashboard_json' ), true );
     $youbehero_data = $youbehero_data['data'] ?? [];
 
     $causes = [];
@@ -67,22 +67,22 @@ if ( ! is_admin() ) {
                 $headHtml .= '<span style="color:'.$text_color.'">'.$txt.'</span><span style="background: '.$btn_color.'" class="pill-container"><span class="donation-amount-pill">' .number_format((float)$donation_amount, 2, '.', '') . $currency_symbol.'</span></span>';
 
                 foreach ($amounts as $amount) {
-                        $amount_cents = (float) str_replace(',', '.', $amount) * 100;//(float)$amount * 100;
+                    $amount_cents = (float) str_replace(',', '.', $amount) * 100;//(float)$amount * 100;
 
-                        $selected = $don_cause = '';
-                        if( isset( WC()->session ) && !empty( $session_cause ) ) {
-                            $don_cause_key = array_search($session_cause, array_column($causes, 'label'));
-                            $don_cause = $causes[$don_cause_key]['value'];
-                            $donation_amount = WC()->session->get('ybh_donation_amount', 0);
-                            $float = str_replace(',', '.', $amount);
-                            $selected = ($donation_amount == $float) ? 'selected' : '';
-                        }
-
-                        $html .= '<button style="border-color:'.$border_color.';" class="donation-btn radio-button '.$selected.'" data-btnclr="'.$btn_color.'" data-value="'.$amount_cents.'" data-label="'.$amount.'">'.$amount . $currency_symbol . '</button>';
-
+                    $selected = $don_cause = '';
+                    if( isset( WC()->session ) && !empty( $session_cause ) ) {
+                        $don_cause_key = array_search($session_cause, array_column($causes, 'label'));
+                        $don_cause = $causes[$don_cause_key]['value'];
+                        $donation_amount = WC()->session->get('ybh_donation_amount', 0);
+                        $float = str_replace(',', '.', $amount);
+                        $selected = ($donation_amount == $float) ? 'selected' : '';
                     }
 
-                $html .= '<button class="donation-btn delete-button" data-btnclr="'.$btn_color.'" style="border-color:'.$border_color.';"><img src="'.esc_url( YBH_PLUGIN_URL ).'public/img/delete.svg"></button>';
+                    $html .= '<button style="border-color:'.$border_color.';" class="donation-btn radio-button '.$selected.'" data-btnclr="'.$btn_color.'" data-value="'.$amount_cents.'" data-label="'.$amount.'">'.$amount . $currency_symbol . '</button>';
+
+                }
+
+                $html .= '<button class="donation-btn delete-button" data-btnclr="'.$btn_color.'" style="border-color:'.$border_color.';"><img src="'.esc_url( YBHD_PLUGIN_URL ).'public/img/delete.svg"></button>';
                 $html .= '<input name="donation_cause" id="donation-cause" value="'.$don_cause.'" type="hidden"/>
                             <input name="donation_amount" id="donation-amount" type="hidden"/>';
 
@@ -135,7 +135,7 @@ if ( ! is_admin() ) {
                     $headHtml .= '<span style="color:'.$text_color.'">'.$txt.'</span><span style="background: '.$btn_color.'" class="pill-container"><span class="donation-amount-pill">' .number_format((float)$donation_amount, 2, '.', '') . $currency_symbol.'</span></span>';
 
                     $html .= '<button style="border-color:'.$border_color.';" class="donation-btn radio-button ' . $selected . '" data-btnclr="'.$btn_color.'" data-value="' . $amount_cents . '" data-label="' . number_format((float)$roundupValue, 2, '.', '') . '" >' . number_format((float)$roundupValue, 2, '.', '') . $currency_symbol . '</button>';
-                    $html .= '<button style="border-color:'.$border_color.';" class="donation-btn delete-button" data-btnclr="'.$btn_color.'"><img src="'.esc_url( YBH_PLUGIN_URL ).'public/img/delete.svg"></button>';
+                    $html .= '<button style="border-color:'.$border_color.';" class="donation-btn delete-button" data-btnclr="'.$btn_color.'"><img src="'.esc_url( YBHD_PLUGIN_URL ).'public/img/delete.svg"></button>';
                     $html .= '<input name="donation_cause" id="donation-cause" value="'.$don_cause.'" type="hidden"/>
                         <input name="donation_amount" id="donation-amount" type="hidden"/>';
                 } else {
@@ -183,7 +183,7 @@ if ( ! is_admin() ) {
             $selected_cause = '';
 
             if ( $eligible ) {
-        ?>
+                ?>
                 <div class="donation-checkout-widget youbehero-donation-widget">
                     <div class="donation-box-container <?php echo wp_kses_post( $classString ); ?>" style="background-color: <?php echo esc_html( $style['background_color'] ); ?>; color: <?php echo esc_html( $style['text_color'] ); ?>; border-color: <?php echo esc_html( $style['border_color'] ); ?>;">
                         <div class="donation-header">
@@ -199,7 +199,7 @@ if ( ! is_admin() ) {
                                         <img id="selected-cause-img" src="<?php echo esc_html( WC()->session->get( '_donation_org_img' ) ); ?>" alt="Logo">
                                         <span id="selectedOption"><?php echo esc_html( $session_cause ); ?></span>
                                     <?php } else { ?>
-                                        <img id="selected-cause-img" src="<?php echo esc_url( YBH_PLUGIN_URL ); ?>public/img/save-hood-img.png" alt="Logo">
+                                        <img id="selected-cause-img" src="<?php echo esc_url( YBHD_PLUGIN_URL ); ?>public/img/save-hood-img.png" alt="Logo">
                                         <span id="selectedOption"><?php echo esc_html__( 'Please select a nonprofit organization', 'youbehero' )?></span>
                                     <?php }
 
@@ -209,35 +209,35 @@ if ( ! is_admin() ) {
                             </div>
                             <div class="custom-dropdown-menu" id="dropdownMenu">
 
-                                    <div class="custom-dropdown-option ybh-dd-option <?php echo ( empty($selected_cause) )?'hidden':'';?>" id="select-np-ybh-dd-option" data-image="<?php echo esc_url( YBH_PLUGIN_URL );?>public/img/save-hood-img.png" data-text="Please select a nonprofit organization" data-value="0">
-                                        <img alt="<?php echo esc_url( YBH_PLUGIN_URL );?>public/img/save-hood-img.png" src="<?php echo esc_url( YBH_PLUGIN_URL );?>public/img/save-hood-img.png"  style="width: min(5%, 2em);"/>
-                                        <span class="text-gray-700"><?php echo esc_html__( 'Please select a nonprofit organization', 'youbehero' ); ?></span>
-                                    </div>
+                                <div class="custom-dropdown-option ybh-dd-option <?php echo ( empty($selected_cause) )?'hidden':'';?>" id="select-np-ybh-dd-option" data-image="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/save-hood-img.png" data-text="Please select a nonprofit organization" data-value="0">
+                                    <img alt="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/save-hood-img.png" src="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/save-hood-img.png"  style="width: min(5%, 2em);"/>
+                                    <span class="text-gray-700"><?php echo esc_html__( 'Please select a nonprofit organization', 'youbehero' ); ?></span>
+                                </div>
                                 <?php
                                 foreach ($causes as $key=>$cause) {?>
                                 <div class="custom-dropdown-option ybh-dd-option" id="<?php echo esc_html( $key );?>-ybh-dd-option" data-image="<?php echo esc_html( $cause['image'] ) ?>" data-text="<?php echo esc_html( $cause['label'] )?>" data-value="<?php echo esc_html( $cause['value'] )?>")">
-                                    <img alt="<?php echo esc_html( $cause['label'] )?>" src="<?php echo esc_html( $cause['image'] )?>"/>
-                                    <span class="text-gray-700"><?php echo esc_html( $cause['label'] )?></span>
-                                </div>
-                            <?php   } ?>
+                                <img alt="<?php echo esc_html( $cause['label'] )?>" src="<?php echo esc_html( $cause['image'] )?>"/>
+                                <span class="text-gray-700"><?php echo esc_html( $cause['label'] )?></span>
                             </div>
+                            <?php   } ?>
                         </div>
-
-                        <div class="donation-buttons donation-amounts">
-                            <?php echo wp_kses_post( $html ); ?>
-                        </div>
-
                     </div>
 
-                    <div id="donation-amounts" class="donation-buttons">
+                    <div class="donation-buttons donation-amounts">
+                        <?php echo wp_kses_post( $html ); ?>
                     </div>
 
-                    <div id="widget-loader" class="widget-loader hidden">
-                      <div class="widget-loader-bar">
-                        <?php echo esc_html__( "Updating", "youbehero" ); ?>...</div>
-                    </div>
                 </div>
-        <?php
+
+                <div id="donation-amounts" class="donation-buttons">
+                </div>
+
+                <div id="widget-loader" class="widget-loader hidden">
+                    <div class="widget-loader-bar">
+                        <?php echo esc_html__( "Updating", "youbehero" ); ?>...</div>
+                </div>
+                </div>
+                <?php
             } else {
                 ?>
                 <div>

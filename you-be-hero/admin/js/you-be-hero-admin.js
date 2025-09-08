@@ -19,7 +19,7 @@
 			</div>
 		 `);
 
-		 document.getElementById('ybh_logout')?.addEventListener('click', function() {
+		 document.getElementById('ybhd_logout')?.addEventListener('click', function() {
 
 			 try {
 				 //server side update
@@ -27,7 +27,7 @@
 					 type: 'POST',
 					 url: ajaxurl,
 					 data: {
-						 action: 'ybh_logout',
+						 action: 'ybhd_logout',
 					 },
 					 success: function(response) {
 						 if ( response.status == 'success' ) {

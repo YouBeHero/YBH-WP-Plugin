@@ -33,14 +33,21 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+/**
+ * Currently plugin version.
+ * Start at version 1.0.1 and use SemVer - https://semver.org
+ * Rename this for your plugin and update it as you release new versions.
+ */
+
 // Plugin directory path.
-define( 'YBH_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define('YBHD_PLUGIN_DIR', plugin_dir_path(__FILE__));
 
 // Plugin URL.
-define( 'YBH_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define('YBHD_PLUGIN_URL', plugin_dir_url(__FILE__));
 
 // Directories for organized structure.
-define( 'YBH_PLUGIN_ADMIN_DIR', YBH_PLUGIN_DIR . 'admin/' );
+define('YBHD_PLUGIN_ADMIN_DIR', YBHD_PLUGIN_DIR . 'admin/');
+define('YBHD_PLUGIN_PUBLIC_DIR', YBHD_PLUGIN_DIR . 'public/');
 
 /**
  * The code that runs during plugin activation.
@@ -48,7 +55,7 @@ define( 'YBH_PLUGIN_ADMIN_DIR', YBH_PLUGIN_DIR . 'admin/' );
  */
 function activate_youbehero_donation() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-you-be-hero-activator.php';
-    YouBeHero_Donation_Activator::activate();
+	You_Be_Hero_Activator::activate();
 }
 
 /**
@@ -57,7 +64,7 @@ function activate_youbehero_donation() {
  */
 function deactivate_youbehero_donation() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-you-be-hero-deactivator.php';
-    YouBeHero_Donation_Deactivator::deactivate();
+	You_Be_Hero_Deactivator::deactivate();
 }
 
 register_activation_hook( __FILE__, 'activate_youbehero_donation' );
@@ -80,7 +87,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-you-be-hero.php';
  */
 function run_youbehero_donation() {
 
-	$plugin = new YouBeHero_Donation();
+	$plugin = new You_Be_Hero();
 	$plugin->run();
 
 }

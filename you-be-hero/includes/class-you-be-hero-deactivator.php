@@ -20,7 +20,7 @@
  * @subpackage You_Be_Hero/includes
  * @author     Vasilis Kolip <bill@youbehero.com>
  */
-class YouBeHero_Donation_Deactivator {
+class You_Be_Hero_Deactivator {
 
 	/**
 	 * Short Description. (use period)

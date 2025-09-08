@@ -95,24 +95,24 @@ class You_Be_Hero_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-                if ( function_exists( 'is_checkout' ) && is_checkout() ) {
-                    wp_enqueue_script(
-                        'custom-checkout-fields',
-                        plugin_dir_url( __FILE__ ) . 'js/custom-checkout.js',
+        if ( function_exists( 'is_checkout' ) && is_checkout() ) {
+            wp_enqueue_script(
+                'youbehero-checkout-fields',
+                plugin_dir_url( __FILE__ ) . 'js/you-be-hero-checkout.js',
 //                        [ 'wp-element', 'wc-blocks-checkout' ], // Dependencies
-                       [ 'lodash', 'react', 'wc-blocks-checkout', 'wp-components', 'wp-data', 'wp-element', 'wp-i18n' ], // Ensure required dependencies
-                        filemtime( plugin_dir_path( __FILE__ ) . 'js/custom-checkout.js' ),
-                        true
-                    );
+               [ 'lodash', 'react', 'wc-blocks-checkout', 'wp-components', 'wp-data', 'wp-element', 'wp-i18n' ], // Ensure required dependencies
+                filemtime( plugin_dir_path( __FILE__ ) . 'js/you-be-hero-checkout.js' ),
+                true
+            );
 
-                    // Add "type=module" attribute to the script
-                    add_filter( 'script_loader_tag', function( $tag, $handle ) {
-                        if ( 'custom-checkout-fields' === $handle ) {
-                            return str_replace( 'src', 'type="module" src', $tag );
-                        }
-                        return $tag;
-                    }, 10, 2 );
+            // Add "type=module" attribute to the script
+            add_filter( 'script_loader_tag', function( $tag, $handle ) {
+                if ( 'youbehero-checkout-fields' === $handle ) {
+                    return str_replace( 'src', 'type="module" src', $tag );
                 }
+                return $tag;
+            }, 10, 2 );
+        }
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/you-be-hero-public.js', array( 'jquery' ), $this->version, false );
 
 	}
@@ -120,7 +120,7 @@ class You_Be_Hero_Public {
     // Register the block
     function donation_widget_register_block() {
         // Register the block using metadata from block.json
-        register_block_type(YBH_PLUGIN_DIR . '/build');
+        register_block_type(YBHD_PLUGIN_DIR . '/build');
     }
 
     // Enqueue scripts and styles
@@ -129,8 +129,8 @@ class You_Be_Hero_Public {
         if ( is_checkout() ) {
             // Fetch data from the API
             $data = $this->donation_widget_fetch_data();
-            wp_enqueue_style( 'donation-widget-style', YBH_PLUGIN_URL.'assets/css/style.css', array(), $this->version, 'all' );
-            wp_enqueue_script( 'donation-widget-script', YBH_PLUGIN_URL.'assets/js/script.js', array( 'jquery' ), $this->version, true );
+            wp_enqueue_style( 'donation-widget-style', YBHD_PLUGIN_URL.'assets/css/style.css', array(), $this->version, 'all' );
+            wp_enqueue_script( 'donation-widget-script', YBHD_PLUGIN_URL.'assets/js/script.js', array( 'jquery' ), $this->version, true );
 
             if ($data) {
 
@@ -312,7 +312,7 @@ class You_Be_Hero_Public {
      */
     function donation_widget_fetch_data() {
 
-        $api_token = get_option( 'ybh_token' );
+        $api_token = get_option( 'ybhd_token' );
 
         if( !empty( $api_token ) ) {
             $response = wp_remote_get( 'https://dev.youbehero.com/api/shop-details?api_token='.$api_token );
@@ -328,7 +328,7 @@ class You_Be_Hero_Public {
                 return false;
             }
 
-            update_option( 'ybh_dashboard_json', $body );
+            update_option( 'ybhd_dashboard_json', $body );
             return $data['data'];
         }
 
@@ -378,23 +378,15 @@ class You_Be_Hero_Public {
         add_action( $selected_position, function () {
             echo '<div class="ybh-donation-form">';
             echo '<h3>Support Us</h3>';
-            echo do_shortcode( '[donation_form]' );
+            echo do_shortcode( '[youbehero_donation_form]' );
             echo '</div>';
         } );
     }
 
     /**
-     * @param $param
      * @return void
      */
-    public function woocommerce_before_checkout_payment_fun( $param ) {
-        echo do_shortcode( '[donation_form]' );
-    }
-
-    /**
-     * @return void
-     */
-    function ybh_register_checkout_meta() {
+    function ybhd_register_checkout_meta() {
         register_post_meta('post', '_ybh_donation_position', array(
             'show_in_rest' => true,
             'single' => true,
@@ -410,7 +402,7 @@ class You_Be_Hero_Public {
      */
     public function youbehero_public_shortcodes() {
 
-        $shortcodes_class = new ShortCodes_Public();
+        $shortcodes_class = new YouBeHero_ShortCodes_Public();
         
     }
 
@@ -484,14 +476,14 @@ class You_Be_Hero_Public {
     public function ybh_head_script() {
 
         if ( is_checkout() ) {
-            $youbehero_data = json_decode(get_option('ybh_dashboard_json'), true);
+            $youbehero_data = json_decode( get_option( 'ybhd_dashboard_json' ), true );
             $youbehero_data = $youbehero_data['data'] ?? [];
 
-            if (!empty($youbehero_data)) {
+            if ( !empty( $youbehero_data ) ) {
                 $btn_color = $youbehero_data['widget_configurations']['checkout_page']['checkout_page']['btn_color'] ?? "#3b82f6";
 
-                wp_register_style('youbehero-inline-style', false);
-                wp_enqueue_style('youbehero-inline-style');
+                wp_register_style( 'youbehero-inline-style', false );
+                wp_enqueue_style( 'youbehero-inline-style' );
 
                 // Add inline styles
                 $custom_css = "
@@ -500,7 +492,7 @@ class You_Be_Hero_Public {
                         background-color: {$btn_color};
                     }
                 ";
-                wp_add_inline_style('youbehero-inline-style', $custom_css);
+                wp_add_inline_style( 'youbehero-inline-style', $custom_css );
             }
         }
     }
@@ -561,7 +553,7 @@ class You_Be_Hero_Public {
 
         // Configure your API endpoint and credentials
         $api_url = 'https://dev.youbehero.com/api/wp-transactions';
-        $api_key = get_option( 'ybh_token' );
+        $api_key = get_option( 'ybhd_token' );
 
         // Prepare the request
         $args = array(
@@ -595,6 +587,53 @@ class You_Be_Hero_Public {
             $logger->error( 'API Response Error: Code ' . $response_code . ' - ' . $response_body, [ 'source' => 'youbehero' ] );
             return false;
         }
+
+    }
+
+    /**
+     * Extend wp_kses_post to allow extra tags and attributes
+     *
+     * @param $allowed_tags
+     * @param $context
+     * @return array|mixed
+     */
+    public function yobehero_allowed_html_tags( $allowed_tags, $context ) {
+
+        if ( $context === 'post' ) {
+
+            // Add missing tags if not present
+            $extra_tags = array(
+                'div'    => array(),
+                'span'   => array(),
+                'button' => array(
+                    'type'  => true,
+                    'name'  => true,
+                    'value' => true,
+                ),
+                'img'    => array(
+                    'src'    => true,
+                    'alt'    => true,
+                    'width'  => true,
+                    'height' => true,
+                ),
+                'input'  => array(
+                    'type'  => true,
+                    'name'  => true,
+                    'value' => true,
+                ),
+            );
+
+            // Merge extra tags with defaults
+            $allowed_tags = array_merge( $allowed_tags, $extra_tags );
+
+            foreach ( $allowed_tags as $tag => $attrs ) {
+                $allowed_tags[ $tag ]['class']  = true;
+                $allowed_tags[ $tag ]['id']     = true;
+                $allowed_tags[ $tag ]['style']  = true;
+                $allowed_tags[ $tag ]['data-*'] = true;
+            }
+        }
+        return $allowed_tags;
 
     }
 

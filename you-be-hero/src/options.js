@@ -5,7 +5,7 @@ import { __ } from '@wordpress/i18n';
 
 export const options = [
 	{
-		label: __( 'YouBeHero Donation', 'youbehero' ),
+		label: __( 'YouBeHero Donation', 'ybh-donation-form' ),
 		value: '9',
 	},
 	/**
