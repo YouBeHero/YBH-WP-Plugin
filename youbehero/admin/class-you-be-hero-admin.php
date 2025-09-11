@@ -4,7 +4,7 @@
  * The admin-specific functionality of the plugin.
  *
  * @link       https://youbehero.com
- * @since      1.0.1
+ * @since      1.1.0
  *
  * @package    You_Be_Hero
  * @subpackage You_Be_Hero/admin
@@ -133,7 +133,7 @@ class You_Be_Hero_Admin {
         }
 
         // Nonce check skipped: api_token may come from third-party service, not user-submitted form.
-        $ybhd_token = isset( $_GET['api_token'] ) ? sanitize_text_field( wp_unslash( $_GET['api_token'] ) ) : get_option( 'ybhd_token' );
+        $ybhd_token = isset( $_GET['api_token'] ) ? sanitize_text_field( wp_unslash( $_GET['api_token'] ) ) : get_option( 'ybhd_token' );// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
         //update json on page load
         $this->ybhd_fetch_store_info( $ybhd_token );

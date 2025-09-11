@@ -127,7 +127,7 @@ class You_Be_Hero_Public {
             'donation-widget-ybh-chekcout-donation-block-editor-script',
             plugins_url( 'build/index.js', __DIR__ ),
             [ 'wp-i18n', 'wp-blocks', 'wp-element', 'wp-editor' ],
-            '1.0.0',
+            $this->version,
             true
         );
 
@@ -494,7 +494,7 @@ class You_Be_Hero_Public {
             if ( !empty( $youbehero_data ) ) {
                 $btn_color = $youbehero_data['widget_configurations']['checkout_page']['checkout_page']['btn_color'] ?? "#3b82f6";
 
-                wp_register_style( 'youbehero-inline-style', false );
+                wp_register_style( 'youbehero-inline-style', false, array(), $this->version );
                 wp_enqueue_style( 'youbehero-inline-style' );
 
                 // Add inline styles

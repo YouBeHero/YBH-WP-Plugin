@@ -70,12 +70,12 @@ class You_Be_Hero {
 		if ( defined( 'YOU_BE_HERO_VERSION' ) ) {
 			$this->version = YOU_BE_HERO_VERSION;
 		} else {
-			$this->version = '1.0.1';
+			$this->version = '1.1.0';
 		}
 		$this->plugin_name = 'youbehero';
                 
 		$this->load_dependencies();
-		$this->set_locale();
+//		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
@@ -109,7 +109,7 @@ class You_Be_Hero {
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-you-be-hero-i18n.php';
+//		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-you-be-hero-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
@@ -141,13 +141,13 @@ class You_Be_Hero {
 	 * @since    1.0.1
 	 * @access   private
 	 */
-	private function set_locale() {
-
-		$plugin_i18n = new You_Be_Hero_i18n();
-
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
-	}
+//	private function set_locale() {
+//
+//		$plugin_i18n = new You_Be_Hero_i18n();
+//
+//		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
+//
+//	}
 
 	/**
 	 * Register all of the hooks related to the admin area functionality

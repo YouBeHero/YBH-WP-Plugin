@@ -5,7 +5,7 @@ Tags: woocommerce, donations, charity, nonprofit, checkout
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -109,3 +109,9 @@ First stable release — add donation functionality to WooCommerce checkout and 
 
 = 1.0.1 =
 Fix translation problems.
+
+= 1.1.0 =
+* Fixed issue with inline styles.
+* Updated to clarify that the donation feature uses our own trusted third-party service.
+* Standardized slugs to match the text domain.
+* Improved widget for better security.
