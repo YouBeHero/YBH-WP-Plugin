@@ -119,8 +119,20 @@ class You_Be_Hero_Public {
 
     // Register the block
     function donation_widget_register_block() {
+
         // Register the block using metadata from block.json
-        register_block_type(YBHD_PLUGIN_DIR . '/build');
+        register_block_type(YBHD_PLUGIN_DIR . 'build');
+
+        wp_register_script(
+            'donation-widget-ybh-chekcout-donation-block-editor-script',
+            plugins_url( 'build/index.js', __DIR__ ),
+            [ 'wp-i18n', 'wp-blocks', 'wp-element', 'wp-editor' ],
+            '1.0.0',
+            true
+        );
+
+        wp_set_script_translations( 'donation-widget-ybh-chekcout-donation-block-editor-script', 'youbehero', YBHD_PLUGIN_DIR . 'languages' );
+
     }
 
     // Enqueue scripts and styles

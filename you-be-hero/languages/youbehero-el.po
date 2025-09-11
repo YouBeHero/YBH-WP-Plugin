@@ -1,0 +1,205 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: YouBeHero 1.0.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/you-be-hero\n"
+"Last-Translator: mac <mac@macs-macbook-pro.local>\n"
+"Language-Team: Greek <team@lists.gnome.gr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-09-09T10:46:43+00:00\n"
+"PO-Revision-Date: 2025-09-09 17:38+0500\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: youbehero\n"
+"Language: el\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Description of the plugin
+#: youbehero.php
+msgid "YouBeHero is a powerful WordPress plugin that seamlessly integrates with WooCommerce, allowing store owners to enable a donation system at checkout and product pages. Customers can contribute to nonprofit organizations directly during their shopping experience."
+msgstr "Το YouBeHero είναι ένα ισχυρό πρόσθετο WordPress που ενσωματώνεται άψογα με το WooCommerce, επιτρέποντας στους ιδιοκτήτες καταστημάτων να ενεργοποιήσουν ένα σύστημα δωρεών στο ταμείο και στις σελίδες προϊόντων. Οι πελάτες μπορούν να συνεισφέρουν σε μη κερδοσκοπικούς οργανισμούς απευθείας κατά τη διάρκεια της εμπειρίας αγορών τους."
+
+#. Author of the plugin
+#: youbehero.php
+msgid "Vasilis Kolip"
+msgstr "Βασίλης Κολίπ"
+
+#: admin/class-you-be-hero-admin.php:132
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Δεν έχετε επαρκή δικαιώματα πρόσβασης σε αυτήν τη σελίδα."
+
+#: admin/class-you-be-hero-admin.php:240
+msgid "Other Fees:"
+msgstr "Άλλες χρεώσεις:"
+
+#: admin/partials/you-be-hero-api-settings.php:30
+msgid "We couldn’t verify your API key. Please double-check for any missing characters or extra spaces, then try again."
+msgstr "Δεν ήταν δυνατή η επαλήθευση του κλειδιού API σας. Ελέγξτε ξανά για τυχόν χαρακτήρες που λείπουν ή επιπλέον κενά και δοκιμάστε ξανά."
+
+#: admin/partials/you-be-hero-api-settings.php:40
+msgid "You have successfully logged out."
+msgstr "Αποσυνδεθήκατε με επιτυχία."
+
+#: admin/partials/you-be-hero-api-settings.php:44
+msgid "Thank you for installing it"
+msgstr "Σας ευχαριστούμε που το εγκαταστήσατε"
+
+#: admin/partials/you-be-hero-api-settings.php:48
+msgid "To connect your YouBeHero account with this online store"
+msgstr "Για να συνδέσετε τον λογαριασμό σας YouBeHero με αυτό το ηλεκτρονικό κατάστημα"
+
+#: admin/partials/you-be-hero-api-settings.php:51
+msgid "Copy the API key from your account at"
+msgstr "Αντιγράψτε το κλειδί API από τον λογαριασμό σας στη διεύθυνση"
+
+#: admin/partials/you-be-hero-api-settings.php:52
+msgid "Paste it into the field below"
+msgstr "Επικολλήστε το στο παρακάτω πεδίο"
+
+#: admin/partials/you-be-hero-api-settings.php:53
+msgid "Click \"Connect\""
+msgstr "Κάντε κλικ στο \"Σύνδεση\""
+
+#: admin/partials/you-be-hero-api-settings.php:62
+msgid "key"
+msgstr "κλειδί"
+
+#: admin/partials/you-be-hero-api-settings.php:69
+msgid "Login"
+msgstr "Σύνδεση"
+
+#: admin/partials/you-be-hero-api-settings.php:71
+msgid "Don't have an API key?"
+msgstr "Δεν έχετε κλειδί API;"
+
+#: admin/partials/you-be-hero-api-settings.php:71
+msgid "Create an account"
+msgstr "Δημιουργία λογαριασμού"
+
+#: admin/partials/you-be-hero-api-settings.php:74
+msgid "Add donation to Cart is a YouBeHero plugin for WooCommerce that allows you to increase your corporate social responsibility with every online sale."
+msgstr "Η προσθήκη δωρεάς στο καλάθι είναι ένα πρόσθετο του YouBeHero για το WooCommerce που σας επιτρέπει να αυξήσετε την εταιρική κοινωνική σας ευθύνη με κάθε διαδικτυακή πώληση."
+
+#: admin/partials/you-be-hero-dashboard.php:59
+msgid "Status"
+msgstr "Κατάσταση"
+
+#: admin/partials/you-be-hero-dashboard.php:65
+msgid "Account Balance"
+msgstr "Υπόλοιπο λογαριασμού"
+
+#: admin/partials/you-be-hero-dashboard.php:72
+msgid "Total Gifts"
+msgstr "Σύνολο δώρων"
+
+#: admin/partials/you-be-hero-dashboard.php:76
+msgid "Total Sales"
+msgstr "Συνολικές πωλήσεις"
+
+#: admin/partials/you-be-hero-dashboard.php:80
+msgid "Average Basket Value"
+msgstr "Μέση Αξία Καλαθιού"
+
+#: admin/partials/you-be-hero-dashboard.php:84
+msgid "Number of Orders"
+msgstr "Αριθμός Παραγγελιών"
+
+#: admin/partials/you-be-hero-dashboard.php:88
+msgid "Benefited NGO's"
+msgstr "Ωφελούμενες ΜΚΟ"
+
+#: admin/partials/you-be-hero-dashboard.php:96
+msgid "Transaction Table"
+msgstr "Πίνακας συναλλαγών"
+
+#: admin/partials/you-be-hero-dashboard.php:98
+msgid "Refresh"
+msgstr "Φρεσκάρω"
+
+#: admin/partials/you-be-hero-dashboard.php:108
+msgid "Order"
+msgstr "Παραγγελία"
+
+#: admin/partials/you-be-hero-dashboard.php:109
+msgid "Date"
+msgstr "Ημερομηνία"
+
+#: admin/partials/you-be-hero-dashboard.php:110
+msgid "Total"
+msgstr "Σύνολο"
+
+#: admin/partials/you-be-hero-dashboard.php:111
+msgid "Donation"
+msgstr "Δωρεά"
+
+#: admin/partials/you-be-hero-dashboard.php:112
+msgid "Organization"
+msgstr "Οργάνωση"
+
+#: admin/partials/you-be-hero-dashboard.php:136
+msgid "Transaction details will appear here once the first donation purchase is made!"
+msgstr "Οι λεπτομέρειες της συναλλαγής θα εμφανιστούν εδώ μόλις πραγματοποιηθεί η πρώτη αγορά δωρεάς!"
+
+#: public/class-you-be-hero-public.php:197
+#: public/class-you-be-hero-public.php:251
+msgid "Donation for"
+msgstr "Δωρεά για"
+
+#: src/render.php:66
+#: src/render.php:134
+msgid "Would you like to make a donation?"
+msgstr "Θα θέλατε να κάνετε μια δωρεά;"
+
+#: src/render.php:151
+msgid "Through this market, we will offer"
+msgstr "Μέσα από αυτήν την αγορά, θα προσφέρουμε"
+
+#: src/render.php:152
+msgid "to support a non-profit organization"
+msgstr "για την υποστήριξη ενός μη κερδοσκοπικού οργανισμού"
+
+#: src/render.php:170
+msgid "We will donate it"
+msgstr "Θα το δωρίσουμε"
+
+#: src/render.php:171
+msgid "of your order to a charity"
+msgstr "της παραγγελίας σας σε φιλανθρωπικό οργανισμό"
+
+#: src/render.php:203
+#: src/render.php:214
+msgid "Please select a nonprofit organization"
+msgstr "Επιλέξτε έναν μη κερδοσκοπικό οργανισμό"
+
+#: src/render.php:237
+msgid "Updating"
+msgstr "Ενημέρωση"
+
+#: src/render.php:244
+msgid "Sorry, you are not eligible for donation."
+msgstr "Λυπούμαστε, δεν δικαιούστε δωρεά."
+
+#: src/index.js:16
+#: build/index.js:16
+msgid "YouBeHero Checkout form"
+msgstr "Φόρμα ολοκλήρωσης αγοράς YouBeHero"
+
+#: src/index.js:35
+#: build/index.js:35
+msgid "YouBeHero Donation"
+msgstr "Δωρεά YouBeHero"
+
+#: src/index.js:36
+#: build/index.js:36
+msgid "YouBeHero donation widget will reside here. For easy relocation use List overview option (Shift+Alt+O)"
+msgstr "Το γραφικό στοιχείο δωρεάς YouBeHero θα βρίσκεται εδώ. Για εύκολη μεταφορά, χρησιμοποιήστε την επιλογή Επισκόπηση λίστας (Shift+Alt+O)"
+
+#: src/block.json
+msgctxt "block title"
+msgid "YouBeHero Donation Widget"
+msgstr "Widget δωρεάς YouBeHero"
+
+#: src/block.json
+msgctxt "block description"
+msgid "A block for adding a donation widget to the checkout page."
+msgstr "Ένα μπλοκ για την προσθήκη ενός γραφικού στοιχείου δωρεάς στη σελίδα ολοκλήρωσης αγοράς."

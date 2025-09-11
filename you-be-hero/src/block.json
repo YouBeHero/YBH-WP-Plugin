@@ -23,6 +23,7 @@
       "default": [10, 20, 50, 100]
     }
   },
+  "textdomain": "youbehero",
   "editorScript": "file:./index.js",
   "render": "file:./render.php"
 }

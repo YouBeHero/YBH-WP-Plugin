@@ -1,13 +1,6 @@
 import { __ } from '@wordpress/i18n'; // For translations
 import { registerBlockType } from '@wordpress/blocks'; // For block registration
 import { useBlockProps } from '@wordpress/block-editor'; // For block props
-import { useEffect, useState, useCallback } from '@wordpress/element';
-import { SelectControl } from '@wordpress/components'; // For UI components
-
-import { useSelect, useDispatch } from '@wordpress/data';
-import { debounce } from 'lodash';
-
-
 import { registerPlugin } from '@wordpress/plugins';
 
 const render = () => {};
@@ -20,7 +13,7 @@ registerPlugin( 'ybh-chekcout-donation', {
 import metadata from './block.json';
 // Register the block
 registerBlockType(metadata.name, {
-    title: __('YouBeHero Checkout form', 'woocommerce'), // Block title
+    title: __('YouBeHero Checkout form', 'youbehero'), // Block title
     icon: metadata.icon, // Block icon
     category: metadata.category, // Block category
     attributes: {
