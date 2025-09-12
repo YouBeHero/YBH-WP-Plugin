@@ -70,7 +70,7 @@ class You_Be_Hero {
 		if ( defined( 'YOU_BE_HERO_VERSION' ) ) {
 			$this->version = YOU_BE_HERO_VERSION;
 		} else {
-			$this->version = '1.1.0';
+			$this->version = '1.1.1';
 		}
 		$this->plugin_name = 'youbehero';
                 
