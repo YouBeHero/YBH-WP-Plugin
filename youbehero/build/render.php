@@ -34,7 +34,7 @@ if ( ! is_admin() ) {
         $border = $youbehero_data['widget_configurations']['checkout_page']['checkout_page']['border'] ?? true;
         $border_color = $youbehero_data['widget_configurations']['checkout_page']['checkout_page']['border_color'] ?? $btn_color;
         $margin = $youbehero_data['widget_configurations']['checkout_page']['checkout_page']['margin'] ?? "bigMargin";
-        $padding = $youbehero_data['widget_configurations']['checkout_page']['checkout_page']['padding'] ?? "midPadding";
+            $padding = $youbehero_data['widget_configurations']['checkout_page']['checkout_page']['padding'] ?? "midPadding";
 
         $config = $youbehero_data['widget_configurations'];
         $style = $config['checkout_page']['checkout_page'];

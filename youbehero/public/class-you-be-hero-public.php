@@ -649,4 +649,37 @@ class You_Be_Hero_Public {
 
     }
 
+    /**
+     * Add custom content after the order details table on the thank you page
+     *
+     * @param $order
+     * @return void
+     */
+    public function youbehero_thank_you_widget( $order ) {
+
+        $data = get_option( 'ybhd_dashboard_json' );
+        $youbehero_data = !empty( $data ) ? json_decode( $data, true ) : [];
+        $youbehero_data = !empty( $youbehero_data ) ? $youbehero_data['data'] : [];
+
+        $donation_org_id = 0;
+        foreach ( $order->get_items( 'fee' ) as $item_id => $item ) {
+            $donation_org_id = $item->get_meta( '_donation_org_id' );
+        }
+
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/you-be-hero-thankyou-widget.php';
+
+    }
+
+
+    public function youbehero_get_ordered_cause( $data, $id ) {
+
+        foreach ( $data as $item ) {
+            if ( isset( $item['id'] ) && $item['id'] == $id ) {
+                return $item;
+            }
+        }
+        return null;
+
+    }
+
 }
