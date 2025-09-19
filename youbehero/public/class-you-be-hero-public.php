@@ -133,7 +133,23 @@ class You_Be_Hero_Public {
 
         wp_set_script_translations( 'donation-widget-ybh-chekcout-donation-block-editor-script', 'youbehero', YBHD_PLUGIN_DIR . 'languages' );
 
+        wp_register_script(
+            'ybhd-thankyou-note',
+            plugins_url( 'blocks/thankyou-note/thankyou-note.js', __DIR__ ),
+            [ 'wp-i18n', 'wp-element', 'wp-compose', 'wp-hooks' ],
+            filemtime( YBHD_PLUGIN_ADMIN_DIR . 'js/checkout-block-settings.js' ),
+            true
+        );
+
+        wp_set_script_translations(
+            'ybhd-thankyou-note',
+            'youbehero',
+            YBHD_PLUGIN_DIR . 'languages'
+        );
+
+        wp_enqueue_script( 'ybhd-thankyou-note' );
     }
+
 
     // Enqueue scripts and styles
     function donation_widget_enqueue_scripts() {
@@ -681,5 +697,4 @@ class You_Be_Hero_Public {
         return null;
 
     }
-
 }

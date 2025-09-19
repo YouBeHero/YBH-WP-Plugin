@@ -207,6 +207,7 @@ msgstr ""
 
 #: src/index.js:35
 #: build/index.js:35
+#: blocks/thankyou-note/thankyou-note.js:31
 msgid "YouBeHero Donation"
 msgstr ""
 
@@ -225,4 +226,92 @@ msgstr ""
 #: build/block.json
 msgctxt "block description"
 msgid "A block for adding a donation widget to the checkout page."
+msgstr ""
+
+#: public/partials/you-be-hero-thankyou-widget.php:33
+msgid "Your donation has been recorded."
+msgstr ""
+
+#: public/partials/you-be-hero-thankyou-widget.php:34
+msgid "Thank you very much for your support and generosity."
+msgstr ""
+
+#: public/partials/you-be-hero-thankyou-widget.php:90
+msgid "Stay tuned for updates."
+msgstr ""
+
+#: public/partials/you-be-hero-thankyou-widget.php:96
+msgid "Learn More"
+msgstr ""
+
+#: public/partials/you-be-hero-thankyou-widget.php:124
+msgid "See how your donation helps!"
+msgstr ""
+
+#: public/partials/you-be-hero-thankyou-widget.php:126
+msgid "Sustainability, viability and transparency."
+msgstr ""
+
+#: public/partials/you-be-hero-thankyou-widget.php:129
+msgid "Make a donation"
+msgstr ""
+
+#: public/partials/you-be-hero-thankyou-widget.php:131
+msgid "Easily support a nonprofit of your choice at checkout."
+msgstr ""
+
+#: public/partials/you-be-hero-thankyou-widget.php:135
+msgid "You are informed immediately"
+msgstr ""
+
+#: public/partials/you-be-hero-thankyou-widget.php:137
+msgid "In the confirmation email you will see details about your donation."
+msgstr ""
+
+#: public/partials/you-be-hero-thankyou-widget.php:141
+msgid "Your donation is delivered securely."
+msgstr ""
+
+#: public/partials/you-be-hero-thankyou-widget.php:143
+msgid "With complete transparency, it supports the goals of the organization of your choice."
+msgstr ""
+
+#: public/partials/you-be-hero-thankyou-widget.php:147
+msgid "You are supporting an important project."
+msgstr ""
+
+#: public/partials/you-be-hero-thankyou-widget.php:149
+msgid "Your every contribution has a meaningful impact."
+msgstr ""
+
+#: public/partials/you-be-hero-thankyou-widget.php:153
+msgid "Through the YouBeHero platform"
+msgstr ""
+
+#: public/partials/you-be-hero-thankyou-widget.php:157
+msgid "Track the progress of the donation"
+msgstr ""
+
+#: public/partials/you-be-hero-thankyou-widget.php:161
+msgid "You get in touch with the organization you support."
+msgstr ""
+
+#: public/partials/you-be-hero-thankyou-widget.php:164
+msgid "You see the change you create."
+msgstr ""
+
+#: public/partials/you-be-hero-thankyou-widget.php:170
+msgid "Closure"
+msgstr ""
+
+#: blocks/thankyou-note/thankyou-note.js:38
+msgid "YouBeHero Order Confirmation widget will reside here."
+msgstr ""
+
+#: blocks/thankyou-note/thankyou-note.js:48
+msgid "To toggle the visibility of this widget go to "
+msgstr ""
+
+#: blocks/thankyou-note/thankyou-note.js:58
+msgid "this page"
 msgstr ""

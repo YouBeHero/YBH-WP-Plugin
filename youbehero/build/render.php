@@ -7,7 +7,7 @@ if ( ! is_admin() ) {
     $causes = [];
     $amounts = [];
 
-    if( isset( $youbehero_data['status'] ) && $youbehero_data['status'] == 'active' && !empty($youbehero_data) && !empty($youbehero_data['selected_causes']) ){
+    if( is_checkout() && isset( $youbehero_data['status'] ) && $youbehero_data['status'] == 'active' && !empty($youbehero_data) && !empty($youbehero_data['selected_causes']) ){
 
         if( !empty($youbehero_data['selected_causes']) ){
             $causes = array_map(function ($cause) {
