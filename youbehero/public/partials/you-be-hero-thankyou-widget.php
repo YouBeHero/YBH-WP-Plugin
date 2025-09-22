@@ -22,10 +22,16 @@ if( isset( $youbehero_data['status'] ) && $youbehero_data['status'] == 'active' 
         $background_color = $youbehero_data['widget_configurations']['confirmation_page']['confirmation_page']['background_color'] ?? "#ffffff";
         $text_color = $youbehero_data['widget_configurations']['confirmation_page']['confirmation_page']['text_color'] ?? "#000000";
         $plaisio_color = $youbehero_data['widget_configurations']['confirmation_page']['confirmation_page']['plaisio_color'] ?? "#cccccc";
+        $border = $youbehero_data['widget_configurations']['confirmation_page']['confirmation_page']['border'] ?? "";
+        $border_color = $youbehero_data['widget_configurations']['confirmation_page']['confirmation_page']['border_color'] ?? "";
+        $border_radius = $youbehero_data['widget_configurations']['confirmation_page']['confirmation_page']['border_radius'] ?? "";
+        $widget_margin = $youbehero_data['widget_configurations']['confirmation_page']['confirmation_page']['margin'] ?? "";
+        $widget_padding = $youbehero_data['widget_configurations']['confirmation_page']['confirmation_page']['padding'] ?? "";
+
 ?>
 
         <section class="youbehero-thankyou-widget">
-            <div class="youbehero-tk-card" style="background: <?php echo esc_attr( $background_color ); ?>; color: <?php echo esc_attr( $text_color ); ?>;">
+            <div class="youbehero-tk-card" style="border: <?php echo esc_attr( $border. 'px solid' ); ?>; border-radius: <?php echo esc_attr( $this->youbehero_get_mpb_value( 'b_radius', $border_radius ) ); ?>; border-color: <?php echo esc_attr( $border_color ); ?>; margin: <?php echo esc_attr( $this->youbehero_get_mpb_value( 'margin', $widget_margin ) ); ?>; padding: <?php echo esc_attr( $this->youbehero_get_mpb_value( 'padding', $widget_padding ) ); ?>; background: <?php echo esc_attr( $background_color ); ?>; color: <?php echo esc_attr( $text_color ); ?>;">
             <!-- Top Icon -->
                 <img class="youbehero-tk-icon" src="<?php echo esc_url( $org_logo ); ?>" alt="icon">
 

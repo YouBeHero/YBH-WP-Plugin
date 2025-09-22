@@ -533,6 +533,9 @@ class You_Be_Hero_Public {
 
         $logger = wc_get_logger();
         $order = wc_get_order( $order_id );
+
+        $this->youbehero_execute_email_widget();
+
         // Extract order data
         $order_data = $this->ybh_extract_order_data( $order );
 
@@ -686,7 +689,11 @@ class You_Be_Hero_Public {
 
     }
 
-
+    /**
+     * @param $data
+     * @param $id
+     * @return mixed|null
+     */
     public function youbehero_get_ordered_cause( $data, $id ) {
 
         foreach ( $data as $item ) {
@@ -695,6 +702,63 @@ class You_Be_Hero_Public {
             }
         }
         return null;
+
+    }
+
+    /**
+     * @param $data_for
+     * @param $index
+     * @return false|mixed
+     */
+    public function youbehero_get_mpb_value( $data_for, $index ) {
+
+        $array = array(
+            'margin' => array(
+                'big'   => '20px', 'mid'   => '12px', 'small' => '4px'
+            ),
+            'padding' => array(
+                'big'   => '24px', 'mid'   => '16px', 'small' => '8px'
+            ),
+            'b_radius' => array(
+                'big'   => '16px', 'mid'   => '8px', 'small' => '4px'
+            )
+        );
+
+        $matched = array_filter( $array[$data_for], function( $v, $k ) use ( $index ) {
+            return strpos( $index, $k ) !== false;
+        }, ARRAY_FILTER_USE_BOTH );
+
+        return reset( $matched );
+
+    }
+
+    /**
+     * @param $order
+     * @return void
+     */
+    public function youbehero_execute_email_widget( $order ) {
+
+        $dashboard_data = get_option( 'ybhd_dashboard_json' );
+        $data = !empty( $dashboard_data ) ? json_decode( $dashboard_data, true ) : [];
+        $youbehero_data = !empty( $data ) ? $data['data'] : [];
+
+        if( isset( $youbehero_data['status'] ) && $youbehero_data['status'] == 'active' && !empty( $youbehero_data ) ) {
+
+            $check_w_active = $youbehero_data['widget_configurations']['confirmation_email']['confirmation_email']['active'] ?? false;
+
+            if ( $check_w_active ) {
+                $donation_org_id = 0;
+                foreach ( $order->get_items( 'fee' ) as $item_id => $item ) {
+                    $donation_org_id = $item->get_meta( '_donation_org_id' );
+                }
+
+                $selected_cause_info = $this->youbehero_get_ordered_cause( $youbehero_data['selected_causes'], $donation_org_id );
+
+                $email_widget_obj = new YouBeHero_Email_Widget();
+                $email_widget_obj->youbehero_email_body( $order, $youbehero_data, $selected_cause_info );
+            }
+        }
+
 
     }
 }

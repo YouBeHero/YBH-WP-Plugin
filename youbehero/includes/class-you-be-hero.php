@@ -116,6 +116,11 @@ class You_Be_Hero {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-you-be-hero-admin.php';
 
 		/**
+		 * The class responsible for YouBeHero Email Widget
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-you-be-hero-email-widget.php';
+
+		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
