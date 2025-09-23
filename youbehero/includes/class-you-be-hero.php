@@ -207,6 +207,7 @@ class You_Be_Hero {
         $this->loader->add_filter( 'wp_kses_allowed_html', $plugin_public, 'yobehero_allowed_html_tags', 10, 2 );
 
         $this->loader->add_action('woocommerce_order_details_after_order_table', $plugin_public, 'youbehero_thank_you_widget', 20, 1);
+        $this->loader->add_action( 'woocommerce_email_after_order_table', $plugin_public, 'youbehero_execute_email_widget', 20, 4 );
 
     }
 

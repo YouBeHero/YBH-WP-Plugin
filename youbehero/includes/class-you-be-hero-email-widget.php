@@ -807,11 +807,12 @@ class YouBeHero_Email_Widget {
      */
     public function youbehero_send_email( $order, $youbehero_data, $selected_cause_info ) {
 
-        $email_address = $order->get_billing_email();
+//        $email_address = $order->get_billing_email();
         $email_body = $this->youbehero_email_head() . $this->youbehero_email_body( $youbehero_data, $selected_cause_info );
-        $customer_name = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
-        $subject = "YouBeHero Donation from $customer_name";
-        wp_mail( $email_address, $subject, $email_body, $this->headers );
+//        $customer_name = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
+//        $subject = "YouBeHero Donation from $customer_name";
+//        wp_mail( $email_address, $subject, $email_body, $this->headers );
+        return $email_body;
 
     }
 

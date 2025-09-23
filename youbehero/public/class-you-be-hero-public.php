@@ -534,8 +534,6 @@ class You_Be_Hero_Public {
         $logger = wc_get_logger();
         $order = wc_get_order( $order_id );
 
-        $this->youbehero_execute_email_widget();
-
         // Extract order data
         $order_data = $this->ybh_extract_order_data( $order );
 
@@ -755,7 +753,7 @@ class You_Be_Hero_Public {
                 $selected_cause_info = $this->youbehero_get_ordered_cause( $youbehero_data['selected_causes'], $donation_org_id );
 
                 $email_widget_obj = new YouBeHero_Email_Widget();
-                $email_widget_obj->youbehero_email_body( $order, $youbehero_data, $selected_cause_info );
+                echo $email_widget_obj->youbehero_send_email( $order, $youbehero_data, $selected_cause_info );
             }
         }
 
