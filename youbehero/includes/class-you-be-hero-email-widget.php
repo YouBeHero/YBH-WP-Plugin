@@ -238,7 +238,7 @@ class YouBeHero_Email_Widget {
 
         }
 
-        return '<body>
+        return '<!--<body>-->
                     <center>
                         <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable" style="background-color: rgb(244, 244, 244);">
                             <tbody>
@@ -795,8 +795,8 @@ class YouBeHero_Email_Widget {
                             </tbody>
                         </table>
                     </center>
-                </body>
-        </html>';
+                <!--</body>
+        </html>-->';
     }
 
     /**
@@ -808,7 +808,8 @@ class YouBeHero_Email_Widget {
     public function youbehero_send_email( $order, $youbehero_data, $selected_cause_info ) {
 
 //        $email_address = $order->get_billing_email();
-        $email_body = $this->youbehero_email_head() . $this->youbehero_email_body( $youbehero_data, $selected_cause_info );
+//        $email_body = $this->youbehero_email_head() . $this->youbehero_email_body( $youbehero_data, $selected_cause_info );
+        $email_body = $this->youbehero_email_body( $youbehero_data, $selected_cause_info );
 //        $customer_name = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
 //        $subject = "YouBeHero Donation from $customer_name";
 //        wp_mail( $email_address, $subject, $email_body, $this->headers );
