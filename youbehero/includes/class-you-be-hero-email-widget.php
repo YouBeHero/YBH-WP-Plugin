@@ -18,23 +18,23 @@ class YouBeHero_Email_Widget {
      */
     public function youbehero_email_head() {
         return '<!DOCTYPE html>
-                    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+                    <!--<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
                     <head>
                         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-                        <!--[if gte mso 15]>
+                        <--[if gte mso 15]>
                         <xml>
                         <o:OfficeDocumentSettings>
                         <o:AllowPNG/>
                         <o:PixelsPerInch>96</o:PixelsPerInch>
                         </o:OfficeDocumentSettings>
                         </xml>
-                        <![endif]-->
+                        <![endif]->
                         <meta charset="UTF-8">
                         <meta http-equiv="X-UA-Compatible" content="IE=edge">
                         <meta name="viewport" content="width=device-width, initial-scale=1">
                         <title>Untitled</title>
                         <link rel="preconnect" href="https://fonts.googleapis.com/">
-                        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+                        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">-->
                         <style>
                             img{-ms-interpolation-mode:bicubic;}
                             table, td{mso-table-lspace:0pt;mso-table-rspace:0pt;}
@@ -112,7 +112,7 @@ class YouBeHero_Email_Widget {
                             .mceClusterLayout td{padding:4px!important;}
                             }
                         </style>
-                    </head>';
+                    <!--</head>-->';
     }
 
     /**
@@ -124,7 +124,9 @@ class YouBeHero_Email_Widget {
 
         $social_links = $selected_cause_info['social_links'];
         $org_logo = $selected_cause_info['image'] ?? esc_url( YBHD_PLUGIN_URL ) . 'public/img/humanity_fund.png';
-        $text_color = $youbehero_data['widget_configurations']['confirmation_page']['confirmation_page']['text_color'] ?? "#000000";
+        $background_color = $youbehero_data['widget_configurations']['confirmation_email']['confirmation_email']['background_color'] ?? "#ffffff";
+        $text_color = $youbehero_data['widget_configurations']['confirmation_email']['confirmation_email']['text_color'] ?? "#000000";
+        $plaisio_color = $youbehero_data['widget_configurations']['confirmation_email']['confirmation_email']['plaisio_color'] ?? "#cccccc";
 
         $ybh_icon = $twitter_icon = $instagram_icon = $facebook_icon = $youtube_icon = $linkedin_icon = '';
         if( !empty( $selected_cause_info['url'] ) ) {
@@ -240,7 +242,7 @@ class YouBeHero_Email_Widget {
 
         return '<!--<body>-->
                     <center>
-                        <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable" style="background-color: rgb(244, 244, 244);">
+                        <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable" style="background-color: '.$background_color.'">
                             <tbody>
                                 <tr>
                                     <td class="bodyCell" align="center" valign="top">
@@ -256,7 +258,7 @@ class YouBeHero_Email_Widget {
                                                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:660px" role="presentation">
                                                                         <tbody>
                                                                             <tr>
-                                                                                <td style="background-color:#ffffff" valign="top" class="mceWrapperInner">
+                                                                                <td style="background-color:transparent" valign="top" class="mceWrapperInner">
                                                                                     <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" role="presentation" data-block-id="2">
                                                                                         <tbody>
                                                                                             <tr class="mceRow">
@@ -337,7 +339,7 @@ class YouBeHero_Email_Widget {
                                                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:660px" role="presentation">
                                                                         <tbody>
                                                                             <tr>
-                                                                                <td style="background-color:#ffffff" valign="top" class="mceWrapperInner">
+                                                                                <td style="background-color:transparent" valign="top" class="mceWrapperInner">
                                                                                     <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" role="presentation" data-block-id="6">
                                                                                         <tbody>
                                                                                             <tr class="mceRow">
@@ -417,7 +419,7 @@ class YouBeHero_Email_Widget {
                                                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:660px" role="presentation">
                                                                         <tbody>
                                                                             <tr>
-                                                                                <td style="background-color:#ffffff" valign="top" class="mceWrapperInner">
+                                                                                <td style="background-color:transparent" valign="top" class="mceWrapperInner">
                                                                                     <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" role="presentation" data-block-id="12">
                                                                                         <tbody>
                                                                                             <tr class="mceRow">
@@ -445,7 +447,7 @@ class YouBeHero_Email_Widget {
                                                                                                                                         <tbody>
                                                                                                                                             <tr>
                                                                                                                                                 <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;border:0;border-radius:0" valign="top" id="b20">
-                                                                                                                                                    <table width="100%" style="border:0;background-color:#3ecf8e;border-radius:0;border-collapse:separate">
+                                                                                                                                                    <table width="100%" style="border:0;background-color:'.esc_attr( $plaisio_color ).';border-radius:0;border-collapse:separate">
                                                                                                                                                         <tbody>
                                                                                                                                                             <tr>
                                                                                                                                                                 <td style="padding-left:24px;padding-right:24px;padding-top:12px;padding-bottom:12px" class="mceTextBlockContainer">
@@ -469,11 +471,11 @@ class YouBeHero_Email_Widget {
                                                                                                                                 </td>
                                                                                                                             </tr>
                                                                                                                             <tr>
-                                                                                                                                <td style="background-color:#3ecf8e;padding-top:12px;padding-bottom:12px;padding-right:0;padding-left:0;border:0;border-radius:0" valign="top" class="mceLayoutContainer" id="b21">
+                                                                                                                                <td style="background-color'.esc_attr( $plaisio_color ).';padding-right:0;padding-left:0;border:0;border-radius:0" valign="top" class="mceLayoutContainer" id="b21">
                                                                                                                                     <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" role="presentation" data-block-id="21">
                                                                                                                                         <tbody>
                                                                                                                                             <tr class="mceRow">
-                                                                                                                                                <td style="background-color:#3ecf8e;background-position:center;background-repeat:no-repeat;background-size:cover;padding-top:0px;padding-bottom:0px" valign="top">
+                                                                                                                                                <td style="background-color:'.esc_attr( $plaisio_color ).';background-position:center;background-repeat:no-repeat;background-size:cover;padding-top:0px;padding-bottom:0px" valign="top">
                                                                                                                                                     <table border="0" cellpadding="0" cellspacing="24" width="100%" role="presentation">
                                                                                                                                                         <tbody>
                                                                                                                                                             <tr>
@@ -560,7 +562,7 @@ class YouBeHero_Email_Widget {
                                                                                                                                         <tbody>
                                                                                                                                             <tr>
                                                                                                                                                 <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;border:0;border-radius:0" valign="top" id="b22">
-                                                                                                                                                    <table width="100%" style="border:0;background-color:#3ecf8e;border-radius:0;border-collapse:separate">
+                                                                                                                                                    <table width="100%" style="border:0;background-color:'.esc_attr( $plaisio_color ).';border-radius:0;border-collapse:separate">
                                                                                                                                                         <tbody>
                                                                                                                                                             <tr>
                                                                                                                                                                 <td style="padding-left:24px;padding-right:24px;padding-top:12px;padding-bottom:12px" class="mceTextBlockContainer">
@@ -808,8 +810,8 @@ class YouBeHero_Email_Widget {
     public function youbehero_send_email( $order, $youbehero_data, $selected_cause_info ) {
 
 //        $email_address = $order->get_billing_email();
-//        $email_body = $this->youbehero_email_head() . $this->youbehero_email_body( $youbehero_data, $selected_cause_info );
-        $email_body = $this->youbehero_email_body( $youbehero_data, $selected_cause_info );
+        $email_body = $this->youbehero_email_head() . $this->youbehero_email_body( $youbehero_data, $selected_cause_info );
+//        $email_body = $this->youbehero_email_body( $youbehero_data, $selected_cause_info );
 //        $customer_name = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
 //        $subject = "YouBeHero Donation from $customer_name";
 //        wp_mail( $email_address, $subject, $email_body, $this->headers );

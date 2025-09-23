@@ -754,6 +754,7 @@ class You_Be_Hero_Public {
 
                 $email_widget_obj = new YouBeHero_Email_Widget();
                 echo $email_widget_obj->youbehero_send_email( $order, $youbehero_data, $selected_cause_info );
+                die;
             }
         }
 
