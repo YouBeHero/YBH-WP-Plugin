@@ -1,4 +1,7 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 if ( ! is_admin() ) {
     $currency_symbol = get_woocommerce_currency_symbol();
     $youbehero_data = json_decode( get_option('ybhd_dashboard_json' ), true );
@@ -7,7 +10,7 @@ if ( ! is_admin() ) {
     $causes = [];
     $amounts = [];
 
-    if( is_checkout() && isset( $youbehero_data['status'] ) && $youbehero_data['status'] == 'active' && !empty($youbehero_data) && !empty($youbehero_data['selected_causes']) ){
+    if( isset( $youbehero_data['status'] ) && $youbehero_data['status'] == 'active' && !empty($youbehero_data) && !empty($youbehero_data['selected_causes']) ){
 
         if( !empty($youbehero_data['selected_causes']) ){
             $causes = array_map(function ($cause) {
@@ -34,7 +37,7 @@ if ( ! is_admin() ) {
         $border = $youbehero_data['widget_configurations']['checkout_page']['checkout_page']['border'] ?? true;
         $border_color = $youbehero_data['widget_configurations']['checkout_page']['checkout_page']['border_color'] ?? $btn_color;
         $margin = $youbehero_data['widget_configurations']['checkout_page']['checkout_page']['margin'] ?? "bigMargin";
-            $padding = $youbehero_data['widget_configurations']['checkout_page']['checkout_page']['padding'] ?? "midPadding";
+        $padding = $youbehero_data['widget_configurations']['checkout_page']['checkout_page']['padding'] ?? "midPadding";
 
         $config = $youbehero_data['widget_configurations'];
         $style = $config['checkout_page']['checkout_page'];

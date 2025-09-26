@@ -132,21 +132,25 @@ class You_Be_Hero_Admin {
             wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'youbehero' ) );
         }
 
-        // Nonce check skipped: api_token may come from third-party service, not user-submitted form.
-        $ybhd_token = isset( $_GET['api_token'] ) ? sanitize_text_field( wp_unslash( $_GET['api_token'] ) ) : get_option( 'ybhd_token' );// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $ybhd_token = get_option( 'ybhd_token' );
 
-        //update json on page load
-        $this->ybhd_fetch_store_info( $ybhd_token );
+        // Default view: API settings page
+        $template = 'admin/partials/you-be-hero-api-settings.php';
 
-        $data = get_option( 'ybhd_dashboard_json' );
-        $data = !empty( $data ) ? json_decode( $data, true ) : [];
+        if ( ! empty( $ybhd_token ) ) {
+            // Fetch and update store info
+            $this->ybhd_fetch_store_info( $ybhd_token );
 
-        if( !empty( $ybhd_token ) && ( isset( $data['data'] ) && !empty( $data['data'] ) ) ) {
-            $data = $data['data'];
-            require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/you-be-hero-dashboard.php';
-        } else {
-            require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/you-be-hero-api-settings.php';
+            $data = get_option( 'ybhd_dashboard_json' );
+            $data = ! empty( $data ) ? json_decode( $data, true ) : [];
+
+            if ( isset( $data['data'] ) && ! empty( $data['data'] ) ) {
+                $data     = $data['data'];
+                $template = 'admin/partials/you-be-hero-dashboard.php';
+            }
         }
+
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . $template;
 
     }
 

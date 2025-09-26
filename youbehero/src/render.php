@@ -1,4 +1,7 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 if ( ! is_admin() ) {
     $currency_symbol = get_woocommerce_currency_symbol();
     $youbehero_data = json_decode( get_option('ybhd_dashboard_json' ), true );
