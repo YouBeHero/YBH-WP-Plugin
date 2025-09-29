@@ -133,7 +133,23 @@ class You_Be_Hero_Public {
 
         wp_set_script_translations( 'donation-widget-ybh-chekcout-donation-block-editor-script', 'youbehero', YBHD_PLUGIN_DIR . 'languages' );
 
+        wp_register_script(
+            'ybhd-thankyou-note',
+            plugins_url( 'blocks/thankyou-note/thankyou-note.js', __DIR__ ),
+            [ 'wp-i18n', 'wp-element', 'wp-compose', 'wp-hooks' ],
+            filemtime( YBHD_PLUGIN_ADMIN_DIR . 'js/checkout-block-settings.js' ),
+            true
+        );
+
+        wp_set_script_translations(
+            'ybhd-thankyou-note',
+            'youbehero',
+            YBHD_PLUGIN_DIR . 'languages'
+        );
+
+        wp_enqueue_script( 'ybhd-thankyou-note' );
     }
+
 
     // Enqueue scripts and styles
     function donation_widget_enqueue_scripts() {
@@ -522,6 +538,7 @@ class You_Be_Hero_Public {
 
         $logger = wc_get_logger();
         $order = wc_get_order( $order_id );
+
         // Extract order data
         $order_data = $this->ybh_extract_order_data( $order );
 
@@ -654,4 +671,104 @@ class You_Be_Hero_Public {
 
     }
 
+    /**
+     * Add custom content after the order details table on the thank you page
+     *
+     * @param $order
+     * @return void
+     */
+    public function youbehero_thank_you_widget( $order ) {
+
+        $data = get_option( 'ybhd_dashboard_json' );
+        $youbehero_data = !empty( $data ) ? json_decode( $data, true ) : [];
+        $youbehero_data = !empty( $youbehero_data ) ? $youbehero_data['data'] : [];
+
+        $donation_org_id = 0;
+        foreach ( $order->get_items( 'fee' ) as $item_id => $item ) {
+            $donation_org_id = $item->get_meta( '_donation_org_id' );
+        }
+
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/you-be-hero-thankyou-widget.php';
+
+    }
+
+    /**
+     * @param $data
+     * @param $id
+     * @return mixed|null
+     */
+    public function youbehero_get_ordered_cause( $data, $id ) {
+
+        foreach ( $data as $item ) {
+            if ( isset( $item['id'] ) && $item['id'] == $id ) {
+                return $item;
+            }
+        }
+        return null;
+
+    }
+
+    /**
+     * @param $data_for
+     * @param $index
+     * @return false|mixed
+     */
+    public function youbehero_get_mpb_value( $data_for, $index ) {
+
+        $array = array(
+            'margin' => array(
+                'big'   => '20px', 'mid'   => '12px', 'small' => '4px'
+            ),
+            'padding' => array(
+                'big'   => '24px', 'mid'   => '16px', 'small' => '8px'
+            ),
+            'b_radius' => array(
+                'big'   => '16px', 'mid'   => '8px', 'small' => '4px'
+            )
+        );
+
+        $matched = array_filter( $array[$data_for], function( $v, $k ) use ( $index ) {
+            return strpos( $index, $k ) !== false;
+        }, ARRAY_FILTER_USE_BOTH );
+
+        return reset( $matched );
+
+    }
+
+    /**
+     * @param $order
+     * @param $sent_to_admin
+     * @param $plain_text
+     * @param $email
+     * @return void
+     */
+    public function youbehero_execute_email_widget( $order, $sent_to_admin, $plain_text, $email ) {
+
+        // Only add to new order email ( customer emails)
+        if ( $email->id !== 'customer_processing_order' ) {
+            return;
+        }
+
+        $dashboard_data = get_option( 'ybhd_dashboard_json' );
+        $data = !empty( $dashboard_data ) ? json_decode( $dashboard_data, true ) : [];
+        $youbehero_data = !empty( $data ) ? $data['data'] : [];
+
+        if( isset( $youbehero_data['status'] ) && $youbehero_data['status'] == 'active' && !empty( $youbehero_data ) ) {
+
+            $check_w_active = $youbehero_data['widget_configurations']['confirmation_email']['confirmation_email']['active'] ?? false;
+
+            if ( $check_w_active ) {
+                $donation_org_id = 0;
+                foreach ( $order->get_items( 'fee' ) as $item_id => $item ) {
+                    $donation_org_id = $item->get_meta( '_donation_org_id' );
+                }
+
+                $selected_cause_info = $this->youbehero_get_ordered_cause( $youbehero_data['selected_causes'], $donation_org_id );
+
+                $email_widget_obj = new YouBeHero_Email_Widget();
+                $email_widget_obj->youbehero_send_email( $order, $youbehero_data, $selected_cause_info );
+            }
+        }
+
+    }
 }

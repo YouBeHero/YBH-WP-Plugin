@@ -1,6 +1,6 @@
 {
   "name": "donation-widget",
-  "version": "1.1.2",
+  "version": "1.1.1",
   "scripts": {
     "build": "wp-scripts build",
     "start": "wp-scripts start"

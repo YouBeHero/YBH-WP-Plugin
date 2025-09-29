@@ -322,3 +322,279 @@
 .custom-dropdown{
     color: #000000 !important;
 }
+
+/*Thank you page widget css */
+.youbehero-thankyou-widget {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+.youbehero-tk-card {
+    /*width: 508px;*/
+    width: 100%;
+    /*border-radius: 8px;*/
+    gap: 20px;
+    background: #fff;
+    /*border-radius: 10px;*/
+    padding: 30px;
+    text-align: center;
+    /*box-shadow: 0 4px 10px rgba(0,0,0,0.1);*/
+}
+
+.youbehero-tk-icon {
+    width: 50px;
+    margin-bottom: 15px;
+}
+
+.youbehero-tk-card h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 10px 0;
+}
+.youbehero-tk-card .tk-p1 {
+    font-family: Proxima Nova;
+    font-weight: 400;
+    font-size: 16px;
+    leading-trim: NONE;
+    line-height: 19px;
+    text-align: center;
+    color: #424242;
+}
+
+.youbehero-tk-org-box {
+    background: #f3f3f3;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 15px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.youbehero-tk-social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.youbehero-tk-social-icons a {
+    text-decoration: none;
+    height: 20px;
+    color: #000;
+}
+
+.youbehero-tk-social-icons a img {
+    width: 20px;
+    height: 20px;
+}
+
+.youbehero-tk-footer {
+    font-size: 12px;
+    color: #777;
+    margin-top: 25px;
+    justify-content: center;
+    display: flex;
+    align-items: center;   /* vertically center text + image */
+    gap: 3px;              /* space between text and logo */
+}
+
+.youbehero-tk-footer p {
+    margin: 0;             /* remove default p spacing */
+}
+
+.youbehero-tk-footer img, .youbehero-tk-footer svg {
+    height: 12px;          /* adjust logo size */
+}
+
+.youbehero-thankyou-widget hr {
+    border: 1px solid #F7F7F7;
+}
+
+.learn-more-btn {
+    cursor: pointer;
+    text-align: start;
+    flex: 1;
+    text-decoration: none;
+}
+
+.youbehero-tk-footer-logo {
+    flex: 1;
+    text-align: end;
+}
+
+/* Modal background */
+.youbehero-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 9999;
+    overflow-y: auto;
+}
+
+/* Modal content */
+.youbehero-modal-content {
+    background: rgb(238, 238, 238) !important;
+    border-radius: 16px;
+    max-width: 500px;
+    margin: 5% auto;
+    padding: 20px;
+    font-family: sans-serif;
+    position: relative;
+}
+
+/* Header */
+.youbehero-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.youbehero-logo {
+    font-weight: 600;
+    font-size: 18px;
+    margin-left: calc(100% - 63%);
+}
+
+.youbehero-modal-header .youbehero-logo img {
+    height: 25px;
+    margin-top: 10px;
+}
+
+.youbehero-close {
+    font-size: 22px;
+    cursor: pointer;
+}
+
+/* Text */
+.subtitle {
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.youbehero-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 15px 0;
+}
+
+.youbehero-list li {
+    margin-bottom: 10px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.youbehero-list li::before {
+    content: "●";
+    position: absolute;
+    left: 0;
+    color: #000;
+    font-size: 12px;
+    top: 2px;
+}
+
+/* Footer box */
+.youbehero-footer-box {
+    background: #f7f7f7;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.youbehero-footer-box h4 {
+    margin: 0 0 6px 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Close button */
+.youbehero-close-btn {
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+
+/*test from YouBeHero*/
+.modal-body {
+    position: relative;
+    flex: 1 1 auto;
+    /*padding: 1rem;*/
+}
+.youbehero-modal-title {
+    margin: 0;
+    line-height: 1.5;
+    font-size: 1.25rem;
+    /*margin: 1rem;*/
+}
+.youbehero-modal-text-muted {
+    color: #757575 !important;
+    font-size: 14px;
+    margin: 0;
+}
+.youbehero-vertical-dots {
+    list-style: none;
+    padding: 1px;
+    margin: 10px 0px;
+    position: relative;
+    padding-left: 20px;
+    background: #fff;
+    font-size: 14px;
+}
+.youbehero-vertical-dots li {
+    position: relative;
+    margin: 10px 0;
+    padding-left: 20px;
+}
+.youbehero-vertical-dots li strong {
+    line-height: 2;
+}
+.youbehero-vertical-dots li p {
+    margin: 0;
+}
+.youbehero-vertical-dots li::before {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: 15px;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    background-color: #000;
+    border-radius: 50%;
+}
+.youbehero-vertical-dots li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 26px;
+    left: 1px;
+    height: 60%;
+    width: 2px;
+    background-color: #424242;
+}
+
+.youbehero-second-list {
+    list-style: none;
+    padding: 10px;
+    background: #fff;
+    font-size: 14px;
+}
+.youbehero-second-list li {
+    display: inline-flex;
+}
+.youbehero-second-list li img {
+    width: 15px;
+    margin: 0px 10px 0px 5px;
+}
+.youbehero-second-list li p {
+    margin: 0;
+}

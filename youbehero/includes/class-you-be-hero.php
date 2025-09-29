@@ -70,7 +70,7 @@ class You_Be_Hero {
 		if ( defined( 'YOU_BE_HERO_VERSION' ) ) {
 			$this->version = YOU_BE_HERO_VERSION;
 		} else {
-			$this->version = '1.1.2';
+			$this->version = '1.1.1';
 		}
 		$this->plugin_name = 'youbehero';
                 
@@ -78,7 +78,6 @@ class You_Be_Hero {
 //		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-
 	}
 
 	/**
@@ -115,6 +114,11 @@ class You_Be_Hero {
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-you-be-hero-admin.php';
+
+		/**
+		 * The class responsible for YouBeHero Email Widget
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-you-be-hero-email-widget.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
@@ -189,7 +193,7 @@ class You_Be_Hero {
 		$this->loader->add_action( 'woocommerce_cart_calculate_fees', $plugin_public, 'donation_widget_add_fee' );
 		$this->loader->add_action( 'wp_ajax_update_donation_fee', $plugin_public, 'donation_widget_update_fee' );
 		$this->loader->add_action( 'wp_ajax_nopriv_update_donation_fee', $plugin_public, 'donation_widget_update_fee' );
-        $this->loader->add_action('woocommerce_checkout_create_order_fee_item', $plugin_public,'woocommerce_checkout_create_order_fee_item', 10, 4);
+        $this->loader->add_action( 'woocommerce_checkout_create_order_fee_item', $plugin_public,'woocommerce_checkout_create_order_fee_item', 10, 4 );
         $this->loader->add_action( 'woocommerce_checkout_create_order', $plugin_public, 'save_custom_data_from_session', 10, 2 );
 		$this->loader->add_action( 'init', $plugin_public, 'donation_widget_register_block' );
 		$this->loader->add_action( 'init', $plugin_public, 'youbehero_public_shortcodes' );
@@ -199,8 +203,11 @@ class You_Be_Hero {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'donation_widget_enqueue_scripts' );
         $this->loader->add_action( 'woocommerce_thankyou', $plugin_public, 'ybh_order_received_action' );
         $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'ybh_head_script' );
-        $this->loader->add_action('woocommerce_new_order', $plugin_public, 'ybh_execute_api_on_order_place', 10, 1 );
+        $this->loader->add_action( 'woocommerce_new_order', $plugin_public, 'ybh_execute_api_on_order_place', 10, 1 );
         $this->loader->add_filter( 'wp_kses_allowed_html', $plugin_public, 'yobehero_allowed_html_tags', 10, 2 );
+
+        $this->loader->add_action( 'woocommerce_order_details_after_order_table', $plugin_public, 'youbehero_thank_you_widget', 20, 1 );
+        $this->loader->add_action( 'woocommerce_email_after_order_table', $plugin_public, 'youbehero_execute_email_widget', 20, 4 );
 
     }
 

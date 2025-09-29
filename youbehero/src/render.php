@@ -23,8 +23,12 @@ if ( ! is_admin() ) {
 
         }
         if( !empty($youbehero_data['donation_settings']) && !empty($youbehero_data['donation_settings']['fixed_amounts']) ){
-
-            $amounts = array_values($youbehero_data['donation_settings']['fixed_amounts']);
+            $amounts = array_values(
+                array_filter($youbehero_data['donation_settings']['fixed_amounts'], function( $value ) {
+                    return !empty( $value ); // removes null, "", 0, false, etc.
+                })
+            );
+//            $amounts = array_values($youbehero_data['donation_settings']['fixed_amounts']);
         }
 
         $donor = $youbehero_data['donation_settings']['donor_type'] ?? 'customer'; // fallback to customer if not set
@@ -68,7 +72,6 @@ if ( ! is_admin() ) {
                 $donation_amount = WC()->session->get('ybh_donation_amount', 0);
                 $txt = __( "Would you like to make a donation?", "youbehero" );
                 $headHtml .= '<span style="color:'.$text_color.'">'.$txt.'</span><span style="background: '.$btn_color.'" class="pill-container"><span class="donation-amount-pill">' .number_format((float)$donation_amount, 2, '.', '') . $currency_symbol.'</span></span>';
-
                 foreach ($amounts as $amount) {
                     $amount_cents = (float) str_replace(',', '.', $amount) * 100;//(float)$amount * 100;
 
@@ -81,11 +84,11 @@ if ( ! is_admin() ) {
                         $selected = ($donation_amount == $float) ? 'selected' : '';
                     }
 
-                    $html .= '<button style="border-color:'.$border_color.';" class="donation-btn radio-button '.$selected.'" data-btnclr="'.$btn_color.'" data-value="'.$amount_cents.'" data-label="'.$amount.'">'.$amount . $currency_symbol . '</button>';
+                    $html .= '<button class="donation-btn radio-button '.$selected.'" data-btnclr="'.$btn_color.'" data-value="'.$amount_cents.'" data-label="'.$amount.'">'.$amount . $currency_symbol . '</button>';
 
                 }
 
-                $html .= '<button class="donation-btn delete-button" data-btnclr="'.$btn_color.'" style="border-color:'.$border_color.';"><img src="'.esc_url( YBHD_PLUGIN_URL ).'public/img/delete.svg"></button>';
+                $html .= '<button class="donation-btn delete-button" data-btnclr="'.$btn_color.'"><img src="'.esc_url( YBHD_PLUGIN_URL ).'public/img/delete.svg"></button>';
                 $html .= '<input name="donation_cause" id="donation-cause" value="'.$don_cause.'" type="hidden"/>
                             <input name="donation_amount" id="donation-amount" type="hidden"/>';
 
@@ -137,8 +140,8 @@ if ( ! is_admin() ) {
                     $txt = __( "Would you like to make a donation?", "youbehero" );
                     $headHtml .= '<span style="color:'.$text_color.'">'.$txt.'</span><span style="background: '.$btn_color.'" class="pill-container"><span class="donation-amount-pill">' .number_format((float)$donation_amount, 2, '.', '') . $currency_symbol.'</span></span>';
 
-                    $html .= '<button style="border-color:'.$border_color.';" class="donation-btn radio-button ' . $selected . '" data-btnclr="'.$btn_color.'" data-value="' . $amount_cents . '" data-label="' . number_format((float)$roundupValue, 2, '.', '') . '" >' . number_format((float)$roundupValue, 2, '.', '') . $currency_symbol . '</button>';
-                    $html .= '<button style="border-color:'.$border_color.';" class="donation-btn delete-button" data-btnclr="'.$btn_color.'"><img src="'.esc_url( YBHD_PLUGIN_URL ).'public/img/delete.svg"></button>';
+                    $html .= '<button class="donation-btn radio-button ' . $selected . '" data-btnclr="'.$btn_color.'" data-value="' . $amount_cents . '" data-label="' . number_format((float)$roundupValue, 2, '.', '') . '" >' . number_format((float)$roundupValue, 2, '.', '') . $currency_symbol . '</button>';
+                    $html .= '<button class="donation-btn delete-button" data-btnclr="'.$btn_color.'"><img src="'.esc_url( YBHD_PLUGIN_URL ).'public/img/delete.svg"></button>';
                     $html .= '<input name="donation_cause" id="donation-cause" value="'.$don_cause.'" type="hidden"/>
                         <input name="donation_amount" id="donation-amount" type="hidden"/>';
                 } else {

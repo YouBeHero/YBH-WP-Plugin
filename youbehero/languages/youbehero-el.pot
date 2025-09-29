@@ -1,0 +1,269 @@
+# Copyright (C) 2025 Vasilis Kolip
+# This file is distributed under the GPL-2.0+.
+msgid ""
+msgstr ""
+"Project-Id-Version: YouBeHero 1.0.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/you-be-hero\n"
+"Last-Translator: mac <mac@macs-macbook-pro.local>\n"
+"Language-Team: Greek <team@lists.gnome.gr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-09-09T10:46:43+00:00\n"
+"PO-Revision-Date: 2025-09-09 17:38+0500\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: youbehero\n"
+"Language: el\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Active"
+msgstr "Ενεργή"
+
+msgid "Inactive"
+msgstr "Αδρανής"
+
+msgid "Status"
+msgstr "Κατάσταση"
+
+msgid "Account Balance"
+msgstr "Υπόλοιπο λογαριασμού"
+
+msgid "Total Gifts"
+msgstr "Σύνολο δωρεών"
+
+msgid "Total Sales"
+msgstr "Σύνολο πωλήσεων"
+
+msgid "Average Basket Value"
+msgstr "Μ.Ο. αξίας καλαθιού"
+
+msgid "Number of Orders"
+msgstr "Πλήθος παραγγελιών"
+
+msgid "Benefited NGO's"
+msgstr "Ωφελούμενες ΜΚΟ"
+
+msgid "Transaction Table"
+msgstr "Πίνακας συναλλαγών"
+
+msgid "Refresh"
+msgstr "Ανανέωση"
+
+msgid "Loading..."
+msgstr "Φόρτωση..."
+
+msgid "Order"
+msgstr "Παραγγελία"
+
+msgid "Date"
+msgstr "Ημερομηνία"
+
+msgid "Total"
+msgstr "Σύνολο"
+
+msgid "Donation"
+msgstr "Δωρεά"
+
+msgid "Organization"
+msgstr "Οργάνωση"
+
+msgid "Welcome message"
+msgstr "Καλώς ήρθατε!"
+
+msgid "Transaction details will appear here once the first donation purchase is made!"
+msgstr "Εδώ θα εμφανιστούν τα στοιχεία των συναλλαγών μόλις πραγματοποιηθεί η πρώτη αγορά με δωρεά!"
+
+msgid "Using test data (API unavailable)"
+msgstr "Χρησιμοποιούνται δεδομένα δοκιμής (API μη διαθέσιμο)"
+
+msgid "Data loaded successfully"
+msgstr "Τα δεδομένα φορτώθηκαν επιτυχώς"
+
+msgid "Error loading data"
+msgstr "Σφάλμα κατά τη φόρτωση των δεδομένων"
+
+msgid "A21 - Against Human Trafficking"
+msgstr "Α21 - Ενάντια στην Εμπορία Ανθρώπων"
+
+msgid "Social Care of Moschato"
+msgstr "Κοινωνική Μέριμνα Μοσχάτου"
+
+msgid "MYARTIST"
+msgstr "MYARTIST"
+
+msgid "Animal Welfare Association of Chios"
+msgstr "Φιλοζωικός Σύλλογος Χίου"
+
+msgid "Therapeutic Riding Association of Greece"
+msgstr "Σύνδεσμος Θεραπευτικής Ιππασίας Ελλάδας ΣΘΙΕ"
+
+msgid "EUR"
+msgstr "€"
+
+msgid "Jan"
+msgstr "Ιαν"
+
+msgid "Feb"
+msgstr "Φεβ"
+
+msgid "Mar"
+msgstr "Μαρ"
+
+msgid "Apr"
+msgstr "Απρ"
+
+msgid "May"
+msgstr "Μαι"
+
+msgid "Jun"
+msgstr "Ιουν"
+
+msgid "Jul"
+msgstr "Ιουλ"
+
+msgid "Aug"
+msgstr "Αυγ"
+
+msgid "Sep"
+msgstr "Σεπ"
+
+msgid "Oct"
+msgstr "Οκτ"
+
+msgid "Nov"
+msgstr "Νοε"
+
+msgid "Dec"
+msgstr "Δεκ"
+
+msgid "Would you like to make a donation?"
+msgstr "Θα θέλατε να κάνετε μια δωρεά;"
+
+msgid "Through this market, we will offer"
+msgstr "Μέσω αυτής της αγοράς, θα προσφέρουμε"
+
+msgid "to support a non-profit organization"
+msgstr "για να υποστηρίξουμε έναν μη κερδοσκοπικό οργανισμό"
+
+msgid "We will donate it"
+msgstr "Θα δωρίσουμε το"
+
+msgid "of your order to a charity"
+msgstr "της παραγγελίας σας σε φιλανθρωπικό οργανισμό"
+
+msgid "Updating"
+msgstr "Ενημέρωση"
+
+msgid "Sorry, you are not eligible for donation."
+msgstr "Λυπούμαστε, δεν δικαιούστε δωρεά."
+
+msgid "Sorry, we couldn't load the donation details at the moment. Please try again later."
+msgstr "Λυπούμαστε, δεν ήταν δυνατή η φόρτωση των λεπτομερειών δωρεάς αυτήν τη στιγμή. Δοκιμάστε ξανά αργότερα."
+
+msgid "YouBeHero Donation"
+msgstr "Δωρεά YouBeHero"
+
+msgid "Please select a nonprofit organization"
+msgstr "Επιλέξτε έναν μη κερδοσκοπικό οργανισμό"
+
+msgid "Donation for"
+msgstr "Δωρεά για"
+
+msgid "Thank you for installing it"
+msgstr "Ευχαριστούμε που εγκαταστήσατε το"
+
+msgid "To connect your YouBeHero account with this online store"
+msgstr "Για να συνδέσετε τον λογαριασμό σας στο YouBeHero με αυτό το ηλεκτρονικό κατάστημα"
+
+msgid "Copy the API key from your account at"
+msgstr "Αντιγράψτε το API κλειδί από τον λογαριασμό σας στο"
+
+msgid "Paste it into the field below"
+msgstr "Επικολλήστε το στο παρακάτω πεδίο"
+
+msgid "Click \"Connect\""
+msgstr "Πατήστε «Σύνδεση»"
+
+msgid "key"
+msgstr "κλειδί"
+
+msgid "Login"
+msgstr "Σύνδεση"
+
+msgid "Don't have an API key?"
+msgstr "Δεν έχετε API κλειδί;"
+
+msgid "Create an account"
+msgstr "Δημιουργία λογαριασμού"
+
+msgid "Add donation to Cart is a YouBeHero plugin for WooCommerce that allows you to increase your corporate social responsibility with every online sale."
+msgstr "Το Add donation to Cart είναι ένα plugin της YouBeHero για το WooCommerce που σας επιτρέπει να αυξήσετε την εταιρική σας κοινωνική ευθύνη με κάθε online πώληση."
+
+msgid "We couldn’t verify your API key. Please double-check for any missing characters or extra spaces, then try again."
+msgstr "Δεν ήταν δυνατή η επαλήθευση του κλειδιού API σας. Ελέγξτε ξανά για τυχόν χαρακτήρες που λείπουν ή επιπλέον κενά και δοκιμάστε ξανά."
+
+msgid "You have successfully logged out."
+msgstr "Αποσυνδεθήκατε με επιτυχία."
+
+msgid "YouBeHero Checkout form"
+msgstr "Φόρμα ολοκλήρωσης αγοράς YouBeHero"
+
+msgid "YouBeHero donation widget will reside here. For easy relocation use List overview option (Shift+Alt+O)"
+msgstr "Το γραφικό στοιχείο δωρεάς YouBeHero θα βρίσκεται εδώ. Για εύκολη μεταφορά, χρησιμοποιήστε την επιλογή Επισκόπηση λίστας (Shift+Alt+O)"
+
+msgid "Your donation has been recorded."
+msgstr "Η δωρεά σας έχει καταγραφεί"
+
+msgid "Thank you very much for your support and generosity."
+msgstr "Ευχαριστούμε θερμά για την υποστήριξή και τη γενναιοδωρία σας."
+
+msgid "Stay tuned for updates."
+msgstr "Μείνετε συντονισμένοι για ενημερώσεις"
+
+msgid "Learn More"
+msgstr "Μάθετε περισσότερα"
+
+msgid "See how your donation helps!"
+msgstr "Δείτε πως η δωρεά σας βοηθά!"
+
+msgid "Sustainability, viability and transparency."
+msgstr "Αειφορία, βιωσιμότητα και διαφάνεια."
+
+msgid "Make a donation"
+msgstr "Κάνετε μια δωρεά"
+
+msgid "Easily support a nonprofit of your choice at checkout."
+msgstr "Ενισχύστε εύκολα έναν μη κερδοσκοπικό φορέα της επιλογής σας κατά την πληρωμή."
+
+msgid "You are informed immediately"
+msgstr "Ενημερώνεστε άμεσα"
+
+msgid "In the confirmation email you will see details about your donation."
+msgstr "Στο επιβεβαιωτικό email θα δείτε λεπτομέρειες για τη δωρεά σας."
+
+msgid "Your donation is delivered securely."
+msgstr "Η δωρεά σας παραδίδεται με ασφάλεια"
+
+msgid "With complete transparency, it supports the goals of the organization of your choice."
+msgstr "Με πλήρη διαφάνεια, υποστηρίζει τους στόχους του φορέα της επιλογής σας."
+
+msgid "You are supporting an important project."
+msgstr "Στηρίζετε ένα σημαντικό έργο"
+
+msgid "Your every contribution has a meaningful impact."
+msgstr "Κάθε συνεισφορά σας έχει ουσιαστικό αντίκτυπο."
+
+msgid "Through the YouBeHero platform"
+msgstr "Μέσω της πλατφόρμας YouBeHero"
+
+msgid "Track the progress of the donation"
+msgstr "Παρακολουθείτε την πορεία της δωρεάς"
+
+msgid "You get in touch with the organization you support."
+msgstr "Έρχεστε σε επαφή με τον φορέα που στηρίζετε"
+
+msgid "You see the change you create."
+msgstr "Βλέπετε την αλλαγή που δημιουργείτε"
+
+msgid "Closure"
+msgstr "Κλείσιμο"

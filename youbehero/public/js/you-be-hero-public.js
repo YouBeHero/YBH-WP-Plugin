@@ -10,11 +10,10 @@
 	 * of this function.
 	 *
 	 * This enables you to define handlers, for when the DOM is ready:
-	 *
-	 * $(function() {
-	 *
-	 * });
-	 *
+	 */
+	 $(function() {
+	 });
+	 /*
 	 * When the window is loaded:
 	 *
 	 * $( window ).load(function() {
@@ -29,6 +28,40 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
     jQuery(document).ready(function($) {
-    });
+	});
+
+	document.addEventListener("DOMContentLoaded", function () {
+		const modal = document.getElementById("youbehero-modal");
+		const btn = document.getElementById("learn-more-btn");
+		const closeX = document.querySelector(".youbehero-close");
+		const closeBtn = document.querySelector(".youbehero-close-btn");
+
+		if (!modal || !btn || !closeX || !closeBtn) {
+			console.error("Modal elements not found in DOM");
+			return;
+		}
+
+		// Open modal
+		btn.onclick = function () {
+			modal.style.display = "block";
+		};
+
+		// Close modal on X
+		closeX.onclick = function () {
+			modal.style.display = "none";
+		};
+
+		// Close modal on Κλείσιμο button
+		closeBtn.onclick = function () {
+			modal.style.display = "none";
+		};
+
+		// Close if clicking outside the modal content
+		window.onclick = function (e) {
+			if (e.target === modal) {
+				modal.style.display = "none";
+			}
+		};
+	});
 
 })( jQuery );
