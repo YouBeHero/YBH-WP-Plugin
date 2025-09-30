@@ -226,7 +226,7 @@ class YouBeHero_Email_Widget {
                 <img class="youbehero-tk-icon" src="<?php echo esc_url( $org_logo ); ?>" alt="icon">
 
                 <!-- Title -->
-                <h3 style="color: <?php echo esc_attr( $text_color ); ?>;"><?php echo esc_html__( "Your donation has been recorded." , "youbehero");  ?></h3>
+                <h3 style="text-align: center !important; color: <?php echo esc_attr( $text_color ); ?>;"><?php echo esc_html__( "Your donation has been recorded." , "youbehero");  ?></h3>
                 <p class="tk-p1" style="color: <?php echo esc_attr( $text_color ); ?>;"><?php echo esc_html__( 'Thank you very much for your support and generosity.', 'youbehero' ); ?></p>
 
                 <!-- Organization box -->
@@ -267,7 +267,7 @@ class YouBeHero_Email_Widget {
                         <?php } ?>
                     </div>
 
-                    <p style="color: <?php echo esc_attr( $text_color ); ?>;"><?php echo esc_html__( 'Stay tuned for updates.', 'youbehero' ); ?></p>
+                    <p style="margin:20px 0 0; color: <?php echo esc_attr( $text_color ); ?>;"><?php echo esc_html__( 'Stay tuned for updates.', 'youbehero' ); ?></p>
                 </div>
                 <hr>
                 <!-- Footer -->
@@ -275,7 +275,7 @@ class YouBeHero_Email_Widget {
                     <!-- Learn More button -->
                     <a id="learn-more-btn" class="learn-more-btn"><?php echo esc_html__( 'Learn More', 'youbehero' ); ?></a>
                     <a class="youbehero-tk-footer-logo" href="youbehero.com">
-                        <img alt="" src="https://youbehero.com/img/wp-plugin-images/email_icons/d234e58a-0054-2807-de31-a7b021c8bb9e.png" width="89" height="auto" style="display:block;max-width:100%;height:auto;border-radius:0" class="imageDropZone mceImage">
+                        <img alt="" src="https://youbehero.com/img/wp-plugin-images/email_icons/d234e58a-0054-2807-de31-a7b021c8bb9e.png" width="89" height="auto" style="max-width:100%;height:auto;border-radius:0" class="imageDropZone mceImage">
                     </a>
                 </div>
             </div>
