@@ -561,9 +561,11 @@ class You_Be_Hero_Public {
         $donation_total = 0;
 
         foreach ( $order->get_fees() as $fee ) {
+
             $fee_total = (float) $fee->get_total();
 
-            if ( stripos( $fee->get_name(), 'donation' ) !== false ) {
+//            if ( stripos( $fee->get_name(), 'donation' ) !== false ) {
+            if ( stripos( $fee->get_name(), WC()->session->get( '_donation_org_name' ) ) !== false ) {
                 $donation_total += $fee_total;
             }
         }
