@@ -189,6 +189,31 @@ jQuery(document).ready(function($) {
             }
         });
 
+        // Handle if only one organisation is set - START
+        setTimeout(function(){
+            if (causes && causes.length == 1) {
+                $('.ybh-dd-option').trigger('click')
+
+                $('.ybh-dd-option').css({
+                    'display': 'flex',
+                    'align-items': 'center',
+                    'gap': '8px'
+                });
+
+                $('.ybh-dd-option img').css({
+                    'max-height': '40px',
+                    'width': 'auto',
+                    'vertical-align': 'middle'
+                });
+
+                $('.ybh-dd-option span').css({
+                    'font-size': '14px',
+                    'line-height': '1.4'
+                });
+            }
+        },1000);
+    // Handle if only one organisation is set - END
+
         $(document).on('click', '.ybh-dd-option', function (event) {
             event.preventDefault();
             const selectedOption = document.getElementById('selectedOption');

@@ -32,6 +32,9 @@
 
 	document.addEventListener("DOMContentLoaded", function () {
 		const modal = document.getElementById("youbehero-modal");
+		if (!modal) {
+			return;
+		}
 		const btn = document.getElementById("learn-more-btn");
 		const closeX = document.querySelector(".youbehero-close");
 		const closeBtn = document.querySelector(".youbehero-close-btn");

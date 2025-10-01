@@ -273,8 +273,8 @@ class YouBeHero_Email_Widget {
                 <!-- Footer -->
                 <div class="youbehero-tk-footer" style="color: <?php echo esc_attr( $text_color ); ?>;">
                     <!-- Learn More button -->
-                    <a id="learn-more-btn" class="learn-more-btn"><?php echo esc_html__( 'Learn More', 'youbehero' ); ?></a>
-                    <a class="youbehero-tk-footer-logo" href="youbehero.com">
+                    <a href="https://youbehero.com" id="learn-more-btn" class="learn-more-btn"><?php echo esc_html__( 'Learn More', 'youbehero' ); ?></a>
+                    <a class="youbehero-tk-footer-logo" href="https://youbehero.com">
                         <img alt="" src="https://youbehero.com/img/wp-plugin-images/email_icons/d234e58a-0054-2807-de31-a7b021c8bb9e.png" width="89" height="auto" style="max-width:100%;height:auto;border-radius:0" class="imageDropZone mceImage">
                     </a>
                 </div>

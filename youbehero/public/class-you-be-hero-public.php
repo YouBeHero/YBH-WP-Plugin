@@ -747,28 +747,32 @@ class You_Be_Hero_Public {
     public function youbehero_execute_email_widget( $order, $sent_to_admin, $plain_text, $email ) {
 
         // Only add to new order email ( customer emails)
-        if ( $email->id !== 'customer_processing_order' ) {
-            return;
-        }
+//        if ( $email->id !== 'customer_processing_order' ) {
+//            return;
+//        }
 
-        $dashboard_data = get_option( 'ybhd_dashboard_json' );
-        $data = !empty( $dashboard_data ) ? json_decode( $dashboard_data, true ) : [];
-        $youbehero_data = !empty( $data ) ? $data['data'] : [];
+        if ( in_array( $email->id, [ 'customer_processing_order', 'customer_completed_order' ], true ) ) {
+            $dashboard_data = get_option( 'ybhd_dashboard_json' );
+            $data = !empty( $dashboard_data ) ? json_decode( $dashboard_data, true ) : [];
+            $youbehero_data = !empty( $data ) ? $data['data'] : [];
 
-        if( isset( $youbehero_data['status'] ) && $youbehero_data['status'] == 'active' && !empty( $youbehero_data ) ) {
+            if ( isset( $youbehero_data['status'] ) && $youbehero_data['status'] == 'active' && !empty( $youbehero_data ) ) {
 
-            $check_w_active = $youbehero_data['widget_configurations']['confirmation_email']['confirmation_email']['active'] ?? false;
+                $check_w_active = $youbehero_data['widget_configurations']['confirmation_email']['confirmation_email']['active'] ?? false;
 
-            if ( $check_w_active ) {
-                $donation_org_id = 0;
-                foreach ( $order->get_items( 'fee' ) as $item_id => $item ) {
-                    $donation_org_id = $item->get_meta( '_donation_org_id' );
+                if ( $check_w_active ) {
+                    $donation_org_id = 0;
+                    foreach ($order->get_items('fee') as $item_id => $item) {
+                        $donation_org_id = $item->get_meta('_donation_org_id');
+                    }
+
+                    $selected_cause_info = $this->youbehero_get_ordered_cause($youbehero_data['selected_causes'], $donation_org_id);
+
+                    if ( !empty( $selected_cause_info ) ) {
+                        $email_widget_obj = new YouBeHero_Email_Widget();
+                        $email_widget_obj->youbehero_send_email( $order, $youbehero_data, $selected_cause_info );
+                    }
                 }
-
-                $selected_cause_info = $this->youbehero_get_ordered_cause( $youbehero_data['selected_causes'], $donation_org_id );
-
-                $email_widget_obj = new YouBeHero_Email_Widget();
-                $email_widget_obj->youbehero_send_email( $order, $youbehero_data, $selected_cause_info );
             }
         }
 

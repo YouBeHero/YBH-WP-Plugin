@@ -198,6 +198,17 @@ if ( ! is_admin() ) {
 
                         <div class="custom-dropdown" id="ybh-dd-dropdown">
                             <div class="donation-select  custom-dropdown-toggle" id="ybh-dd-select">
+
+                                <?php if( count( $causes ) == 1 ) { ?>
+                                <div class="donation-text">
+                                    <?php foreach ( $causes as $key=>$cause ) { ?>
+                                    <div class="ybh-dd-option" id="<?php echo esc_html( $key );?>-ybh-dd-option" data-image="<?php echo esc_html( $cause['image'] ) ?>" data-text="<?php echo esc_html( $cause['label'] )?>" data-value="<?php echo esc_html( $cause['value'] )?>")">
+                                    <img id="selected-cause-img" src="<?php echo esc_html( $cause['image'] )?>" alt="Logo">
+                                    <span id="selectedOption"><?php echo esc_html( $cause['label'] )?></span>
+                                </div>
+                            <?php } ?>
+                            </div>
+                            <?php } else { ?>
                                 <div class="donation-text">
                                     <?php if( isset( WC()->session ) && !empty( $session_cause ) ) {
                                         $selected_cause = $session_cause;
@@ -212,26 +223,29 @@ if ( ! is_admin() ) {
                                     ?>
                                 </div>
                                 <span class="dropdown-arrow">▼</span>
-                            </div>
-                            <div class="custom-dropdown-menu" id="dropdownMenu">
-
-                                <div class="custom-dropdown-option ybh-dd-option <?php echo ( empty($selected_cause) )?'hidden':'';?>" id="select-np-ybh-dd-option" data-image="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/save-hood-img.png" data-text="Please select a nonprofit organization" data-value="0">
-                                    <img alt="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/save-hood-img.png" src="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/save-hood-img.png"  style="width: min(5%, 2em);"/>
-                                    <span class="text-gray-700"><?php echo esc_html__( 'Please select a nonprofit organization', 'youbehero' ); ?></span>
-                                </div>
-                                <?php
-                                foreach ($causes as $key=>$cause) {?>
-                                <div class="custom-dropdown-option ybh-dd-option" id="<?php echo esc_html( $key );?>-ybh-dd-option" data-image="<?php echo esc_html( $cause['image'] ) ?>" data-text="<?php echo esc_html( $cause['label'] )?>" data-value="<?php echo esc_html( $cause['value'] )?>")">
-                                <img alt="<?php echo esc_html( $cause['label'] )?>" src="<?php echo esc_html( $cause['image'] )?>"/>
-                                <span class="text-gray-700"><?php echo esc_html( $cause['label'] )?></span>
-                            </div>
-                            <?php   } ?>
+                            <?php } ?>
                         </div>
-                    </div>
 
-                    <div class="donation-buttons donation-amounts">
-                        <?php echo wp_kses_post( $html ); ?>
+                        <?php if( count( $causes ) > 1 ) { ?>
+                        <div class="custom-dropdown-menu" id="dropdownMenu">
+                            <div class="custom-dropdown-option ybh-dd-option <?php echo ( empty($selected_cause) )?'hidden':'';?>" id="select-np-ybh-dd-option" data-image="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/save-hood-img.png" data-text="Please select a nonprofit organization" data-value="0">
+                                <img alt="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/save-hood-img.png" src="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/save-hood-img.png"  style="width: min(5%, 2em);"/>
+                                <span class="text-gray-700"><?php echo esc_html__( 'Please select a nonprofit organization', 'youbehero' ); ?></span>
+                            </div>
+                            <?php
+                            foreach ( $causes as $key=>$cause ) { ?>
+                            <div class="custom-dropdown-option ybh-dd-option" id="<?php echo esc_html( $key );?>-ybh-dd-option" data-image="<?php echo esc_html( $cause['image'] ) ?>" data-text="<?php echo esc_html( $cause['label'] )?>" data-value="<?php echo esc_html( $cause['value'] )?>")">
+                            <img alt="<?php echo esc_html( $cause['label'] )?>" src="<?php echo esc_html( $cause['image'] )?>"/>
+                            <span class="text-gray-700"><?php echo esc_html( $cause['label'] )?></span>
+                        </div>
+                    <?php } ?>
                     </div>
+                    <?php } ?>
+                </div>
+
+                <div class="donation-buttons donation-amounts">
+                    <?php echo wp_kses_post( $html ); ?>
+                </div>
 
                 </div>
 
