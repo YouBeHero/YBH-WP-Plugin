@@ -751,7 +751,7 @@ class You_Be_Hero_Public {
 //            return;
 //        }
 
-        if ( in_array( $email->id, [ 'customer_processing_order', 'customer_completed_order' ], true ) ) {
+        if ( in_array( $email->id, [ 'customer_on_hold_order', 'customer_processing_order', 'customer_completed_order' ], true ) ) {
             $dashboard_data = get_option( 'ybhd_dashboard_json' );
             $data = !empty( $dashboard_data ) ? json_decode( $dashboard_data, true ) : [];
             $youbehero_data = !empty( $data ) ? $data['data'] : [];
@@ -775,6 +775,5 @@ class You_Be_Hero_Public {
                 }
             }
         }
-
     }
 }
