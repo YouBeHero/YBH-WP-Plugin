@@ -76,7 +76,7 @@ class You_Be_Hero_Admin {
 
         if ( $hook_suffix == 'toplevel_page_ybhd-settings' )  {
 
-            wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/you-be-hero-admin.css', array(), $this->version, 'all' );
+            wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/you-be-hero-admin.css?v=1.3', array(), $this->version, 'all' );
 
         }
 
@@ -110,17 +110,20 @@ class You_Be_Hero_Admin {
      */
     public function ybhd_add_admin_menu() {
 
-        $icon_url = plugin_dir_url(__FILE__) . 'img/ybh-dark-icon-20x20.png';
+        $icon_svg = '<svg xmlns="http://www.w3.org/2000/svg" fill="#A7AAAD" width="16" height="16" viewBox="0 0 20 20"><path d="M19.9999 0.0000878249H14.2699V5.56483H19.9999V0.0000878249Z" fill="#A7AAAD"/><path d="M5.73125 0H0.00123405V5.56462H5.73125V0Z" fill="#A7AAAD"/><path d="M14.2699 8.31958V9.09083C14.2699 12.5069 12.4518 14.5455 9.97246 14.5455C7.16254 14.5455 5.73004 12.0661 5.73004 9.09083V8.31958H0V9.47662C0 16.1984 4.02205 19.8898 9.97246 19.8898C16.4187 19.8898 20 15.7576 20 9.47662V8.31958H14.2699Z" fill="#A7AAAD"/></svg>';
+
+        $icon_data = 'data:image/svg+xml;base64,' . base64_encode($icon_svg);
+
         add_menu_page(
             'YouBeHero API Settings',
             'YouBeHero',
             'manage_options',
             'ybhd-settings',
             array( $this, 'ybhd_settings_page' ),
-            $icon_url,
+            $icon_data,
             56
-        );
-
+        );  
+        
     }
 
     /**

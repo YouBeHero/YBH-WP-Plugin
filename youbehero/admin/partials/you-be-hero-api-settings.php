@@ -41,11 +41,11 @@ $logout = isset( $_GET['logout'] ) ? sanitize_text_field( wp_unslash( $_GET['log
         </div>
     <?php } ?>
 
-    <h3 class="ybh-token-hdng"><?php echo esc_html__( 'Thank you for installing it', 'youbehero' ); ?> Add donation to cart! 🥳</h3>
+    <h3 class="ybh-token-hdng"><?php echo esc_html__( 'Thank you for installing', 'youbehero' ); ?> Add Donation to Cart! 🥳</h3>
 
     <div class="ybh-token-txt">
         <p>
-            <?php echo esc_html__( 'To connect your YouBeHero account with this online store', 'youbehero' ); ?>:
+            <?php echo esc_html__( 'To connect your YouBeHero account with your eshop', 'youbehero' ); ?>:
         </p>
         <ol>
             <li><?php echo esc_html__( 'Copy the API key from your account at', 'youbehero' ); ?> YouBeHero</li>
@@ -64,12 +64,12 @@ $logout = isset( $_GET['logout'] ) ? sanitize_text_field( wp_unslash( $_GET['log
             // Nonce verification not used here because `ybhd_token` is coming from third party api or from wp_options.
             // The value is sanitized and not used for sensitive operations.
             ?>
-            <input type="text" id="ybhd_token" name="ybhd_token" value="<?php echo esc_attr($ybhd_token); ?>" style="border-color: <?php echo ( $status == 'fail' ) ? '#d63638': ''; ?>" />
+            <input type="text" id="ybhd_token" name="ybhd_token" value="<?php echo esc_attr($ybhd_token); ?>" style="border-color: <?php echo ( $status == 'fail' ) ? '#d63638': ''; ?>" placeholder="<?php echo esc_html__( 'API 🔑', 'youbehero' );?>"/>
             <p class="submit">
                 <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php echo esc_html__( 'Login', 'youbehero' );?>">
             </p>
             <p><?php echo esc_html__( "Don't have an API key?", 'youbehero' );?> <a href="https://dev.youbehero.com/gr/signup-eshop"><?php echo esc_html__( "Create an account", 'youbehero' );?></a></p>
         </form>
     </div>
-    <p><?php echo esc_html__( "Add donation to Cart is a YouBeHero plugin for WooCommerce that allows you to increase your corporate social responsibility with every online sale.", 'youbehero' );?></p>
+    <p><?php echo esc_html__( "Add Donation to Cart is a YouBeHero plugin for WooCommerce that allows you to increase your corporate social responsibility with every online sale.", 'youbehero' );?></p>
 </div>

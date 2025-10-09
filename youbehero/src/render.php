@@ -216,7 +216,7 @@ if ( ! is_admin() ) {
                                         <img id="selected-cause-img" src="<?php echo esc_html( WC()->session->get( '_donation_org_img' ) ); ?>" alt="Logo">
                                         <span id="selectedOption"><?php echo esc_html( $session_cause ); ?></span>
                                     <?php } else { ?>
-                                        <img id="selected-cause-img" src="<?php echo esc_url( YBHD_PLUGIN_URL ); ?>public/img/save-hood-img.png" alt="Logo">
+                                        <img id="selected-cause-img" src="<?php echo esc_url( YBHD_PLUGIN_URL ); ?>public/img/ybh.svg" alt="Logo">
                                         <span id="selectedOption"><?php echo esc_html__( 'Please select a nonprofit organization', 'youbehero' )?></span>
                                     <?php }
 
@@ -228,8 +228,8 @@ if ( ! is_admin() ) {
 
                         <?php if( count( $causes ) > 1 ) { ?>
                         <div class="custom-dropdown-menu" id="dropdownMenu">
-                            <div class="custom-dropdown-option ybh-dd-option <?php echo ( empty($selected_cause) )?'hidden':'';?>" id="select-np-ybh-dd-option" data-image="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/save-hood-img.png" data-text="Please select a nonprofit organization" data-value="0">
-                                <img alt="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/save-hood-img.png" src="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/save-hood-img.png"  style="width: min(5%, 2em);"/>
+                            <div class="custom-dropdown-option ybh-dd-option <?php echo ( empty($selected_cause) )?'hidden':'';?>" id="select-np-ybh-dd-option" data-image="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/ybh.svg" data-text="Please select a nonprofit organization" data-value="0">
+                                <img alt="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/ybh.svg" src="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/ybh.svg"  style="width: min(5%, 2em);"/>
                                 <span class="text-gray-700"><?php echo esc_html__( 'Please select a nonprofit organization', 'youbehero' ); ?></span>
                             </div>
                             <?php

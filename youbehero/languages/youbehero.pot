@@ -92,7 +92,7 @@ msgid "Create an account"
 msgstr ""
 
 #: admin/partials/you-be-hero-api-settings.php:74
-msgid "Add donation to Cart is a YouBeHero plugin for WooCommerce that allows you to increase your corporate social responsibility with every online sale."
+msgid "Add Donation to Cart is a YouBeHero plugin for WooCommerce that allows you to increase your corporate social responsibility with every online sale."
 msgstr ""
 
 #: admin/partials/you-be-hero-dashboard.php:59
@@ -188,7 +188,7 @@ msgstr ""
 #: src/render.php:203
 #: build/render.php:214
 msgid "Please select a nonprofit organization"
-msgstr ""
+msgstr "Επιλογή φορέα"
 
 #: src/render.php:237
 #: build/render.php:237

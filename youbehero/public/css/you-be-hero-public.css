@@ -135,6 +135,8 @@
 }
 .custom-dropdown-option img {
     width: 10%;
+    border-radius: 8px;
+    max-width: 60px;
 }
 .custom-dropdown-option:hover {
     background-color: #f3f4f6;
@@ -189,9 +191,9 @@
 }
 
 .donation-select img {
-    /*width: 35px;*/
-    height: 35px;
-    border-radius: 50%;
+    width: 25px;
+    height: 30px;
+    border-radius: 20%;
 }
 
 .donation-text {

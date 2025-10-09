@@ -7,11 +7,6 @@
     padding-left: 0px;
 }
 
-/* .toplevel_page_ybhd-settings img {*/
-/*    width: 20px;*/
-/*    height: 20px;*/
-/*}*/
-
 /* == Dashboard page Style == */
 
 .ybh-blur {
@@ -335,7 +330,6 @@
 }
 
 .ybh-token-settings form label{
-    font-family: Proxima Nova;
     font-weight: 400;
     font-size: 16px;
 }
@@ -351,7 +345,6 @@
     border-width: 1px;
     margin: 10px 0px;
     border-color: #BDBDBD;
-    color: #BDBDBD;
 }
 
 p.submit{
