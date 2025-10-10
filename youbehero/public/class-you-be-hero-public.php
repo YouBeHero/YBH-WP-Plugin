@@ -73,7 +73,7 @@ class You_Be_Hero_Public {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/you-be-hero-public.css?v=1.5', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/you-be-hero-public.css?v=1.7', array(), $this->version, 'all' );
 
 	}
 
@@ -719,7 +719,7 @@ class You_Be_Hero_Public {
 
         $array = array(
             'margin' => array(
-                'big'   => '20px', 'mid'   => '12px', 'small' => '4px'
+                'big'   => '20px 0', 'mid'   => '12px 0', 'small' => '4px 0'
             ),
             'padding' => array(
                 'big'   => '24px', 'mid'   => '16px', 'small' => '8px'

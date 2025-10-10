@@ -329,7 +329,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
 }
 .youbehero-tk-card {
     /*width: 508px;*/
@@ -344,8 +343,9 @@
 }
 
 .youbehero-tk-icon {
-    width: 50px;
-    margin-bottom: 15px;
+    width: 100%;
+    max-width: 140px !important;
+    margin-bottom: 4px;
 }
 
 .youbehero-tk-card h3 {

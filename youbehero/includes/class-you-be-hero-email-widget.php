@@ -20,7 +20,8 @@ class YouBeHero_Email_Widget {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                padding: 20px;
+                margin-bottom: 20px;
+                width: 100%
             }
             .youbehero-tk-card {
                 /*width: 508px;*/
@@ -45,7 +46,6 @@ class YouBeHero_Email_Widget {
                 margin: 10px 0;
             }
             .youbehero-tk-card .tk-p1 {
-                font-family: Proxima Nova;
                 font-weight: 400;
                 font-size: 16px;
                 leading-trim: NONE;
@@ -64,7 +64,7 @@ class YouBeHero_Email_Widget {
             }
             
             .youbehero-tk-social-icons {
-                display: flex;
+                display: block;
                 justify-content: center;
                 gap: 15px;
                 margin-top: 10px;
@@ -85,19 +85,21 @@ class YouBeHero_Email_Widget {
                 font-size: 12px;
                 color: #777;
                 margin-top: 25px;
-                justify-content: center;
-                display: flex;
-                align-items: center;   /* vertically center text + image */
-                gap: 3px;              /* space between text and logo */
+                width: 100%;
             }
-            
-            .youbehero-tk-footer p {
-                margin: 0;             /* remove default p spacing */
+
+            .youbehero-tk-footer a {
+                color: #111;
+                text-decoration: none;
+                font-weight: normal;
             }
-            
-            .youbehero-tk-footer img, .youbehero-tk-footer svg {
-                height: 12px;          /* adjust logo size */
+
+            .youbehero-tk-footer img,
+            .youbehero-tk-footer svg {
+                height: 12px;
+                border-radius: 0;
             }
+
             
             .youbehero-thankyou-widget hr {
                 border: 1px solid #F7F7F7;
@@ -271,13 +273,23 @@ class YouBeHero_Email_Widget {
                 </div>
                 <hr>
                 <!-- Footer -->
-                <div class="youbehero-tk-footer" style="color: <?php echo esc_attr( $text_color ); ?>;">
-                    <!-- Learn More button -->
-                    <a href="https://youbehero.com" id="learn-more-btn" class="learn-more-btn"><?php echo esc_html__( 'Learn More', 'youbehero' ); ?></a>
-                    <a class="youbehero-tk-footer-logo" href="https://youbehero.com">
-                        <img alt="" src="https://youbehero.com/img/wp-plugin-images/email_icons/d234e58a-0054-2807-de31-a7b021c8bb9e.png" width="89" height="auto" style="max-width:100%;height:auto;border-radius:0" class="imageDropZone mceImage">
-                    </a>
+                <div class="youbehero-tk-footer" style="color: <?php echo esc_attr( $text_color ); ?>;font-size:12px;margin-top:25px;width:100%;">
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;border-collapse:collapse;">
+                        <tr>
+                        <td align="left" style="padding:0;">
+                            <a href="https://youbehero.com" id="learn-more-btn" class="learn-more-btn" style="color:#111;font-weight:normal;text-decoration:none;">
+                            <?php echo esc_html__( 'Learn More', 'youbehero' ); ?>
+                            </a>
+                        </td>
+                        <td align="right" style="padding:0;">
+                            <a class="youbehero-tk-footer-logo" href="https://youbehero.com">
+                            <img alt="" src="https://youbehero.com/img/wp-plugin-images/email_icons/d234e58a-0054-2807-de31-a7b021c8bb9e.png" width="89" height="auto" style="border:none;display:inline-block;max-width:100%;height:auto;border-radius:0;">
+                            </a>
+                        </td>
+                        </tr>
+                    </table>
                 </div>
+
             </div>
 
         </section>
