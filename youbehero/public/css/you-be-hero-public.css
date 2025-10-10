@@ -136,11 +136,7 @@
 .custom-dropdown-option img {
     width: 10%;
     border-radius: 8px;
-<<<<<<< Updated upstream
-    max-width: 60px;
-=======
     max-width: 50px;
->>>>>>> Stashed changes
 }
 .custom-dropdown-option:hover {
     background-color: #f3f4f6;
@@ -194,16 +190,9 @@
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
 }
 
-<<<<<<< Updated upstream
-.donation-select img {
-    width: 25px;
-    height: 30px;
-    border-radius: 20%;
-=======
 #selected-cause-img {
     height: 30px;
     border-radius: 4px;
->>>>>>> Stashed changes
 }
 
 .donation-text {

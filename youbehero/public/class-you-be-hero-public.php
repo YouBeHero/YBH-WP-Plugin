@@ -73,11 +73,7 @@ class You_Be_Hero_Public {
 		 * class.
 		 */
 
-<<<<<<< Updated upstream
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/you-be-hero-public.css?v=1.3', array(), $this->version, 'all' );
-=======
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/you-be-hero-public.css?v=1.5', array(), $this->version, 'all' );
->>>>>>> Stashed changes
 
 	}
 

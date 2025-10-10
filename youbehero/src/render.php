@@ -222,20 +222,8 @@ if ( ! is_admin() ) {
 
                                     ?>
                                 </div>
-<<<<<<< Updated upstream
-                                <span class="dropdown-arrow">▼</span>
-                            <?php } ?>
-                        </div>
-
-                        <?php if( count( $causes ) > 1 ) { ?>
-                        <div class="custom-dropdown-menu" id="dropdownMenu">
-                            <div class="custom-dropdown-option ybh-dd-option <?php echo ( empty($selected_cause) )?'hidden':'';?>" id="select-np-ybh-dd-option" data-image="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/ybh.svg" data-text="Please select a nonprofit organization" data-value="0">
-                                <img alt="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/ybh.svg" src="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/ybh.svg"  style="width: min(5%, 2em);"/>
-                                <span class="text-gray-700"><?php echo esc_html__( 'Please select a nonprofit organization', 'youbehero' ); ?></span>
-=======
                                 <span class="dropdown-arrow"><img src="<?php echo esc_url( YBHD_PLUGIN_URL ); ?>public/img/caret.svg" alt=""></span>
                                 <?php } ?>
->>>>>>> Stashed changes
                             </div>
 
                             <?php if( count( $causes ) > 1 ) { ?>

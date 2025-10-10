@@ -72,7 +72,7 @@ msgid "Paste it into the field below"
 msgstr ""
 
 #: admin/partials/you-be-hero-api-settings.php:53
-msgid "Click \"Connect\""
+msgid "Click \"Login\""
 msgstr ""
 
 #: admin/partials/you-be-hero-api-settings.php:62
@@ -93,8 +93,6 @@ msgstr ""
 
 #: admin/partials/you-be-hero-api-settings.php:74
 msgid "Add Donation to Cart is a YouBeHero plugin for WooCommerce that allows you to increase your corporate social responsibility with every online sale."
-<<<<<<< Updated upstream
-=======
 msgstr ""
 
 #: admin/partials/you-be-hero-dashboard.php:36
@@ -107,7 +105,6 @@ msgstr ""
 
 #: admin/partials/you-be-hero-dashboard.php:44
 msgid "Logout"
->>>>>>> Stashed changes
 msgstr ""
 
 #: admin/partials/you-be-hero-dashboard.php:59
@@ -203,7 +200,7 @@ msgstr ""
 #: src/render.php:203
 #: build/render.php:214
 msgid "Please select a nonprofit organization"
-msgstr "Επιλογή φορέα"
+msgstr ""
 
 #: src/render.php:237
 #: build/render.php:237

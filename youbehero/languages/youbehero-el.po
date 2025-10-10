@@ -41,11 +41,7 @@ msgid "You have successfully logged out."
 msgstr "Αποσυνδεθήκατε με επιτυχία."
 
 #: admin/partials/you-be-hero-api-settings.php:44
-<<<<<<< Updated upstream
-msgid "Thank you for installing it"
-=======
 msgid "Thank you for installing"
->>>>>>> Stashed changes
 msgstr "Σας ευχαριστούμε που εγκαταστήσατε το"
 
 #: admin/partials/you-be-hero-api-settings.php:48
@@ -61,7 +57,7 @@ msgid "Paste it into the field below"
 msgstr "Επικολλήστε το στο παρακάτω πεδίο"
 
 #: admin/partials/you-be-hero-api-settings.php:53
-msgid "Click \"Connect\""
+msgid "Click \"Login\""
 msgstr "Κάντε κλικ στο «Σύνδεση»"
 
 #: admin/partials/you-be-hero-api-settings.php:62
@@ -82,9 +78,6 @@ msgstr "Δημιουργία λογαριασμού"
 
 #: admin/partials/you-be-hero-api-settings.php:74
 msgid "Add Donation to Cart is a YouBeHero plugin for WooCommerce that allows you to increase your corporate social responsibility with every online sale."
-<<<<<<< Updated upstream
-msgstr "Η προσθήκη δωρεάς στο Καλάθι είναι ένα πρόσθετο του YouBeHero για το WooCommerce που σας επιτρέπει να αυξήσετε την εταιρική κοινωνική σας ευθύνη με κάθε διαδικτυακή πώληση."
-=======
 msgstr "Το Add Donation to Cart είναι ένα πρόσθετο της YouBeHero για το WooCommerce που σας επιτρέπει να αυξήσετε την εταιρική κοινωνική σας ευθύνη με κάθε online πώληση."
 
 #: admin/partials/you-be-hero-dashboard.php:36
@@ -98,7 +91,6 @@ msgstr "Ρυθμίσεις"
 #: admin/partials/you-be-hero-dashboard.php:44
 msgid "Logout"
 msgstr "Αποσύνδεση"
->>>>>>> Stashed changes
 
 #: admin/partials/you-be-hero-dashboard.php:59
 msgid "Status"

@@ -51,7 +51,7 @@ $logout = isset( $_GET['logout'] ) ? sanitize_text_field( wp_unslash( $_GET['log
         <ol>
             <li><?php echo esc_html__( 'Copy the API key from your account at', 'youbehero' ); ?> YouBeHero</li>
             <li><?php echo esc_html__( 'Paste it into the field below', 'youbehero' ); ?></li>
-            <li><?php echo esc_html__( 'Click "Connect"', 'youbehero' ); ?></li>
+            <li><?php echo esc_html__( 'Click "Login"', 'youbehero' ); ?></li>
         </ol>
     </div>
 
