@@ -60,7 +60,7 @@ msgid "Thank you for installing it"
 msgstr ""
 
 #: admin/partials/you-be-hero-api-settings.php:48
-msgid "To connect your YouBeHero account with this online store"
+msgid "To connect your YouBeHero account with your eshop"
 msgstr ""
 
 #: admin/partials/you-be-hero-api-settings.php:51
@@ -93,6 +93,21 @@ msgstr ""
 
 #: admin/partials/you-be-hero-api-settings.php:74
 msgid "Add Donation to Cart is a YouBeHero plugin for WooCommerce that allows you to increase your corporate social responsibility with every online sale."
+<<<<<<< Updated upstream
+=======
+msgstr ""
+
+#: admin/partials/you-be-hero-dashboard.php:36
+msgid "Account topup"
+msgstr ""
+
+#: admin/partials/you-be-hero-dashboard.php:41
+msgid "Settings"
+msgstr ""
+
+#: admin/partials/you-be-hero-dashboard.php:44
+msgid "Logout"
+>>>>>>> Stashed changes
 msgstr ""
 
 #: admin/partials/you-be-hero-dashboard.php:59
@@ -301,7 +316,7 @@ msgid "You see the change you create."
 msgstr ""
 
 #: public/partials/you-be-hero-thankyou-widget.php:170
-msgid "Closure"
+msgid "Close"
 msgstr ""
 
 #: blocks/thankyou-note/thankyou-note.js:38

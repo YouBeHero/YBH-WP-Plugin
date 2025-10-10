@@ -41,11 +41,15 @@ msgid "You have successfully logged out."
 msgstr "Αποσυνδεθήκατε με επιτυχία."
 
 #: admin/partials/you-be-hero-api-settings.php:44
+<<<<<<< Updated upstream
 msgid "Thank you for installing it"
+=======
+msgid "Thank you for installing"
+>>>>>>> Stashed changes
 msgstr "Σας ευχαριστούμε που εγκαταστήσατε το"
 
 #: admin/partials/you-be-hero-api-settings.php:48
-msgid "To connect your YouBeHero account with this online store"
+msgid "To connect your YouBeHero account with your eshop"
 msgstr "Για να συνδέσετε τον λογαριασμό σας στο YouBeHero με αυτό το ηλεκτρονικό κατάστημα"
 
 #: admin/partials/you-be-hero-api-settings.php:51
@@ -78,7 +82,23 @@ msgstr "Δημιουργία λογαριασμού"
 
 #: admin/partials/you-be-hero-api-settings.php:74
 msgid "Add Donation to Cart is a YouBeHero plugin for WooCommerce that allows you to increase your corporate social responsibility with every online sale."
+<<<<<<< Updated upstream
 msgstr "Η προσθήκη δωρεάς στο Καλάθι είναι ένα πρόσθετο του YouBeHero για το WooCommerce που σας επιτρέπει να αυξήσετε την εταιρική κοινωνική σας ευθύνη με κάθε διαδικτυακή πώληση."
+=======
+msgstr "Το Add Donation to Cart είναι ένα πρόσθετο της YouBeHero για το WooCommerce που σας επιτρέπει να αυξήσετε την εταιρική κοινωνική σας ευθύνη με κάθε online πώληση."
+
+#: admin/partials/you-be-hero-dashboard.php:36
+msgid "Account topup"
+msgstr "Αγορά μονάδων"
+
+#: admin/partials/you-be-hero-dashboard.php:41
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+#: admin/partials/you-be-hero-dashboard.php:44
+msgid "Logout"
+msgstr "Αποσύνδεση"
+>>>>>>> Stashed changes
 
 #: admin/partials/you-be-hero-dashboard.php:59
 msgid "Status"
@@ -89,24 +109,24 @@ msgid "Account Balance"
 msgstr "Υπόλοιπο λογαριασμού"
 
 #: admin/partials/you-be-hero-dashboard.php:72
-msgid "Total Gifts"
-msgstr "Συνολικά δώρα"
+msgid "Total donations"
+msgstr "Συνολικές δωρεές"
 
 #: admin/partials/you-be-hero-dashboard.php:76
-msgid "Total Sales"
+msgid "Total sales"
 msgstr "Συνολικές πωλήσεις"
 
 #: admin/partials/you-be-hero-dashboard.php:80
-msgid "Average Basket Value"
+msgid "Average cart value"
 msgstr "Μέση αξία καλαθιού"
 
 #: admin/partials/you-be-hero-dashboard.php:84
-msgid "Number of Orders"
+msgid "Number of orders"
 msgstr "Αριθμός παραγγελιών"
 
 #: admin/partials/you-be-hero-dashboard.php:88
-msgid "Benefited NGO's"
-msgstr "ΜΚΟ που επωφελήθηκαν"
+msgid "Supported NGOs"
+msgstr "Φορείς που στηρίχθηκαν"
 
 #: admin/partials/you-be-hero-dashboard.php:96
 msgid "Transaction Table"
@@ -134,7 +154,7 @@ msgstr "Δωρεά"
 
 #: admin/partials/you-be-hero-dashboard.php:112
 msgid "Organization"
-msgstr "Οργάνωση"
+msgstr "Φορέας"
 
 #: admin/partials/you-be-hero-dashboard.php:136
 msgid "Transaction details will appear here once the first donation purchase is made!"
@@ -215,7 +235,7 @@ msgstr "Μάθετε περισσότερα"
 
 #: public/partials/you-be-hero-thankyou-widget.php:124
 msgid "See how your donation helps!"
-msgstr "Δείτε πώς βοηθά η δωρεά σας!"
+msgstr "Δείτε πως η δωρεά σας κάνει τη διαφορά"
 
 #: public/partials/you-be-hero-thankyou-widget.php:126
 msgid "Sustainability, viability and transparency."
@@ -223,11 +243,11 @@ msgstr "Βιωσιμότητα, λειτουργικότητα και διαφά
 
 #: public/partials/you-be-hero-thankyou-widget.php:129
 msgid "Make a donation"
-msgstr "Κάντε μια δωρεά"
+msgstr "Κάνετε μια δωρεά"
 
 #: public/partials/you-be-hero-thankyou-widget.php:131
 msgid "Easily support a nonprofit of your choice at checkout."
-msgstr "Υποστηρίξτε εύκολα έναν μη κερδοσκοπικό οργανισμό της επιλογής σας στο ταμείο."
+msgstr "Υποστηρίξτε εύκολα έναν φορέα της επιλογής σας την ώρα που ολοκληρώνετε την πληρωμή σας."
 
 #: public/partials/you-be-hero-thankyou-widget.php:135
 msgid "You are informed immediately"
@@ -239,19 +259,19 @@ msgstr "Στο email επιβεβαίωσης θα δείτε λεπτομέρε
 
 #: public/partials/you-be-hero-thankyou-widget.php:141
 msgid "Your donation is delivered securely."
-msgstr "Η δωρεά σας αποστέλλεται με ασφάλεια."
+msgstr "Η δωρεά σας φτάνει με ασφάλεια."
 
 #: public/partials/you-be-hero-thankyou-widget.php:143
 msgid "With complete transparency, it supports the goals of the organization of your choice."
-msgstr "Με απόλυτη διαφάνεια, υποστηρίζει τους στόχους του οργανισμού της επιλογής σας."
+msgstr "Με πλήρη διαφάνεια, τα χρήματα αποδίδονται στον φορέα που επιλέξατε."
 
 #: public/partials/you-be-hero-thankyou-widget.php:147
 msgid "You are supporting an important project."
-msgstr "Υποστηρίζετε ένα σημαντικό έργο."
+msgstr "Στηρίζετε ένα σημαντικό έργο."
 
 #: public/partials/you-be-hero-thankyou-widget.php:149
 msgid "Your every contribution has a meaningful impact."
-msgstr "Κάθε σας συμβολή έχει ουσιαστικό αντίκτυπο."
+msgstr "Κάθε συνεισφορά σας έχει πραγματικό αντίκτυπο — μικρές πράξεις, μεγάλη αλλαγή."
 
 #: public/partials/you-be-hero-thankyou-widget.php:153
 msgid "Through the YouBeHero platform"
@@ -259,16 +279,16 @@ msgstr "Μέσω της πλατφόρμας YouBeHero"
 
 #: public/partials/you-be-hero-thankyou-widget.php:157
 msgid "Track the progress of the donation"
-msgstr "Παρακολουθήστε την πορεία της δωρεάς"
+msgstr "Παρακολουθείτε την πορεία της δωρεάς σας"
 
 #: public/partials/you-be-hero-thankyou-widget.php:161
 msgid "You get in touch with the organization you support."
-msgstr "Έρχεστε σε επαφή με τον οργανισμό που υποστηρίζετε."
+msgstr "Επικοινωνείτε με τον φορέα που στηρίζετε"
 
 #: public/partials/you-be-hero-thankyou-widget.php:164
 msgid "You see the change you create."
-msgstr "Βλέπετε την αλλαγή που δημιουργείτε."
+msgstr "Βλέπετε την αλλαγή που δημιουργείτε"
 
 #: public/partials/you-be-hero-thankyou-widget.php:170
-msgid "Closure"
-msgstr "Λήξη"
+msgid "Close"
+msgstr "Κλείσιμο"

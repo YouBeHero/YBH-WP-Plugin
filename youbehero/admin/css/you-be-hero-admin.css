@@ -15,18 +15,22 @@
 }
 
 .ybh-header {
-    background: white;
     padding: 16px 32px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .ybh-logo {
     color: #4285f4;
     font-size: 18px;
     font-weight: 600;
+}
+
+.ybh-header-bothright {
+    display: flex;
+    align-items: self-end;
+    gap: 16px;
 }
 
 .ybh-header-right {
@@ -44,10 +48,20 @@
     display: flex;
 }
 
+.ybh-header-outright {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.ybh-header-outright a:focus {
+    outline: 0;
+    box-shadow: none;
+}
+
 .ybh-status-indicator {
     display: flex;
     align-items: center;
-    font-family: sans-serif;
     color: #5cb85c; /* Green text */
     font-size: 14px;
     font-weight: 500;
@@ -77,12 +91,14 @@
     gap: 5px;
 }
 
-/*.ybh-status-dot {*/
-/*    width: 8px;*/
-/*    height: 8px;*/
-/*    background-color: #34a853;*/
-/*    border-radius: 50%;*/
-/*}*/
+.ybh-balance-link {
+    text-decoration: none;
+    color: #000;
+}
+
+.ybh-balance-link:hover {
+    text-decoration: none;
+}
 
 .ybh-main-container {
     padding: 20px;
@@ -362,4 +378,8 @@ p.submit{
 
 .ybh-logo-token {
     margin: 10px 0px;
+}
+
+#ybhd_logout {
+    cursor: pointer !important;
 }

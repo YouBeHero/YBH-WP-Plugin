@@ -18,6 +18,11 @@ $status = isset( $_GET['status'] ) ? sanitize_text_field( wp_unslash( $_GET['sta
 $logout = isset( $_GET['logout'] ) ? sanitize_text_field( wp_unslash( $_GET['logout'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 ?>
+<?php if ( $logout == 'yes' ) { ?>
+        <div class="notice notice-success is-dismissible" style="color: #00a32a">
+            <p><?php echo esc_html__( 'You have successfully logged out.', 'youbehero' );?></p>
+        </div>
+    <?php } ?>
 <div class="ybh-main-container">
     <div class="ybh-logo-token"><img src="<?php echo esc_url( plugin_dir_url(__DIR__) .'img/logo.svg' ); ?>"></div>
 
@@ -35,11 +40,7 @@ $logout = isset( $_GET['logout'] ) ? sanitize_text_field( wp_unslash( $_GET['log
     // Nonce verification not used here because `logut` is simply a url not form submission.
     // The value is sanitized and not used for sensitive operations.
     ?>
-    <?php if ( $logout == 'yes' ) { ?>
-        <div class="notice notice-success is-dismissible" style="color: #00a32a">
-            <p><?php echo esc_html__( 'You have successfully logged out.', 'youbehero' );?></p>
-        </div>
-    <?php } ?>
+    
 
     <h3 class="ybh-token-hdng"><?php echo esc_html__( 'Thank you for installing', 'youbehero' ); ?> Add Donation to Cart! 🥳</h3>
 

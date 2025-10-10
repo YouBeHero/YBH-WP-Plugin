@@ -76,7 +76,11 @@ class You_Be_Hero_Admin {
 
         if ( $hook_suffix == 'toplevel_page_ybhd-settings' )  {
 
+<<<<<<< Updated upstream
             wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/you-be-hero-admin.css?v=1.3', array(), $this->version, 'all' );
+=======
+            wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/you-be-hero-admin.css?v=1.5', array(), $this->version, 'all' );
+>>>>>>> Stashed changes
 
         }
 
@@ -110,7 +114,11 @@ class You_Be_Hero_Admin {
      */
     public function ybhd_add_admin_menu() {
 
+<<<<<<< Updated upstream
         $icon_svg = '<svg xmlns="http://www.w3.org/2000/svg" fill="#A7AAAD" width="16" height="16" viewBox="0 0 20 20"><path d="M19.9999 0.0000878249H14.2699V5.56483H19.9999V0.0000878249Z" fill="#A7AAAD"/><path d="M5.73125 0H0.00123405V5.56462H5.73125V0Z" fill="#A7AAAD"/><path d="M14.2699 8.31958V9.09083C14.2699 12.5069 12.4518 14.5455 9.97246 14.5455C7.16254 14.5455 5.73004 12.0661 5.73004 9.09083V8.31958H0V9.47662C0 16.1984 4.02205 19.8898 9.97246 19.8898C16.4187 19.8898 20 15.7576 20 9.47662V8.31958H14.2699Z" fill="#A7AAAD"/></svg>';
+=======
+        $icon_svg = '<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4438_167)"><path d="M9.06969 0.925293H6.73779V3.18994H9.06969V0.925293Z" fill="#A7AAAD"/><path d="M3.26281 0.925293H0.930908V3.18989H3.26281V0.925293Z" fill="#A7AAAD"/><path d="M6.73774 4.31104V4.62491C6.73774 6.01512 5.99784 6.84475 4.98884 6.84475C3.84531 6.84475 3.26233 5.83573 3.26233 4.62491V4.31104H0.93042V4.78191C0.93042 7.51742 2.56724 9.01968 4.98884 9.01968C7.61222 9.01968 9.06967 7.33803 9.06967 4.78191V4.31104H6.73774Z" fill="#A7AAAD"/></g><defs><clipPath id="clip0_4438_167"><rect width="10" height="10" fill="white"/></clipPath></defs></svg>';
+>>>>>>> Stashed changes
 
         $icon_data = 'data:image/svg+xml;base64,' . base64_encode($icon_svg);
 

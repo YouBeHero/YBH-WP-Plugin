@@ -136,7 +136,11 @@
 .custom-dropdown-option img {
     width: 10%;
     border-radius: 8px;
+<<<<<<< Updated upstream
     max-width: 60px;
+=======
+    max-width: 50px;
+>>>>>>> Stashed changes
 }
 .custom-dropdown-option:hover {
     background-color: #f3f4f6;
@@ -190,10 +194,16 @@
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
 }
 
+<<<<<<< Updated upstream
 .donation-select img {
     width: 25px;
     height: 30px;
     border-radius: 20%;
+=======
+#selected-cause-img {
+    height: 30px;
+    border-radius: 4px;
+>>>>>>> Stashed changes
 }
 
 .donation-text {
@@ -355,7 +365,6 @@
     margin: 10px 0;
 }
 .youbehero-tk-card .tk-p1 {
-    font-family: Proxima Nova;
     font-weight: 400;
     font-size: 16px;
     leading-trim: NONE;
@@ -384,6 +393,10 @@
     text-decoration: none;
     height: 20px;
     color: #000;
+}
+
+.youbehero-tk-social-icons a:focus {
+    outline: 0;
 }
 
 .youbehero-tk-social-icons a img {
@@ -425,6 +438,10 @@
     text-align: end;
 }
 
+.youbehero-tk-footer-logo:focus {
+    outline: 0;
+}
+
 /* Modal background */
 .youbehero-modal {
     display: none;
@@ -445,7 +462,6 @@
     max-width: 500px;
     margin: 5% auto;
     padding: 20px;
-    font-family: sans-serif;
     position: relative;
 }
 
@@ -468,8 +484,9 @@
 }
 
 .youbehero-close {
-    font-size: 22px;
+    font-size: 32px;
     cursor: pointer;
+    margin-top: -10px;
 }
 
 /* Text */
@@ -533,7 +550,7 @@
     /*padding: 1rem;*/
 }
 .youbehero-modal-title {
-    margin: 0;
+    margin: 14px 0px 4px 0px;
     line-height: 1.5;
     font-size: 1.25rem;
     /*margin: 1rem;*/
@@ -541,11 +558,11 @@
 .youbehero-modal-text-muted {
     color: #757575 !important;
     font-size: 14px;
-    margin: 0;
+    margin: 0px 0px 20px 0px;
 }
 .youbehero-vertical-dots {
     list-style: none;
-    padding: 1px;
+    padding: 8px;
     margin: 10px 0px;
     position: relative;
     padding-left: 20px;

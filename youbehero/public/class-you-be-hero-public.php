@@ -73,7 +73,11 @@ class You_Be_Hero_Public {
 		 * class.
 		 */
 
+<<<<<<< Updated upstream
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/you-be-hero-public.css?v=1.3', array(), $this->version, 'all' );
+=======
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/you-be-hero-public.css?v=1.5', array(), $this->version, 'all' );
+>>>>>>> Stashed changes
 
 	}
 
@@ -158,7 +162,7 @@ class You_Be_Hero_Public {
             // Fetch data from the API
             $data = $this->donation_widget_fetch_data();
             wp_enqueue_style( 'donation-widget-style', YBHD_PLUGIN_URL.'assets/css/style.css', array(), $this->version, 'all' );
-            wp_enqueue_script( 'donation-widget-script', YBHD_PLUGIN_URL.'assets/js/script.js', array( 'jquery' ), $this->version, true );
+            wp_enqueue_script( 'donation-widget-script', YBHD_PLUGIN_URL.'assets/js/script.js?v=2.7', array( 'jquery' ), $this->version, true );
 
             if ($data) {
 
