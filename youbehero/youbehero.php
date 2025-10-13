@@ -14,11 +14,11 @@
  *
  * @wordpress-plugin
  * Plugin Name:       YouBeHero
- * Plugin URI:        https://youbehero.com
+ * Plugin URI:        https://dev.youbehero.com/gr/signup-eshop
  * Description:       YouBeHero is a powerful WordPress plugin that seamlessly integrates with WooCommerce, allowing store owners to enable a donation system at checkout and product pages. Customers can contribute to nonprofit organizations directly during their shopping experience.
 With dynamic widgets, shortcodes, and API-powered configurations, YouBeHero ensures a customizable and smooth donation process.
  * Version:           1.1.1
- * Author:            Vasilis Kolip
+ * Author:            YouBeHero
  * Author URI:        https://youbehero.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
@@ -75,6 +75,16 @@ register_deactivation_hook( __FILE__, 'deactivate_youbehero_donation' );
  * admin-specific hooks, and public-facing site hooks.
  */
 require plugin_dir_path( __FILE__ ) . 'includes/class-you-be-hero.php';
+
+/**
+ * Add a Settings link on the Plugins page row for this plugin.
+ */
+function youbehero_add_settings_link( $links ) {
+	$settings_link = '<a href="' . esc_url( admin_url( 'admin.php?page=ybhd-settings' ) ) . '">' . esc_html__( 'Settings', 'youbehero' ) . '</a>';
+	array_unshift( $links, $settings_link );
+	return $links;
+}
+add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'youbehero_add_settings_link' );
 
 /**
  * Begins execution of the plugin.

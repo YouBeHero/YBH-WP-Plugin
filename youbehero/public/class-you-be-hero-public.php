@@ -18,7 +18,7 @@
  *
  * @package    You_Be_Hero
  * @subpackage You_Be_Hero/public
- * @author     Vasilis Kolip <bill@youbehero.com>
+ * @author     YouBeHero <info@youbehero.com>
  */
 class You_Be_Hero_Public {
 

@@ -22,7 +22,7 @@
  * @since      1.0.1
  * @package    You_Be_Hero
  * @subpackage You_Be_Hero/includes
- * @author     Vasilis Kolip <bill@youbehero.com>
+ * @author     YouBeHero <info@youbehero.com>
  */
 class You_Be_Hero_i18n {
 

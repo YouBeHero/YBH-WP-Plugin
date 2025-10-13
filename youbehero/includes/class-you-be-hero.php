@@ -25,7 +25,7 @@
  * @since      1.0.1
  * @package    You_Be_Hero
  * @subpackage You_Be_Hero/includes
- * @author     Vasilis Kolip <bill@youbehero.com>
+ * @author     YouBeHero <info@youbehero.com>
  */
 class You_Be_Hero {
 
@@ -76,6 +76,7 @@ class You_Be_Hero {
                 
 		$this->load_dependencies();
 //		$this->set_locale();
+		$this->ybhd_set_compatibility();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 	}
@@ -152,6 +153,31 @@ class You_Be_Hero {
 //		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 //
 //	}
+
+	public function ybhd_set_compatibility() {
+
+        add_action( 'plugins_loaded', array( $this, 'ybhd_elementor_compatibility' ) );
+
+    }
+
+	public function ybhd_elementor_compatibility() {
+
+        // Check if Elementor is installed and active
+        if ( ! did_action( 'elementor/loaded' ) ) {
+            return; // Elementor not active, skip loading
+        }
+
+
+        // Register widget
+        add_action( 'elementor/widgets/register', function( $widgets_manager ) {
+        	
+        	// Include YouBeHero widget file
+        	require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-youbehero-elementor-widget.php';
+            $widgets_manager->register( new \YouBeHero_Elementor_Widget() );
+            
+        });
+
+	}
 
 	/**
 	 * Register all of the hooks related to the admin area functionality
