@@ -134,9 +134,9 @@
     cursor: pointer;
 }
 .custom-dropdown-option img {
-    width: 10%;
-    border-radius: 8px;
-    max-width: 50px;
+    width: 10% !important;
+    border-radius: 8px !important;
+    max-width: 50px !important;
 }
 .custom-dropdown-option:hover {
     background-color: #f3f4f6;
