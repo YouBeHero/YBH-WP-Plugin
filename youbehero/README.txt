@@ -78,20 +78,24 @@ External service: **YouBeHero**
 Yes, WooCommerce must be installed and active for YouBeHero to work.
 
 = Can customers choose the donation amount? =
-Yes, you can configure preset donation amounts, and customers can also enter their own preferred amount.
+Yes, the eshop manager can configure preset donation amounts and customers can then select whichever they like.
 
 = Can I show donations outside checkout? =
-Yes, YouBeHero includes widgets and shortcodes to place donation options on product pages or other areas.
+Yes, YouBeHero includes widgets and shortcodes to place donation options on other areas.
 
 = Does this plugin support multiple organizations? =
-Yes, you can configure multiple nonprofit organizations via API.
+Yes, you can select one or multiple nonprofit organizations via the settings.
 
 == Screenshots ==
 
-1. Plugin settings screen with API configuration.
-2. WooCommerce checkout page with donation option.
-3. Product page with donation widget.
-4. Dashboard showing donation statistics.
+1. WooCommerce checkout page Support a cause with your order
+2. Add Donation to Cart dashboard showing donation statistics
+3. YouBeHero dashboard showing API key and statistics
+4. Donation widget style configuration page
+5. Seamless integration on WP Bakery checkout
+6. Post purchase thank you page widget
+7. Email donation widget to inspire
+8. Donations feed at the Angels of Joy's page @YouBeHero
 
 == Changelog ==
 
