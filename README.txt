@@ -1,7 +1,7 @@
-=== YouBeHero ===
-Contributors: youbehero
+=== Add Donation to Cart ===
+Contributors: youbehero, deviqbal
 Donate link: https://youbehero.com/
-Tags: woocommerce, donations, charity, nonprofit, checkout, elementor, wp bakery
+Tags: fundraising, donations, nonprofit, checkout, woocommerce
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.4
@@ -17,20 +17,26 @@ Enable donations in WooCommerce checkout and other pages with customizable widge
 
 With dynamic widgets, shortcodes, and API-powered configurations, YouBeHero ensures a customizable and smooth donation process. Store owners can manage supported organizations, track donations, and display impact statistics directly in their WordPress dashboard.
 
+Currently available for Greek e-commerce stores, Add Donation to Cart supports English language.
+
 ### Features
-* Add donation options to WooCommerce checkout and product pages.
-* Let customers support nonprofit organizations while shopping.
-* Configure donations dynamically via API.
-* Widgets and shortcodes for flexible display.
-* Customizable donation amounts and presentation.
-* Dashboard view of donation data and statistics.
+* Add donation widget to the checkout page
+* Let customers support nonprofit organizations while shopping
+* Configure donations dynamically via API
+* Widgets, blocks and shortcodes for flexible display
+* Customizable donation amounts and presentation
+* Dashboard view of donation data and statistics
+* Works great with Elementor & WP Bakery
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/youbehero/` directory, or install the plugin through the WordPress Plugins screen directly.
-2. Activate the plugin through the 'Plugins' screen in WordPress.
-3. Navigate to **WooCommerce → YouBeHero Settings** to configure your API key and set up donation preferences.
-4. Optionally, add donation widgets or shortcodes (`[youbehero_donation]`) to display donation forms on other pages.
+1. Install the plugin through the WordPress Plugins screen directly
+2. Activate the plugin through the 'Plugins' screen in WordPress
+3. Create an account at YouBeHero
+4. Copy the API key
+5. Navigate to **WooCommerce → YouBeHero** paste the key
+6. Drag and drop the **Donation widget** into the checkout page
+7. Optionally, add donation widgets or shortcodes (`[youbehero_donation]`) to display donation forms on other pages.
 
 == External services ==
 
