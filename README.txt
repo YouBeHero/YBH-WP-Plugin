@@ -1,7 +1,7 @@
 === YouBeHero ===
 Contributors: youbehero
 Donate link: https://youbehero.com/
-Tags: woocommerce, donations, charity, nonprofit, checkout
+Tags: woocommerce, donations, charity, nonprofit, checkout, elementor, wp bakery
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.4
@@ -9,7 +9,7 @@ Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Enable donations in WooCommerce checkout and product pages with customizable widgets, shortcodes, and API-powered settings.
+Enable donations in WooCommerce checkout and other pages with customizable widgets, shortcodes and API-powered settings.
 
 == Description ==
 
