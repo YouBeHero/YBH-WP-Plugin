@@ -25,7 +25,7 @@ msgstr ""
 
 #. Description of the plugin
 #: youbehero.php
-msgid "YouBeHero is a powerful WordPress plugin that seamlessly integrates with WooCommerce, allowing store owners to enable a donation system at checkout and product pages. Customers can contribute to nonprofit organizations directly during their shopping experience."
+msgid "Add Donation to Cart by YouBeHero is a powerful WordPress plugin that adds a donation widget to your WooCommerce checkout, transforming every purchase into an opportunity for social impact."
 msgstr ""
 
 #. Author of the plugin

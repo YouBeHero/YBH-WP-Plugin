@@ -16,8 +16,8 @@ msgstr ""
 
 #. Description of the plugin
 #: youbehero.php
-msgid "YouBeHero is a powerful WordPress plugin that seamlessly integrates with WooCommerce, allowing store owners to enable a donation system at checkout and product pages. Customers can contribute to nonprofit organizations directly during their shopping experience."
-msgstr "Το YouBeHero είναι ένα ισχυρό πρόσθετο για το WordPress που ενσωματώνεται απρόσκοπτα με το WooCommerce, επιτρέποντας στους ιδιοκτήτες καταστημάτων να ενεργοποιούν ένα σύστημα δωρεών στη σελίδα ολοκλήρωσης αγοράς και στις σελίδες προϊόντων. Οι πελάτες μπορούν να συνεισφέρουν σε μη κερδοσκοπικούς οργανισμούς απευθείας κατά την αγοραστική τους εμπειρία."
+msgid "Add Donation to Cart by YouBeHero is a powerful WordPress plugin that adds a donation widget to your WooCommerce checkout, transforming every purchase into an opportunity for social impact."
+msgstr "Το Add Donation to Cart από την YouBeHero είναι ένα ισχυρό πρόσθετο για το WordPress που προσθέτει ένα widget δωρεάς στο checkout του WooCommerce, μετατρέποντας κάθε αγορά σε μια ευκαιρία για κοινωνικό αντίκτυπο."
 
 #. Author of the plugin
 #: youbehero.php
@@ -46,11 +46,11 @@ msgstr "Σας ευχαριστούμε που εγκαταστήσατε το"
 
 #: admin/partials/you-be-hero-api-settings.php:48
 msgid "To connect your YouBeHero account with your eshop"
-msgstr "Για να συνδέσετε τον λογαριασμό σας στο YouBeHero με αυτό το ηλεκτρονικό κατάστημα"
+msgstr "Για να συνδέσετε τον λογαριασμό σας στη YouBeHero με αυτό το ηλεκτρονικό κατάστημα"
 
 #: admin/partials/you-be-hero-api-settings.php:51
 msgid "Copy the API key from your account at"
-msgstr "Αντιγράψτε το API κλειδί από τον λογαριασμό σας στο"
+msgstr "Αντιγράψτε το API κλειδί από τον λογαριασμό σας στη"
 
 #: admin/partials/you-be-hero-api-settings.php:52
 msgid "Paste it into the field below"
