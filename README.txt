@@ -26,27 +26,27 @@ The plugin seamlessly integrates with your existing checkout flow without disrup
 Although currently **only available for Greek e-commerce stores**, Add Donation to Cart supports English locales.
 
 ### Features
-* **Checkout Integration**: Add donation widget to WooCommerce checkout page with multiple positioning options
-* **Flexible Positioning**: Choose from 4 different checkout positions (before form, after billing, before notes, after payment)
-* **Multiple Display Options**: Widgets, blocks, shortcodes, and Elementor integration for maximum flexibility
-* **Shortcodes Available**: 
+* Checkout Integration: Add donation widget to WooCommerce checkout page with multiple positioning options
+* Flexible Positioning: Choose from 4 different checkout positions (before form, after billing, before notes, after payment)
+* Multiple Display Options: Widgets, blocks, shortcodes, and Elementor integration for maximum flexibility
+* Shortcodes Available: 
   - `[youbehero_donation_form]` - Main donation form
-* **Page Builder Support**: Native Elementor widget and WP Bakery integration
-* **Gutenberg Block**: Custom "YouBeHero Donation Widget" block for checkout pages
-* **Thank You Page Widget**: Post-purchase confirmation widget with customizable styling
-* **Email Integration**: Donation widgets in WooCommerce order emails
-* **Dynamic Configuration**: API-powered settings for organizations and donation amounts
-* **Customizable Styling**: Full control over colors, borders, spacing, and appearance
-* **Multi-language Support**: Translation-ready with Greek and English language files
-* **Admin Dashboard**: Comprehensive statistics and analytics dashboard
-* **Real-time Statistics**: Track total donations, sales, average cart value, order count, and supported nonprofit organizations
-* **Account Management**: Balance tracking and account status monitoring
-* **Transaction History**: Detailed transaction table with order tracking
-* **API Integration**: Secure connection to YouBeHero platform for data management
-* **WooCommerce Hooks**: Deep integration with WooCommerce order processing
-* **Session Management**: Persistent donation data across checkout process
-* **Fee Integration**: Seamless addition of donation fees to WooCommerce orders
-* **Responsive Design**: Mobile-friendly donation forms and widgets
+* Page Builder Support: Native Elementor widget and WP Bakery integration
+* Gutenberg Block: Custom "YouBeHero Donation Widget" block for checkout pages
+* Thank You Page Widget: Post-purchase confirmation widget with customizable styling
+* Email Integration: Donation widgets in WooCommerce order emails
+* Dynamic Configuration: API-powered settings for organizations and donation amounts
+* Customizable Styling: Full control over colors, borders, spacing, and appearance
+* Multi-language Support: Translation-ready with Greek and English language files
+* Admin Dashboard: Comprehensive statistics and analytics dashboard
+* Real-time Statistics: Track total donations, sales, average cart value, order count, and supported nonprofit organizations
+* Account Management: Balance tracking and account status monitoring
+* Transaction History: Detailed transaction table with order tracking
+* API Integration: Secure connection to YouBeHero platform for data management
+* WooCommerce Hooks: Deep integration with WooCommerce order processing
+* Session Management: Persistent donation data across checkout process
+* Fee Integration: Seamless addition of donation fees to WooCommerce orders
+* Responsive Design: Mobile-friendly donation forms and widgets
 
 == Installation ==
 
@@ -114,13 +114,14 @@ The YouBeHero admin dashboard provides comprehensive management and analytics:
 
 == External services ==
 
-Privacy and data handling
+**Privacy and data handling**
 
 This plugin integrates your WooCommerce store with the YouBeHero platform to facilitate charitable donations and related features. 
 
 Below is an overview of what data is shared and why.
 
-Data shared with YouBeHero
+**Data shared with YouBeHero**
+
 When using this plugin, the following information is transmitted to YouBeHero’s servers:
 
 * API key: Used to securely connect your store to your YouBeHero account to record and track donations
@@ -129,7 +130,8 @@ When using this plugin, the following information is transmitted to YouBeHero’
 * Donation amount: The exact donated sum to ensure correct processing and allocation to the designated charity
 * Selected organization: To determine the destination of the donation
 
-Why this data is collected
+**Why this data is collected?**
+
 This data is necessary to:
 
 * Register and authenticate your store with YouBeHero
@@ -137,7 +139,7 @@ This data is necessary to:
 * Display donation widgets and campaign information to shoppers
 * Provide donation reporting and analytics within your WordPress admin
 
-Important notes
+**Important notes**
 
 * No payment details are sent to YouBeHero
 * Only donation metadata and order references are shared
@@ -150,6 +152,12 @@ External service: **YouBeHero**
 - Website: [https://dev.youbehero.com](https://dev.youbehero.com)
 - Terms of Service: [https://dev.youbehero.com/gr/termsbusiness](https://dev.youbehero.com/gr/termsbusiness)
 - Privacy Policy: [https://dev.youbehero.com/gr/privacy](https://dev.youbehero.com/gr/privacy)
+
+== Contributing ==
+
+This plugin is open source and we welcome contributions from the community! If you have ideas for improvements, bug fixes, or new features, please feel free to submit pull requests on GitHub at [https://github.com/YouBeHero/YBH-WP-Plugin](https://github.com/YouBeHero/YBH-WP-Plugin). 
+
+Your contributions help make this plugin better for everyone.
 
 == Frequently Asked Questions ==
 
@@ -223,7 +231,7 @@ YouBeHero maintains an active presence across multiple social media platforms wh
 - **Twitter**: [twitter.com/youbehero](https://twitter.com/youbehero)
 - **Instagram**: [instagram.com/youbeherogr](https://www.instagram.com/youbeherogr/)
 - **LinkedIn**: [linkedin.com/company/youbehero](https://www.linkedin.com/company/youbehero/)
-- **YouTube**: [youtube.com/channel/UC3L9GkpjsMAhywyhafjuf1A](https://www.youtube.com/channel/UC3L9GkpjsMAhywyhafjuf1A)
+- **YouTube**: [youtube.com/@youbeherogr](https://www.youtube.com/@youbeherogr)
 
 Follow us to see real-time impact stories, organization spotlights and community engagement that demonstrates our commitment to making a difference.
 
