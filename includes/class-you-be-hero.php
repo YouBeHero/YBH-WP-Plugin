@@ -67,11 +67,11 @@ class You_Be_Hero {
 	 * @since    1.0.1
 	 */
 	public function __construct() {
-		if ( defined( 'YOU_BE_HERO_VERSION' ) ) {
-			$this->version = YOU_BE_HERO_VERSION;
-		} else {
-			$this->version = '1.1.1';
-		}
+//		if ( defined( 'YOU_BE_HERO_VERSION' ) ) {
+//			$this->version = YOU_BE_HERO_VERSION;
+//		} else {
+//			$this->version = '1.1.5';
+//		}
 		$this->plugin_name = 'youbehero';
                 
 		$this->load_dependencies();
@@ -133,6 +133,11 @@ class You_Be_Hero {
          */
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-you-be-hero-shortcodes-public.php';
 
+        /**
+         * The class responsible for YouBeHero WpBakery Widget
+         */
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/wpbakery-donation-widget.php';
+
 		$this->loader = new You_Be_Hero_Loader();
 
 	}
@@ -153,31 +158,39 @@ class You_Be_Hero {
 //		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 //
 //	}
-
-	public function ybhd_set_compatibility() {
+//
+    public function ybhd_set_compatibility() {
 
         add_action( 'plugins_loaded', array( $this, 'ybhd_elementor_compatibility' ) );
-
+        
     }
 
-	public function ybhd_elementor_compatibility() {
+    public function ybhd_elementor_compatibility() {
 
-        // Check if Elementor is installed and active
-        if ( ! did_action( 'elementor/loaded' ) ) {
-            return; // Elementor not active, skip loading
+        $ybhd_token = get_option( 'ybhd_token' );
+
+        if ( ! empty( $ybhd_token ) ) {
+            include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+
+            $youbehero_data = json_decode(get_option('ybhd_dashboard_json'), true);
+            $youbehero_data = $youbehero_data['data'] ?? [];
+
+            // Check if Elementor is installed and active
+            if (!did_action('elementor/loaded') || ( isset( $youbehero_data['status'] ) && $youbehero_data['status'] != 'active' ) || !is_plugin_active('youbehero/youbehero.php')) {
+                return; // Elementor not active, skip loading
+            }
+
+            // Register widget
+            add_action('elementor/widgets/register', function ($widgets_manager) {
+
+                // Include YouBeHero widget file
+                require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-youbehero-elementor-widget.php';
+                $widgets_manager->register(new \YouBeHero_Elementor_Widget());
+
+            });
         }
 
-
-        // Register widget
-        add_action( 'elementor/widgets/register', function( $widgets_manager ) {
-        	
-        	// Include YouBeHero widget file
-        	require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-youbehero-elementor-widget.php';
-            $widgets_manager->register( new \YouBeHero_Elementor_Widget() );
-            
-        });
-
-	}
+    }
 
 	/**
 	 * Register all of the hooks related to the admin area functionality
@@ -214,7 +227,7 @@ class You_Be_Hero {
 	private function define_public_hooks() {
 
 		$plugin_public = new You_Be_Hero_Public( $this->get_plugin_name(), $this->get_version() );
-                
+
 		$this->loader->add_action( 'wp', $plugin_public, 'display_checkout_donation' );
 		$this->loader->add_action( 'woocommerce_cart_calculate_fees', $plugin_public, 'donation_widget_add_fee' );
 		$this->loader->add_action( 'wp_ajax_update_donation_fee', $plugin_public, 'donation_widget_update_fee' );
@@ -234,6 +247,20 @@ class You_Be_Hero {
 
         $this->loader->add_action( 'woocommerce_order_details_after_order_table', $plugin_public, 'youbehero_thank_you_widget', 20, 1 );
         $this->loader->add_action( 'woocommerce_email_after_order_table', $plugin_public, 'youbehero_execute_email_widget', 20, 4 );
+        $this->loader->add_action( 'template_redirect', $plugin_public, 'youbehero_init_woocommerce_hooks', 5);
+        $this->loader->add_action( 'woocommerce_checkout_update_order_review', $plugin_public, 'youbehero_init_woocommerce_hooks', 5 );
+
+        // Hook into the AJAX update at various points to ensure persistence
+        $this->loader->add_action( 'woocommerce_checkout_update_order_review', $plugin_public, 'youbehero_persist_hooks_on_ajax', 1 );
+        $this->loader->add_action( 'woocommerce_before_checkout_form', $plugin_public, 'youbehero_persist_hooks_on_ajax', 1 );
+        $this->loader->add_action( 'wp_ajax_woocommerce_update_order_review', $plugin_public, 'youbehero_persist_hooks_on_ajax', 1 );
+        $this->loader->add_action( 'wp_ajax_nopriv_woocommerce_update_order_review', $plugin_public, 'youbehero_persist_hooks_on_ajax', 1 );
+
+        $this->loader->add_action( 'wp_ajax_youbehero_get_widget_html', $plugin_public, 'youbehero_ajax_get_widget_html' );
+        $this->loader->add_action( 'wp_ajax_nopriv_youbehero_get_widget_html', $plugin_public, 'youbehero_ajax_get_widget_html' );
+
+        $this->loader->add_action( 'template_redirect', $plugin_public, 'youbehero_wpbakery_init_woocommerce_hooks', 5 );
+        $this->loader->add_action( 'woocommerce_checkout_update_order_review', $plugin_public, 'youbehero_wpbakery_init_woocommerce_hooks', 5 );
 
     }
 

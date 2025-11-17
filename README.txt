@@ -29,7 +29,7 @@ Although currently **only available for Greek e-commerce stores**, Add Donation 
 * Checkout Integration: Add donation widget to WooCommerce checkout page with multiple positioning options
 * Flexible Positioning: Choose from 4 different checkout positions (before form, after billing, before notes, after payment)
 * Multiple Display Options: Widgets, blocks, shortcodes, and Elementor integration for maximum flexibility
-* Shortcodes Available: 
+* Shortcodes Available:
   - `[youbehero_donation_form]` - Main donation form
 * Page Builder Support: Native Elementor widget and WP Bakery integration
 * Gutenberg Block: Custom "YouBeHero Donation Widget" block for checkout pages
@@ -53,7 +53,7 @@ Although currently **only available for Greek e-commerce stores**, Add Donation 
 1. Install the plugin through the WordPress plugins dashboard screen directly
 2. Create an account at [YouBeHero](https://dev.youbehero.com/gr/signup-eshop)
    - Configure your settings and select supported organizations
-   - Customize the appearance and positioning in the plugin settings   
+   - Customize the appearance and positioning in the plugin settings
 3. Copy your API key from the YouBeHero dashboard
 4. Navigate to **YouBeHero** settings in your WordPress admin
 5. Paste your API key and click "Login"
@@ -116,7 +116,7 @@ The YouBeHero admin dashboard provides comprehensive management and analytics:
 
 **Privacy and data handling**
 
-This plugin integrates your WooCommerce store with the YouBeHero platform to facilitate charitable donations and related features. 
+This plugin integrates your WooCommerce store with the YouBeHero platform to facilitate charitable donations and related features.
 
 Below is an overview of what data is shared and why.
 
@@ -155,7 +155,7 @@ External service: **YouBeHero**
 
 == Contributing ==
 
-This plugin is open source and we welcome contributions from the community! If you have ideas for improvements, bug fixes, or new features, please feel free to submit pull requests on GitHub at [https://github.com/YouBeHero/YBH-WP-Plugin](https://github.com/YouBeHero/YBH-WP-Plugin). 
+This plugin is open source and we welcome contributions from the community! If you have ideas for improvements, bug fixes, or new features, please feel free to submit pull requests on GitHub at [https://github.com/YouBeHero/YBH-WP-Plugin](https://github.com/YouBeHero/YBH-WP-Plugin).
 
 Your contributions help make this plugin better for everyone.
 

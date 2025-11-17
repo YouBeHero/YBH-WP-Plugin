@@ -20,9 +20,14 @@ class YouBeHero_ShortCodes_Public {
     }
     
     function ybhd_add_donation_form_shortcode() {
-        ob_start();
-        include_once( __DIR__.'/../build/render.php' );
-        return ob_get_clean();
+
+        $ybhd_token = get_option( 'ybhd_token' );
+
+        if ( ! empty( $ybhd_token ) ) {
+            ob_start();
+            include_once(__DIR__ . '/../build/render.php');
+            return ob_get_clean();
+        }
     }
 
 }

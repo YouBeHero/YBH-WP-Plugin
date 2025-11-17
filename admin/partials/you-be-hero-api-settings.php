@@ -40,7 +40,7 @@ $logout = isset( $_GET['logout'] ) ? sanitize_text_field( wp_unslash( $_GET['log
     // Nonce verification not used here because `logut` is simply a url not form submission.
     // The value is sanitized and not used for sensitive operations.
     ?>
-    
+
 
     <h3 class="ybh-token-hdng"><?php echo esc_html__( 'Thank you for installing', 'youbehero' ); ?> Add Donation to Cart! 🥳</h3>
 

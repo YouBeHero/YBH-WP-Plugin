@@ -76,7 +76,7 @@ class You_Be_Hero_Admin {
 
         if ( $hook_suffix == 'toplevel_page_ybhd-settings' )  {
 
-            wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/you-be-hero-admin.css?v=1.5', array(), $this->version, 'all' );
+            wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/you-be-hero-admin.css', array(), $this->version, 'all' );
 
         }
 
@@ -122,8 +122,8 @@ class You_Be_Hero_Admin {
             array( $this, 'ybhd_settings_page' ),
             $icon_data,
             56
-        );  
-        
+        );
+
     }
 
     /**

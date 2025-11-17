@@ -100,7 +100,7 @@ class YouBeHero_Email_Widget {
                 border-radius: 0;
             }
 
-            
+
             .youbehero-thankyou-widget hr {
                 border: 1px solid #F7F7F7;
             }

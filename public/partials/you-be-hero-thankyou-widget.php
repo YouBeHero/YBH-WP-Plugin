@@ -4,7 +4,7 @@
  * Provide a public-facing view for the plugin's Thank You Widget
  *
  * @link       https://youbehero.com
- * @since      1.1.1
+ * @since      1.1.5
  *
  * @package    You_Be_Hero
  * @subpackage You_Be_Hero/public/partials

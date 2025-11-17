@@ -73,7 +73,7 @@ class You_Be_Hero_Public {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/you-be-hero-public.css?v=1.7', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/you-be-hero-public.css', array(), $this->version, 'all' );
 
 	}
 
@@ -158,7 +158,8 @@ class You_Be_Hero_Public {
             // Fetch data from the API
             $data = $this->donation_widget_fetch_data();
             wp_enqueue_style( 'donation-widget-style', YBHD_PLUGIN_URL.'assets/css/style.css', array(), $this->version, 'all' );
-            wp_enqueue_script( 'donation-widget-script', YBHD_PLUGIN_URL.'assets/js/script.js?v=2.7', array( 'jquery' ), $this->version, true );
+            wp_deregister_script('donation-widget-script');
+            wp_enqueue_script( 'donation-widget-script', YBHD_PLUGIN_URL.'assets/js/script.js', array( 'jquery' ), $this->version, true );
 
             if ($data) {
 
@@ -218,14 +219,27 @@ class You_Be_Hero_Public {
             $fee_title = __('Donation for', 'youbehero') .' '.$donation_cause;
             $fee_id = $cart->add_fee($fee_title, $donation_amount);
 
-            $last_fee_index = count($cart->fees) - 1;
-            if (isset($cart->fees[$last_fee_index]) && $cart->fees[$last_fee_index]->id === $fee_id) {
-                $cart->fees[$last_fee_index]->_ybh_donation_amount = $donation_amount;
-                $cart->fees[$last_fee_index]->ybh_donation_cause = $donation_cause;
-                $cart->fees[$last_fee_index]->_donation_org_name = $donation_cause;
-                $cart->fees[$last_fee_index]->ybh_donation_cause_id = $donation_cause_id;
-                $cart->fees[$last_fee_index]->ybh_donation_cause_img = $donation_cause_img;
+            $fees = method_exists( $cart, 'get_fees' )
+                ? $cart->get_fees()
+                : ( isset( $cart->fees ) ? $cart->fees : array() );
+
+            $last_fee_index = count($fees) - 1;
+            if (isset($fees[$last_fee_index]) && $fees[$last_fee_index]->id === $fee_id) {
+                $fees[$last_fee_index]->_ybh_donation_amount = $donation_amount;
+                $fees[$last_fee_index]->ybh_donation_cause = $donation_cause;
+                $fees[$last_fee_index]->_donation_org_name = $donation_cause;
+                $fees[$last_fee_index]->ybh_donation_cause_id = $donation_cause_id;
+                $fees[$last_fee_index]->ybh_donation_cause_img = $donation_cause_img;
             }
+
+//            $last_fee_index = count($cart->fees) - 1;
+//            if (isset($cart->fees[$last_fee_index]) && $cart->fees[$last_fee_index]->id === $fee_id) {
+//                $cart->fees[$last_fee_index]->_ybh_donation_amount = $donation_amount;
+//                $cart->fees[$last_fee_index]->ybh_donation_cause = $donation_cause;
+//                $cart->fees[$last_fee_index]->_donation_org_name = $donation_cause;
+//                $cart->fees[$last_fee_index]->ybh_donation_cause_id = $donation_cause_id;
+//                $cart->fees[$last_fee_index]->ybh_donation_cause_img = $donation_cause_img;
+//            }
         }
     }
 
@@ -560,12 +574,23 @@ class You_Be_Hero_Public {
 
         $donation_total = 0;
 
-        foreach ( $order->get_fees() as $fee ) {
+        $fees = $order->get_fees();
 
-            $fee_total = (float) $fee->get_total();
+        if ( empty( $fees ) ) {
+            $cart = WC()->cart;
+            $fees = method_exists( $cart, 'get_fees' )
+                ? $cart->get_fees()
+                : ( isset( $cart->fees ) ? $cart->fees : array() );
+        }
 
+//        foreach ( $order->get_fees() as $fee ) {
+        foreach ( $fees as $fee ) {
+            $fee_total = (float) method_exists( $fee, 'get_total' ) ? $fee->get_total() : $fee->total;
+
+            $name = method_exists( $fee, 'get_name' ) ? $fee->get_name() : $fee->name;
 //            if ( stripos( $fee->get_name(), 'donation' ) !== false ) {
-            if ( stripos( $fee->get_name(), WC()->session->get( '_donation_org_name' ) ) !== false ) {
+//            if ( stripos( $fee->get_name(), WC()->session->get( '_donation_org_name' ) ) !== false ) {
+            if ( stripos( $name, WC()->session->get( '_donation_org_name' ) ) !== false ) {
                 $donation_total += $fee_total;
             }
         }
@@ -681,17 +706,20 @@ class You_Be_Hero_Public {
      */
     public function youbehero_thank_you_widget( $order ) {
 
-        $data = get_option( 'ybhd_dashboard_json' );
-        $youbehero_data = !empty( $data ) ? json_decode( $data, true ) : [];
-        $youbehero_data = !empty( $youbehero_data ) ? $youbehero_data['data'] : [];
+        $ybhd_token = get_option( 'ybhd_token' );
 
-        $donation_org_id = 0;
-        foreach ( $order->get_items( 'fee' ) as $item_id => $item ) {
-            $donation_org_id = $item->get_meta( '_donation_org_id' );
+        if ( ! empty( $ybhd_token ) ) {
+            $data = get_option('ybhd_dashboard_json');
+            $youbehero_data = !empty($data) ? json_decode($data, true) : [];
+            $youbehero_data = !empty($youbehero_data) ? $youbehero_data['data'] : [];
+
+            $donation_org_id = 0;
+            foreach ($order->get_items('fee') as $item_id => $item) {
+                $donation_org_id = $item->get_meta('_donation_org_id');
+            }
+
+            require_once plugin_dir_path(dirname(__FILE__)) . 'public/partials/you-be-hero-thankyou-widget.php';
         }
-
-        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/you-be-hero-thankyou-widget.php';
-
     }
 
     /**
@@ -719,7 +747,7 @@ class You_Be_Hero_Public {
 
         $array = array(
             'margin' => array(
-                'big'   => '20px 0', 'mid'   => '12px 0', 'small' => '4px 0'
+                'big'   => '20px', 'mid'   => '12px', 'small' => '4px'
             ),
             'padding' => array(
                 'big'   => '24px', 'mid'   => '16px', 'small' => '8px'
@@ -746,31 +774,472 @@ class You_Be_Hero_Public {
      */
     public function youbehero_execute_email_widget( $order, $sent_to_admin, $plain_text, $email ) {
 
-        // Only add to new order email ( customer emails)
+        $ybhd_token = get_option( 'ybhd_token' );
+
+        if ( ! empty( $ybhd_token ) ) {
+            // Only add to new order email ( customer emails)
 //        if ( $email->id !== 'customer_processing_order' ) {
 //            return;
 //        }
 
-        if ( in_array( $email->id, [ 'customer_on_hold_order', 'customer_processing_order', 'customer_completed_order' ], true ) ) {
-            $dashboard_data = get_option( 'ybhd_dashboard_json' );
-            $data = !empty( $dashboard_data ) ? json_decode( $dashboard_data, true ) : [];
-            $youbehero_data = !empty( $data ) ? $data['data'] : [];
+            if (in_array($email->id, ['customer_on_hold_order', 'customer_processing_order', 'customer_completed_order'], true)) {
+                $dashboard_data = get_option('ybhd_dashboard_json');
+                $data = !empty($dashboard_data) ? json_decode($dashboard_data, true) : [];
+                $youbehero_data = !empty($data) ? $data['data'] : [];
 
-            if ( isset( $youbehero_data['status'] ) && $youbehero_data['status'] == 'active' && !empty( $youbehero_data ) ) {
+                if (isset($youbehero_data['status']) && $youbehero_data['status'] == 'active' && !empty($youbehero_data)) {
 
-                $check_w_active = $youbehero_data['widget_configurations']['confirmation_email']['confirmation_email']['active'] ?? false;
+                    $check_w_active = $youbehero_data['widget_configurations']['confirmation_email']['confirmation_email']['active'] ?? false;
 
-                if ( $check_w_active ) {
-                    $donation_org_id = 0;
-                    foreach ($order->get_items('fee') as $item_id => $item) {
-                        $donation_org_id = $item->get_meta('_donation_org_id');
+                    if ($check_w_active) {
+                        $donation_org_id = 0;
+                        foreach ($order->get_items('fee') as $item_id => $item) {
+                            $donation_org_id = $item->get_meta('_donation_org_id');
+                        }
+
+                        $selected_cause_info = $this->youbehero_get_ordered_cause($youbehero_data['selected_causes'], $donation_org_id);
+
+                        if (!empty($selected_cause_info)) {
+                            $email_widget_obj = new YouBeHero_Email_Widget();
+                            $email_widget_obj->youbehero_send_email($order, $youbehero_data, $selected_cause_info);
+                        }
                     }
+                }
+            }
+        }
+    }
 
-                    $selected_cause_info = $this->youbehero_get_ordered_cause($youbehero_data['selected_causes'], $donation_org_id);
+    /**
+     * Initialize WooCommerce Hooks for Donation Widget
+     * This runs early enough to catch WooCommerce hooks
+     */
+    public function youbehero_init_woocommerce_hooks() {
 
-                    if ( !empty( $selected_cause_info ) ) {
-                        $email_widget_obj = new YouBeHero_Email_Widget();
-                        $email_widget_obj->youbehero_send_email( $order, $youbehero_data, $selected_cause_info );
+        // Check if Elementor is active
+        if (!did_action('elementor/loaded')) {
+            return;
+        }
+
+        // Only run on frontend
+        if (is_admin()) {
+            return;
+        }
+
+        // Check for WooCommerce
+        if (!class_exists('WooCommerce')) {
+            return;
+        }
+
+        // Run on checkout page OR during AJAX order review update
+        $is_checkout = is_checkout();
+        $is_ajax_update = defined('DOING_AJAX') && DOING_AJAX && isset($_REQUEST['wc-ajax']) && $_REQUEST['wc-ajax'] === 'update_order_review';
+
+        if (!$is_checkout && !$is_ajax_update) {
+            return;
+        }
+
+        // Get the current page ID
+        $post_id = get_the_ID();
+
+        // For AJAX requests, try to get the checkout page ID
+        if (!$post_id && $is_ajax_update) {
+            $checkout_page_id = wc_get_page_id('checkout');
+            if ($checkout_page_id) {
+                $post_id = $checkout_page_id;
+            }
+        }
+
+        if (!$post_id) {
+            return;
+        }
+
+        // Check if Elementor Plugin is available
+        if (!class_exists('\Elementor\Plugin')) {
+            return;
+        }
+
+        // Check if this page is built with Elementor
+        $elementor_instance = \Elementor\Plugin::$instance;
+        if (!$elementor_instance || !isset($elementor_instance->documents)) {
+            return;
+        }
+
+        $document = $elementor_instance->documents->get($post_id);
+
+        if (!$document) {
+            return;
+        }
+
+        $elements_data = $document->get_elements_data();
+
+        if (empty($elements_data)) {
+            return;
+        }
+
+        // Initialize global settings
+        global $youbehero_widget_settings;
+        $youbehero_widget_settings = array(
+            'enabled' => false,
+            'position' => ''
+        );
+
+        // Scan for our widget and add hooks
+        $this->youbehero_scan_and_add_hooks($elements_data);
+
+    }
+
+    /**
+     * Recursively scan Elementor elements for our widget
+     */
+    public function youbehero_scan_and_add_hooks($elements) {
+
+        static $hooks_added = false;
+
+        global $youbehero_widget_settings; // Access the global variable
+
+        foreach ($elements as $element) {
+            // Check if this is our widget
+            if (isset($element['widgetType']) && $element['widgetType'] === 'youbehero_donation_widget_v2') {
+                $settings = $element['settings'];
+
+                $wc_hook_enabled = !empty($settings['woocommerce_hook_enable']) ? $settings['woocommerce_hook_enable'] : 'no';
+                $placement_position = !empty($settings['placement_position']) ? $settings['placement_position'] : 'woocommerce_review_order_before_submit';
+
+                if ($wc_hook_enabled === 'yes' && !$hooks_added) {
+                    // Update the global settings
+                    $youbehero_widget_settings['enabled'] = true;
+                    $youbehero_widget_settings['position'] = $placement_position;
+
+                    // Capture widget HTML ONCE at the beginning
+                    ob_start();
+                    echo do_shortcode('[youbehero_donation_form]');
+                    $captured_widget_html = ob_get_clean();
+
+                    // Add the WooCommerce hook
+                    add_action($placement_position, function() use ($placement_position, $captured_widget_html) {
+                        static $script_added = false;
+
+                        // Output the widget
+                        echo $captured_widget_html;
+
+                        // Add script inline right after the widget (only once)
+                        if (!$script_added) {
+                            ?>
+                            <script type="text/javascript">
+                                (function() {
+                                    if (typeof jQuery === 'undefined') {
+                                        console.error('YouBeHero: jQuery not loaded!');
+                                        return;
+                                    }
+
+                                    jQuery(document).ready(function($) {
+
+                                        let youbeheroWidgetHtml = <?php echo json_encode($captured_widget_html); ?>;
+                                        var youbeheroPlacement = <?php echo json_encode($placement_position); ?>;
+
+                                        console.log('YouBeHero: Script loaded, placement:', youbeheroPlacement);
+                                        console.log('YouBeHero: Widget HTML length:', youbeheroWidgetHtml.length);
+
+                                        if (!youbeheroWidgetHtml || youbeheroWidgetHtml.length < 10) {
+                                            console.error('YouBeHero: Widget HTML is empty or too short!');
+                                            return;
+                                        }
+
+                                        function injectYoubeheroWidget() {
+                                            console.log('YouBeHero: Injecting widget...');
+                                            //====================//
+                                            var storedWidgetHtml = $('#hidden-donation-html').text();
+                                            var decodedStoredWidgetHtml = $('<div/>').html(storedWidgetHtml).html();
+                                            if (decodedStoredWidgetHtml || $.trim(decodedStoredWidgetHtml) !== '') {
+                                                youbeheroWidgetHtml = decodedStoredWidgetHtml;
+                                            }
+                                            //====================//
+
+                                            // Remove any existing instances first
+                                            $('.youbehero-donation-wrapper').remove();
+
+                                            var widgetWrapped = '<div class="youbehero-donation-wrapper">' + youbeheroWidgetHtml + '</div>';
+                                            var injected = false;
+
+                                            // Inject based on placement - try multiple selectors for compatibility
+                                            if (youbeheroPlacement === 'woocommerce_review_order_before_submit') {
+                                                if ($('#order_review .place-order').length) {
+                                                    $('#order_review .place-order').before(widgetWrapped);
+                                                    injected = true;
+                                                } else if ($('.woocommerce-checkout-payment .place-order').length) {
+                                                    $('.woocommerce-checkout-payment .place-order').before(widgetWrapped);
+                                                    injected = true;
+                                                } else if ($('#place_order').length) {
+                                                    $('#place_order').parent().before(widgetWrapped);
+                                                    injected = true;
+                                                }
+                                            }
+
+                                            if (injected) {
+                                                console.log('YouBeHero: Widget injected successfully');
+
+                                                // Verify it's still there after 200ms
+                                                setTimeout(function() {
+                                                    var stillExists = $('.youbehero-donation-wrapper').length;
+                                                    console.log('YouBeHero: Widget still exists:', stillExists > 0);
+                                                    if (stillExists === 0) {
+                                                        console.warn('YouBeHero: Widget was removed! Re-injecting...');
+                                                        injectYoubeheroWidget();
+                                                    }
+                                                }, 200);
+
+                                                setTimeout(function() { $('.widget-loader').hide() }, 500);
+                                            } else {
+                                                console.warn('YouBeHero: Could not find target element for injection');
+                                                console.log('Available elements:', {
+                                                    'order_review': $('#order_review').length,
+                                                    'place-order': $('.place-order').length,
+                                                    'place_order': $('#place_order').length,
+                                                    'payment': $('#payment').length
+                                                });
+                                            }
+                                        }
+
+                                        // Re-inject after WooCommerce AJAX updates
+                                        $(document.body).on('updated_checkout', function() {
+                                            console.log('YouBeHero: Checkout updated, re-injecting...');
+
+                                            // // Try multiple times with different delays to catch all updates
+                                            setTimeout(function() { injectYoubeheroWidget(); }, 500);
+                                        });
+
+                                        // Also try on payment method change
+                                        $(document.body).on('payment_method_selected', function() {
+                                            console.log('YouBeHero: Payment method changed');
+                                        });
+                                    });
+                                })();
+                            </script>
+                            <?php
+                            $script_added = true;
+                        }
+                    }, 10);
+
+                    $hooks_added = true;
+                }
+            }
+
+            // Recursively check nested elements (sections, columns, etc)
+            if (!empty($element['elements'])) {
+                $this->youbehero_scan_and_add_hooks($element['elements']);
+            }
+        }
+    }
+
+    /**
+     * Ensure hooks persist during AJAX order review updates
+     * @return void
+     */
+    public function youbehero_persist_hooks_on_ajax() {
+
+        global $youbehero_widget_settings;
+
+        if ( !empty( $youbehero_widget_settings['enabled'] ) ) {
+            $placement_position = $youbehero_widget_settings['position'];
+
+            // Re-add the hook for AJAX requests
+            add_action( $placement_position, function() {
+                echo do_shortcode( '[youbehero_donation_form]' );
+            }, 10 );
+        }
+
+    }
+
+
+    /**
+     * Initialize WooCommerce hooks for WPBakery widgets
+     */
+    function youbehero_wpbakery_init_woocommerce_hooks() {
+
+        // Only run on frontend
+        if (is_admin()) {
+            return;
+        }
+
+        // Check for WooCommerce
+        if (!class_exists('WooCommerce')) {
+            return;
+        }
+
+        // Run on checkout page OR during AJAX order review update
+        $is_checkout = is_checkout();
+        $is_ajax_update = defined('DOING_AJAX') && DOING_AJAX && isset($_REQUEST['wc-ajax']) && $_REQUEST['wc-ajax'] === 'update_order_review';
+
+        if (!$is_checkout && !$is_ajax_update) {
+            return;
+        }
+
+        // Get the current page ID
+        $post_id = get_the_ID();
+
+        // For AJAX requests, try to get the checkout page ID
+        if (!$post_id && $is_ajax_update) {
+            $checkout_page_id = wc_get_page_id('checkout');
+            if ($checkout_page_id) {
+                $post_id = $checkout_page_id;
+            }
+        }
+
+        if (!$post_id) {
+            return;
+        }
+
+        // Get WPBakery content
+        $post_content = get_post_field('post_content', $post_id);
+
+        if (empty($post_content)) {
+            return;
+        }
+
+        // Parse WPBakery shortcodes to find our widget
+        $this->youbehero_wpbakery_scan_and_add_hooks($post_content);
+    }
+
+    /**
+     * Scan WPBakery content for our widget and add hooks
+     */
+    function youbehero_wpbakery_scan_and_add_hooks($content) {
+
+        static $hooks_added = false;
+
+        if ($hooks_added) {
+            return;
+        }
+
+        // Find all instances of our shortcode in the content
+        $pattern = get_shortcode_regex(array('youbehero_donation_wpbakery'));
+
+        if (preg_match_all('/' . $pattern . '/s', $content, $matches)) {
+            foreach ($matches[0] as $shortcode) {
+                // Parse shortcode attributes
+                preg_match('/\[youbehero_donation_wpbakery([^\]]*)\]/', $shortcode, $attr_matches);
+
+                if (isset($attr_matches[1])) {
+                    $attrs = shortcode_parse_atts($attr_matches[1]);
+
+                    $wc_hook_enabled = isset($attrs['woocommerce_hook_enable']) ? $attrs['woocommerce_hook_enable'] : 'no';
+                    $placement_position = isset($attrs['placement_position']) ? $attrs['placement_position'] : 'woocommerce_review_order_before_submit';
+
+                    if ($wc_hook_enabled === 'yes') {
+
+                        // Capture widget HTML
+                        ob_start();
+                        echo do_shortcode('[youbehero_donation_form]');
+                        $captured_widget_html = ob_get_clean();
+
+                        // Add the WooCommerce hook
+                        add_action($placement_position, function() use ($placement_position, $captured_widget_html) {
+                            static $script_added = false;
+
+                            // Add script inline right after the widget (only once)
+                            if (!$script_added) {
+                                ?>
+                                <script type="text/javascript">
+                                    (function() {
+                                        if (typeof jQuery === 'undefined') {
+                                            console.error('YouBeHero WPBakery: jQuery not loaded!');
+                                            return;
+                                        }
+
+                                        jQuery(document).ready(function($) {
+
+                                            let youbeheroWidgetHtml = <?php echo json_encode($captured_widget_html); ?>;
+                                            var youbeheroPlacement = <?php echo json_encode($placement_position); ?>;
+
+                                            console.log('YouBeHero WPBakery: Script loaded, placement:', youbeheroPlacement);
+                                            console.log('YouBeHero WPBakery: Widget HTML length:', youbeheroWidgetHtml.length);
+
+                                            if (!youbeheroWidgetHtml || youbeheroWidgetHtml.length < 10) {
+                                                console.error('YouBeHero WPBakery: Widget HTML is empty or too short!');
+                                                return;
+                                            }
+
+                                            function injectYoubeheroWidget() {
+                                                console.log('YouBeHero WPBakery: Injecting widget...');
+
+                                                // Try to get fresh HTML from hidden element if available
+                                                var storedWidgetHtml = $('#hidden-donation-html').text();
+                                                var decodedStoredWidgetHtml = $('<div/>').html(storedWidgetHtml).html();
+                                                if (decodedStoredWidgetHtml || $.trim(decodedStoredWidgetHtml) !== '') {
+                                                    youbeheroWidgetHtml = decodedStoredWidgetHtml;
+                                                }
+
+                                                // Remove any existing instances first
+                                                $('.youbehero-donation-wrapper').remove();
+
+                                                var widgetWrapped = '<div class="youbehero-donation-wrapper">' + youbeheroWidgetHtml + '</div>';
+                                                var injected = false;
+
+                                                // Inject based on placement - try multiple selectors for compatibility
+                                                if (youbeheroPlacement === 'woocommerce_review_order_before_submit') {
+                                                    if ($('#order_review .place-order').length) {
+                                                        $('#order_review .place-order').before(widgetWrapped);
+                                                        injected = true;
+                                                    } else if ($('.woocommerce-checkout-payment .place-order').length) {
+                                                        $('.woocommerce-checkout-payment .place-order').before(widgetWrapped);
+                                                        injected = true;
+                                                    } else if ($('#place_order').length) {
+                                                        $('#place_order').parent().before(widgetWrapped);
+                                                        injected = true;
+                                                    }
+                                                } else if (youbeheroPlacement === 'woocommerce_after_checkout_billing_form') {
+                                                    if ($('.woocommerce-billing-fields').length) {
+                                                        $('.woocommerce-billing-fields').after(widgetWrapped);
+                                                        injected = true;
+                                                    }
+                                                }
+
+                                                if (injected) {
+                                                    console.log('YouBeHero WPBakery: Widget injected successfully');
+
+                                                    // Verify it's still there after 200ms
+                                                    setTimeout(function() {
+                                                        var stillExists = $('.youbehero-donation-wrapper').length;
+                                                        console.log('YouBeHero WPBakery: Widget still exists:', stillExists > 0);
+
+                                                        if (stillExists === 0) {
+                                                            console.warn('YouBeHero WPBakery: Widget was removed! Re-injecting...');
+                                                            injectYoubeheroWidget();
+                                                        }
+                                                    }, 200);
+
+                                                    setTimeout(function() { $('.widget-loader').hide(); }, 500);
+                                                } else {
+                                                    console.warn('YouBeHero WPBakery: Could not find target element for injection');
+                                                    console.log('Available elements:', {
+                                                        'order_review': $('#order_review').length,
+                                                        'place-order': $('.place-order').length,
+                                                        'place_order': $('#place_order').length,
+                                                        'payment': $('#payment').length
+                                                    });
+                                                }
+                                            }
+
+                                            // Re-inject after WooCommerce AJAX updates
+                                            $(document.body).on('updated_checkout', function() {
+                                                console.log('YouBeHero WPBakery: Checkout updated, re-injecting...');
+                                                setTimeout(function() { injectYoubeheroWidget(); }, 500);
+                                            });
+
+                                            // Also try on payment method change
+                                            $(document.body).on('payment_method_selected', function() {
+                                                console.log('YouBeHero WPBakery: Payment method changed');
+                                            });
+                                        });
+                                    })();
+                                </script>
+                                <?php
+                                $script_added = true;
+                            }
+                        }, 10);
+
+                        $hooks_added = true;
+                        break; // Only process first widget instance
                     }
                 }
             }

@@ -35,9 +35,9 @@ $company_name = $data['company_name'] ?? '-';
             </div>
             <a href="https://dev.youbehero.com/gr/topup" target="_blank" class="ybh-balance-link" title="<?php echo esc_html__( 'Account topup', 'youbehero' ); ?>">
                 <span class="ybh-balance"><?php echo esc_html( isset( $data['total_credits'] ) ? number_format((float)$data['total_credits'], 2, ',', '') . $currency_symbol : '-' ); ?>
-                    <img src="<?php echo esc_url( plugin_dir_url(__DIR__) .'img/fa-solid_plus-circle.svg' ); ?>?v=1.1">           
+                    <img src="<?php echo esc_url( plugin_dir_url(__DIR__) .'img/fa-solid_plus-circle.svg' ); ?>?v=1.1">
                 </span>
-            </a>        
+            </a>
         </div>
         <div class="ybh-header-outright">
             <span>

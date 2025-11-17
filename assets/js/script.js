@@ -1,5 +1,12 @@
 jQuery(document).ready(function($) {
 
+    if (!$('form.checkout').length) {
+        const $content = $('.elementor'); // or your specific wrapper
+        if ($content.length) {
+            $content.wrapInner('<form name="checkout" class="checkout woocommerce-checkout" method="post"></form>');
+        }
+    }
+    
         if (!window.ybh_donation_checkout_params || typeof ybh_donation_checkout_params !== 'object') {
             console.error('ybh_donation_checkout_params is not defined or not an object');
             return;
@@ -14,8 +21,8 @@ jQuery(document).ready(function($) {
             $('.delete-button img').attr("src", new_svg_path);
 
         }).on('mouseleave', '.delete-button', function() {
-
-            $('.delete-button img').attr("src", delte_svg_path);
+            let old_svg_path = delte_svg_path.replace("delete-hover.svg", "delete.svg");
+            $('.delete-button img').attr("src", old_svg_path);
         });
 
         // Use event delegation for dynamically generated buttons
@@ -76,6 +83,21 @@ jQuery(document).ready(function($) {
                     fees: updatedFees
                 });
 
+                //Store HTML for widget AJAX
+                $('.donation-buttons .radio-button').trigger('mouseleave')
+                var wrapper = $('.youbehero-donation-wrapper');
+                // if (!wrapper.length) return;
+                if (wrapper.length) {
+                    var html = wrapper.prop('outerHTML');
+                    // Create hidden div if not already present
+                    if (!$('#hidden-donation-html').length) {
+                        $('body').append('<div id="hidden-donation-html" style="display:none;"></div>');
+                    }
+                    // Store the HTML in the hidden div
+                    $('#hidden-donation-html').text(html);
+                }
+                //Store HTML for widget AJAX - End
+
                 showLoader();
                 const amountF = isNaN(Number(amount)) ? 0 : Number(amount)/100;
                 const force_remove = isNaN(Number(orgId)) ? 1 : 0;
@@ -99,6 +121,11 @@ jQuery(document).ready(function($) {
                     },
                     success: function(response) {
                         console.log('Donation added successfully!');
+
+                        if ($('form.checkout').length) {
+                            $(document.body).trigger('update_checkout');
+                        }
+
                         update_totals();
                     }
                 });
@@ -145,6 +172,11 @@ jQuery(document).ready(function($) {
         }
 
         function validate_donation_data(){
+
+            if($('.ybh-dd-option').length == 1) {
+                const singleCauseEle = document.getElementById('donation-cause');
+                singleCauseEle.value = $('.ybh-dd-option').data("value");
+            }
 
             const donation_cause = $('#donation-cause').val();
             const donation_amount = $('#donation-amount').val();
@@ -251,7 +283,6 @@ jQuery(document).ready(function($) {
         $('.donation-amounts .radio-button:checked').trigger('click');
         $(document).on('click', '.donation-amounts .radio-button', function (event) {
             event.preventDefault();
-
             const donation_amount = $(this).data('value');
             const donation_label = $(this).data('label');
 
@@ -276,6 +307,7 @@ jQuery(document).ready(function($) {
             $('.donation-amount-pill').text('0,00' + currencySymbol);
             $('.donation-amounts .radio-button').removeClass('selected');
             $('.donation-amounts .donation-amount').change();
+            $('.donation-btn').trigger('mouseleave')
             add_donation_to_cart( );
         });
 
