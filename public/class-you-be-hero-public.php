@@ -534,8 +534,134 @@ class You_Be_Hero_Public {
                 wp_enqueue_style( 'youbehero-inline-style' );
 
                 // Add inline styles (safe now)
+
                 $custom_css = sprintf(
-                    '.donation-btn.selected { border-color: %1$s; background-color: %1$s; }',
+                    '                    /* Idle/Focused state - default */
+                    .donation-btn {
+                        background-color: white;
+                        color: #212121;
+                        border-color: #ccc;
+                    }
+                    
+                    /* Delete button - always white bg and dark text */
+                    .donation-btn.delete-button {
+                        background-color: white !important;
+                        color: #212121 !important;
+                        border-color: #ccc !important;
+                    }
+                    
+                    .donation-btn.delete-button:hover,
+                    .donation-btn.delete-button:active,
+                    .donation-btn.delete-button:focus {
+                        background-color: white !important;
+                        color: #212121 !important;
+                        border-color: #ccc !important;
+                    }
+                    
+                    /* Hovered state - show JSON color (exclude delete button) */
+                    .donation-btn:not(.delete-button):not(.long-pressed):hover,
+                    .donation-btn:not(.delete-button):not(.long-pressed):active {
+                        background-color: var(--btn-color, %1$s) !important;
+                        border-color: var(--btn-color, %1$s) !important;
+                        color: #ffffff !important;
+                    }
+                    
+                    /* Selected state - always show JSON color (exclude delete button) */
+                    .donation-btn.selected:not(.delete-button) {
+                        background-color: var(--btn-color, %1$s) !important;
+                        border-color: var(--btn-color, %1$s) !important;
+                        color: #ffffff !important;
+                    }
+                    
+                    /* Focused state - same as idle */
+                    .donation-btn:focus {
+                        background-color: white;
+                        color: #212121;
+                        border-color: #ccc;
+                        outline: none;
+                    }
+                    
+                    /* Long pressed - prevent hover styles */
+                    .donation-btn.long-pressed {
+                        background-color: white !important;
+                        border-color: #ccc !important;
+                        color: #212121 !important;
+                    }
+                    
+                    /* Spinner for donation buttons */
+                    .donation-btn .button-spinner {
+                        display: none;
+                        width: 16px;
+                        height: 16px;
+                        border: 2px solid #FFF;
+                        border-bottom-color: transparent;
+                        border-radius: 50%%;
+                        box-sizing: border-box;
+                        animation: rotation 1s linear infinite;
+                        vertical-align: middle;
+                        flex-shrink: 0;
+                    }
+                    
+                    /* Spinner color for delete button - black */
+                    .donation-btn.delete-button .button-spinner {
+                        border-color: #000;
+                        border-bottom-color: transparent;
+                    }
+                    
+                    .donation-btn.loading .button-spinner {
+                        display: inline-block;
+                    }
+                    
+                    /* Hide button text when loading */
+                    .donation-btn.loading {
+                        pointer-events: none;
+                        opacity: 0.7;
+                        position: relative;
+                        font-size: 0;
+                        text-align: center;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                    
+                    /* Remove transitions from donation buttons to prevent weird spinner transitions */
+                    .donation-btn {
+                        transition: none !important;
+                    }
+                    
+                    .donation-btn * {
+                        transition: none !important;
+                    }
+                    
+                    /* But keep the spinner animation */
+                    .donation-btn .button-spinner {
+                        transition: none !important;
+                    }
+                    
+                    /* Show spinner and reset its font-size */
+                    .donation-btn.loading .button-spinner {
+                        font-size: initial;
+                    }
+                    
+                    /* Hide all child elements except spinner when loading */
+                    .donation-btn.loading > *:not(.button-spinner) {
+                        display: none !important;
+                    }
+                    
+                    .donation-buttons.disabled .donation-btn,
+                    .donation-amounts.disabled .donation-btn {
+                        pointer-events: none;
+                        opacity: 0.6;
+                        cursor: not-allowed;
+                    }
+                    
+                    @keyframes rotation {
+                        0%% {
+                            transform: rotate(0deg);
+                        }
+                        100%% {
+                            transform: rotate(360deg);
+                        }
+                    }',
                     esc_attr( $btn_color )
                 );
 
@@ -934,6 +1060,139 @@ class You_Be_Hero_Public {
 
                                     jQuery(document).ready(function($) {
 
+                                        // Long touch implementation for donation button
+                                        // Check if device is mobile/touch-enabled
+                                        // const isMobile = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+                                        //
+                                        // if (isMobile) {
+                                        //     const longTouchDuration = 500; // milliseconds (0.5 seconds)
+                                        //
+                                        //     $('.donation-btn').on('touchstart', function (e) {
+                                        //         e.preventDefault();
+                                        //
+                                        //         const $btn = $(this);
+                                        //         let delte_svg_path = $('.delete-button img').attr("src");
+                                        //         let old_svg_path = delte_svg_path.replace("delete-hover.svg", "delete.svg");
+                                        //         $('.delete-button img').attr("src", old_svg_path);
+                                        //         // Clear any existing timer on this button
+                                        //         if ($btn.data('touchTimer')) {
+                                        //             clearTimeout($btn.data('touchTimer'));
+                                        //         }
+                                        //
+                                        //         // Reset ALL other buttons to default CSS
+                                        //         $('.donation-btn').not($btn).css({
+                                        //             'background-color': '',
+                                        //             'border-color': '',
+                                        //             'color': ''
+                                        //         }).each(function () {
+                                        //             // Clear timers on other buttons too
+                                        //             if ($(this).data('touchTimer')) {
+                                        //                 clearTimeout($(this).data('touchTimer'));
+                                        //                 $(this).removeData('touchTimer');
+                                        //             }
+                                        //         });
+                                        //
+                                        //         // Apply button color ONLY to the touched button
+                                        //         $btn.css({
+                                        //             'background-color': $btn.data('btnclr'),
+                                        //             'border-color': $btn.data('btnclr'),
+                                        //             'color': '#ffffff'
+                                        //         });
+                                        //
+                                        //         // Start the timer for long press and store it on the button
+                                        //         const timer = setTimeout(function () {
+                                        //             // Long press detected - apply white/gray style
+                                        //             $btn.css({
+                                        //                 'background-color': 'white',
+                                        //                 'border-color': '#ccc',
+                                        //                 'color': '#212121'
+                                        //             });
+                                        //
+                                        //             console.log('Long touch detected on button:', $btn);
+                                        //             // Your long press action here
+                                        //
+                                        //         }, longTouchDuration);
+                                        //
+                                        //         // Store timer reference on the button element
+                                        //         $btn.data('touchTimer', timer);
+                                        //     });
+                                        //
+                                        //     $('.donation-btn').on('touchend touchcancel touchmove', function () {
+                                        //         const $btn = $(this);
+                                        //
+                                        //         // Clear the timer for this specific button
+                                        //         if ($btn.data('touchTimer')) {
+                                        //             clearTimeout($btn.data('touchTimer'));
+                                        //             $btn.removeData('touchTimer');
+                                        //         }
+                                        //         $btn.css({
+                                        //             'background-color': 'white',
+                                        //             'border-color': '#ccc',
+                                        //             'color': '#212121'
+                                        //         });
+                                        //         // Do NOT revert the design - keep whatever style was applied
+                                        //     });
+                                        //     $(document).on('touchstart', '.delete-button', function (e) {
+                                        //         e.preventDefault();
+                                        //
+                                        //         const $btn = $(this);
+                                        //
+                                        //         // Clear any existing timer on this button
+                                        //         if ($btn.data('touchTimer')) {
+                                        //             clearTimeout($btn.data('touchTimer'));
+                                        //         }
+                                        //
+                                        //         // Apply button color ONLY to the touched button
+                                        //         let delte_svg_path = $('.delete-button img').attr("src");
+                                        //         let new_svg_path = delte_svg_path.replace("delete.svg", "delete-hover.svg");
+                                        //
+                                        //         $('.delete-button img').attr("src", new_svg_path);
+                                        //
+                                        //         // Start the timer for long press and store it on the button
+                                        //         const timer = setTimeout(function () {
+                                        //             // Long press detected - apply white/gray style
+                                        //             let delte_svg_path = $('.delete-button img').attr("src");
+                                        //             let old_svg_path = delte_svg_path.replace("delete-hover.svg", "delete.svg");
+                                        //             $('.delete-button img').attr("src", old_svg_path);
+                                        //
+                                        //             $('.donation-btn').css({
+                                        //                 'background-color': 'white',
+                                        //                 'border-color': '#ccc',
+                                        //                 'color': '#212121'
+                                        //             });
+                                        //             console.log('Long touch detected on button:', $btn);
+                                        //             // Your long press action here
+                                        //
+                                        //         }, longTouchDuration);
+                                        //
+                                        //         // Store timer reference on the button element
+                                        //         $btn.data('touchTimer', timer);
+                                        //
+                                        //     })
+                                        //     $(document).on('touchend touchcancel touchmove', '.delete-button', function (e) {
+                                        //         const $btn = $(this);
+                                        //
+                                        //         // Clear the timer for this specific button
+                                        //         if ($btn.data('touchTimer')) {
+                                        //             clearTimeout($btn.data('touchTimer'));
+                                        //             $btn.removeData('touchTimer');
+                                        //         }
+                                        //     });
+                                        // }
+
+                                        // $('.donation-btn.selected').css({
+                                        //     'background-color': $(this).data('btnclr'),
+                                        //     'border-color': $(this).data('btnclr'),
+                                        //     'color': '#ffffff'
+                                        // });
+                                        // let delte_svg_path = $('.delete-button.selected img').attr("src");
+                                        // let new_svg_path = delte_svg_path.replace("delete.svg", "delete-hover.svg");
+                                        //
+                                        // $('.delete-button.selected img').attr("src", new_svg_path);
+                                        // $('.donation-btn').on('touchstart click', function () {
+                                        //     this.focus();
+                                        // });
+
                                         let youbeheroWidgetHtml = <?php echo json_encode($captured_widget_html); ?>;
                                         var youbeheroPlacement = <?php echo json_encode($placement_position); ?>;
 
@@ -977,6 +1236,18 @@ class You_Be_Hero_Public {
 
                                             if (injected) {
                                                 console.log('YouBeHero: Widget injected successfully');
+                                                // CSS handles all button styling - no JS manipulation needed
+                                                // Reset delete button SVG to default state
+                                                let delte_svg_path = $('.delete-button img').attr("src");
+                                                let old_svg_path = delte_svg_path.replace("delete-hover.svg", "delete.svg");
+                                                $('.delete-button img').attr("src", old_svg_path);
+
+
+
+                                                //Trigger value update on page load if amount is already selected
+                                                const selected_donation_amount = jQuery('.donation-btn.radio-button.selected').data('value');
+                                                const donationAmountEle = document.getElementById('donation-amount');
+                                                donationAmountEle.value = selected_donation_amount;
 
                                                 // Verify it's still there after 200ms
                                                 setTimeout(function() {
@@ -988,7 +1259,7 @@ class You_Be_Hero_Public {
                                                     }
                                                 }, 200);
 
-                                                setTimeout(function() { $('.widget-loader').hide() }, 500);
+                                                // setTimeout(function() { $('.widget-loader').hide() }, 500);
                                             } else {
                                                 console.warn('YouBeHero: Could not find target element for injection');
                                                 console.log('Available elements:', {
@@ -1147,7 +1418,6 @@ class You_Be_Hero_Public {
                                         }
 
                                         jQuery(document).ready(function($) {
-
                                             let youbeheroWidgetHtml = <?php echo json_encode($captured_widget_html); ?>;
                                             var youbeheroPlacement = <?php echo json_encode($placement_position); ?>;
 
@@ -1196,6 +1466,26 @@ class You_Be_Hero_Public {
 
                                                 if (injected) {
                                                     console.log('YouBeHero WPBakery: Widget injected successfully');
+                                                    // CSS handles all button styling - no JS manipulation needed
+                                                    // Reset delete button SVG to default state
+                                                    let delte_svg_path = $('.delete-button img').attr("src");
+                                                    let old_svg_path = delte_svg_path.replace("delete-hover.svg", "delete.svg");
+                                                    $('.delete-button img').attr("src", old_svg_path);
+
+                                                    // Clear any loading states from buttons after re-injection
+                                                    jQuery('.donation-btn').removeClass('loading').find('.button-spinner').remove();
+                                                    jQuery('.donation-buttons, .donation-amounts').removeClass('disabled');
+
+                                                    $('.donation-btn').on('touchstart click', function () {
+                                                        this.focus();
+                                                    });
+
+                                                    //Trigger value update on page load if amount is already selected
+                                                    const selected_donation_amount = jQuery('.donation-btn.radio-button.selected').data('value');
+                                                    const donationAmountEle = document.getElementById('donation-amount');
+                                                    if (donationAmountEle) {
+                                                        donationAmountEle.value = selected_donation_amount;
+                                                    }
 
                                                     // Verify it's still there after 200ms
                                                     setTimeout(function() {
@@ -1208,7 +1498,7 @@ class You_Be_Hero_Public {
                                                         }
                                                     }, 200);
 
-                                                    setTimeout(function() { $('.widget-loader').hide(); }, 500);
+                                                    // setTimeout(function() { $('.widget-loader').hide(); }, 500);
                                                 } else {
                                                     console.warn('YouBeHero WPBakery: Could not find target element for injection');
                                                     console.log('Available elements:', {
@@ -1223,7 +1513,11 @@ class You_Be_Hero_Public {
                                             // Re-inject after WooCommerce AJAX updates
                                             $(document.body).on('updated_checkout', function() {
                                                 console.log('YouBeHero WPBakery: Checkout updated, re-injecting...');
+                                                // Clear loading states before re-injecting to prevent spinner from reappearing
+                                                jQuery('.donation-btn').removeClass('loading').find('.button-spinner').remove();
+                                                jQuery('.donation-buttons, .donation-amounts').removeClass('disabled');
                                                 setTimeout(function() { injectYoubeheroWidget(); }, 500);
+
                                             });
 
                                             // Also try on payment method change

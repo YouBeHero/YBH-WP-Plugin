@@ -174,7 +174,7 @@ if( isset( $youbehero_data['status'] ) && $youbehero_data['status'] == 'active' 
                             </div>
                         </div>
 
-                        <button class="youbehero-close-btn"><?php echo esc_html__( 'Close', 'youbehero' )?></button>
+                        <a class="youbehero-close-btn"><?php echo esc_html__( 'Close', 'youbehero' )?></a>
                     </div>
                 </div>
             </section>

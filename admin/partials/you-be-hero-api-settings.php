@@ -23,24 +23,24 @@ $logout = isset( $_GET['logout'] ) ? sanitize_text_field( wp_unslash( $_GET['log
             <p><?php echo esc_html__( 'You have successfully logged out.', 'youbehero' );?></p>
         </div>
     <?php } ?>
+
+<?php
+// Nonce verification not used here because `status` comes from external service.
+// The value is sanitized and not used for sensitive operations.
+?>
+<?php if ( $status == 'fail' ) { ?>
+    <div class="notice notice-error is-dismissible" style="color: #d63638">
+        <p><?php echo esc_html__( 'We couldn’t verify your API key. Please double-check for any missing characters or extra spaces, then try again.', 'youbehero' );?></p>
+    </div>
+<?php } ?>
+
+<?php
+// Nonce verification not used here because `logut` is simply a url not form submission.
+// The value is sanitized and not used for sensitive operations.
+?>
+
 <div class="ybh-main-container">
     <div class="ybh-logo-token"><img src="<?php echo esc_url( plugin_dir_url(__DIR__) .'img/logo.svg' ); ?>"></div>
-
-    <?php
-    // Nonce verification not used here because `status` comes from external service.
-    // The value is sanitized and not used for sensitive operations.
-    ?>
-    <?php if ( $status == 'fail' ) { ?>
-        <div class="notice notice-error is-dismissible" style="color: #d63638">
-            <p><?php echo esc_html__( 'We couldn’t verify your API key. Please double-check for any missing characters or extra spaces, then try again.', 'youbehero' );?></p>
-        </div>
-    <?php } ?>
-
-    <?php
-    // Nonce verification not used here because `logut` is simply a url not form submission.
-    // The value is sanitized and not used for sensitive operations.
-    ?>
-
 
     <h3 class="ybh-token-hdng"><?php echo esc_html__( 'Thank you for installing', 'youbehero' ); ?> Add Donation to Cart! 🥳</h3>
 
@@ -66,6 +66,14 @@ $logout = isset( $_GET['logout'] ) ? sanitize_text_field( wp_unslash( $_GET['log
             // The value is sanitized and not used for sensitive operations.
             ?>
             <input type="text" id="ybhd_token" name="ybhd_token" value="<?php echo esc_attr($ybhd_token); ?>" style="border-color: <?php echo ( $status == 'fail' ) ? '#d63638': ''; ?>" placeholder="<?php echo esc_html__( 'API 🔑', 'youbehero' );?>"/>
+            <?php
+            if( $status == 'fail' ) {
+                ?>
+                <span style="color:#d63638;">
+                    <?php echo esc_html__( 'We couldn’t verify your API key. Please double-check for any missing characters or extra spaces, then try again.', 'youbehero' );?>
+                </span>
+            <?php } ?>
+
             <p class="submit">
                 <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php echo esc_html__( 'Login', 'youbehero' );?>">
             </p>

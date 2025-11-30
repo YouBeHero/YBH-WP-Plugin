@@ -84,11 +84,11 @@ if ( ! is_admin() ) {
                         $selected = ($donation_amount == $float) ? 'selected' : '';
                     }
 
-                    $html .= '<button class="donation-btn radio-button '.$selected.'" data-btnclr="'.$btn_color.'" data-value="'.$amount_cents.'" data-label="'.$amount.'">'.$amount . $currency_symbol . '</button>';
+                    $html .= '<button class="donation-btn radio-button '.$selected.'" data-btnclr="'.$btn_color.'" style="--btn-color: '.esc_attr($btn_color).';" data-value="'.$amount_cents.'" data-label="'.$amount.'">'.$amount . $currency_symbol . '</button>';
 
                 }
 
-                $html .= '<button class="donation-btn delete-button" data-btnclr="'.$btn_color.'"><img src="'.esc_url( YBHD_PLUGIN_URL ).'public/img/delete.svg"></button>';
+                $html .= '<button class="donation-btn delete-button" data-btnclr="'.$btn_color.'" style="--btn-color: '.esc_attr($btn_color).';"><img src="'.esc_url( YBHD_PLUGIN_URL ).'public/img/delete.svg"></button>';
                 $html .= '<input name="donation_cause" id="donation-cause" value="'.$don_cause.'" type="hidden"/>
                             <input name="donation_amount" id="donation-amount" type="hidden"/>';
 
@@ -140,8 +140,8 @@ if ( ! is_admin() ) {
                     $txt = __( "Would you like to make a donation?", "youbehero" );
                     $headHtml .= '<span style="color:'.$text_color.'">'.$txt.'</span><span style="background: '.$btn_color.'" class="pill-container"><span class="donation-amount-pill">' .number_format((float)$donation_amount, 2, '.', '') . $currency_symbol.'</span></span>';
 
-                    $html .= '<button class="donation-btn radio-button ' . $selected . '" data-btnclr="'.$btn_color.'" data-value="' . $amount_cents . '" data-label="' . number_format((float)$roundupValue, 2, '.', '') . '" >' . number_format((float)$roundupValue, 2, '.', '') . $currency_symbol . '</button>';
-                    $html .= '<button class="donation-btn delete-button" data-btnclr="'.$btn_color.'"><img src="'.esc_url( YBHD_PLUGIN_URL ).'public/img/delete.svg"></button>';
+                    $html .= '<button class="donation-btn radio-button ' . $selected . '" data-btnclr="'.$btn_color.'" style="--btn-color: '.esc_attr($btn_color).';" data-value="' . $amount_cents . '" data-label="' . number_format((float)$roundupValue, 2, '.', '') . '" >' . number_format((float)$roundupValue, 2, '.', '') . $currency_symbol . '</button>';
+                    $html .= '<button class="donation-btn delete-button" data-btnclr="'.$btn_color.'" style="--btn-color: '.esc_attr($btn_color).';"><img src="'.esc_url( YBHD_PLUGIN_URL ).'public/img/delete.svg"></button>';
                     $html .= '<input name="donation_cause" id="donation-cause" value="'.$don_cause.'" type="hidden"/>
                         <input name="donation_amount" id="donation-amount" type="hidden"/>';
                 } else {

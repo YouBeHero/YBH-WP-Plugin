@@ -90,8 +90,8 @@ class YouBeHero_Elementor_Widget extends Widget_Base {
                 'type' => Controls_Manager::SELECT,
                 'default' => 'woocommerce_review_order_before_submit',
                 'options' => [
-                    'woocommerce_review_order_before_submit' => esc_html__( 'Before Place Order Button', 'youbehero' ),
                     'woocommerce_after_checkout_billing_form' => esc_html__( 'After Billing Form', 'youbehero' ),
+                    'woocommerce_review_order_before_submit' => esc_html__( 'Before Place Order Button', 'youbehero' ),
                 ],
                 'condition' => [
                     'woocommerce_hook_enable' => 'yes',

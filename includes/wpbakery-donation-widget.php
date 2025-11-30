@@ -42,8 +42,8 @@ if (class_exists('WPBakeryShortCode')) {
                     'heading' => __( 'Placement Position', 'youbehero' ),
                     'param_name' => 'placement_position',
                     'value' => array(
-                        __( 'Before Place Order Button', 'youbehero' ) => 'woocommerce_review_order_before_submit',
                         __( 'After Billing Form', 'youbehero' ) => 'woocommerce_after_checkout_billing_form',
+                        __( 'Before Place Order Button', 'youbehero' ) => 'woocommerce_review_order_before_submit',
                     ),
                     'std' => 'woocommerce_review_order_before_submit',
                     'description' => __( 'Select where to place the widget on checkout page', 'youbehero' ),

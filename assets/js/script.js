@@ -12,32 +12,51 @@ jQuery(document).ready(function($) {
             return;
         }
 
-        let delte_svg_path = '';
-        $(document).on('mouseenter', '.delete-button', function() {
 
-            delte_svg_path = $('.delete-button img').attr("src");
-            let new_svg_path = delte_svg_path.replace("delete.svg", "delete-hover.svg");
-
-            $('.delete-button img').attr("src", new_svg_path);
-
-        }).on('mouseleave', '.delete-button', function() {
-            let old_svg_path = delte_svg_path.replace("delete-hover.svg", "delete.svg");
-            $('.delete-button img').attr("src", old_svg_path);
+        // Minimal long-press detection - only toggles a class
+        // CSS handles all the styling via :hover, :active, and .selected states
+        
+        $(document).on('touchstart', '.donation-btn', function(e) {
+            const $btn = $(this);
+            
+            // Clear any existing timer
+            if ($btn.data('touchTimer')) {
+                clearTimeout($btn.data('touchTimer'));
+            }
+            
+            // Start timer for long press (500ms)
+            const timer = setTimeout(function() {
+                $btn.addClass('long-pressed');
+            }, 500);
+            
+            $btn.data('touchTimer', timer);
         });
 
-        // Use event delegation for dynamically generated buttons
-        $(document).on('mouseenter', '.donation-btn', function() {
-            $(this).css({
-                'background-color': $(this).data('btnclr'),
-                'border-color': $(this).data('btnclr'),
-                'color': "#ffffff"
-            });
-        }).on('mouseleave', '.donation-btn', function() {
-            $(this).css({
-                'background-color': '',
-                'border-color': '',
-                'color': ""
-            });
+        $(document).on('touchend touchcancel touchmove', '.donation-btn', function(e) {
+            const $btn = $(this);
+            
+            // Clear timer
+            if ($btn.data('touchTimer')) {
+                clearTimeout($btn.data('touchTimer'));
+                $btn.removeData('touchTimer');
+            }
+            
+            // If it was a long press, remove the class on release
+            // This allows normal tap to work again
+            if ($btn.hasClass('long-pressed')) {
+                // Remove class after a brief delay to show the state change
+                setTimeout(function() {
+                    $btn.removeClass('long-pressed');
+                }, 100);
+            }
+        });
+
+        // Handle click to remove long-pressed state if present
+        $(document).on('click', '.donation-btn', function(e) {
+            const $btn = $(this);
+            if ($btn.hasClass('long-pressed')) {
+                $btn.removeClass('long-pressed');
+            }
         });
 
         const { causes, amounts, selected_amount } = ybh_donation_checkout_params || {};
@@ -47,6 +66,28 @@ jQuery(document).ready(function($) {
         const $amountsContainer = $('#donation-amounts');
         let currencyCode = wcSettings?.currency?.code || 'USD';
         let currencySymbol = wcSettings?.currency?.symbol || '$';
+
+        // Hide "Please select a nonprofit organization" option if a nonprofit is already selected
+        jQuery(document).ready(function() {
+            const donationCauseEle = document.getElementById('donation-cause');
+            if (donationCauseEle && donationCauseEle.value && donationCauseEle.value != '0' && donationCauseEle.value != '') {
+                jQuery('#select-np-ybh-dd-option').addClass('hidden');
+            }
+        });
+
+        // Helper function to set button loading state
+        function setButtonLoading(jQueryButton, isLoading) {
+            if (isLoading) {
+                if (!jQueryButton.find('.button-spinner').length) {
+                    jQueryButton.prepend('<span class="button-spinner"></span>');
+                }
+                jQueryButton.addClass('loading');
+                jQuery('.donation-buttons, .donation-amounts').addClass('disabled');
+            } else {
+                jQueryButton.removeClass('loading').find('.button-spinner').remove();
+                jQuery('.donation-buttons, .donation-amounts').removeClass('disabled');
+            }
+        }
 
         const addDonationFee = async (orgId, orgName, amount, orgImg) => {
             try {
@@ -84,8 +125,10 @@ jQuery(document).ready(function($) {
                 });
 
                 //Store HTML for widget AJAX
-                $('.donation-buttons .radio-button').trigger('mouseleave')
-                var wrapper = $('.youbehero-donation-wrapper');
+                let wrapper = $('.youbehero-donation-wrapper');
+                if (!wrapper.length) {
+                    wrapper  = $('.youbehero-donation-widget');
+                }
                 // if (!wrapper.length) return;
                 if (wrapper.length) {
                     var html = wrapper.prop('outerHTML');
@@ -95,10 +138,12 @@ jQuery(document).ready(function($) {
                     }
                     // Store the HTML in the hidden div
                     $('#hidden-donation-html').text(html);
+
+                    console.log('incond',$('#hidden-donation-html').text() )
                 }
                 //Store HTML for widget AJAX - End
 
-                showLoader();
+                // showLoader();
                 const amountF = isNaN(Number(amount)) ? 0 : Number(amount)/100;
                 const force_remove = isNaN(Number(orgId)) ? 1 : 0;
                 //server side update
@@ -122,11 +167,37 @@ jQuery(document).ready(function($) {
                     success: function(response) {
                         console.log('Donation added successfully!');
 
-                        if ($('form.checkout').length) {
-                            $(document.body).trigger('update_checkout');
+                        if (jQuery('form.checkout').length) {
+                            // Listen for checkout update completion
+                            let reEnabled = false;
+                            jQuery(document.body).one('updated_checkout', function() {
+                                if (!reEnabled) {
+                                    reEnabled = true;
+                                    setButtonLoading(jQuery('.donation-btn.loading'), false);
+                                }
+                            });
+                            jQuery(document.body).trigger('update_checkout');
+                            
+                            // Fallback: re-enable after 3 seconds if event doesn't fire
+                            setTimeout(function() {
+                                if (!reEnabled) {
+                                    reEnabled = true;
+                                    setButtonLoading(jQuery('.donation-btn.loading'), false);
+                                }
+                            }, 3000);
+                        } else {
+                            // For non-checkout contexts, re-enable after totals update
+                            update_totals().then(function() {
+                                setButtonLoading(jQuery('.donation-btn.loading'), false);
+                            }).catch(function() {
+                                setButtonLoading(jQuery('.donation-btn.loading'), false);
+                            });
                         }
-
-                        update_totals();
+                    },
+                    error: function() {
+                        // Re-enable buttons on error
+                        setButtonLoading(jQuery('.donation-btn.loading'), false);
+                        // hideLoader();
                     }
                 });
                 console.log('Donation process ends!');
@@ -134,7 +205,9 @@ jQuery(document).ready(function($) {
 
             } catch (error) {
                 console.error('Donation error:', error);
-                hideLoader();
+                // Re-enable buttons on error
+                setButtonLoading(jQuery('.donation-btn.loading'), false);
+                // hideLoader();
                 //show elegant notice update this
                 wp.data.dispatch('core/notices').createNotice(
                     'error',
@@ -148,14 +221,20 @@ jQuery(document).ready(function($) {
         const update_totals = async () => {
             
             try {
-                showLoader();
+                // showLoader();
                 // Invalidate the current cart data resolution
                 await wp.data.dispatch('wc/store/cart').invalidateResolution('getCartData');
               } catch (error) {
                 console.error('Error updating cart totals:', error);
+                // Re-enable buttons on error
+                setButtonLoading(jQuery('.donation-btn.loading'), false);
               } finally {
                 // Hide the loader after the operations are complete
-                hideLoader();
+                // hideLoader();
+                // Re-enable buttons after totals update (if not already handled)
+                if (jQuery('.donation-btn.loading').length > 0 && !jQuery('form.checkout').length) {
+                    setButtonLoading(jQuery('.donation-btn.loading'), false);
+                }
               }
         };
         
@@ -175,7 +254,9 @@ jQuery(document).ready(function($) {
 
             if($('.ybh-dd-option').length == 1) {
                 const singleCauseEle = document.getElementById('donation-cause');
+                const singleCauseamount = document.getElementById('donation-amount');
                 singleCauseEle.value = $('.ybh-dd-option').data("value");
+                singleCauseamount.value = $('.donation-amounts .radio-button.selected').data('value');
             }
 
             const donation_cause = $('#donation-cause').val();
@@ -196,6 +277,7 @@ jQuery(document).ready(function($) {
         $('#donation-amount').change(function() {
             const donation_amount = $(this).val();
             const donation_cause = $('#donation-cause').val();
+
             if ( validate_donation_data() ) {
                 add_donation_to_cart( );
             }
@@ -258,7 +340,8 @@ jQuery(document).ready(function($) {
             donationCauseEle.value = $(this).data("value");
             causeImgEle.src = $(this).data("image");
             
-            if( !$(this).data("value") ){
+            // Hide "Please select a nonprofit organization" option when a nonprofit is selected
+            if( $(this).data("value") && $(this).data("value") != 0 ){
                 $('#select-np-ybh-dd-option').addClass('hidden');
             }else{
                 $('#select-np-ybh-dd-option').removeClass('hidden');
@@ -281,34 +364,74 @@ jQuery(document).ready(function($) {
         };
         
         $('.donation-amounts .radio-button:checked').trigger('click');
-        $(document).on('click', '.donation-amounts .radio-button', function (event) {
+        jQuery(document).on('click', '.donation-amounts .radio-button', function (event) {
             event.preventDefault();
-            const donation_amount = $(this).data('value');
-            const donation_label = $(this).data('label');
+            const jQueryBtn = jQuery(this);
+            
+            // Do nothing if button is already selected
+            if (jQueryBtn.hasClass('selected')) {
+                return;
+            }
+            
+            // Prevent if already loading
+            if (jQueryBtn.hasClass('loading')) {
+                return;
+            }
+            
+            // Disable buttons and show spinner
+            setButtonLoading(jQueryBtn, true);
+            
+            const donation_amount = jQueryBtn.data('value');
+            const donation_label = jQueryBtn.data('label');
 
             const donationAmountEle = document.getElementById('donation-amount');
             donationAmountEle.value = donation_amount;
 
-            $('.donation-amount-pill').text(donation_label + currencySymbol);
-            $('.donation-amounts .radio-button').removeClass('selected');
-            $(this).addClass('selected');
-            $('.donation-amounts .donation-amount').change();
+            jQuery('.donation-amount-pill').text(donation_label + currencySymbol);
+            jQuery('.donation-amounts .radio-button').removeClass('selected');
+            jQueryBtn.addClass('selected');
+            jQuery('.donation-amounts .donation-amount').change();
+            
             if ( validate_donation_data() ) {
                 add_donation_to_cart( );
+            } else {
+                // Re-enable if validation fails
+                setButtonLoading(jQueryBtn, false);
             }
         });
         
-        $(document).on('click', '.donation-amounts .delete-button', function (event) {
+        jQuery(document).on('click', '.donation-amounts .delete-button', function (event) {
             event.preventDefault();
-
-            console.log($(this));
+            const jQueryBtn = jQuery(this);
+            
+            // Prevent if already loading
+            if (jQueryBtn.hasClass('loading')) {
+                return;
+            }
+            
+            // Disable buttons and show spinner
+            setButtonLoading(jQueryBtn, true);
+            
             const donationAmountEle = document.getElementById('donation-amount');
             donationAmountEle.value = '';
-            $('.donation-amount-pill').text('0,00' + currencySymbol);
-            $('.donation-amounts .radio-button').removeClass('selected');
-            $('.donation-amounts .donation-amount').change();
-            $('.donation-btn').trigger('mouseleave')
-            add_donation_to_cart( );
+            jQuery('.donation-amount-pill').text('0,00' + currencySymbol);
+            jQuery('.donation-amounts .radio-button').removeClass('selected');
+            jQuery('.donation-amounts .donation-amount').change();
+
+            // Select "Please select a nonprofit organization" option when amount is deleted
+            const selectedOption = document.getElementById('selectedOption');
+            const donationCauseEle = document.getElementById('donation-cause');
+            const causeImgEle = document.getElementById('selected-cause-img');
+            const selectNpOption = jQuery('#select-np-ybh-dd-option');
+            
+            if (selectNpOption.length) {
+                donationCauseEle.value = '0';
+                selectedOption.textContent = selectNpOption.data('text');
+                causeImgEle.src = selectNpOption.data('image');
+                selectNpOption.removeClass('hidden');
+            }
+
+            add_donation_to_cart();
         });
 
         // Show the loader
