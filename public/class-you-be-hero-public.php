@@ -1028,8 +1028,8 @@ class You_Be_Hero_Public {
             if (isset($element['widgetType']) && $element['widgetType'] === 'youbehero_donation_widget_v2') {
                 $settings = $element['settings'];
 
-                $wc_hook_enabled = !empty($settings['woocommerce_hook_enable']) ? $settings['woocommerce_hook_enable'] : 'no';
-                $placement_position = !empty($settings['placement_position']) ? $settings['placement_position'] : 'woocommerce_review_order_before_submit';
+                $wc_hook_enabled = !empty($settings['woocommerce_hook_enable']) ? $settings['woocommerce_hook_enable'] : 'yes';
+                $placement_position = !empty($settings['placement_position']) ? $settings['placement_position'] : 'woocommerce_after_checkout_billing_form';
 
                 if ($wc_hook_enabled === 'yes' && !$hooks_added) {
                     // Update the global settings
@@ -1242,12 +1242,16 @@ class You_Be_Hero_Public {
                                                 let old_svg_path = delte_svg_path.replace("delete-hover.svg", "delete.svg");
                                                 $('.delete-button img').attr("src", old_svg_path);
 
-
+                                                // Clear any loading states from buttons after re-injection
+                                                jQuery('.donation-btn').removeClass('loading').find('.button-spinner').remove();
+                                                jQuery('.donation-buttons, .donation-amounts').removeClass('disabled');
 
                                                 //Trigger value update on page load if amount is already selected
                                                 const selected_donation_amount = jQuery('.donation-btn.radio-button.selected').data('value');
                                                 const donationAmountEle = document.getElementById('donation-amount');
+                                                if (donationAmountEle) {
                                                 donationAmountEle.value = selected_donation_amount;
+                                                }
 
                                                 // Verify it's still there after 200ms
                                                 setTimeout(function() {
@@ -1274,7 +1278,9 @@ class You_Be_Hero_Public {
                                         // Re-inject after WooCommerce AJAX updates
                                         $(document.body).on('updated_checkout', function() {
                                             console.log('YouBeHero: Checkout updated, re-injecting...');
-
+                                            // Clear loading states before re-injecting to prevent spinner from reappearing
+                                            jQuery('.donation-btn').removeClass('loading').find('.button-spinner').remove();
+                                            jQuery('.donation-buttons, .donation-amounts').removeClass('disabled');
                                             // // Try multiple times with different delays to catch all updates
                                             setTimeout(function() { injectYoubeheroWidget(); }, 500);
                                         });
@@ -1393,8 +1399,8 @@ class You_Be_Hero_Public {
                 if (isset($attr_matches[1])) {
                     $attrs = shortcode_parse_atts($attr_matches[1]);
 
-                    $wc_hook_enabled = isset($attrs['woocommerce_hook_enable']) ? $attrs['woocommerce_hook_enable'] : 'no';
-                    $placement_position = isset($attrs['placement_position']) ? $attrs['placement_position'] : 'woocommerce_review_order_before_submit';
+                    $wc_hook_enabled = isset($attrs['woocommerce_hook_enable']) ? $attrs['woocommerce_hook_enable'] : 'yes';
+                    $placement_position = isset($attrs['placement_position']) ? $attrs['placement_position'] : 'woocommerce_after_checkout_billing_form';
 
                     if ($wc_hook_enabled === 'yes') {
 
@@ -1484,7 +1490,7 @@ class You_Be_Hero_Public {
                                                     const selected_donation_amount = jQuery('.donation-btn.radio-button.selected').data('value');
                                                     const donationAmountEle = document.getElementById('donation-amount');
                                                     if (donationAmountEle) {
-                                                        donationAmountEle.value = selected_donation_amount;
+                                                    donationAmountEle.value = selected_donation_amount;
                                                     }
 
                                                     // Verify it's still there after 200ms

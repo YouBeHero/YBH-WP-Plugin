@@ -29,10 +29,10 @@ if (class_exists('WPBakeryShortCode')) {
                     'heading' => __( 'WooCommerce Hook', 'youbehero' ),
                     'param_name' => 'woocommerce_hook_enable',
                     'value' => array(
-                        __( 'No', 'youbehero' ) => 'no',
                         __( 'Yes', 'youbehero' ) => 'yes',
+                        __( 'No', 'youbehero' ) => 'no',
                     ),
-                    'std' => 'no',
+                    'std' => 'yes',
                     'description' => __( 'Enable to place widget on WooCommerce checkout page hooks', 'youbehero' ),
                 ),
 
@@ -45,7 +45,7 @@ if (class_exists('WPBakeryShortCode')) {
                         __( 'After Billing Form', 'youbehero' ) => 'woocommerce_after_checkout_billing_form',
                         __( 'Before Place Order Button', 'youbehero' ) => 'woocommerce_review_order_before_submit',
                     ),
-                    'std' => 'woocommerce_review_order_before_submit',
+                    'std' => 'woocommerce_after_checkout_billing_form',
                     'description' => __( 'Select where to place the widget on checkout page', 'youbehero' ),
                     'dependency' => array(
                         'element' => 'woocommerce_hook_enable',
@@ -66,8 +66,8 @@ if (class_exists('WPBakeryShortCode')) {
         protected function content( $atts, $content = null ) {
 
             extract(shortcode_atts( array(
-                'woocommerce_hook_enable' => 'no',
-                'placement_position' => 'woocommerce_review_order_before_submit',
+                'woocommerce_hook_enable' => 'yes',
+                'placement_position' => 'woocommerce_after_checkout_billing_form',
             ), $atts ) );
 
             // Store settings globally for hook initialization

@@ -78,7 +78,7 @@ class YouBeHero_Elementor_Widget extends Widget_Base {
                 'label_on' => esc_html__( 'Yes', 'youbehero' ),
                 'label_off' => esc_html__( 'No', 'youbehero' ),
                 'return_value' => 'yes',
-                'default' => 'no',
+                'default' => 'yes',
             ]
         );
 
@@ -88,7 +88,7 @@ class YouBeHero_Elementor_Widget extends Widget_Base {
             [
                 'label' => esc_html__( 'Placement', 'youbehero' ),
                 'type' => Controls_Manager::SELECT,
-                'default' => 'woocommerce_review_order_before_submit',
+                'default' => 'woocommerce_after_checkout_billing_form',
                 'options' => [
                     'woocommerce_after_checkout_billing_form' => esc_html__( 'After Billing Form', 'youbehero' ),
                     'woocommerce_review_order_before_submit' => esc_html__( 'Before Place Order Button', 'youbehero' ),
@@ -111,7 +111,7 @@ class YouBeHero_Elementor_Widget extends Widget_Base {
         $settings = $this->get_settings_for_display();
 
         // Get settings with fallback to defaults
-        $wc_hook_enabled = !empty( $settings['woocommerce_hook_enable'] ) ? $settings['woocommerce_hook_enable'] : 'no';
+        $wc_hook_enabled = !empty( $settings['woocommerce_hook_enable'] ) ? $settings['woocommerce_hook_enable'] : 'yes';
 
         // Only render normally if WooCommerce hook is NOT enabled
         if ( $wc_hook_enabled !== 'yes' ) {
