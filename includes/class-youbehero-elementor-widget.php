@@ -110,8 +110,8 @@ class YouBeHero_Elementor_Widget extends Widget_Base {
 
         $settings = $this->get_settings_for_display();
 
-        // Get settings with fallback to defaults
-        $wc_hook_enabled = !empty( $settings['woocommerce_hook_enable'] ) ? $settings['woocommerce_hook_enable'] : 'yes';
+        // Get settings - check if explicitly set to 'yes' (SWITCHER returns 'yes' when ON, empty string when OFF)
+        $wc_hook_enabled = isset( $settings['woocommerce_hook_enable'] ) && $settings['woocommerce_hook_enable'] === 'yes' ? 'yes' : 'no';
 
         // Only render normally if WooCommerce hook is NOT enabled
         if ( $wc_hook_enabled !== 'yes' ) {

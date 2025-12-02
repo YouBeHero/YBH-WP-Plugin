@@ -10,7 +10,11 @@ if ( ! is_admin() ) {
     $causes = [];
     $amounts = [];
 
-    if( isset( $youbehero_data['status'] ) && $youbehero_data['status'] == 'active' && !empty($youbehero_data) && !empty($youbehero_data['selected_causes']) ){
+    // Check if is_scheduled or has_ended is set to 1 (block rendering if true)
+    $is_scheduled = isset($youbehero_data['is_scheduled']) && (intval($youbehero_data['is_scheduled']) === 1);
+    $has_ended = isset($youbehero_data['has_ended']) && (intval($youbehero_data['has_ended']) === 1);
+
+    if( isset( $youbehero_data['status'] ) && $youbehero_data['status'] == 'active' && !empty($youbehero_data) && !empty($youbehero_data['selected_causes']) && !$is_scheduled && !$has_ended ){
 
         if( !empty($youbehero_data['selected_causes']) ){
             $causes = array_map(function ($cause) {

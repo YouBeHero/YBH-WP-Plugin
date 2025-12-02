@@ -378,6 +378,20 @@ class You_Be_Hero_Public {
     }
 
     /**
+     * Check if widget should be displayed based on is_scheduled and has_ended flags
+     * 
+     * @return bool True if widget should be displayed, false if it should be blocked
+     */
+    private function youbehero_should_display_widget() {
+        $youbehero_data = json_decode( get_option('ybhd_dashboard_json' ), true );
+        $youbehero_data = $youbehero_data['data'] ?? [];
+        $is_scheduled = isset($youbehero_data['is_scheduled']) && (intval($youbehero_data['is_scheduled']) === 1);
+        $has_ended = isset($youbehero_data['has_ended']) && (intval($youbehero_data['has_ended']) === 1);
+        
+        return !$is_scheduled && !$has_ended;
+    }
+
+    /**
      * @param $order
      * @param $data
      * @return void
@@ -1028,7 +1042,13 @@ class You_Be_Hero_Public {
             if (isset($element['widgetType']) && $element['widgetType'] === 'youbehero_donation_widget_v2') {
                 $settings = $element['settings'];
 
-                $wc_hook_enabled = !empty($settings['woocommerce_hook_enable']) ? $settings['woocommerce_hook_enable'] : 'yes';
+                // Check if explicitly set to 'yes' (SWITCHER returns 'yes' when ON, empty string when OFF)
+                // If the key exists but is empty/false, it means 'no'. If key doesn't exist, default to 'yes'
+                if (isset($settings['woocommerce_hook_enable'])) {
+                    $wc_hook_enabled = ($settings['woocommerce_hook_enable'] === 'yes') ? 'yes' : 'no';
+                } else {
+                    $wc_hook_enabled = 'yes'; // Default to 'yes' if not set
+                }
                 $placement_position = !empty($settings['placement_position']) ? $settings['placement_position'] : 'woocommerce_after_checkout_billing_form';
 
                 if ($wc_hook_enabled === 'yes' && !$hooks_added) {
@@ -1037,6 +1057,7 @@ class You_Be_Hero_Public {
                     $youbehero_widget_settings['position'] = $placement_position;
 
                     // Capture widget HTML ONCE at the beginning
+                    // The shortcode itself (render.php) will handle is_scheduled/has_ended checks
                     ob_start();
                     echo do_shortcode('[youbehero_donation_form]');
                     $captured_widget_html = ob_get_clean();
@@ -1044,6 +1065,11 @@ class You_Be_Hero_Public {
                     // Add the WooCommerce hook
                     add_action($placement_position, function() use ($placement_position, $captured_widget_html) {
                         static $script_added = false;
+
+                        // Only output if we have captured HTML (shortcode already handled is_scheduled/has_ended checks)
+                        if (empty($captured_widget_html)) {
+                            return; // Don't output widget if empty
+                        }
 
                         // Output the widget
                         echo $captured_widget_html;
@@ -1060,138 +1086,6 @@ class You_Be_Hero_Public {
 
                                     jQuery(document).ready(function($) {
 
-                                        // Long touch implementation for donation button
-                                        // Check if device is mobile/touch-enabled
-                                        // const isMobile = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-                                        //
-                                        // if (isMobile) {
-                                        //     const longTouchDuration = 500; // milliseconds (0.5 seconds)
-                                        //
-                                        //     $('.donation-btn').on('touchstart', function (e) {
-                                        //         e.preventDefault();
-                                        //
-                                        //         const $btn = $(this);
-                                        //         let delte_svg_path = $('.delete-button img').attr("src");
-                                        //         let old_svg_path = delte_svg_path.replace("delete-hover.svg", "delete.svg");
-                                        //         $('.delete-button img').attr("src", old_svg_path);
-                                        //         // Clear any existing timer on this button
-                                        //         if ($btn.data('touchTimer')) {
-                                        //             clearTimeout($btn.data('touchTimer'));
-                                        //         }
-                                        //
-                                        //         // Reset ALL other buttons to default CSS
-                                        //         $('.donation-btn').not($btn).css({
-                                        //             'background-color': '',
-                                        //             'border-color': '',
-                                        //             'color': ''
-                                        //         }).each(function () {
-                                        //             // Clear timers on other buttons too
-                                        //             if ($(this).data('touchTimer')) {
-                                        //                 clearTimeout($(this).data('touchTimer'));
-                                        //                 $(this).removeData('touchTimer');
-                                        //             }
-                                        //         });
-                                        //
-                                        //         // Apply button color ONLY to the touched button
-                                        //         $btn.css({
-                                        //             'background-color': $btn.data('btnclr'),
-                                        //             'border-color': $btn.data('btnclr'),
-                                        //             'color': '#ffffff'
-                                        //         });
-                                        //
-                                        //         // Start the timer for long press and store it on the button
-                                        //         const timer = setTimeout(function () {
-                                        //             // Long press detected - apply white/gray style
-                                        //             $btn.css({
-                                        //                 'background-color': 'white',
-                                        //                 'border-color': '#ccc',
-                                        //                 'color': '#212121'
-                                        //             });
-                                        //
-                                        //             console.log('Long touch detected on button:', $btn);
-                                        //             // Your long press action here
-                                        //
-                                        //         }, longTouchDuration);
-                                        //
-                                        //         // Store timer reference on the button element
-                                        //         $btn.data('touchTimer', timer);
-                                        //     });
-                                        //
-                                        //     $('.donation-btn').on('touchend touchcancel touchmove', function () {
-                                        //         const $btn = $(this);
-                                        //
-                                        //         // Clear the timer for this specific button
-                                        //         if ($btn.data('touchTimer')) {
-                                        //             clearTimeout($btn.data('touchTimer'));
-                                        //             $btn.removeData('touchTimer');
-                                        //         }
-                                        //         $btn.css({
-                                        //             'background-color': 'white',
-                                        //             'border-color': '#ccc',
-                                        //             'color': '#212121'
-                                        //         });
-                                        //         // Do NOT revert the design - keep whatever style was applied
-                                        //     });
-                                        //     $(document).on('touchstart', '.delete-button', function (e) {
-                                        //         e.preventDefault();
-                                        //
-                                        //         const $btn = $(this);
-                                        //
-                                        //         // Clear any existing timer on this button
-                                        //         if ($btn.data('touchTimer')) {
-                                        //             clearTimeout($btn.data('touchTimer'));
-                                        //         }
-                                        //
-                                        //         // Apply button color ONLY to the touched button
-                                        //         let delte_svg_path = $('.delete-button img').attr("src");
-                                        //         let new_svg_path = delte_svg_path.replace("delete.svg", "delete-hover.svg");
-                                        //
-                                        //         $('.delete-button img').attr("src", new_svg_path);
-                                        //
-                                        //         // Start the timer for long press and store it on the button
-                                        //         const timer = setTimeout(function () {
-                                        //             // Long press detected - apply white/gray style
-                                        //             let delte_svg_path = $('.delete-button img').attr("src");
-                                        //             let old_svg_path = delte_svg_path.replace("delete-hover.svg", "delete.svg");
-                                        //             $('.delete-button img').attr("src", old_svg_path);
-                                        //
-                                        //             $('.donation-btn').css({
-                                        //                 'background-color': 'white',
-                                        //                 'border-color': '#ccc',
-                                        //                 'color': '#212121'
-                                        //             });
-                                        //             console.log('Long touch detected on button:', $btn);
-                                        //             // Your long press action here
-                                        //
-                                        //         }, longTouchDuration);
-                                        //
-                                        //         // Store timer reference on the button element
-                                        //         $btn.data('touchTimer', timer);
-                                        //
-                                        //     })
-                                        //     $(document).on('touchend touchcancel touchmove', '.delete-button', function (e) {
-                                        //         const $btn = $(this);
-                                        //
-                                        //         // Clear the timer for this specific button
-                                        //         if ($btn.data('touchTimer')) {
-                                        //             clearTimeout($btn.data('touchTimer'));
-                                        //             $btn.removeData('touchTimer');
-                                        //         }
-                                        //     });
-                                        // }
-
-                                        // $('.donation-btn.selected').css({
-                                        //     'background-color': $(this).data('btnclr'),
-                                        //     'border-color': $(this).data('btnclr'),
-                                        //     'color': '#ffffff'
-                                        // });
-                                        // let delte_svg_path = $('.delete-button.selected img').attr("src");
-                                        // let new_svg_path = delte_svg_path.replace("delete.svg", "delete-hover.svg");
-                                        //
-                                        // $('.delete-button.selected img').attr("src", new_svg_path);
-                                        // $('.donation-btn').on('touchstart click', function () {
-                                        //     this.focus();
-                                        // });
 
                                         let youbeheroWidgetHtml = <?php echo json_encode($captured_widget_html); ?>;
                                         var youbeheroPlacement = <?php echo json_encode($placement_position); ?>;
@@ -1320,8 +1214,12 @@ class You_Be_Hero_Public {
             $placement_position = $youbehero_widget_settings['position'];
 
             // Re-add the hook for AJAX requests
-            add_action( $placement_position, function() {
-                echo do_shortcode( '[youbehero_donation_form]' );
+            $instance = $this;
+            add_action( $placement_position, function() use ($instance) {
+                // Only output widget if not scheduled and not ended
+                if ($instance->youbehero_should_display_widget()) {
+                    echo do_shortcode( '[youbehero_donation_form]' );
+                }
             }, 10 );
         }
 
