@@ -285,6 +285,38 @@ class You_Be_Hero_Admin {
     }
 
     /**
+     * Cron-safe refresh of dashboard JSON.
+     *
+     * This is used by the `youbehero_refresh_dashboard_json` WP-Cron event.
+     * It should NOT echo or send JSON responses.
+     *
+     * @return void
+     */
+    public function youbehero_refresh_dashboard_json() {
+
+        $api_key = get_option( 'ybhd_token' );
+        if ( empty( $api_key ) ) {
+            return;
+        }
+
+        $response = wp_remote_get( 'https://dev.youbehero.com/api/shop-details?api_token=' . $api_key );
+
+        if ( is_wp_error( $response ) ) {
+            return;
+        }
+
+        $body = wp_remote_retrieve_body( $response );
+        $data = json_decode( $body, true );
+
+        if ( json_last_error() !== JSON_ERROR_NONE || ! isset( $data['data'] ) ) {
+            return;
+        }
+
+        // Cache raw body so existing consumers that decode it continue to work.
+        update_option( 'ybhd_dashboard_json', $body );
+    }
+
+    /**
      * @param $token
      * @return false|mixed
      */
@@ -303,6 +335,19 @@ class You_Be_Hero_Admin {
 
         return json_decode( $body, true );
 
+    }
+
+    /**
+     * Ensure cron is scheduled (safety check for existing installations)
+     * This runs on admin_init to catch cases where the plugin was already active
+     * when the cron feature was added.
+     *
+     * @return void
+     */
+    public function ensure_cron_scheduled() {
+        if ( ! wp_next_scheduled( 'youbehero_refresh_dashboard_json' ) ) {
+            wp_schedule_event( time(), 'hourly', 'youbehero_refresh_dashboard_json' );
+        }
     }
 
     /**

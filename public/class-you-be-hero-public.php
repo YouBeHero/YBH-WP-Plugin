@@ -354,27 +354,18 @@ class You_Be_Hero_Public {
      */
     function donation_widget_fetch_data() {
 
-        $api_token = get_option( 'ybhd_token' );
-
-        if( !empty( $api_token ) ) {
-            $response = wp_remote_get( 'https://dev.youbehero.com/api/shop-details?api_token='.$api_token );
-
-            if (is_wp_error($response)) {
-                return false;
-            }
-
-            $body = wp_remote_retrieve_body($response);
-            $data = json_decode($body, true);
-
-            if (json_last_error() !== JSON_ERROR_NONE || !isset($data['data'])) {
-                return false;
-            }
-
-            update_option( 'ybhd_dashboard_json', $body );
-            return $data['data'];
+        // Frontend should only read from cached JSON to avoid blocking checkout.
+        $body = get_option( 'ybhd_dashboard_json' );
+        if ( empty( $body ) ) {
+            return [];
         }
 
-        return [];
+        $data = json_decode( $body, true );
+        if ( json_last_error() !== JSON_ERROR_NONE || ! isset( $data['data'] ) ) {
+            return [];
+        }
+
+        return $data['data'];
     }
 
     /**

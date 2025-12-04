@@ -30,7 +30,10 @@ class You_Be_Hero_Activator {
 	 * @since    1.0.1
 	 */
 	public static function activate() {
-
+		// Schedule the cron job to refresh dashboard JSON hourly
+		if ( ! wp_next_scheduled( 'youbehero_refresh_dashboard_json' ) ) {
+			wp_schedule_event( time(), 'hourly', 'youbehero_refresh_dashboard_json' );
+		}
 	}
 
 }

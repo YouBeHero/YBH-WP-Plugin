@@ -215,6 +215,12 @@ class You_Be_Hero {
         $this->loader->add_action( 'wp_ajax_ybhd_logout', $plugin_admin, 'ybhd_logout' );
         $this->loader->add_action( 'wp_ajax_nopriv_ybhd_logout', $plugin_admin, 'ybhd_logout' );
 
+        // Cron: refresh dashboard JSON asynchronously.
+        $this->loader->add_action( 'youbehero_refresh_dashboard_json', $plugin_admin, 'youbehero_refresh_dashboard_json' );
+        
+        // Ensure cron is scheduled (safety check for existing installations)
+        $this->loader->add_action( 'admin_init', $plugin_admin, 'ensure_cron_scheduled' );
+
     }
 
 	/**

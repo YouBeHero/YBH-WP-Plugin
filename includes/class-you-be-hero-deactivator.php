@@ -30,7 +30,11 @@ class You_Be_Hero_Deactivator {
 	 * @since    1.0.1
 	 */
 	public static function deactivate() {
-
+		// Clear the scheduled cron job
+		$timestamp = wp_next_scheduled( 'youbehero_refresh_dashboard_json' );
+		if ( $timestamp ) {
+			wp_unschedule_event( $timestamp, 'youbehero_refresh_dashboard_json' );
+		}
 	}
 
 }
