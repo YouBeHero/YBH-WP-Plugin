@@ -352,6 +352,7 @@
     font-size: 20px;
     font-weight: 600;
     margin: 10px 0;
+    text-transform: unset !important;
 }
 .youbehero-tk-card .tk-p1 {
     font-weight: 400;
@@ -463,8 +464,7 @@
 
 .youbehero-logo {
     font-weight: 600;
-    font-size: 18px;
-    margin-left: calc(100% - 63%);
+    font-size: 18px;    
 }
 
 .youbehero-modal-header .youbehero-logo img {
@@ -522,7 +522,7 @@
 /* Close button */
 .youbehero-close-btn {
     background: #000;
-    color: #fff;
+    color: #fff !important;
     border: none;
     padding: 12px;
     width: 100%;
@@ -553,7 +553,7 @@
 }
 .youbehero-vertical-dots {
     list-style: none;
-    padding: 8px;
+    padding: 8px 20px;
     margin: 10px 0px;
     position: relative;
     padding-left: 20px;
@@ -567,6 +567,7 @@
 }
 .youbehero-vertical-dots li strong {
     line-height: 2;
+    font-weight: bold;
 }
 .youbehero-vertical-dots li p {
     margin: 0;
