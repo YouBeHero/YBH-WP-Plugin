@@ -96,6 +96,14 @@ msgstr "Αποσύνδεση"
 msgid "Status"
 msgstr "Κατάσταση"
 
+#: admin/partials/you-be-hero-dashboard.php:25
+msgid "Active"
+msgstr "Ενεργή"
+
+#: admin/partials/you-be-hero-dashboard.php:26
+msgid "Inactive"
+msgstr "Ανενεργή"
+
 #: admin/partials/you-be-hero-dashboard.php:65
 msgid "Account Balance"
 msgstr "Υπόλοιπο λογαριασμού"
@@ -285,7 +293,6 @@ msgstr "Βλέπετε την αλλαγή που δημιουργείτε"
 msgid "Close"
 msgstr "Κλείσιμο"
 
-
 #: includes/class-youbehero-elementor-widget.php:67
 msgid "Placement method"
 msgstr "Μέθοδος τοποθέτησης"
@@ -306,14 +313,14 @@ msgstr "Τοποθέτηση"
 
 #: includes/class-youbehero-elementor-widget.php:93
 #: includes/wpbakery-donation-widget.php:45
-msgid "After Billing Form"
+msgid "After billing form"
 msgstr "Μετά την φόρμα χρέωσης"
 
 #: includes/class-youbehero-elementor-widget.php:94
 #: includes/wpbakery-donation-widget.php:46
-msgid "Before Place Order Button"
+msgid "Before place order button"
 msgstr "Πριν το κουμπί παραγγελίας"
 
 #: includes/wpbakery-donation-widget.php:33
-msgid "Placement Position"
-msgstr "Θέση τοποθέτησης"
+msgid "Placement position"
+msgstr "Θέση εμφάνισης"

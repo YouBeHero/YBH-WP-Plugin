@@ -18,7 +18,17 @@ $currency_symbol = get_woocommerce_currency_symbol();
 
 $blur =  isset( $data['transactions'] ) && empty( $data['transactions'] ) ? 'ybh-blur' : '';
 
-$status_txt = isset( $data['status'] ) ? esc_html(ucfirst( $data['status'] ) ) : '-';
+// Translate status values from JSON
+$status_value = isset( $data['status'] ) ? $data['status'] : '';
+if ( ! empty( $status_value ) ) {
+    $status_map = array(
+        'active'   => esc_html__( 'Active', 'youbehero' ),
+        'inactive' => esc_html__( 'Inactive', 'youbehero' ),
+    );
+    $status_txt = isset( $status_map[ $status_value ] ) ? $status_map[ $status_value ] : esc_html( ucfirst( $status_value ) );
+} else {
+    $status_txt = '-';
+}
 $red_dot = ( isset( $data['status'] ) && $data['status'] != 'active' ) ? 'ybh-red-dot' : '';
 $red_txt = ( isset( $data['status'] ) && $data['status'] != 'active' ) ? 'ybh-red-text' : '';
 $company_name = $data['company_name'] ?? '-';

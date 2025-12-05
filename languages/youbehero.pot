@@ -111,6 +111,14 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
+#: admin/partials/you-be-hero-dashboard.php:25
+msgid "Active"
+msgstr ""
+
+#: admin/partials/you-be-hero-dashboard.php:26
+msgid "Inactive"
+msgstr ""
+
 #: admin/partials/you-be-hero-dashboard.php:65
 msgid "Account Balance"
 msgstr ""
@@ -348,14 +356,14 @@ msgstr ""
 
 #: includes/class-youbehero-elementor-widget.php:93
 #: includes/wpbakery-donation-widget.php:45
-msgid "After Billing Form"
+msgid "After billing form"
 msgstr ""
 
 #: includes/class-youbehero-elementor-widget.php:94
 #: includes/wpbakery-donation-widget.php:46
-msgid "Before Place Order Button"
+msgid "Before place order button"
 msgstr ""
 
 #: includes/wpbakery-donation-widget.php:33
-msgid "Placement Position"
+msgid "Placement position"
 msgstr ""

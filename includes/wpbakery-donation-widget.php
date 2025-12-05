@@ -39,11 +39,11 @@ if (class_exists('WPBakeryShortCode')) {
                 // Placement Position
                 array(
                     'type' => 'dropdown',
-                    'heading' => __( 'Placement Position', 'youbehero' ),
+                    'heading' => __( 'Placement position', 'youbehero' ),
                     'param_name' => 'placement_position',
                     'value' => array(
-                        __( 'After Billing Form', 'youbehero' ) => 'woocommerce_after_checkout_billing_form',
-                        __( 'Before Place Order Button', 'youbehero' ) => 'woocommerce_review_order_before_submit',
+                        __( 'After billing form', 'youbehero' ) => 'woocommerce_after_checkout_billing_form',
+                        __( 'Before place order button', 'youbehero' ) => 'woocommerce_review_order_before_submit',
                     ),
                     'std' => 'woocommerce_after_checkout_billing_form',
                     'description' => __( 'Select where to place the widget on checkout page', 'youbehero' ),
