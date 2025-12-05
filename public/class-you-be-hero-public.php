@@ -358,15 +358,15 @@ class You_Be_Hero_Public {
         $body = get_option( 'ybhd_dashboard_json' );
         if ( empty( $body ) ) {
             return [];
-        }
+            }
 
         $data = json_decode( $body, true );
         if ( json_last_error() !== JSON_ERROR_NONE || ! isset( $data['data'] ) ) {
             return [];
-        }
+            }
 
-        return $data['data'];
-    }
+            return $data['data'];
+        }
 
     /**
      * Check if widget should be displayed based on is_scheduled and has_ended flags
@@ -1209,7 +1209,7 @@ class You_Be_Hero_Public {
             add_action( $placement_position, function() use ($instance) {
                 // Only output widget if not scheduled and not ended
                 if ($instance->youbehero_should_display_widget()) {
-                    echo do_shortcode( '[youbehero_donation_form]' );
+                echo do_shortcode( '[youbehero_donation_form]' );
                 }
             }, 10 );
         }

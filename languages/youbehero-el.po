@@ -284,3 +284,36 @@ msgstr "Βλέπετε την αλλαγή που δημιουργείτε"
 #: public/partials/you-be-hero-thankyou-widget.php:170
 msgid "Close"
 msgstr "Κλείσιμο"
+
+
+#: includes/class-youbehero-elementor-widget.php:67
+msgid "Placement method"
+msgstr "Μέθοδος τοποθέτησης"
+
+#: includes/class-youbehero-elementor-widget.php:78
+#: includes/wpbakery-donation-widget.php:33
+msgid "Yes"
+msgstr "Ναι"
+
+#: includes/class-youbehero-elementor-widget.php:79
+#: includes/wpbakery-donation-widget.php:32
+msgid "No"
+msgstr "Οχι"
+
+#: includes/class-youbehero-elementor-widget.php:89
+msgid "Placement"
+msgstr "Τοποθέτηση"
+
+#: includes/class-youbehero-elementor-widget.php:93
+#: includes/wpbakery-donation-widget.php:45
+msgid "After Billing Form"
+msgstr "Μετά την φόρμα χρέωσης"
+
+#: includes/class-youbehero-elementor-widget.php:94
+#: includes/wpbakery-donation-widget.php:46
+msgid "Before Place Order Button"
+msgstr "Πριν το κουμπί παραγγελίας"
+
+#: includes/wpbakery-donation-widget.php:33
+msgid "Placement Position"
+msgstr "Θέση τοποθέτησης"

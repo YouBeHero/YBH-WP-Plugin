@@ -34,7 +34,13 @@ if( isset( $youbehero_data['status'] ) && $youbehero_data['status'] == 'active' 
             <section class="youbehero-thankyou-widget">
                 <div class="youbehero-tk-card" style="border: <?php echo esc_attr( $border. 'px solid' ); ?>; border-radius: <?php echo esc_attr( $this->youbehero_get_mpb_value( 'b_radius', $border_radius ) ); ?>; border-color: <?php echo esc_attr( $border_color ); ?>; margin: <?php echo esc_attr( $this->youbehero_get_mpb_value( 'margin', $widget_margin ) ); ?>; padding: <?php echo esc_attr( $this->youbehero_get_mpb_value( 'padding', $widget_padding ) ); ?>; background: <?php echo esc_attr( $background_color ); ?>; color: <?php echo esc_attr( $text_color ); ?>;">
                 <!-- Top Icon -->
-                    <img class="youbehero-tk-icon" src="<?php echo esc_url( $org_logo ); ?>" alt="icon">
+                    <?php if( !empty( $selected_cause_info['url'] ) ) { ?>
+                        <a href="<?php echo esc_url( $selected_cause_info['url'] ); ?>" target="_blank" rel="noreferrer">
+                            <img class="youbehero-tk-icon" src="<?php echo esc_url( $org_logo ); ?>" alt="icon">
+                        </a>
+                    <?php } else { ?>
+                        <img class="youbehero-tk-icon" src="<?php echo esc_url( $org_logo ); ?>" alt="icon">
+                    <?php } ?>
 
                     <!-- Title -->
                     <h3 style="color: <?php echo esc_attr( $text_color ); ?>;"><?php echo esc_html__( "Your donation has been recorded." , "youbehero");  ?></h3>

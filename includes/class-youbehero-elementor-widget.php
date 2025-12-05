@@ -64,7 +64,7 @@ class YouBeHero_Elementor_Widget extends Widget_Base {
         $this->start_controls_section(
             'advanced_placement_section',
             [
-                'label' => esc_html__( 'Placement Method', 'youbehero' ),
+                'label' => esc_html__( 'Placement method', 'youbehero' ),
                 'tab' => Controls_Manager::TAB_ADVANCED,
             ]
         );

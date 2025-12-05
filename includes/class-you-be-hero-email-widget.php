@@ -24,19 +24,15 @@ class YouBeHero_Email_Widget {
                 width: 100%
             }
             .youbehero-tk-card {
-                /*width: 508px;*/
                 width: 100%;
-                /*border-radius: 8px;*/
                 gap: 20px;
                 background: #fff;
-                /*border-radius: 10px;*/
                 padding: 30px;
                 text-align: center;
-                /*box-shadow: 0 4px 10px rgba(0,0,0,0.1);*/
             }
             
             .youbehero-tk-icon {
-                width: 50px;
+                width: 120px;
                 margin-bottom: 15px;
             }
             
@@ -225,7 +221,13 @@ class YouBeHero_Email_Widget {
         <section class="youbehero-thankyou-widget">
             <div class="youbehero-tk-card" style="border: <?php echo esc_attr( $border. 'px solid' ); ?>; border-color: <?php echo esc_attr( $border_color ); ?>;  background: <?php echo esc_attr( $background_color ); ?>; color: <?php echo esc_attr( $text_color ); ?>;">
             <!-- Top Icon -->
-                <img class="youbehero-tk-icon" src="<?php echo esc_url( $org_logo ); ?>" alt="icon">
+                <?php if( !empty( $selected_cause_info['url'] ) ) { ?>
+                    <a href="<?php echo esc_url( $selected_cause_info['url'] ); ?>" target="_blank" rel="noreferrer">
+                        <img class="youbehero-tk-icon" src="<?php echo esc_url( $org_logo ); ?>" alt="icon">
+                    </a>
+                <?php } else { ?>
+                    <img class="youbehero-tk-icon" src="<?php echo esc_url( $org_logo ); ?>" alt="icon">
+                <?php } ?>
 
                 <!-- Title -->
                 <h3 style="text-align: center !important; color: <?php echo esc_attr( $text_color ); ?>;"><?php echo esc_html__( "Your donation has been recorded." , "youbehero");  ?></h3>
@@ -453,7 +455,9 @@ class YouBeHero_Email_Widget {
                                                                                                                                         <tbody>
                                                                                                                                             <tr>
                                                                                                                                                 <td style="border:0;border-radius:0;margin:0" valign="top">
+                                                                                                                                                    '. ( !empty( $selected_cause_info['url'] ) ? '<a href="'.esc_url( $selected_cause_info['url'] ).'" target="_blank" rel="noreferrer" style="text-decoration:none;display:block;">' : '' ).'
                                                                                                                                                     <img alt="" src="'.esc_url( $org_logo ).'" width="54" height="auto" style="display:block;max-width:100%;height:auto;border-radius:0" class="imageDropZone mceImage" data-block-id="16">
+                                                                                                                                                    '. ( !empty( $selected_cause_info['url'] ) ? '</a>' : '' ).'
                                                                                                                                                 </td>
                                                                                                                                             </tr>
                                                                                                                                         </tbody>

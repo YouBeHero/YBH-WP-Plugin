@@ -327,3 +327,35 @@ msgstr ""
 #: blocks/thankyou-note/thankyou-note.js:58
 msgid "this page"
 msgstr ""
+
+#: includes/class-youbehero-elementor-widget.php:67
+msgid "Placement method"
+msgstr ""
+
+#: includes/class-youbehero-elementor-widget.php:78
+#: includes/wpbakery-donation-widget.php:33
+msgid "Yes"
+msgstr ""
+
+#: includes/class-youbehero-elementor-widget.php:79
+#: includes/wpbakery-donation-widget.php:32
+msgid "No"
+msgstr ""
+
+#: includes/class-youbehero-elementor-widget.php:89
+msgid "Placement"
+msgstr ""
+
+#: includes/class-youbehero-elementor-widget.php:93
+#: includes/wpbakery-donation-widget.php:45
+msgid "After Billing Form"
+msgstr ""
+
+#: includes/class-youbehero-elementor-widget.php:94
+#: includes/wpbakery-donation-widget.php:46
+msgid "Before Place Order Button"
+msgstr ""
+
+#: includes/wpbakery-donation-widget.php:33
+msgid "Placement Position"
+msgstr ""
