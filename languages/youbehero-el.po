@@ -17,7 +17,7 @@ msgstr ""
 #. Description of the plugin
 #: youbehero.php
 msgid "Add Donation to Cart by YouBeHero is a powerful WordPress plugin that adds a donation widget to your WooCommerce checkout, transforming every purchase into an opportunity for social impact."
-msgstr "Το Add Donation to Cart από την YouBeHero είναι ένα ισχυρό πρόσθετο για το WordPress που προσθέτει ένα widget δωρεάς στο checkout του WooCommerce, μετατρέποντας κάθε αγορά σε μια ευκαιρία για κοινωνικό αντίκτυπο."
+msgstr "Το Add Donation to Cart από την YouBeHero είναι ένα ισχυρό εργαλείο για το WordPress που προσθέτει ένα widget δωρεάς στο checkout του WooCommerce, μετατρέποντας κάθε αγορά σε μια ευκαιρία για κοινωνικό αντίκτυπο."
 
 #. Author of the plugin
 #: youbehero.php

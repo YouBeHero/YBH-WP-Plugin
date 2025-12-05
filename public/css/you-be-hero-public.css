@@ -544,7 +544,7 @@
     margin: 14px 0px 4px 0px;
     line-height: 1.5;
     font-size: 1.25rem;
-    /*margin: 1rem;*/
+    text-transform: unset !important;
 }
 .youbehero-modal-text-muted {
     color: #757575 !important;

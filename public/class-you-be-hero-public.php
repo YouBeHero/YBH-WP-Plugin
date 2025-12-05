@@ -388,20 +388,24 @@ class You_Be_Hero_Public {
      * @return void
      */
     function save_custom_data_from_session($order, $data) {
+        // Commented out: Donation is handled as a fee via woocommerce_cart_calculate_fees hook
+        // and woocommerce_checkout_create_order_fee_item hook
+        // No need to create a product item - this was causing the donation to appear
+        // incorrectly in the product subtotal
+        
         // Retrieve custom data from the session
-        $ybh_donation_amount = WC()->session->get( 'ybh_donation_amount', 0 );
-        $ybh_donation_cause = WC()->session->get( 'ybh_donation_cause', '' );
+        // $ybh_donation_amount = WC()->session->get( 'ybh_donation_amount', 0 );
+        // $ybh_donation_cause = WC()->session->get( 'ybh_donation_cause', '' );
 
-        if ($ybh_donation_amount && $ybh_donation_cause ) {
-            $cause_name = $ybh_donation_cause;
-            $item = new WC_Order_Item_Product();
-            $item->set_name( $cause_name );
-            $item->set_product_id( 0 );
-            $item->set_subtotal( $ybh_donation_amount );
-            $item->set_total( $ybh_donation_amount );
-            $order->add_item( $item );
-
-        }
+        // if ($ybh_donation_amount && $ybh_donation_cause ) {
+        //     $cause_name = $ybh_donation_cause;
+        //     $item = new WC_Order_Item_Product();
+        //     $item->set_name( $cause_name );
+        //     $item->set_product_id( 0 );
+        //     $item->set_subtotal( $ybh_donation_amount );
+        //     $item->set_total( $ybh_donation_amount );
+        //     $order->add_item( $item );
+        // }
     }
 
     /**

@@ -239,7 +239,8 @@ class You_Be_Hero {
 		$this->loader->add_action( 'wp_ajax_update_donation_fee', $plugin_public, 'donation_widget_update_fee' );
 		$this->loader->add_action( 'wp_ajax_nopriv_update_donation_fee', $plugin_public, 'donation_widget_update_fee' );
         $this->loader->add_action( 'woocommerce_checkout_create_order_fee_item', $plugin_public,'woocommerce_checkout_create_order_fee_item', 10, 4 );
-        $this->loader->add_action( 'woocommerce_checkout_create_order', $plugin_public, 'save_custom_data_from_session', 10, 2 );
+		// Commented out: woocommerce_checkout_create_order hook - donation is handled as fee only, not as product item
+		// $this->loader->add_action( 'woocommerce_checkout_create_order', $plugin_public, 'save_custom_data_from_session', 10, 2 );
 		$this->loader->add_action( 'init', $plugin_public, 'donation_widget_register_block' );
 		$this->loader->add_action( 'init', $plugin_public, 'youbehero_public_shortcodes' );
 		$this->loader->add_action( 'init', $plugin_public, 'ybhd_register_checkout_meta' );
