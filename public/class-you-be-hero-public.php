@@ -1081,6 +1081,30 @@ class You_Be_Hero_Public {
 
                                     jQuery(document).ready(function($) {
 
+                                        // Reusable initialization function for widget setup
+                                        function initializeYoubeheroWidget() {
+                                            // Hide "Please select a nonprofit organization" option if a nonprofit is already selected
+                                            const donationCauseEle = document.getElementById('donation-cause');
+                                            if (donationCauseEle && donationCauseEle.value && donationCauseEle.value != '0' && donationCauseEle.value != '') {
+                                                jQuery('#select-np-ybh-dd-option').addClass('hidden');
+                                            }
+
+                                            // Clear any loading states from buttons
+                                            jQuery('.donation-btn').removeClass('loading').find('.button-spinner').remove();
+                                            jQuery('.donation-buttons, .donation-amounts').removeClass('disabled');
+
+                                            // Set focus handlers on buttons
+                                            jQuery('.donation-btn').off('touchstart click.youbehero').on('touchstart click.youbehero', function () {
+                                                this.focus();
+                                            });
+
+                                            // Trigger value update on page load if amount is already selected
+                                            const selected_donation_amount = jQuery('.donation-btn.radio-button.selected').data('value');
+                                            const donationAmountEle = document.getElementById('donation-amount');
+                                            if (donationAmountEle && selected_donation_amount) {
+                                                donationAmountEle.value = selected_donation_amount;
+                                            }
+                                        }
 
                                         let youbeheroWidgetHtml = <?php echo json_encode($captured_widget_html); ?>;
                                         var youbeheroPlacement = <?php echo json_encode($placement_position); ?>;
@@ -1093,12 +1117,21 @@ class You_Be_Hero_Public {
                                             return;
                                         }
 
-                                        function injectYoubeheroWidget() {
+                                        // Initialize on document ready (widget is already output directly)
+                                        initializeYoubeheroWidget();
+
+                                        function injectYoubeheroWidget(forceRefresh) {
+                                            // On initial load, skip if widget exists (unless forced for AJAX updates)
+                                            if (!forceRefresh && $('.youbehero-donation-wrapper').length > 0) {
+                                                console.log('YouBeHero: Widget already exists, skipping initial injection');
+                                                return;
+                                            }
+
                                             console.log('YouBeHero: Injecting widget...');
                                             //====================//
                                             var storedWidgetHtml = $('#hidden-donation-html').text();
                                             var decodedStoredWidgetHtml = $('<div/>').html(storedWidgetHtml).html();
-                                            if (decodedStoredWidgetHtml || $.trim(decodedStoredWidgetHtml) !== '') {
+                                            if (decodedStoredWidgetHtml && $.trim(decodedStoredWidgetHtml) !== '') {
                                                 youbeheroWidgetHtml = decodedStoredWidgetHtml;
                                             }
                                             //====================//
@@ -1125,22 +1158,9 @@ class You_Be_Hero_Public {
 
                                             if (injected) {
                                                 console.log('YouBeHero: Widget injected successfully');
-                                                // CSS handles all button styling - no JS manipulation needed
-                                                // Reset delete button SVG to default state
-                                                let delte_svg_path = $('.delete-button img').attr("src");
-                                                let old_svg_path = delte_svg_path.replace("delete-hover.svg", "delete.svg");
-                                                $('.delete-button img').attr("src", old_svg_path);
-
-                                                // Clear any loading states from buttons after re-injection
-                                                jQuery('.donation-btn').removeClass('loading').find('.button-spinner').remove();
-                                                jQuery('.donation-buttons, .donation-amounts').removeClass('disabled');
-
-                                                //Trigger value update on page load if amount is already selected
-                                                const selected_donation_amount = jQuery('.donation-btn.radio-button.selected').data('value');
-                                                const donationAmountEle = document.getElementById('donation-amount');
-                                                if (donationAmountEle) {
-                                                donationAmountEle.value = selected_donation_amount;
-                                                }
+                                                
+                                                // Initialize after injection
+                                                initializeYoubeheroWidget();
 
                                                 // Verify it's still there after 200ms
                                                 setTimeout(function() {
@@ -1164,14 +1184,14 @@ class You_Be_Hero_Public {
                                             }
                                         }
 
-                                        // Re-inject after WooCommerce AJAX updates
+                                        // Re-inject after WooCommerce AJAX updates (force refresh to get fresh HTML)
                                         $(document.body).on('updated_checkout', function() {
-                                            console.log('YouBeHero: Checkout updated, re-injecting...');
+                                            console.log('YouBeHero: Checkout updated, re-injecting with fresh HTML...');
                                             // Clear loading states before re-injecting to prevent spinner from reappearing
                                             jQuery('.donation-btn').removeClass('loading').find('.button-spinner').remove();
                                             jQuery('.donation-buttons, .donation-amounts').removeClass('disabled');
                                             // // Try multiple times with different delays to catch all updates
-                                            setTimeout(function() { injectYoubeheroWidget(); }, 500);
+                                            setTimeout(function() { injectYoubeheroWidget(true); }, 500); // forceRefresh = true
                                         });
 
                                         // Also try on payment method change
@@ -1297,7 +1317,8 @@ class You_Be_Hero_Public {
 
                     if ($wc_hook_enabled === 'yes') {
 
-                        // Capture widget HTML
+                        // Capture widget HTML ONCE at the beginning
+                        // The shortcode itself (render.php) will handle is_scheduled/has_ended checks
                         ob_start();
                         echo do_shortcode('[youbehero_donation_form]');
                         $captured_widget_html = ob_get_clean();
@@ -1305,6 +1326,14 @@ class You_Be_Hero_Public {
                         // Add the WooCommerce hook
                         add_action($placement_position, function() use ($placement_position, $captured_widget_html) {
                             static $script_added = false;
+
+                            // Only output if we have captured HTML (shortcode already handled is_scheduled/has_ended checks)
+                            if (empty($captured_widget_html)) {
+                                return; // Don't output widget if empty
+                            }
+
+                            // Output the widget directly (like Elementor) - wrap it for consistency
+                            echo '<div class="youbehero-donation-wrapper">' . $captured_widget_html . '</div>';
 
                             // Add script inline right after the widget (only once)
                             if (!$script_added) {
@@ -1320,108 +1349,66 @@ class You_Be_Hero_Public {
                                             let youbeheroWidgetHtml = <?php echo json_encode($captured_widget_html); ?>;
                                             var youbeheroPlacement = <?php echo json_encode($placement_position); ?>;
 
-                                            console.log('YouBeHero WPBakery: Script loaded, placement:', youbeheroPlacement);
-                                            console.log('YouBeHero WPBakery: Widget HTML length:', youbeheroWidgetHtml.length);
-
-                                            if (!youbeheroWidgetHtml || youbeheroWidgetHtml.length < 10) {
-                                                console.error('YouBeHero WPBakery: Widget HTML is empty or too short!');
-                                                return;
-                                            }
-
-                                            function injectYoubeheroWidget() {
-                                                console.log('YouBeHero WPBakery: Injecting widget...');
-
-                                                // Try to get fresh HTML from hidden element if available
-                                                var storedWidgetHtml = $('#hidden-donation-html').text();
-                                                var decodedStoredWidgetHtml = $('<div/>').html(storedWidgetHtml).html();
-                                                if (decodedStoredWidgetHtml || $.trim(decodedStoredWidgetHtml) !== '') {
-                                                    youbeheroWidgetHtml = decodedStoredWidgetHtml;
+                                            // Combined initialization and refresh function
+                                            function refreshWidget() {
+                                                // Get fresh HTML if available (from AJAX updates)
+                                                var freshHtml = jQuery('#hidden-donation-html').text();
+                                                if (freshHtml && jQuery.trim(freshHtml) !== '') {
+                                                    var decoded = jQuery('<div/>').html(freshHtml).html();
+                                                    if (decoded) youbeheroWidgetHtml = decoded;
                                                 }
 
-                                                // Remove any existing instances first
-                                                $('.youbehero-donation-wrapper').remove();
+                                                // Skip if widget exists and no fresh HTML (initial load)
+                                                if (jQuery('.youbehero-donation-wrapper').length > 0 && !freshHtml) {
+                                                    initWidget();
+                                                    return;
+                                                }
 
-                                                var widgetWrapped = '<div class="youbehero-donation-wrapper">' + youbeheroWidgetHtml + '</div>';
+                                                // Remove existing and inject fresh
+                                                jQuery('.youbehero-donation-wrapper').remove();
+                                                var widget = '<div class="youbehero-donation-wrapper">' + youbeheroWidgetHtml + '</div>';
                                                 var injected = false;
 
-                                                // Inject based on placement - try multiple selectors for compatibility
+                                                // Inject based on placement
                                                 if (youbeheroPlacement === 'woocommerce_review_order_before_submit') {
-                                                    if ($('#order_review .place-order').length) {
-                                                        $('#order_review .place-order').before(widgetWrapped);
-                                                        injected = true;
-                                                    } else if ($('.woocommerce-checkout-payment .place-order').length) {
-                                                        $('.woocommerce-checkout-payment .place-order').before(widgetWrapped);
-                                                        injected = true;
-                                                    } else if ($('#place_order').length) {
-                                                        $('#place_order').parent().before(widgetWrapped);
-                                                        injected = true;
-                                                    }
-                                                } else if (youbeheroPlacement === 'woocommerce_after_checkout_billing_form') {
-                                                    if ($('.woocommerce-billing-fields').length) {
-                                                        $('.woocommerce-billing-fields').after(widgetWrapped);
-                                                        injected = true;
-                                                    }
-                                                }
-
-                                                if (injected) {
-                                                    console.log('YouBeHero WPBakery: Widget injected successfully');
-                                                    // CSS handles all button styling - no JS manipulation needed
-                                                    // Reset delete button SVG to default state
-                                                    let delte_svg_path = $('.delete-button img').attr("src");
-                                                    let old_svg_path = delte_svg_path.replace("delete-hover.svg", "delete.svg");
-                                                    $('.delete-button img').attr("src", old_svg_path);
-
-                                                    // Clear any loading states from buttons after re-injection
-                                                    jQuery('.donation-btn').removeClass('loading').find('.button-spinner').remove();
-                                                    jQuery('.donation-buttons, .donation-amounts').removeClass('disabled');
-
-                                                    $('.donation-btn').on('touchstart click', function () {
-                                                        this.focus();
-                                                    });
-
-                                                    //Trigger value update on page load if amount is already selected
-                                                    const selected_donation_amount = jQuery('.donation-btn.radio-button.selected').data('value');
-                                                    const donationAmountEle = document.getElementById('donation-amount');
-                                                    if (donationAmountEle) {
-                                                    donationAmountEle.value = selected_donation_amount;
-                                                    }
-
-                                                    // Verify it's still there after 200ms
-                                                    setTimeout(function() {
-                                                        var stillExists = $('.youbehero-donation-wrapper').length;
-                                                        console.log('YouBeHero WPBakery: Widget still exists:', stillExists > 0);
-
-                                                        if (stillExists === 0) {
-                                                            console.warn('YouBeHero WPBakery: Widget was removed! Re-injecting...');
-                                                            injectYoubeheroWidget();
-                                                        }
-                                                    }, 200);
-
-                                                    // setTimeout(function() { $('.widget-loader').hide(); }, 500);
+                                                    var target = jQuery('#order_review .place-order, .woocommerce-checkout-payment .place-order').first();
+                                                    if (!target.length) target = jQuery('#place_order').parent();
+                                                    if (target.length) { target.before(widget); injected = true; }
                                                 } else {
-                                                    console.warn('YouBeHero WPBakery: Could not find target element for injection');
-                                                    console.log('Available elements:', {
-                                                        'order_review': $('#order_review').length,
-                                                        'place-order': $('.place-order').length,
-                                                        'place_order': $('#place_order').length,
-                                                        'payment': $('#payment').length
-                                                    });
+                                                    var target = jQuery('.woocommerce-billing-fields');
+                                                    if (target.length) { target.after(widget); injected = true; }
                                                 }
+                                                
+                                                if (injected) initWidget();
                                             }
 
-                                            // Re-inject after WooCommerce AJAX updates
-                                            $(document.body).on('updated_checkout', function() {
-                                                console.log('YouBeHero WPBakery: Checkout updated, re-injecting...');
-                                                // Clear loading states before re-injecting to prevent spinner from reappearing
+                                            // Initialize widget state
+                                            function initWidget() {
+                                                // Check multiple indicators that an org is selected
+                                                var cause = jQuery('#donation-cause');
+                                                var selectedOption = jQuery('#selectedOption');
+                                                var hasOrg = (cause.length && cause.val() && cause.val() != '0' && cause.val() != '') ||
+                                                             (selectedOption.length && selectedOption.text() !== '<?php echo esc_js( __( 'Please select a nonprofit organization', 'youbehero' ) ); ?>');
+                                                
+                                                if (hasOrg) {
+                                                    jQuery('#select-np-ybh-dd-option').addClass('hidden');
+                                                }
+                                                
+                                                jQuery('.donation-btn').removeClass('loading').find('.button-spinner').remove()
+                                                    .off('touchstart click.youbehero').on('touchstart click.youbehero', function() { this.focus(); });
+                                                jQuery('.donation-buttons, .donation-amounts').removeClass('disabled');
+                                                var amount = jQuery('.donation-btn.radio-button.selected').data('value');
+                                                if (amount) jQuery('#donation-amount').val(amount);
+                                            }
+
+                                            // Initialize on load (with delay to ensure widget is rendered)
+                                            setTimeout(initWidget, 300);
+
+                                            // Refresh on AJAX updates
+                                            jQuery(document.body).on('updated_checkout', function() {
                                                 jQuery('.donation-btn').removeClass('loading').find('.button-spinner').remove();
                                                 jQuery('.donation-buttons, .donation-amounts').removeClass('disabled');
-                                                setTimeout(function() { injectYoubeheroWidget(); }, 500);
-
-                                            });
-
-                                            // Also try on payment method change
-                                            $(document.body).on('payment_method_selected', function() {
-                                                console.log('YouBeHero WPBakery: Payment method changed');
+                                                setTimeout(refreshWidget, 500);
                                             });
                                         });
                                     })();

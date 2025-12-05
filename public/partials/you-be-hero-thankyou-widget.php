@@ -39,7 +39,7 @@ if( isset( $youbehero_data['status'] ) && $youbehero_data['status'] == 'active' 
                             <img class="youbehero-tk-icon" src="<?php echo esc_url( $org_logo ); ?>" alt="icon">
                         </a>
                     <?php } else { ?>
-                        <img class="youbehero-tk-icon" src="<?php echo esc_url( $org_logo ); ?>" alt="icon">
+                    <img class="youbehero-tk-icon" src="<?php echo esc_url( $org_logo ); ?>" alt="icon">
                     <?php } ?>
 
                     <!-- Title -->
