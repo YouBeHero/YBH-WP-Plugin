@@ -90,10 +90,16 @@ if (class_exists('WPBakeryShortCode')) {
             } else {
                 // In editor mode, show info message
                 if ( function_exists( 'vc_is_page_editable' ) && vc_is_page_editable() ) {
+                    $placement_labels = [
+                        'woocommerce_after_checkout_billing_form'   => esc_html__( 'After billing form', 'youbehero' ),
+                        'woocommerce_review_order_before_submit'    => esc_html__( 'Before place order button', 'youbehero' ),
+                    ];
+                    $placement_label = isset($placement_labels[$placement_position]) ? $placement_labels[$placement_position] : esc_html($placement_position);
+                    
                     return '<div style="padding: 15px; background: #e8f5e9; border: 1px solid #4caf50; border-radius: 4px; margin: 10px 0;">' .
-                        '<strong>' . __( '✓ Add Donation to Cart, YouBeHero', 'youbehero' ) . '</strong><br>' .
-                        __( 'WooCommerce Hook is Active and the widget will appear on the checkout page at: ', 'youbehero' ) .
-                        '<strong>' . $placement_position . '</strong>' .
+                        '<strong>' . esc_html__( '✓ Add Donation to Cart, YouBeHero', 'youbehero' ) . '</strong><br>' .
+                        esc_html__( 'WooCommerce Hook is Active and the widget will appear on the checkout page at: ', 'youbehero' ) .
+                        '<strong>' . $placement_label . '</strong>' .
                         '</div>';
                 }
 

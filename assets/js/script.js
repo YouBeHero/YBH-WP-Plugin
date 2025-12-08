@@ -1,75 +1,28 @@
 jQuery(document).ready(function($) {
 
-    if (!$('form.checkout').length) {
-        const $content = $('.elementor'); // or your specific wrapper
+    if (!jQuery('form.checkout').length) {
+        const $content = jQuery('.elementor'); // or your specific wrapper
         if ($content.length) {
             $content.wrapInner('<form name="checkout" class="checkout woocommerce-checkout" method="post"></form>');
         }
     }
     
         if (!window.ybh_donation_checkout_params || typeof ybh_donation_checkout_params !== 'object') {
-            console.error('ybh_donation_checkout_params is not defined or not an object');
+            //console.error('ybh_donation_checkout_params is not defined or not an object');
             return;
         }
-
-
-        // Minimal long-press detection - only toggles a class
-        // CSS handles all the styling via :hover, :active, and .selected states
-        
-        $(document).on('touchstart', '.donation-btn', function(e) {
-            const $btn = $(this);
-            
-            // Clear any existing timer
-            if ($btn.data('touchTimer')) {
-                clearTimeout($btn.data('touchTimer'));
-            }
-            
-            // Start timer for long press (500ms)
-            const timer = setTimeout(function() {
-                $btn.addClass('long-pressed');
-            }, 500);
-            
-            $btn.data('touchTimer', timer);
-        });
-
-        $(document).on('touchend touchcancel touchmove', '.donation-btn', function(e) {
-            const $btn = $(this);
-            
-            // Clear timer
-            if ($btn.data('touchTimer')) {
-                clearTimeout($btn.data('touchTimer'));
-                $btn.removeData('touchTimer');
-            }
-            
-            // If it was a long press, remove the class on release
-            // This allows normal tap to work again
-            if ($btn.hasClass('long-pressed')) {
-                // Remove class after a brief delay to show the state change
-                setTimeout(function() {
-                    $btn.removeClass('long-pressed');
-                }, 100);
-            }
-        });
-
-        // Handle click to remove long-pressed state if present
-        $(document).on('click', '.donation-btn', function(e) {
-            const $btn = $(this);
-            if ($btn.hasClass('long-pressed')) {
-                $btn.removeClass('long-pressed');
-            }
-        });
 
         const { causes, amounts, selected_amount } = ybh_donation_checkout_params || {};
 
         // Populate causes and amounts
-        const $causeSelect = $('#donation-cause');
-        const $amountsContainer = $('#donation-amounts');
+        const $causeSelect = jQuery('#donation-cause');
+        const $amountsContainer = jQuery('#donation-amounts');
         let currencyCode = wcSettings?.currency?.code || 'USD';
         let currencySymbol = wcSettings?.currency?.symbol || '$';
 
         // Hide "Please select a nonprofit organization" option if a nonprofit is already selected
         jQuery(document).ready(function() {
-            const donationCauseEle = document.getElementById('donation-cause');
+            const donationCauseEle = jQuery('#donation-cause').val();
             if (donationCauseEle && donationCauseEle.value && donationCauseEle.value != '0' && donationCauseEle.value != '') {
                 jQuery('#select-np-ybh-dd-option').addClass('hidden');
             }
@@ -95,7 +48,7 @@ jQuery(document).ready(function($) {
                 const { getCartData } = wp.data.select('wc/store/cart');
                 const currentCart = getCartData();
 
-                    console.log( orgId, orgName, amount )
+                    //console.log( orgId, orgName, amount )
 
                 let updatedFees = [];
 
@@ -125,25 +78,24 @@ jQuery(document).ready(function($) {
                 });
 
                 //Store HTML for widget AJAX
-                let wrapper = $('.youbehero-donation-wrapper');
+                let wrapper = jQuery('.youbehero-donation-wrapper');
                 if (!wrapper.length) {
-                    wrapper  = $('.youbehero-donation-widget');
+                    wrapper  = jQuery('.youbehero-donation-widget');
                 }
                 // if (!wrapper.length) return;
                 if (wrapper.length) {
                     var html = wrapper.prop('outerHTML');
                     // Create hidden div if not already present
-                    if (!$('#hidden-donation-html').length) {
-                        $('body').append('<div id="hidden-donation-html" style="display:none;"></div>');
+                    if (!jQuery('#hidden-donation-html').length) {
+                        jQuery('body').append('<div id="hidden-donation-html" style="display:none;"></div>');
                     }
                     // Store the HTML in the hidden div
-                    $('#hidden-donation-html').text(html);
+                    jQuery('#hidden-donation-html').text(html);
 
-                    console.log('incond',$('#hidden-donation-html').text() )
+                    // console.log('incond',$('#hidden-donation-html').text() )
                 }
                 //Store HTML for widget AJAX - End
 
-                // showLoader();
                 const amountF = isNaN(Number(amount)) ? 0 : Number(amount)/100;
                 const force_remove = isNaN(Number(orgId)) ? 1 : 0;
                 //server side update
@@ -165,7 +117,7 @@ jQuery(document).ready(function($) {
                         ]
                     },
                     success: function(response) {
-                        console.log('Donation added successfully!');
+                        //console.log('Donation added successfully!');
 
                         if (jQuery('form.checkout').length) {
                             // Listen for checkout update completion
@@ -197,17 +149,15 @@ jQuery(document).ready(function($) {
                     error: function() {
                         // Re-enable buttons on error
                         setButtonLoading(jQuery('.donation-btn.loading'), false);
-                        // hideLoader();
                     }
                 });
-                console.log('Donation process ends!');
+                //console.log('Donation process ends!');
                 return true;
 
             } catch (error) {
-                console.error('Donation error:', error);
+                //console.error('Donation error:', error);
                 // Re-enable buttons on error
                 setButtonLoading(jQuery('.donation-btn.loading'), false);
-                // hideLoader();
                 //show elegant notice update this
                 wp.data.dispatch('core/notices').createNotice(
                     'error',
@@ -221,16 +171,14 @@ jQuery(document).ready(function($) {
         const update_totals = async () => {
             
             try {
-                // showLoader();
                 // Invalidate the current cart data resolution
                 await wp.data.dispatch('wc/store/cart').invalidateResolution('getCartData');
               } catch (error) {
-                console.error('Error updating cart totals:', error);
+                //console.error('Error updating cart totals:', error);
                 // Re-enable buttons on error
                 setButtonLoading(jQuery('.donation-btn.loading'), false);
               } finally {
                 // Hide the loader after the operations are complete
-                // hideLoader();
                 // Re-enable buttons after totals update (if not already handled)
                 if (jQuery('.donation-btn.loading').length > 0 && !jQuery('form.checkout').length) {
                     setButtonLoading(jQuery('.donation-btn.loading'), false);
@@ -239,9 +187,9 @@ jQuery(document).ready(function($) {
         };
         
         function add_donation_to_cart(){
-            const orgId = $('#donation-cause').val();
-            const amount = $('#donation-amount').val();
-            console.log( 'add_donation_to_cart', 'orgId: ', orgId )
+            const orgId = jQuery('#donation-cause').val();
+            const amount = jQuery('#donation-amount').val();
+            //console.log( 'add_donation_to_cart', 'orgId: ', orgId )
 
             const selectedCause = causes.find(cause =>cause.value === parseInt(orgId));
             const orgName = selectedCause ? selectedCause.label : '';
@@ -251,23 +199,36 @@ jQuery(document).ready(function($) {
         }
 
         function validate_donation_data(){
-
-            if($('.ybh-dd-option').length == 1) {
+            // Handle single org case - but only set values if they're empty (initial load)
+            // Don't override values that user has explicitly set or cleared
+            if(jQuery('.ybh-dd-option').length == 1) {
                 const singleCauseEle = document.getElementById('donation-cause');
                 const singleCauseamount = document.getElementById('donation-amount');
-                singleCauseEle.value = $('.ybh-dd-option').data("value");
-                singleCauseamount.value = $('.donation-amounts .radio-button.selected').data('value');
+                
+                // Only set org value if it's empty or 0 (initial load)
+                if (!singleCauseEle.value || singleCauseEle.value == '0') {
+                    singleCauseEle.value = jQuery('.ybh-dd-option').data("value");
+                }
+                
+                // Only set amount value if it's empty AND there's a selected button
+                // This prevents overriding user's explicit selection/clearing
+                if (!singleCauseamount.value) {
+                    const selectedAmount = jQuery('.donation-amounts .radio-button.selected').data('value');
+                    if (selectedAmount) {
+                        singleCauseamount.value = selectedAmount;
+                    }
+                }
             }
 
-            const donation_cause = $('#donation-cause').val();
-            const donation_amount = $('#donation-amount').val();
+            const donation_cause = jQuery('#donation-cause').val();
+            const donation_amount = jQuery('#donation-amount').val();
 
             if( !donation_amount ){
-                console.log('Please select amount to donate');
+                //console.log('Please select amount to donate');j
                 return false;
             }
             if( !donation_cause ){
-                console.log('Please select cause to donate');
+                //console.log('Please select cause to donate');
                 return false;
             }
             return true;
@@ -275,8 +236,8 @@ jQuery(document).ready(function($) {
 
         // Handle dynamic updates
         $('#donation-amount').change(function() {
-            const donation_amount = $(this).val();
-            const donation_cause = $('#donation-cause').val();
+            const donation_amount = jQuery(this).val();
+            const donation_cause = jQuery('#donation-cause').val();
 
             if ( validate_donation_data() ) {
                 add_donation_to_cart( );
@@ -284,8 +245,8 @@ jQuery(document).ready(function($) {
         });
 
         $('#donation-cause').change(function() {
-            const donation_cause = $(this).val();
-            const donation_amount = $('#donation-amount').val();
+            const donation_cause = jQuery(this).val();
+            const donation_amount = jQuery('#donation-amount').val();
 
             if ( validate_donation_data() ) {
                 add_donation_to_cart( );
@@ -293,9 +254,9 @@ jQuery(document).ready(function($) {
         });
 
         $(document).on('click', '#ybh-dd-select', function () {
-            console.log( $(this).attr('class'),$('#dropdownMenu').hasClass('show'));
-            if( $('#dropdownMenu').hasClass('show') ){
-                $('#dropdownMenu').removeClass('show');
+            //console.log( jQuery(this).attr('class'),jQuery('#dropdownMenu').hasClass('show'));
+            if( jQuery('#dropdownMenu').hasClass('show') ){
+                jQuery('#dropdownMenu').removeClass('show');
             }else{
                 setTimeout(function(){
                     $('#dropdownMenu').addClass('show');
@@ -336,7 +297,7 @@ jQuery(document).ready(function($) {
 
             $('#dropdownMenu').removeClass('show');
             selectedOption.textContent = $(this).data("text");
-            console.log('Selected Value:', $(this).data("value"));
+            //console.log('Selected Value:', $(this).data("value"));
             donationCauseEle.value = $(this).data("value");
             causeImgEle.src = $(this).data("image");
             
@@ -346,7 +307,11 @@ jQuery(document).ready(function($) {
             }else{
                 $('#select-np-ybh-dd-option').removeClass('hidden');
             }
-            if ( validate_donation_data() ) {
+            
+            // Only update cart if amount is already selected (user has committed to donating)
+            // This prevents auto-add when only org is selected, but updates when org changes
+            const donation_amount = $('#donation-amount').val();
+            if ( donation_amount && validate_donation_data() ) {
                 add_donation_to_cart( );
             }
         });
@@ -384,8 +349,8 @@ jQuery(document).ready(function($) {
             const donation_amount = jQueryBtn.data('value');
             const donation_label = jQueryBtn.data('label');
 
-            const donationAmountEle = document.getElementById('donation-amount');
-            donationAmountEle.value = donation_amount;
+            // Use jQuery to set the value for consistency (matches how it's read in validate_donation_data)
+            $('#donation-amount').val(donation_amount);
 
             jQuery('.donation-amount-pill').text(donation_label + currencySymbol);
             jQuery('.donation-amounts .radio-button').removeClass('selected');
@@ -433,40 +398,30 @@ jQuery(document).ready(function($) {
 
             add_donation_to_cart();
         });
-
-        // Show the loader
-        function showLoader() {
-          const loader = document.getElementById('widget-loader');
-          const bar = loader.querySelector('.widget-loader-bar');
-          loader.classList.remove('hidden');
-          bar.style.width = '0%';
-          setTimeout(() => {
-            bar.style.width = '100%';
-          }, 10); // Slight delay to trigger transition
-        }
-
-        // Hide the loader
-        function hideLoader() {
-          const loader = document.getElementById('widget-loader');
-          const bar = loader.querySelector('.widget-loader-bar');
-          bar.style.width = '100%';
-          setTimeout(() => {
-            loader.classList.add('hidden');
-            bar.style.width = '0%';
-          }, 500); // Wait for the transition to complete
-        }
         
-        console.log( 'selected_amount: ', selected_amount);
-        let selected_amount_cents = selected_amount * 100;
-        if(  $(`button[data-value="${selected_amount_cents}"]`).length )//let's check if there is any current selected amount
-            $(`button[data-value="${selected_amount_cents}"]`).click();
+        //console.log( 'selected_amount: ', selected_amount);
+        if (selected_amount && selected_amount > 0) {
+            let selected_amount_cents = selected_amount * 100;
+            const currentAmount = jQuery('#donation-amount').val();
+            const currentCause = jQuery('#donation-cause').val();
+            
+            // Only auto-click if:
+            // 1. No amount is currently set in the input
+            // 2. No org is selected (or org is '0')
+            // This prevents auto-clicking when user has explicitly cleared everything
+            if (!currentAmount && (!currentCause || currentCause == '0')) {
+                if (jQuery(`button[data-value="${selected_amount_cents}"]`).length) {
+                    jQuery(`button[data-value="${selected_amount_cents}"]`).click();
+                }
+            }
+        }
 });
 
 
 const YBH_CHECKOUT_STORE_KEY = 'wc/store/checkout';
 
 function YBHupdateCheckoutBlockData( values ) {
-    console.log('YBHupdateCheckoutBlockData');
+    //console.log('YBHupdateCheckoutBlockData');
         // Update Checkout block data if available.
         if ( window.wp && window.wp.data && window.wp.data.dispatch && window.wc && window.wc.wcBlocksData ) {
                 window.wp.data.dispatch( window.wc.wcBlocksData.YBH_CHECKOUT_STORE_KEY ).__internalSetExtensionData(
@@ -477,8 +432,8 @@ function YBHupdateCheckoutBlockData( values ) {
         }
 }
 function YBHeventuallyInitializeCheckoutBlock() {
-    console.log('YBHeventuallyInitializeCheckoutBlock', window.wp && window.wp.data && typeof window.wp.data.subscribe === 'function');
-    console.log(window.wp.data.subscribe);
+    //console.log('YBHeventuallyInitializeCheckoutBlock', window.wp && window.wp.data && typeof window.wp.data.subscribe === 'function');
+    //console.log(window.wp.data.subscribe);
         if (
                 window.wp && window.wp.data && typeof window.wp.data.subscribe === 'function'
         ) {

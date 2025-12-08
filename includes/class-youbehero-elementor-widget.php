@@ -121,10 +121,17 @@ class YouBeHero_Elementor_Widget extends Widget_Base {
         } else {
             // Show message in editor
             if ( Plugin::$instance->editor->is_edit_mode() ) {
+                $placement = !empty($settings['placement_position']) ? $settings['placement_position'] : 'woocommerce_after_checkout_billing_form';
+                $placement_labels = [
+                    'woocommerce_after_checkout_billing_form'   => esc_html__( 'After billing form', 'youbehero' ),
+                    'woocommerce_review_order_before_submit'    => esc_html__( 'Before place order button', 'youbehero' ),
+                ];
+                $placement_label = isset($placement_labels[$placement]) ? $placement_labels[$placement] : esc_html($placement);
+                
                 echo '<div style="padding: 15px; background: #e8f5e9; border: 1px solid #4caf50; border-radius: 4px; margin: 10px 0;">';
-                echo '<strong>' . __( '✓ Add Donation to Cart, YouBeHero', 'youbehero' ) . '</strong><br>';
-                echo __( 'Woocommerce Hook is Active and the widget will appear on the checkout page at: ', 'youbehero' );
-                echo '<strong>' . ( !empty($settings['placement_position'] ) ? $settings['placement_position'] : 'default position' ) . '</strong>';
+                echo '<strong>' . esc_html__( '✓ Add Donation to Cart, YouBeHero', 'youbehero' ) . '</strong><br>';
+                echo esc_html__( 'WooCommerce Hook is Active and the widget will appear on the checkout page at: ', 'youbehero' );
+                echo '<strong>' . $placement_label . '</strong>';
                 echo '</div>';
             }
         }

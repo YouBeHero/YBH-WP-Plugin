@@ -324,3 +324,8 @@ msgstr "Πριν το κουμπί παραγγελίας"
 #: includes/wpbakery-donation-widget.php:33
 msgid "Placement position"
 msgstr "Θέση εμφάνισης"
+
+#: includes/wpbakery-donation-widget.php:95
+#: includes/class-youbehero-elementor-widget.php:126
+msgid "WooCommerce Hook is Active and the widget will appear on the checkout page at: "
+msgstr "Το WooCommerce Hook είναι ενεργό και το widget θα εμφανιστεί στη σελίδα checkout στη θέση: "
