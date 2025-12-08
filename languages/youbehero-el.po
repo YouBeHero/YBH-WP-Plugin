@@ -329,3 +329,12 @@ msgstr "Θέση εμφάνισης"
 #: includes/class-youbehero-elementor-widget.php:126
 msgid "WooCommerce Hook is Active and the widget will appear on the checkout page at: "
 msgstr "Το WooCommerce Hook είναι ενεργό και το widget θα εμφανιστεί στη σελίδα checkout στη θέση: "
+
+#: public/class-you-be-hero-shortcodes-public.php:45
+#: public/class-you-be-hero-shortcodes-public.php:51
+#: public/class-you-be-hero-shortcodes-public.php:68
+#: public/class-you-be-hero-shortcodes-public.php:74
+#: public/class-you-be-hero-shortcodes-public.php:89
+#: public/class-you-be-hero-shortcodes-public.php:95
+msgid "Less than 10"
+msgstr "Λιγότερες από 10"

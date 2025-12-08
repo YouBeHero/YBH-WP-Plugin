@@ -17,6 +17,9 @@ class YouBeHero_ShortCodes_Public {
 
         add_shortcode('youbehero_donation_form', [ $this, 'ybhd_add_donation_form_shortcode' ]);
         add_shortcode('ybhd_donation_form', [ $this, 'ybhd_add_donation_form_shortcode' ]);
+        add_shortcode('total-donations', [ $this, 'render_total_donations' ]);
+        add_shortcode('total-number-of-donations', [ $this, 'render_total_number_of_donations' ]);
+        add_shortcode('total-number-supported-non-profits', [ $this, 'render_total_number_supported_non_profits' ]);
     }
     
     function ybhd_add_donation_form_shortcode() {
@@ -28,6 +31,91 @@ class YouBeHero_ShortCodes_Public {
             include_once(__DIR__ . '/../build/render.php');
             return ob_get_clean();
         }
+    }
+
+    /**
+     * Render total donations amount shortcode
+     * 
+     * @return string Total donations amount formatted with currency
+     */
+    function render_total_donations() {
+        $data = $this->get_dashboard_data();
+        
+        if ( empty( $data ) || ! isset( $data['summary']['total_donations'] ) ) {
+            return esc_html__( 'Less than 10', 'youbehero' );
+        }
+
+        $total_donations = (float) $data['summary']['total_donations'];
+        
+        if ( $total_donations == 0 || $total_donations < 10 ) {
+            return esc_html__( 'Less than 10', 'youbehero' );
+        }
+
+        // Use WooCommerce price formatting to respect currency position and formatting settings
+        return wp_kses_post( wc_price( $total_donations ) );
+    }
+
+    /**
+     * Render total number of donations shortcode
+     * 
+     * @return string Total number of donations
+     */
+    function render_total_number_of_donations() {
+        $data = $this->get_dashboard_data();
+        
+        if ( empty( $data ) || ! isset( $data['summary']['total_orders'] ) ) {
+            return esc_html__( 'Less than 10', 'youbehero' );
+        }
+
+        $total_orders = (int) $data['summary']['total_orders'];
+        
+        if ( $total_orders == 0 || $total_orders < 10 ) {
+            return esc_html__( 'Less than 10', 'youbehero' );
+        }
+
+        return (string) $total_orders;
+    }
+
+    /**
+     * Render total number of supported non-profits shortcode
+     * 
+     * @return string Total number of supported non-profit organizations
+     */
+    function render_total_number_supported_non_profits() {
+        $data = $this->get_dashboard_data();
+        
+        if ( empty( $data ) || ! isset( $data['summary']['benefited_organizations'] ) ) {
+            return esc_html__( 'Less than 10', 'youbehero' );
+        }
+
+        $benefited_orgs = (int) $data['summary']['benefited_organizations'];
+        
+        if ( $benefited_orgs == 0 || $benefited_orgs < 10 ) {
+            return esc_html__( 'Less than 10', 'youbehero' );
+        }
+
+        return (string) $benefited_orgs;
+    }
+
+    /**
+     * Get dashboard data from cached JSON
+     * 
+     * @return array Dashboard data array or empty array if not available
+     */
+    private function get_dashboard_data() {
+        $body = get_option( 'ybhd_dashboard_json' );
+        
+        if ( empty( $body ) ) {
+            return [];
+        }
+
+        $data = json_decode( $body, true );
+        
+        if ( json_last_error() !== JSON_ERROR_NONE || ! isset( $data['data'] ) ) {
+            return [];
+        }
+
+        return $data['data'];
     }
 
 }
