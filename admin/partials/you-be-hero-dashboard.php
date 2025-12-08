@@ -127,16 +127,22 @@ $company_name = $data['company_name'] ?? '-';
                 </tr>
                 </thead>
                 <tbody id="ybh-orders-tbody">
-                    <?php foreach ( $data['transactions'] as $transaction ) { ?>
+                    <?php 
+                    $total_donations = count( $data['transactions'] );
+                    $donation_count = $total_donations;
+                    foreach ( $data['transactions'] as $transaction ) { 
+                    ?>
                         <tr>
-                            <td><?php echo esc_html( $transaction['id'] ); ?></td>
-                            <td><?php echo esc_html( $transaction['order_number'] ); ?></td>
+                            <td><?php echo esc_html( $donation_count ); ?></td>
+                            <td><a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-orders&action=edit&id=' . $transaction['order_number'] ) ); ?>" target="_blank" class="ybh-order-link"><?php echo esc_html( $transaction['order_number'] ); ?></a></td>
                             <td><?php echo esc_html( $transaction['date'] ); ?></td>
                             <td><?php echo esc_html( number_format((float)$transaction['total'], 2, ',', '') . $currency_symbol ); ?></td>
                             <td><?php echo esc_html( number_format((float)$transaction['donation'], 2, ',', '') . $currency_symbol );?></td>
                             <td><a href="<?php echo esc_url( $transaction['link'] ); ?>" target="_blank" class="ybh-order-link"><?php echo esc_html( $transaction['organization'] ); ?></a></td>
                         </tr>
-                    <?php } ?>
+                    <?php 
+                        $donation_count--;
+                    } ?>
                 </tbody>
             </table>
 
