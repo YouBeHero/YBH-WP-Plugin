@@ -20,7 +20,8 @@ if (class_exists('WPBakeryShortCode')) {
             'base' => 'youbehero_donation_wpbakery',
             'description' => __( 'Add donation form to checkout', 'youbehero' ),
             'category' => __( 'Content', 'youbehero' ),
-            'icon' => 'icon-wpb-woocommerce',
+            // Use plugin SVG icon in the element picker
+            'icon' => YBHD_PLUGIN_URL . 'admin/img/ybh-single-logo.svg',
             'params' => array(
 
                 // WooCommerce Hook Toggle

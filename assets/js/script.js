@@ -8,7 +8,6 @@ jQuery(document).ready(function($) {
     }
     
         if (!window.ybh_donation_checkout_params || typeof ybh_donation_checkout_params !== 'object') {
-            //console.error('ybh_donation_checkout_params is not defined or not an object');
             return;
         }
 
@@ -47,8 +46,6 @@ jQuery(document).ready(function($) {
                 // 1. Get current cart state
                 const { getCartData } = wp.data.select('wc/store/cart');
                 const currentCart = getCartData();
-
-                    //console.log( orgId, orgName, amount )
 
                 let updatedFees = [];
 
@@ -98,6 +95,7 @@ jQuery(document).ready(function($) {
 
                 const amountF = isNaN(Number(amount)) ? 0 : Number(amount)/100;
                 const force_remove = isNaN(Number(orgId)) ? 1 : 0;
+                
                 //server side update
                 $.ajax({
                     type: 'POST',
@@ -117,8 +115,6 @@ jQuery(document).ready(function($) {
                         ]
                     },
                     success: function(response) {
-                        //console.log('Donation added successfully!');
-
                         if (jQuery('form.checkout').length) {
                             // Listen for checkout update completion
                             let reEnabled = false;
@@ -128,7 +124,12 @@ jQuery(document).ready(function($) {
                                     setButtonLoading(jQuery('.donation-btn.loading'), false);
                                 }
                             });
-                            jQuery(document.body).trigger('update_checkout');
+                            
+                            // Add a small delay to ensure session is fully committed on server
+                            // This is critical - WooCommerce's update_order_review needs the session to be set
+                            setTimeout(function() {
+                                jQuery(document.body).trigger('update_checkout');
+                            }, 150); // Small delay to ensure session is committed
                             
                             // Fallback: re-enable after 3 seconds if event doesn't fire
                             setTimeout(function() {
@@ -151,11 +152,9 @@ jQuery(document).ready(function($) {
                         setButtonLoading(jQuery('.donation-btn.loading'), false);
                     }
                 });
-                //console.log('Donation process ends!');
                 return true;
 
             } catch (error) {
-                //console.error('Donation error:', error);
                 // Re-enable buttons on error
                 setButtonLoading(jQuery('.donation-btn.loading'), false);
                 //show elegant notice update this
@@ -169,12 +168,10 @@ jQuery(document).ready(function($) {
         };
         
         const update_totals = async () => {
-            
             try {
                 // Invalidate the current cart data resolution
                 await wp.data.dispatch('wc/store/cart').invalidateResolution('getCartData');
               } catch (error) {
-                //console.error('Error updating cart totals:', error);
                 // Re-enable buttons on error
                 setButtonLoading(jQuery('.donation-btn.loading'), false);
               } finally {
@@ -189,7 +186,6 @@ jQuery(document).ready(function($) {
         function add_donation_to_cart(){
             const orgId = jQuery('#donation-cause').val();
             const amount = jQuery('#donation-amount').val();
-            //console.log( 'add_donation_to_cart', 'orgId: ', orgId )
 
             const selectedCause = causes.find(cause =>cause.value === parseInt(orgId));
             const orgName = selectedCause ? selectedCause.label : '';
@@ -224,11 +220,9 @@ jQuery(document).ready(function($) {
             const donation_amount = jQuery('#donation-amount').val();
 
             if( !donation_amount ){
-                //console.log('Please select amount to donate');j
                 return false;
             }
             if( !donation_cause ){
-                //console.log('Please select cause to donate');
                 return false;
             }
             return true;
@@ -297,7 +291,6 @@ jQuery(document).ready(function($) {
 
             $('#dropdownMenu').removeClass('show');
             selectedOption.textContent = $(this).data("text");
-            //console.log('Selected Value:', $(this).data("value"));
             donationCauseEle.value = $(this).data("value");
             causeImgEle.src = $(this).data("image");
             
@@ -328,7 +321,7 @@ jQuery(document).ready(function($) {
             }
         };
         
-        $('.donation-amounts .radio-button:checked').trigger('click');
+        jQuery('.donation-amounts .radio-button:checked').trigger('click');
         jQuery(document).on('click', '.donation-amounts .radio-button', function (event) {
             event.preventDefault();
             const jQueryBtn = jQuery(this);
@@ -350,13 +343,13 @@ jQuery(document).ready(function($) {
             const donation_label = jQueryBtn.data('label');
 
             // Use jQuery to set the value for consistency (matches how it's read in validate_donation_data)
-            $('#donation-amount').val(donation_amount);
+            jQuery('#donation-amount').val(donation_amount);
 
             jQuery('.donation-amount-pill').text(donation_label + currencySymbol);
             jQuery('.donation-amounts .radio-button').removeClass('selected');
             jQueryBtn.addClass('selected');
-            jQuery('.donation-amounts .donation-amount').change();
             
+            // Direct call to update cart (change handler is for other scenarios like manual input)
             if ( validate_donation_data() ) {
                 add_donation_to_cart( );
             } else {

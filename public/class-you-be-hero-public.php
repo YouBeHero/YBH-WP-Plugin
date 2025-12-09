@@ -280,19 +280,16 @@ class You_Be_Hero_Public {
             return;
         }
 
-
-        // Add fee (WooCommerce native method)
-        WC()->cart->add_fee(
-            __( 'Donation for', 'youbehero' ) . $org_name,//"Donation for {$org_name}",
-            $amount,
-            false, // Not taxable
-        );
-        // Set session data
+        // Set session data first - the hook will read from this
         WC()->session->set('ybh_donation_amount', $amount);
         WC()->session->set('ybh_donation_cause', $org_name);
         WC()->session->set('_donation_org_name', $org_name);
         WC()->session->set('_donation_org_id', $org_id);
         WC()->session->set('_donation_org_img', $org_img);
+
+        // Force cart recalculation to trigger woocommerce_cart_calculate_fees hook
+        // This ensures the fee is added consistently through the hook
+        WC()->cart->calculate_totals();
 
         wp_send_json_success([
             'fees' => WC()->cart->get_fees(),

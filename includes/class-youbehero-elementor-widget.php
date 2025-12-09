@@ -25,7 +25,7 @@ class YouBeHero_Elementor_Widget extends Widget_Base {
      * @return string
      */
     public function get_icon() {
-        return 'eicon-cart';
+        return 'eicon-heart';
     }
 
     /**
