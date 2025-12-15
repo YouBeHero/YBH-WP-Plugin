@@ -425,15 +425,16 @@ function YBHupdateCheckoutBlockData( values ) {
         }
 }
 function YBHeventuallyInitializeCheckoutBlock() {
-    //console.log('YBHeventuallyInitializeCheckoutBlock', window.wp && window.wp.data && typeof window.wp.data.subscribe === 'function');
-    //console.log(window.wp.data.subscribe);
         if (
                 window.wp && window.wp.data && typeof window.wp.data.subscribe === 'function'
         ) {
                 // Update checkout block data once more if the checkout store was loaded after this script.
                 const unsubscribe = window.wp.data.subscribe( function () {
                         unsubscribe();
-                        YBHupdateCheckoutBlockData( wc_order_attribution.getAttributionData() );
+                        // Check if wc_order_attribution exists before calling it
+                        if ( typeof wc_order_attribution !== 'undefined' && wc_order_attribution && typeof wc_order_attribution.getAttributionData === 'function' ) {
+                                YBHupdateCheckoutBlockData( wc_order_attribution.getAttributionData() );
+                        }
                 }, YBH_CHECKOUT_STORE_KEY );
         }
 };
