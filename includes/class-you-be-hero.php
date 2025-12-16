@@ -133,11 +133,6 @@ class You_Be_Hero {
          */
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-you-be-hero-shortcodes-public.php';
 
-        /**
-         * The class responsible for YouBeHero WpBakery Widget
-         */
-        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/wpbakery-donation-widget.php';
-
 		$this->loader = new You_Be_Hero_Loader();
 
 	}
@@ -162,6 +157,7 @@ class You_Be_Hero {
     public function ybhd_set_compatibility() {
 
         add_action( 'plugins_loaded', array( $this, 'ybhd_elementor_compatibility' ) );
+        add_action( 'plugins_loaded', array( $this, 'ybhd_wpbakery_compatibility' ) );
         
     }
 
@@ -176,7 +172,12 @@ class You_Be_Hero {
             $youbehero_data = $youbehero_data['data'] ?? [];
 
             // Check if Elementor is installed and active
-            if (!did_action('elementor/loaded') || ( isset( $youbehero_data['status'] ) && $youbehero_data['status'] != 'active' ) || !is_plugin_active('youbehero/youbehero.php')) {
+            // Also verify that we have valid data structure (not just cached invalid data)
+            if (!did_action('elementor/loaded') 
+                || empty($youbehero_data) 
+                || !isset($youbehero_data['status']) 
+                || $youbehero_data['status'] != 'active' 
+                || !is_plugin_active('youbehero/youbehero.php')) {
                 return; // Elementor not active, skip loading
             }
 
@@ -188,6 +189,33 @@ class You_Be_Hero {
                 $widgets_manager->register(new \YouBeHero_Elementor_Widget());
 
             });
+        }
+
+    }
+
+    public function ybhd_wpbakery_compatibility() {
+
+        $ybhd_token = get_option( 'ybhd_token' );
+
+        if ( ! empty( $ybhd_token ) ) {
+            include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+
+            $youbehero_data = json_decode(get_option('ybhd_dashboard_json'), true);
+            $youbehero_data = $youbehero_data['data'] ?? [];
+
+            // Check if WPBakery is installed and active, and plugin status is active
+            // Also verify that we have valid data structure (not just cached invalid data)
+            if (!class_exists('WPBakeryShortCode') 
+                || empty($youbehero_data) 
+                || !isset($youbehero_data['status']) 
+                || $youbehero_data['status'] != 'active' 
+                || !is_plugin_active('youbehero/youbehero.php')) {
+                return; // WPBakery not active or plugin not configured, skip loading
+            }
+
+            // Include and register widget
+            require_once plugin_dir_path(dirname(__FILE__)) . 'includes/wpbakery-donation-widget.php';
+            add_action( 'vc_before_init', 'ybhd_register_wpbakery_element' );
         }
 
     }

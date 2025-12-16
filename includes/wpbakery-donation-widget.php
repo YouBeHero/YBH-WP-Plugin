@@ -13,7 +13,7 @@ if (class_exists('WPBakeryShortCode')) {
     /**
      * Register the WPBakery element
      */
-    function youbehero_register_wpbakery_element() {
+    function ybhd_register_wpbakery_element() {
 
         vc_map( array(
             'name' => __( 'YouBeHero Donation Widget', 'youbehero'  ),
@@ -57,7 +57,7 @@ if (class_exists('WPBakeryShortCode')) {
             ),
         ));
     }
-    add_action( 'vc_before_init', 'youbehero_register_wpbakery_element' );
+    // Registration will be called conditionally from ybhd_wpbakery_compatibility()
 
     /**
      * WPBakery Shortcode Class
