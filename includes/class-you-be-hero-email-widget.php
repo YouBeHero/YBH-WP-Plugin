@@ -241,32 +241,32 @@ class YouBeHero_Email_Widget {
                     <div class="youbehero-tk-social-icons">
                         <?php if( !empty( $selected_cause_info['url'] ) ) { ?>
                             <a href="<?php echo esc_url( $selected_cause_info['url'] ); ?>">
-                                <img class="mceSocialFollowImage" width="32" height="32" alt="YouBeHero icon" src="https://youbehero.com/img/wp-plugin-images/email_icons/youbehero-filled-dark-40.png">
+                                <img class="mceSocialFollowImage" width="32" height="32" alt="YouBeHero icon" src="<?php echo esc_url( YBHD_PLUGIN_URL ); ?>public/img/youbehero-filled-dark-40.png">
                             </a>
                         <?php }
                         if ( !empty( $social_links['twitter'] ) ) { ?>
                             <a href="<?php echo esc_url( $social_links['twitter'] ); ?>">
-                                <img class="mceSocialFollowImage" width="32" height="32" alt="X icon" src="https://youbehero.com/img/wp-plugin-images/email_icons/twitter-filled-dark-40.png">
+                                <img class="mceSocialFollowImage" width="32" height="32" alt="X icon" src="<?php echo esc_url( YBHD_PLUGIN_URL ); ?>public/img/twitter-filled-dark-40.png">
                             </a>
                         <?php }
                         if ( !empty( $social_links['instagram'] ) ) { ?>
                             <a href="<?php echo esc_url( $social_links['instagram'] ); ?>">
-                                <img class="mceSocialFollowImage" width="32" height="32" alt="Instagram icon" src="https://youbehero.com/img/wp-plugin-images/email_icons/instagram-filled-dark-40.png">
+                                <img class="mceSocialFollowImage" width="32" height="32" alt="Instagram icon" src="<?php echo esc_url( YBHD_PLUGIN_URL ); ?>public/img/instagram-filled-dark-40.png">
                             </a>
                         <?php }
                         if ( !empty( $social_links['facebook'] ) ) { ?>
                             <a href="<?php echo esc_url( $social_links['facebook'] ); ?>">
-                                <img class="mceSocialFollowImage" width="32" height="32" alt="Facebook icon" src="https://youbehero.com/img/wp-plugin-images/email_icons/facebook-filled-dark-40.png">
+                                <img class="mceSocialFollowImage" width="32" height="32" alt="Facebook icon" src="<?php echo esc_url( YBHD_PLUGIN_URL ); ?>public/img/facebook-filled-dark-40.png">
                             </a>
                         <?php }
                         if ( !empty( $social_links['youtube'] ) ) { ?>
                             <a href="<?php echo esc_url( $social_links['youtube'] ); ?>">
-                                <img class="mceSocialFollowImage" width="32" height="32" alt="YouTube icon" src="https://youbehero.com/img/wp-plugin-images/email_icons/youtube-filled-dark-40.png">
+                                <img class="mceSocialFollowImage" width="32" height="32" alt="YouTube icon" src="<?php echo esc_url( YBHD_PLUGIN_URL ); ?>public/img/youtube-filled-dark-40.png">
                             </a>
                         <?php }
                         if ( !empty( $social_links['linkedin'] ) ) { ?>
                             <a href="<?php echo esc_url( $social_links['linkedin'] ); ?>">
-                                <img class="mceSocialFollowImage" width="32" height="32" alt="LinkedIn icon" src="https://youbehero.com/img/wp-plugin-images/email_icons/linkedin-filled-dark-40.png">
+                                <img class="mceSocialFollowImage" width="32" height="32" alt="LinkedIn icon" src="<?php echo esc_url( YBHD_PLUGIN_URL ); ?>public/img/linkedin-filled-dark-40.png">
                             </a>
                         <?php } ?>
                     </div>
@@ -285,7 +285,7 @@ class YouBeHero_Email_Widget {
                         </td>
                         <td align="right" style="padding:0;">
                             <a class="youbehero-tk-footer-logo" href="https://youbehero.com">
-                            <img alt="" src="https://youbehero.com/img/wp-plugin-images/email_icons/d234e58a-0054-2807-de31-a7b021c8bb9e.png" width="89" height="auto" style="border:none;display:inline-block;max-width:100%;height:auto;border-radius:0;">
+                            <img alt="" src="<?php echo esc_url( YBHD_PLUGIN_URL ); ?>public/img/d234e58a-0054-2807-de31-a7b021c8bb9e.png" width="89" height="auto" style="border:none;display:inline-block;max-width:100%;height:auto;border-radius:0;">
                             </a>
                         </td>
                         </tr>
@@ -319,7 +319,7 @@ class YouBeHero_Email_Widget {
                     <tr>
                         <td style="padding-top:3px;padding-bottom:3px;padding-left:12px;padding-right:12px" valign="top" class="mceSocialFollowIcon" align="center" width="32">
                             <a href="'. esc_url( $selected_cause_info['url'] ).'" target="_blank" rel="noreferrer">
-                                <img class="mceSocialFollowImage" width="32" height="32" alt="YouBeHero icon" src="https://youbehero.com/img/wp-plugin-images/email_icons/youbehero-filled-dark-40.png">
+                                <img class="mceSocialFollowImage" width="32" height="32" alt="YouBeHero icon" src="' . esc_url( YBHD_PLUGIN_URL ) . 'public/img/youbehero-filled-dark-40.png">
                             </a>
                         </td>
                     </tr>
@@ -335,7 +335,7 @@ class YouBeHero_Email_Widget {
                     <tr>
                         <td style="padding-top:3px;padding-bottom:3px;padding-left:12px;padding-right:12px" valign="top" class="mceSocialFollowIcon" align="center" width="32">
                             <a href="'. esc_url( $social_links['twitter'] ).'" target="_blank" rel="noreferrer">
-                                <img class="mceSocialFollowImage" width="32" height="32" alt="X icon" src="https://youbehero.com/img/wp-plugin-images/email_icons/twitter-filled-dark-40.png">
+                                <img class="mceSocialFollowImage" width="32" height="32" alt="X icon" src="' . esc_url( YBHD_PLUGIN_URL ) . 'public/img/twitter-filled-dark-40.png">
                             </a>
                         </td>
                     </tr>
@@ -350,7 +350,7 @@ class YouBeHero_Email_Widget {
                     <tr>
                         <td style="padding-top:3px;padding-bottom:3px;padding-left:12px;padding-right:12px" valign="top" class="mceSocialFollowIcon" align="center" width="32">
                             <a href="'. esc_url( $social_links['instagram'] ).'" target="_blank" rel="noreferrer">
-                                <img class="mceSocialFollowImage" width="32" height="32" alt="Instagram icon" src="https://youbehero.com/img/wp-plugin-images/email_icons/instagram-filled-dark-40.png">
+                                <img class="mceSocialFollowImage" width="32" height="32" alt="Instagram icon" src="' . esc_url( YBHD_PLUGIN_URL ) . 'public/img/instagram-filled-dark-40.png">
                             </a>
                         </td>
                     </tr>
@@ -366,7 +366,7 @@ class YouBeHero_Email_Widget {
                     <tr>
                         <td style="padding-top:3px;padding-bottom:3px;padding-left:12px;padding-right:12px" valign="top" class="mceSocialFollowIcon" align="center" width="32">
                             <a href="'. esc_url( $social_links['facebook'] ).'" target="_blank" rel="noreferrer">
-                                <img class="mceSocialFollowImage" width="32" height="32" alt="Facebook icon" src="https://youbehero.com/img/wp-plugin-images/email_icons/facebook-filled-dark-40.png">
+                                <img class="mceSocialFollowImage" width="32" height="32" alt="Facebook icon" src="' . esc_url( YBHD_PLUGIN_URL ) . 'public/img/facebook-filled-dark-40.png">
                             </a>
                         </td>
                     </tr>
@@ -382,7 +382,7 @@ class YouBeHero_Email_Widget {
                     <tr>
                         <td style="padding-top:3px;padding-bottom:3px;padding-left:12px;padding-right:12px" valign="top" class="mceSocialFollowIcon" align="center" width="32">
                             <a href="'. esc_url( $social_links['youtube'] ).'" target="_blank" rel="noreferrer">
-                                <img class="mceSocialFollowImage" width="32" height="32" alt="YouTube icon" src="https://youbehero.com/img/wp-plugin-images/email_icons/youtube-filled-dark-40.png">
+                                <img class="mceSocialFollowImage" width="32" height="32" alt="YouTube icon" src="' . esc_url( YBHD_PLUGIN_URL ) . 'public/img/youtube-filled-dark-40.png">
                             </a>
                         </td>
                     </tr>
@@ -398,7 +398,7 @@ class YouBeHero_Email_Widget {
                     <tr>
                         <td style="padding-top:3px;padding-bottom:3px;padding-left:12px;padding-right:12px" valign="top" class="mceSocialFollowIcon" align="center" width="32">
                             <a href="'. esc_url( $social_links['linkedin'] ).'" target="_blank" rel="noreferrer">
-                                <img class="mceSocialFollowImage" width="32" height="32" alt="LinkedIn icon" src="https://youbehero.com/img/wp-plugin-images/email_icons/linkedin-filled-dark-40.png">
+                                <img class="mceSocialFollowImage" width="32" height="32" alt="LinkedIn icon" src="' . esc_url( YBHD_PLUGIN_URL ) . 'public/img/linkedin-filled-dark-40.png">
                             </a>
                         </td>
                     </tr>
@@ -468,7 +468,7 @@ class YouBeHero_Email_Widget {
                                                                                                                                     <div>
                                                                                                                                         <!--[if mso]>
                                                                                                                                         <span class="mceImageBorder" style="border:0;border-width:2px;vertical-align:top;margin:0">
-                                                                                                                                            <img role="presentation" class="imageDropZone mceImage" src="https://mcusercontent.com/002f91629d56d1d3fdf44d440/images/33e806fe-7c60-31a5-6227-c0d3f77760c2.png" alt="" width="54" height="auto" style="display:block;max-width:54px;width:54px;height:auto"/>
+                                                                                                                                            <img role="presentation" class="imageDropZone mceImage" src="' . esc_url( YBHD_PLUGIN_URL ) . 'public/img/logo-dark.svg" alt="" width="54" height="auto" style="display:block;max-width:54px;width:54px;height:auto"/>
                                                                                                                                         </span>
                                                                                                                                         <![endif]-->
                                                                                                                                     </div>
@@ -865,7 +865,7 @@ class YouBeHero_Email_Widget {
                                                                                                                                                                                                                                                                                                             <tbody>
                                                                                                                                                                                                                                                                                                                 <tr>
                                                                                                                                                                                                                                                                                                                     <td style="border:0;border-radius:0;margin:0" valign="top">
-                                                                                                                                                                                                                                                                                                                        <img alt="" src="https://youbehero.com/img/wp-plugin-images/email_icons/d234e58a-0054-2807-de31-a7b021c8bb9e.png" width="89" height="auto" style="display:block;max-width:100%;height:auto;border-radius:0" class="imageDropZone mceImage">
+                                                                                                                                                                                                                                                                                                                        <img alt="" src="'. esc_url( YBHD_PLUGIN_URL . 'public/img/ybh.svg' ) .'" width="89" height="auto" style="display:block;max-width:100%;height:auto;border-radius:0" class="imageDropZone mceImage">
                                                                                                                                                                                                                                                                                                                     </td>
                                                                                                                                                                                                                                                                                                                 </tr>
                                                                                                                                                                                                                                                                                                             </tbody>
@@ -878,7 +878,7 @@ class YouBeHero_Email_Widget {
                                                                                                                                                                                                                                                                                                         <!--[if mso]>
                                                                                                                                                                                                                                                                                                         <a href="https://youbehero.com/">
                                                                                                                                                                                                                                                                                                             <span class="mceImageBorder" style="border:0;border-width:2px;vertical-align:top;margin:0">
-                                                                                                                                                                                                                                                                                                                <img role="presentation" class="imageDropZone mceImage" src="https://mcusercontent.com/002f91629d56d1d3fdf44d440/images/d234e58a-0054-2807-de31-a7b021c8bb9e.png" alt="" width="89" height="auto" style="display:block;max-width:89px;width:89px;height:auto"/>
+                                                                                                                                                                                                                                                                                                                <img role="presentation" class="imageDropZone mceImage" src="'. esc_url( YBHD_PLUGIN_URL . 'public/img/ybh.svg' ) .'" alt="" width="89" height="auto" style="display:block;max-width:89px;width:89px;height:auto"/>
                                                                                                                                                                                                                                                                                                             </span>
                                                                                                                                                                                                                                                                                                         </a>
                                                                                                                                                                                                                                                                                                         <![endif]-->

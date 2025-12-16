@@ -131,7 +131,7 @@ class YouBeHero_Elementor_Widget extends Widget_Base {
                 echo '<div style="padding: 15px; background: #e8f5e9; border: 1px solid #4caf50; border-radius: 4px; margin: 10px 0;">';
                 echo '<strong>' . esc_html__( '✓ Add Donation to Cart, YouBeHero', 'youbehero' ) . '</strong><br>';
                 echo esc_html__( 'WooCommerce Hook is Active and the widget will appear on the checkout page at: ', 'youbehero' );
-                echo '<strong>' . $placement_label . '</strong>';
+                echo '<strong>' . esc_html( $placement_label ) . '</strong>';
                 echo '</div>';
             }
         }

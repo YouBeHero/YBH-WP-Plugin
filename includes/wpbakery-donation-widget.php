@@ -61,6 +61,10 @@ if (class_exists('WPBakeryShortCode')) {
 
     /**
      * WPBakery Shortcode Class
+     *
+     * Note: Class name must follow WPBakery's required "WPBakeryShortCode_*" pattern.
+     *
+     * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
      */
     class WPBakeryShortCode_YouBeHero_Donation_WPBakery extends WPBakeryShortCode {
 

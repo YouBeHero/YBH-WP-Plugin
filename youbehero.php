@@ -16,15 +16,15 @@
  * Plugin Name:       YouBeHero
  * Plugin URI:        https://dev.youbehero.com/gr/signup-eshop
  * Description:       Add Donation to Cart by YouBeHero is a powerful WordPress plugin that adds a donation widget to your WooCommerce checkout, transforming every purchase into an opportunity for social impact.
- * Version:           1.1.5
+ * Version:           1.2.0
  * Author:            YouBeHero
  * Author URI:        https://youbehero.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       youbehero
  * Domain Path:       /languages
- * Requires at least: 5.0
- * Tested up to:      6.8
+ * Requires at least: 5.7
+ * Tested up to:      6.9
  */
 
 // If this file is called directly, abort.
@@ -52,7 +52,7 @@ define('YBHD_PLUGIN_PUBLIC_DIR', YBHD_PLUGIN_DIR . 'public/');
  * The code that runs during plugin activation.
  * This action is documented in includes/class-you-be-hero-activator.php
  */
-function activate_youbehero_donation() {
+function ybhd_activate_youbehero_donation() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-you-be-hero-activator.php';
 	You_Be_Hero_Activator::activate();
 }
@@ -61,13 +61,13 @@ function activate_youbehero_donation() {
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-you-be-hero-deactivator.php
  */
-function deactivate_youbehero_donation() {
+function ybhd_deactivate_youbehero_donation() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-you-be-hero-deactivator.php';
 	You_Be_Hero_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_youbehero_donation' );
-register_deactivation_hook( __FILE__, 'deactivate_youbehero_donation' );
+register_activation_hook( __FILE__, 'ybhd_activate_youbehero_donation' );
+register_deactivation_hook( __FILE__, 'ybhd_deactivate_youbehero_donation' );
 
 /**
  * The core plugin class that is used to define internationalization,
@@ -94,10 +94,10 @@ add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'youbehero_add
  *
  * @since    1.0.1
  */
-function run_youbehero_donation() {
+function ybhd_run_youbehero_donation() {
 
 	$plugin = new You_Be_Hero();
 	$plugin->run();
 
 }
-run_youbehero_donation();
+ybhd_run_youbehero_donation();
