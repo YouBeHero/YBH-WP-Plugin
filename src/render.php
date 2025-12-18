@@ -80,7 +80,7 @@ if ( ! is_admin() ) {
 
             if ( $ybhd_donor == 'customer' && $ybhd_donation_type == 'fixed' && ! empty( $ybhd_amounts ) ) {
                 $ybhd_donation_amount = WC()->session->get( 'ybh_donation_amount', 0 );
-                $ybhd_txt             = __( 'Would you like to make a donation?', 'youbehero' );
+                $ybhd_txt             = __( 'Would you like to donate to a cause?', 'youbehero' );
                 $ybhd_headhtml       .= '<span style="color:' . $ybhd_text_color . '">' . $ybhd_txt . '</span><span style="background: ' . $ybhd_btn_color . '" class="pill-container"><span class="donation-amount-pill">' . number_format( (float) $ybhd_donation_amount, 2, '.', '' ) . $ybhd_currency_symbol . '</span></span>';
                 foreach ( $ybhd_amounts as $ybhd_amount ) {
                     $ybhd_amount_cents = (float) str_replace( ',', '.', $ybhd_amount ) * 100;//(float)$amount * 100;
@@ -149,7 +149,7 @@ if ( ! is_admin() ) {
                         $ybhd_selected        = $ybhd_donation_amount == $ybhd_roundup_value ? 'selected' : '';
                     }
 
-                    $ybhd_txt       = __( 'Would you like to make a donation?', 'youbehero' );
+                    $ybhd_txt       = __( 'Would you like to donate to a cause?', 'youbehero' );
                     $ybhd_headhtml .= '<span style="color:' . $ybhd_text_color . '">' . $ybhd_txt . '</span><span style="background: ' . $ybhd_btn_color . '" class="pill-container"><span class="donation-amount-pill">' . number_format( (float) $ybhd_donation_amount, 2, '.', '' ) . $ybhd_currency_symbol . '</span></span>';
 
                     $ybhd_html .= '<button class="donation-btn radio-button ' . $ybhd_selected . '" data-btnclr="' . $ybhd_btn_color . '" style="--btn-color: ' . esc_attr( $ybhd_btn_color ) . ';" data-value="' . $ybhd_amount_cents . '" data-label="' . number_format( (float) $ybhd_roundup_value, 2, '.', '' ) . '" >' . number_format( (float) $ybhd_roundup_value, 2, '.', '' ) . $ybhd_currency_symbol . '</button>';
@@ -229,7 +229,7 @@ if ( ! is_admin() ) {
                                         <span id="selectedOption"><?php echo esc_html( $ybhd_session_cause ); ?></span>
                                     <?php } else { ?>
                                         <img id="selected-cause-img" src="<?php echo esc_url( YBHD_PLUGIN_URL ); ?>public/img/ybh.svg" alt="Logo">
-                                        <span id="selectedOption"><?php echo esc_html__( 'Please select a nonprofit organization', 'youbehero' )?></span>
+                                        <span id="selectedOption"><?php echo esc_html__( 'Please select a cause', 'youbehero' )?></span>
                                     <?php }
 
                                     ?>
@@ -240,9 +240,9 @@ if ( ! is_admin() ) {
 
                                 <?php if ( count( $ybhd_causes ) > 1 ) { ?>
                             <div class="custom-dropdown-menu" id="dropdownMenu">
-                            <div class="custom-dropdown-option ybh-dd-option <?php echo ( empty( $ybhd_selected_cause ) ) ? 'hidden' : ''; ?>" id="select-np-ybh-dd-option" data-image="<?php echo esc_url( YBHD_PLUGIN_URL ); ?>public/img/ybh.svg" data-text="<?php echo esc_html__( 'Please select a nonprofit organization', 'youbehero' ); ?>" data-value="0">
+                            <div class="custom-dropdown-option ybh-dd-option <?php echo ( empty( $ybhd_selected_cause ) ) ? 'hidden' : ''; ?>" id="select-np-ybh-dd-option" data-image="<?php echo esc_url( YBHD_PLUGIN_URL ); ?>public/img/ybh.svg" data-text="<?php echo esc_html__( 'Please select a cause', 'youbehero' ); ?>" data-value="0">
                                 <img alt="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/ybh.svg" src="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/ybh.svg"  style="width: min(5%, 2em);"/>
-                                <span class="text-gray-700"><?php echo esc_html__( 'Please select a nonprofit organization', 'youbehero' ); ?></span>
+                                <span class="text-gray-700"><?php echo esc_html__( 'Please select a cause', 'youbehero' ); ?></span>
                             </div>
                             <?php
                             foreach ( $ybhd_causes as $ybhd_key => $ybhd_cause ) { ?>

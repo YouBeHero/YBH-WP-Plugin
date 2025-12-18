@@ -40,7 +40,6 @@
 		const closeBtn = document.querySelector(".youbehero-close-btn");
 
 		if (!modal || !btn || !closeX || !closeBtn) {
-			console.error("Modal elements not found in DOM");
 			return;
 		}
 

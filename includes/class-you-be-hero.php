@@ -286,10 +286,11 @@ class You_Be_Hero {
         $this->loader->add_action( 'woocommerce_checkout_update_order_review', $plugin_public, 'youbehero_init_woocommerce_hooks', 5 );
 
         // Hook into the AJAX update at various points to ensure persistence
+        // Register early on wp_ajax hooks to ensure hook is ready before checkout form renders
+        $this->loader->add_action( 'wp_ajax_woocommerce_update_order_review', $plugin_public, 'youbehero_register_ajax_hooks_early', 1 );
+        $this->loader->add_action( 'wp_ajax_nopriv_woocommerce_update_order_review', $plugin_public, 'youbehero_register_ajax_hooks_early', 1 );
         $this->loader->add_action( 'woocommerce_checkout_update_order_review', $plugin_public, 'youbehero_persist_hooks_on_ajax', 1 );
         $this->loader->add_action( 'woocommerce_before_checkout_form', $plugin_public, 'youbehero_persist_hooks_on_ajax', 1 );
-        $this->loader->add_action( 'wp_ajax_woocommerce_update_order_review', $plugin_public, 'youbehero_persist_hooks_on_ajax', 1 );
-        $this->loader->add_action( 'wp_ajax_nopriv_woocommerce_update_order_review', $plugin_public, 'youbehero_persist_hooks_on_ajax', 1 );
 
         $this->loader->add_action( 'wp_ajax_youbehero_get_widget_html', $plugin_public, 'youbehero_ajax_get_widget_html' );
         $this->loader->add_action( 'wp_ajax_nopriv_youbehero_get_widget_html', $plugin_public, 'youbehero_ajax_get_widget_html' );

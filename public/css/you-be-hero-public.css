@@ -135,8 +135,8 @@
 }
 .custom-dropdown-option img {
     width: 10% !important;
-    border-radius: 8px !important;
-    max-width: 30px !important;
+    border-radius: 2px !important;
+    max-width: 24px !important;
 }
 .custom-dropdown-option:hover {
     background-color: #f3f4f6;
@@ -191,7 +191,7 @@
 }
 
 #selected-cause-img {
-    height: 32px;
+    height: 24px;
     border-radius: 4px;
 }
 

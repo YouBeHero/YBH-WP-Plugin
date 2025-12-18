@@ -19,7 +19,7 @@ jQuery(document).ready(function($) {
         let currencyCode = wcSettings?.currency?.code || 'USD';
         let currencySymbol = wcSettings?.currency?.symbol || '$';
 
-        // Hide "Please select a nonprofit organization" option if a nonprofit is already selected
+        // Hide "Please select a cause" option if a nonprofit is already selected
         jQuery(document).ready(function() {
             const donationCauseEle = jQuery('#donation-cause').val();
             if (donationCauseEle && donationCauseEle.value && donationCauseEle.value != '0' && donationCauseEle.value != '') {
@@ -88,8 +88,6 @@ jQuery(document).ready(function($) {
                     }
                     // Store the HTML in the hidden div
                     jQuery('#hidden-donation-html').text(html);
-
-                    // console.log('incond',$('#hidden-donation-html').text() )
                 }
                 //Store HTML for widget AJAX - End
 
@@ -125,11 +123,12 @@ jQuery(document).ready(function($) {
                                 }
                             });
                             
-                            // Add a small delay to ensure session is fully committed on server
+                            // Add a delay to ensure session is fully committed on server
                             // This is critical - WooCommerce's update_order_review needs the session to be set
+                            const triggerDelay = 500;
                             setTimeout(function() {
                                 jQuery(document.body).trigger('update_checkout');
-                            }, 150); // Small delay to ensure session is committed
+                            }, triggerDelay);
                             
                             // Fallback: re-enable after 3 seconds if event doesn't fire
                             setTimeout(function() {
@@ -147,7 +146,7 @@ jQuery(document).ready(function($) {
                             });
                         }
                     },
-                    error: function() {
+                    error: function(xhr, status, error) {
                         // Re-enable buttons on error
                         setButtonLoading(jQuery('.donation-btn.loading'), false);
                     }
@@ -248,7 +247,6 @@ jQuery(document).ready(function($) {
         });
 
         $(document).on('click', '#ybh-dd-select', function () {
-            //console.log( jQuery(this).attr('class'),jQuery('#dropdownMenu').hasClass('show'));
             if( jQuery('#dropdownMenu').hasClass('show') ){
                 jQuery('#dropdownMenu').removeClass('show');
             }else{
@@ -294,7 +292,7 @@ jQuery(document).ready(function($) {
             donationCauseEle.value = $(this).data("value");
             causeImgEle.src = $(this).data("image");
             
-            // Hide "Please select a nonprofit organization" option when a nonprofit is selected
+            // Hide "Please select a cause" option when a nonprofit is selected
             if( $(this).data("value") && $(this).data("value") != 0 ){
                 $('#select-np-ybh-dd-option').addClass('hidden');
             }else{
@@ -376,7 +374,7 @@ jQuery(document).ready(function($) {
             jQuery('.donation-amounts .radio-button').removeClass('selected');
             jQuery('.donation-amounts .donation-amount').change();
 
-            // Select "Please select a nonprofit organization" option when amount is deleted
+            // Select "Please select a cause" option when amount is deleted
             const selectedOption = document.getElementById('selectedOption');
             const donationCauseEle = document.getElementById('donation-cause');
             const causeImgEle = document.getElementById('selected-cause-img');
@@ -392,7 +390,6 @@ jQuery(document).ready(function($) {
             add_donation_to_cart();
         });
         
-        //console.log( 'selected_amount: ', selected_amount);
         if (selected_amount && selected_amount > 0) {
             let selected_amount_cents = selected_amount * 100;
             const currentAmount = jQuery('#donation-amount').val();
@@ -414,7 +411,6 @@ jQuery(document).ready(function($) {
 const YBH_CHECKOUT_STORE_KEY = 'wc/store/checkout';
 
 function YBHupdateCheckoutBlockData( values ) {
-    //console.log('YBHupdateCheckoutBlockData');
         // Update Checkout block data if available.
         if ( window.wp && window.wp.data && window.wp.data.dispatch && window.wc && window.wc.wcBlocksData ) {
                 window.wp.data.dispatch( window.wc.wcBlocksData.YBH_CHECKOUT_STORE_KEY ).__internalSetExtensionData(

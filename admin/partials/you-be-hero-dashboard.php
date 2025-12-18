@@ -49,6 +49,10 @@ $ybhd_company_name = $data['company_name'] ?? '-';
                 </span>
             </a>
         </div>
+        <button id="ybh-refresh-btn" class="ybh-refresh-btn" title="<?php echo esc_attr__( 'Fetch latest settings from YouBeHero (colors, organizations, etc.)', 'youbehero' ); ?>">
+            <img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . 'img/refresh.svg' ); ?>">
+            <span><?php echo esc_html__( 'Update', 'youbehero' ); ?></span>
+        </button>
         <div class="ybh-header-outright">
             <span>
                 <a href="https://dev.youbehero.com/gr/eshop-dashboard" target="_blank" title="<?php echo esc_html__( 'Settings', 'youbehero' ); ?>"><img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . 'img/setting.svg' ); ?>?v=1.1"></a>
@@ -65,18 +69,18 @@ $ybhd_company_name = $data['company_name'] ?? '-';
         <div class="ybh-stat-card ybh-flex-box-1">
             <div class="ybh-account-info">
                 <div class="ybh-account-avatar">
-                    <img src="<?php echo esc_url( $data['eshop_logo'] ?? plugin_dir_url( __DIR__ ) . 'img/company.svg' ); ?>">
+                    <img src="<?php echo esc_url( $data['eshop_logo'] ?? plugin_dir_url( __DIR__ ) . 'img/eshop.png' ); ?>">
                 </div>
                 <div class="ybh-account-details">
                     <h3><?php echo esc_html( $ybhd_company_name ); ?></h3>
                     <div class="ybh-account-status">
-                        <span><?php echo esc_html__( 'Status', 'youbehero' ); ?> : </span>
+                        <span><?php echo esc_html__( 'Status', 'youbehero' ); ?>: </span>
                         <div class="ybh-status-indicator">
                             <span class="ybh-status-dot <?php echo esc_html( $ybhd_red_dot ); ?>"></span>
                             <span class="ybh-status-text <?php echo esc_html( $ybhd_red_txt ); ?>"><?php echo esc_html( $ybhd_status_txt ); ?></span>
                         </div>
                     </div>
-                    <div><?php echo esc_html__( 'Account Balance', 'youbehero' ); ?> :<span id="ybh-account-balance"><?php echo esc_html( isset( $data['total_credits'] ) ? number_format( (float) $data['total_credits'], 2, ',', '' ) . $ybhd_currency_symbol : '-' ); ?></span></div>
+                    <div><?php echo esc_html__( 'Account Balance', 'youbehero' ); ?>: <span id="ybh-account-balance"><?php echo esc_html( isset( $data['total_credits'] ) ? number_format( (float) $data['total_credits'], 2, ',', '' ) . $ybhd_currency_symbol : '-' ); ?></span></div>
                 </div>
             </div>
         </div>
@@ -108,9 +112,6 @@ $ybhd_company_name = $data['company_name'] ?? '-';
     <div class="ybh-orders-section" id="ybh-orders-section">
         <div class="ybh-orders-header">
             <h2 class="ybh-orders-title"><?php echo esc_html__( 'Transaction Table', 'youbehero' ); ?></h2>
-            <button id="ybh-refresh-btn" class="ybh-refresh-btn">
-                <img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . 'img/refresh.svg' ); ?>"> <?php echo esc_html__( 'Refresh', 'youbehero' ); ?>
-            </button>
         </div>
 
         <?php if( !empty( $data['transactions'] ) ) { ?>

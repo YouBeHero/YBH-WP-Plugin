@@ -29,8 +29,8 @@
 
 .ybh-header-bothright {
     display: flex;
-    align-items: self-end;
-    gap: 16px;
+    align-items: center;
+    gap: 12px;
 }
 
 .ybh-header-right {
@@ -38,7 +38,7 @@
     align-items: center;
     gap: 16px;
     font-size: 14px;
-    padding: 8px;
+    padding: 8px 16px;
     border-radius: 24px;
     background: #F5F5F5;
 }
@@ -118,9 +118,8 @@
 }
 
 .ybh-account-avatar {
-    width: 40px;
-    height: 40px;
-    background: #4285f4;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -129,10 +128,16 @@
     font-size: 18px;
 }
 
+.ybh-account-avatar img {
+    max-width: 100%;
+    height: auto;
+}
+
 .ybh-account-details h3 {
     font-size: 14px;
     color: #4285f4;
     margin-bottom: 2px;
+    margin-top: 0px;
 }
 
 .ybh-account-status {
@@ -162,11 +167,55 @@
     display: grid;
     width: 100%;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    column-gap: 15px;
+    column-gap: 16px;
+    row-gap: 16px;
+}
+
+/* Responsive breakpoints for smaller screens */
+@media screen and (max-width: 1590px) {
+    .ybh-account-info {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .ybh-account-details {
+        margin: 8px 0 !important;
+    }
+    
+}
+
+/* Responsive breakpoints for mobile devices */
+@media screen and (max-width: 768px) {
+    .ybh-stats-grid {
+        flex-direction: column;
+    }
+    
+    .ybh-flex-box-1 {
+        width: 100%;
+        min-width: 100%;
+    }
+    
+    .ybh-flex-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .ybh-flex-cards {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1440px) {
+    .ybh-flex-cards {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
 }
 
 .ybh-flex-box-1 {
     min-width: 23.5%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .ybh-flex-box-2 {
@@ -189,7 +238,6 @@
 
 #ybh-account-balance {
     font-weight: 600;
-    margin: 0px 5px;
 }
 
 .ybh-account-details {
@@ -217,18 +265,35 @@
 }
 
 .ybh-refresh-btn {
-    background: none;
-    border: none;
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 16px;
     color: #4285f4;
     cursor: pointer;
     font-size: 14px;
+    font-weight: 500;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
+    padding: 8px 16px;
+    transition: all 0.2s ease;
+    margin-right: 8px;
 }
 
 .ybh-refresh-btn:hover {
-    text-decoration: underline;
+    background: #e8f0fe;
+    border-color: #4285f4;
+    text-decoration: none;    
+}
+
+.ybh-refresh-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.ybh-refresh-btn img {
+    width: 14px;
+    height: 14px;
 }
 
 .ybh-empty-state {

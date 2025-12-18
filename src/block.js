@@ -35,7 +35,6 @@ export const Block = ( { checkoutExtensionData, extensions } ) => {
         // Populate causes and amounts
         const $causeSelect = $('#donation-cause');
         const $amountsContainer = $('#donation-amounts');
-        console.log( document.querySelector(".ybh-dd-option") );
 
 //	const validationErrorId = 'donatoin-widget-other-value';
 
@@ -158,7 +157,7 @@ export const Block = ( { checkoutExtensionData, extensions } ) => {
 			 */ }
 			<SelectControl
 				label={ __(
-					'would you like to donate?',
+					'Would you like to donate to a cause?',
 					'donatoin-widget'
 				) }
 				value={ selectedYbhDonationInstruction }

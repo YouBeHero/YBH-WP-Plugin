@@ -182,7 +182,7 @@ msgstr ""
 
 #: src/render.php:66
 #: build/render.php:134
-msgid "Would you like to make a donation?"
+msgid "Would you like to donate to a cause?"
 msgstr ""
 
 #: src/render.php:151
@@ -207,7 +207,7 @@ msgstr ""
 
 #: src/render.php:203
 #: build/render.php:214
-msgid "Please select a nonprofit organization"
+msgid "Please select a cause"
 msgstr ""
 
 #: src/render.php:237

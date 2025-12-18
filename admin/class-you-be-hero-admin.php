@@ -235,11 +235,12 @@ class You_Be_Hero_Admin {
         foreach ( $order->get_fees() as $fee ) {
             $fee_total = ( float ) $fee->get_total(); // Ensure proper numeric type
 
-            if ( stripos( $fee->get_name(), 'donation' ) !== false ) {
-                $donation_total += $fee_total;
-            } else {
-                $other_fees_total += $fee_total;
+            // Skip YouBeHero donation fees (identified by stored meta)
+            if ( method_exists( $fee, 'get_meta' ) && $fee->get_meta( '_donation_org_id' ) ) {
+                continue;
             }
+
+            $other_fees_total += $fee_total;
         }
 
         if ($other_fees_total > 0) {

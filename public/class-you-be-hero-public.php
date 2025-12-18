@@ -164,25 +164,48 @@ class You_Be_Hero_Public {
             if ($data) {
 
                 // Extract causes and amounts
+                // Ensure selected_causes is an array before using array_map
+                $selected_causes = isset($data['selected_causes']) && is_array($data['selected_causes']) ? $data['selected_causes'] : [];
                 $causes = array_map(function ($cause) {
+                    if (!is_array($cause)) {
+                        return null;
+                    }
                     return [
-                        'label' => $cause['name'],
-                        'value' => $cause['id'],
-                        'image' => $cause['image']
+                        'label' => isset($cause['name']) ? $cause['name'] : '',
+                        'value' => isset($cause['id']) ? $cause['id'] : 0,
+                        'image' => isset($cause['image']) ? $cause['image'] : ''
                     ];
-                }, $data['selected_causes']);
+                }, $selected_causes);
+                
+                // Filter out null values and ensure it's an array
+                $causes = is_array($causes) ? array_filter($causes) : [];
+                $causes = array_values($causes); // Re-index array
 
-                $amounts = array_values($data['donation_settings']['fixed_amounts'] ?? []);
+                // Ensure amounts is always an array
+                $amounts = [];
+                if (isset($data['donation_settings']['fixed_amounts']) && is_array($data['donation_settings']['fixed_amounts'])) {
+                    $amounts = array_values($data['donation_settings']['fixed_amounts']);
+                }
 
                 $donation_amount = WC()->session->get('ybh_donation_amount', 0);//let's pick current selection
-                // Localize script with the data
-                wp_localize_script('donation-widget-script', 'ybh_donation_checkout_params', array(
-                    'ajax_url' => admin_url('admin-ajax.php'),
-                    'nonce'    => wp_create_nonce( 'ybh_donation_action' ),
-                    'causes'   => $causes,
-                    'amounts'  => $amounts,
-                    'selected_amount'  => $donation_amount,
-                ));
+                
+                // Final safety check - ensure all values are arrays
+                $causes = is_array($causes) ? $causes : [];
+                $amounts = is_array($amounts) ? $amounts : [];
+                $donation_amount = is_numeric($donation_amount) ? floatval($donation_amount) : 0;
+                
+                // Use wp_add_inline_script instead of wp_localize_script (WordPress 5.7+ recommendation)
+                if (wp_script_is('donation-widget-script', 'enqueued') || wp_script_is('donation-widget-script', 'registered')) {
+                    $inline_data = 'var ybh_donation_checkout_params = ' . wp_json_encode(array(
+                        'ajax_url' => admin_url('admin-ajax.php'),
+                        'nonce'    => wp_create_nonce( 'ybh_donation_action' ),
+                        'causes'   => $causes,
+                        'amounts'  => $amounts,
+                        'selected_amount'  => $donation_amount,
+                    )) . ';';
+                    
+                    wp_add_inline_script('donation-widget-script', $inline_data, 'before');
+                }
 
             }
         }
@@ -231,15 +254,6 @@ class You_Be_Hero_Public {
                 $fees[$last_fee_index]->ybh_donation_cause_id = $donation_cause_id;
                 $fees[$last_fee_index]->ybh_donation_cause_img = $donation_cause_img;
             }
-
-//            $last_fee_index = count($cart->fees) - 1;
-//            if (isset($cart->fees[$last_fee_index]) && $cart->fees[$last_fee_index]->id === $fee_id) {
-//                $cart->fees[$last_fee_index]->_ybh_donation_amount = $donation_amount;
-//                $cart->fees[$last_fee_index]->ybh_donation_cause = $donation_cause;
-//                $cart->fees[$last_fee_index]->_donation_org_name = $donation_cause;
-//                $cart->fees[$last_fee_index]->ybh_donation_cause_id = $donation_cause_id;
-//                $cart->fees[$last_fee_index]->ybh_donation_cause_img = $donation_cause_img;
-//            }
         }
     }
 
@@ -248,7 +262,6 @@ class You_Be_Hero_Public {
      * @return void
      */
     function donation_widget_update_fee() {
-
         if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'ybh_donation_action' ) ) {
             wp_send_json_error( [ 'message' => 'Invalid nonce' ], 403 );
         }
@@ -262,13 +275,20 @@ class You_Be_Hero_Public {
         if ( !WC()->cart ) {
             wc_load_cart();
         }
+        
+        // Ensure cart is fully loaded (critical for first call)
+        if (WC()->cart) {
+            WC()->cart->get_cart();
+        }
 
         // If amount is empty or zero, remove the fee
         if ( empty($amount) || $amount <= 0 || empty( $org_name ) || empty( $org_id ) ) {
             $this->donation_widget_remove_fee();
+            $fees = WC()->cart->get_fees();
+            $total = WC()->cart->get_total();
             wp_send_json_success([
-                'fees' => WC()->cart->get_fees(),
-                'total' => WC()->cart->get_total('edit'),
+                'fees' => $fees,
+                'total' => $total,
                 'message' => 'Donation removed'
             ]);
             return;
@@ -279,21 +299,77 @@ class You_Be_Hero_Public {
             wp_send_json_error( ['message' => 'Donation cause is not valid.'] );
             return;
         }
-
+        
         // Set session data first - the hook will read from this
-        WC()->session->set('ybh_donation_amount', $amount);
-        WC()->session->set('ybh_donation_cause', $org_name);
-        WC()->session->set('_donation_org_name', $org_name);
-        WC()->session->set('_donation_org_id', $org_id);
-        WC()->session->set('_donation_org_img', $org_img);
+        $session_saved = false;
+        $session_save_method = 'NONE';
+        if (WC()->session) {
+            WC()->session->set('ybh_donation_amount', $amount);
+            WC()->session->set('ybh_donation_cause', $org_name);
+            WC()->session->set('_donation_org_name', $org_name);
+            WC()->session->set('_donation_org_id', $org_id);
+            WC()->session->set('_donation_org_img', $org_img);
+            // Also set the new keys for consistency
+            WC()->session->set('ybh_donation_org_id', $org_id);
+            WC()->session->set('ybh_donation_org_name', $org_name);
+            WC()->session->set('ybh_donation_org_img', $org_img);
+            
+            // CRITICAL: Force session to be saved before calculating totals
+            // This ensures the fee hook can read the session values on first call
+            if (method_exists(WC()->session, 'save_data')) {
+                WC()->session->save_data();
+                $session_saved = true;
+                $session_save_method = 'save_data';
+            } elseif (method_exists(WC()->session, 'write_data')) {
+                WC()->session->write_data();
+                $session_saved = true;
+                $session_save_method = 'write_data';
+            }
+            
+            // Increased delay to ensure session is committed to database
+            usleep(100000); // 100ms delay
+            
+            // Verify session is still set after delay (forces session reload from DB)
+            $verify_org_id = WC()->session->get('ybh_donation_org_id', 'NOT SET');
+            $verify_amount = WC()->session->get('ybh_donation_amount', 'NOT SET');
+            
+            if ($verify_org_id != $org_id || $verify_amount != $amount) {
+                WC()->session->set('ybh_donation_org_id', $org_id);
+                WC()->session->set('ybh_donation_amount', $amount);
+                WC()->session->set('ybh_donation_cause', $org_name);
+                WC()->session->set('_donation_org_name', $org_name);
+                WC()->session->set('_donation_org_id', $org_id);
+                if (method_exists(WC()->session, 'save_data')) {
+                    WC()->session->save_data();
+                } elseif (method_exists(WC()->session, 'write_data')) {
+                    WC()->session->write_data();
+                }
+                usleep(50000); // 50ms delay after re-setting
+            }
+        }
+
+        // Clear any existing donation fees to avoid duplicates
+        if (WC()->cart) {
+            $fees_before_clear = WC()->cart->get_fees();
+            foreach ($fees_before_clear as $key => $fee) {
+                if (isset($fee->ybh_donation_cause) || isset($fee->_ybh_donation_amount)) {
+                    unset(WC()->cart->fees[$key]);
+                }
+            }
+        }
 
         // Force cart recalculation to trigger woocommerce_cart_calculate_fees hook
-        // This ensures the fee is added consistently through the hook
         WC()->cart->calculate_totals();
+        
+        // Get totals AFTER calculate_totals
+        $fees_after = WC()->cart->get_fees();
+        
+        // Use 'edit' to get raw numeric value (updated immediately after calculate_totals)
+        $total = WC()->cart->get_total('edit');
 
         wp_send_json_success([
-            'fees' => WC()->cart->get_fees(),
-            'total' => WC()->cart->get_total('edit'),
+            'fees' => $fees_after,
+            'total' => $total,
             'message' => 'Donation updated'
         ]);
     }
@@ -317,6 +393,7 @@ class You_Be_Hero_Public {
             if (isset($fee->ybh_donation_cause) || isset($fee->_ybh_donation_amount)) {
                 unset(WC()->cart->fees[$key]);
             }
+
         }
         if (WC()->cart) {
 //                WC()->cart->calculate_totals();
@@ -952,6 +1029,16 @@ class You_Be_Hero_Public {
             return;
         }
 
+        // Don't run in Elementor editor/preview
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Only checking context, not processing form data
+        if (isset($_GET['elementor-preview']) || 
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput -- Only checking context, not processing form data
+            (isset($_REQUEST['action']) && strpos(sanitize_text_field(wp_unslash($_REQUEST['action'])), 'elementor') === 0) ||
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput -- Only checking context, not processing form data
+            (isset($_REQUEST['elementor_ajax']) && sanitize_text_field(wp_unslash($_REQUEST['elementor_ajax'])))) {
+            return;
+        }
+
         // Only run on frontend
         if (is_admin()) {
             return;
@@ -975,8 +1062,9 @@ class You_Be_Hero_Public {
         // Get the current page ID
         $post_id = get_the_ID();
 
-        // For AJAX requests, try to get the checkout page ID
-        if (!$post_id && $is_ajax_update) {
+        // For AJAX requests, ALWAYS search for the correct checkout page (even if post_id exists)
+        // This is critical because get_the_ID() may return the wrong page during AJAX
+        if ($is_ajax_update) {
             $checkout_page_id = wc_get_page_id('checkout');
             if ($checkout_page_id) {
                 $post_id = $checkout_page_id;
@@ -993,7 +1081,13 @@ class You_Be_Hero_Public {
         }
 
         // Check if this page is built with Elementor
-        $elementor_instance = \Elementor\Plugin::$instance;
+        try {
+            $elementor_instance = \Elementor\Plugin::$instance;
+        } catch (Error $e) {
+            return;
+        } catch (Exception $e) {
+            return;
+        }
         if (!$elementor_instance || !isset($elementor_instance->documents)) {
             return;
         }
@@ -1027,9 +1121,13 @@ class You_Be_Hero_Public {
      */
     public function youbehero_scan_and_add_hooks($elements) {
 
-        static $hooks_added = false;
-
         global $youbehero_widget_settings; // Access the global variable
+        global $youbehero_elementor_hooks_registered; // Track if hooks are registered
+        
+        // Initialize global flag if not set
+        if (!isset($youbehero_elementor_hooks_registered)) {
+            $youbehero_elementor_hooks_registered = array();
+        }
 
         foreach ($elements as $element) {
             // Check if this is our widget
@@ -1045,29 +1143,43 @@ class You_Be_Hero_Public {
                 }
                 $placement_position = !empty($settings['placement_position']) ? $settings['placement_position'] : 'woocommerce_after_checkout_billing_form';
 
-                if ($wc_hook_enabled === 'yes' && !$hooks_added) {
+                // Check if this specific hook position is already registered
+                // During AJAX, always allow re-registration to ensure the hook fires
+                $is_ajax_context = defined('DOING_AJAX') && DOING_AJAX;
+                $hook_already_registered = !$is_ajax_context && isset($youbehero_elementor_hooks_registered[$placement_position]) && $youbehero_elementor_hooks_registered[$placement_position];
+
+                if ($wc_hook_enabled === 'yes' && !$hook_already_registered) {
                     // Update the global settings
                     $youbehero_widget_settings['enabled'] = true;
                     $youbehero_widget_settings['position'] = $placement_position;
 
-                    // Capture widget HTML ONCE at the beginning
-                    // The shortcode itself (render.php) will handle is_scheduled/has_ended checks
-                    ob_start();
-                    echo do_shortcode('[youbehero_donation_form]');
-                    $captured_widget_html = ob_get_clean();
-
                     // Add the WooCommerce hook
-                    add_action($placement_position, function() use ($placement_position, $captured_widget_html) {
+                    add_action($placement_position, function() use ($placement_position) {
                         static $script_added = false;
+                        static $execution_count = 0;
+                        static $callback_instance_id = null;
+                        $instance = $this;
+                        
+                        // Generate unique ID for this callback instance
+                        if ($callback_instance_id === null) {
+                            $callback_instance_id = uniqid('cb_', true);
+                        }
+                        
+                        $execution_count++;
 
-                        // Only output if we have captured HTML (shortcode already handled is_scheduled/has_ended checks)
-                        if (empty($captured_widget_html)) {
-                            return; // Don't output widget if empty
+                        // Only output widget if not scheduled and not ended
+                        if (!$instance->youbehero_should_display_widget()) {
+                            return;
                         }
 
-                        // Output the widget. Safe HTML generated by internal shortcode.
+                        // Output fresh widget HTML directly (not captured) - reads from current session
+                        $is_ajax_hook = defined('DOING_AJAX') && DOING_AJAX;
+                        $hook_timestamp = microtime(true);
+                        
                         // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                        echo $captured_widget_html;
+                        echo '<div class="youbehero-donation-wrapper" data-ybh-instance="' . esc_attr($callback_instance_id) . '" data-ybh-execution="' . esc_attr($execution_count) . '" data-ybh-hook-time="' . esc_attr($hook_timestamp) . '" data-ybh-hook-ajax="' . ($is_ajax_hook ? '1' : '0') . '">';
+                        echo do_shortcode('[youbehero_donation_form]');
+                        echo '</div>';
 
                         // Add script inline right after the widget (only once)
                         if (!$script_added) {
@@ -1075,15 +1187,15 @@ class You_Be_Hero_Public {
                             <script type="text/javascript">
                                 (function() {
                                     if (typeof jQuery === 'undefined') {
-                                        console.error('YouBeHero: jQuery not loaded!');
                                         return;
                                     }
 
                                     jQuery(document).ready(function($) {
+                                        var youbeheroPlacement = <?php echo json_encode($placement_position); ?>;
 
                                         // Reusable initialization function for widget setup
                                         function initializeYoubeheroWidget() {
-                                            // Hide "Please select a nonprofit organization" option if a nonprofit is already selected
+                                            // Hide "Please select a cause" option if a nonprofit is already selected
                                             const donationCauseEle = document.getElementById('donation-cause');
                                             if (donationCauseEle && donationCauseEle.value && donationCauseEle.value != '0' && donationCauseEle.value != '') {
                                                 jQuery('#select-np-ybh-dd-option').addClass('hidden');
@@ -1106,97 +1218,21 @@ class You_Be_Hero_Public {
                                             }
                                         }
 
-                                        let youbeheroWidgetHtml = <?php echo json_encode($captured_widget_html); ?>;
-                                        var youbeheroPlacement = <?php echo json_encode($placement_position); ?>;
+                                        // Initialize on document ready (widget is already output directly via hook)
+                                        setTimeout(function() {
+                                            initializeYoubeheroWidget();
+                                        }, 100);
 
-                                        console.log('YouBeHero: Script loaded, placement:', youbeheroPlacement);
-                                        console.log('YouBeHero: Widget HTML length:', youbeheroWidgetHtml.length);
-
-                                        if (!youbeheroWidgetHtml || youbeheroWidgetHtml.length < 10) {
-                                            console.error('YouBeHero: Widget HTML is empty or too short!');
-                                            return;
-                                        }
-
-                                        // Initialize on document ready (widget is already output directly)
-                                        initializeYoubeheroWidget();
-
-                                        function injectYoubeheroWidget(forceRefresh) {
-                                            // On initial load, skip if widget exists (unless forced for AJAX updates)
-                                            if (!forceRefresh && $('.youbehero-donation-wrapper').length > 0) {
-                                                console.log('YouBeHero: Widget already exists, skipping initial injection');
-                                                return;
-                                            }
-
-                                            console.log('YouBeHero: Injecting widget...');
-                                            //====================//
-                                            var storedWidgetHtml = $('#hidden-donation-html').text();
-                                            var decodedStoredWidgetHtml = $('<div/>').html(storedWidgetHtml).html();
-                                            if (decodedStoredWidgetHtml && $.trim(decodedStoredWidgetHtml) !== '') {
-                                                youbeheroWidgetHtml = decodedStoredWidgetHtml;
-                                            }
-                                            //====================//
-
-                                            // Remove any existing instances first
-                                            $('.youbehero-donation-wrapper').remove();
-
-                                            var widgetWrapped = '<div class="youbehero-donation-wrapper">' + youbeheroWidgetHtml + '</div>';
-                                            var injected = false;
-
-                                            // Inject based on placement - try multiple selectors for compatibility
-                                            if (youbeheroPlacement === 'woocommerce_review_order_before_submit') {
-                                                if ($('#order_review .place-order').length) {
-                                                    $('#order_review .place-order').before(widgetWrapped);
-                                                    injected = true;
-                                                } else if ($('.woocommerce-checkout-payment .place-order').length) {
-                                                    $('.woocommerce-checkout-payment .place-order').before(widgetWrapped);
-                                                    injected = true;
-                                                } else if ($('#place_order').length) {
-                                                    $('#place_order').parent().before(widgetWrapped);
-                                                    injected = true;
-                                                }
-                                            }
-
-                                            if (injected) {
-                                                console.log('YouBeHero: Widget injected successfully');
-                                                
-                                                // Initialize after injection
-                                                initializeYoubeheroWidget();
-
-                                                // Verify it's still there after 200ms
-                                                setTimeout(function() {
-                                                    var stillExists = $('.youbehero-donation-wrapper').length;
-                                                    console.log('YouBeHero: Widget still exists:', stillExists > 0);
-                                                    if (stillExists === 0) {
-                                                        console.warn('YouBeHero: Widget was removed! Re-injecting...');
-                                                        injectYoubeheroWidget();
-                                                    }
-                                                }, 200);
-
-                                                // setTimeout(function() { $('.widget-loader').hide() }, 500);
-                                            } else {
-                                                console.warn('YouBeHero: Could not find target element for injection');
-                                                console.log('Available elements:', {
-                                                    'order_review': $('#order_review').length,
-                                                    'place-order': $('.place-order').length,
-                                                    'place_order': $('#place_order').length,
-                                                    'payment': $('#payment').length
-                                                });
-                                            }
-                                        }
-
-                                        // Re-inject after WooCommerce AJAX updates (force refresh to get fresh HTML)
+                                        // Re-initialize after WooCommerce AJAX updates (hook outputs fresh HTML automatically)
                                         $(document.body).on('updated_checkout', function() {
-                                            console.log('YouBeHero: Checkout updated, re-injecting with fresh HTML...');
-                                            // Clear loading states before re-injecting to prevent spinner from reappearing
+                                            // Clear loading states
                                             jQuery('.donation-btn').removeClass('loading').find('.button-spinner').remove();
                                             jQuery('.donation-buttons, .donation-amounts').removeClass('disabled');
-                                            // // Try multiple times with different delays to catch all updates
-                                            setTimeout(function() { injectYoubeheroWidget(true); }, 500); // forceRefresh = true
-                                        });
-
-                                        // Also try on payment method change
-                                        $(document.body).on('payment_method_selected', function() {
-                                            console.log('YouBeHero: Payment method changed');
+                                            
+                                            // Hook outputs fresh HTML automatically, just reinitialize the widget state
+                                            setTimeout(function() {
+                                                initializeYoubeheroWidget();
+                                            }, 100);
                                         });
                                     });
                                 })();
@@ -1206,7 +1242,8 @@ class You_Be_Hero_Public {
                         }
                     }, 10);
 
-                    $hooks_added = true;
+                    // Mark this hook position as registered
+                    $youbehero_elementor_hooks_registered[$placement_position] = true;
                 }
             }
 
@@ -1219,25 +1256,136 @@ class You_Be_Hero_Public {
 
     /**
      * Ensure hooks persist during AJAX order review updates
+     * This is a fallback to ensure the hook is registered during AJAX
+     * even if the main registration in youbehero_init_woocommerce_hooks() fails
      * @return void
      */
     public function youbehero_persist_hooks_on_ajax() {
-
         global $youbehero_widget_settings;
+        global $youbehero_elementor_hooks_registered;
+        
+        static $ajax_hook_registered = false;
 
-        if ( !empty( $youbehero_widget_settings['enabled'] ) ) {
-            $placement_position = $youbehero_widget_settings['position'];
-
-            // Re-add the hook for AJAX requests
-            $instance = $this;
-            add_action( $placement_position, function() use ($instance) {
-                // Only output widget if not scheduled and not ended
-                if ($instance->youbehero_should_display_widget()) {
-                echo do_shortcode( '[youbehero_donation_form]' );
+        // During AJAX, try to get settings from global first, then try to detect from checkout page
+        $placement_position = null;
+        $is_ajax_context = defined('DOING_AJAX') && DOING_AJAX;
+        
+        if ($is_ajax_context) {
+            // First try global settings
+            if (!empty($youbehero_widget_settings['enabled']) && !empty($youbehero_widget_settings['position'])) {
+                $placement_position = $youbehero_widget_settings['position'];
+            } else {
+                // Fallback: Try to detect from checkout page Elementor data
+                $checkout_page_id = wc_get_page_id('checkout');
+                if ($checkout_page_id && class_exists('\Elementor\Plugin')) {
+                    try {
+                        $elementor_instance = \Elementor\Plugin::$instance;
+                        if ($elementor_instance && isset($elementor_instance->documents)) {
+                            $document = $elementor_instance->documents->get($checkout_page_id);
+                            if ($document) {
+                                $elements_data = $document->get_elements_data();
+                                if (!empty($elements_data)) {
+                                    // Quick scan for widget placement
+                                    $placement_position = $this->youbehero_quick_scan_placement($elements_data);
+                                }
+                            }
+                        }
+                    } catch (Exception $e) {
+                        // Silently fail
+                    }
                 }
-            }, 10 );
+            }
+        } else {
+            // Non-AJAX: use global settings
+            if (empty($youbehero_widget_settings['enabled']) || empty($youbehero_widget_settings['position'])) {
+                return;
+            }
+            $placement_position = $youbehero_widget_settings['position'];
         }
 
+        if (empty($placement_position)) {
+            return;
+        }
+        
+        // Initialize global flag if not set
+        if (!isset($youbehero_elementor_hooks_registered)) {
+            $youbehero_elementor_hooks_registered = array();
+        }
+
+        // During AJAX, always ensure the hook is registered (but only once per request)
+        // This ensures the hook fires during AJAX even if the initial registration didn't work
+        if ($is_ajax_context && !$ajax_hook_registered) {
+            $instance = $this;
+            
+            // Re-add the hook for AJAX requests with the same complete output as the original
+            // Use priority 5 to ensure it fires early
+            add_action($placement_position, function() use ($placement_position, $instance) {
+                static $execution_count = 0;
+                static $callback_instance_id = null;
+                
+                // Generate unique ID for this callback instance
+                if ($callback_instance_id === null) {
+                    $callback_instance_id = uniqid('cb_ajax_', true);
+                }
+                
+                $execution_count++;
+                
+                // Only output widget if not scheduled and not ended
+                if (!$instance->youbehero_should_display_widget()) {
+                    return;
+                }
+
+                // Output fresh widget HTML directly (not captured) - reads from current session
+                $is_ajax_hook = defined('DOING_AJAX') && DOING_AJAX;
+                $hook_timestamp = microtime(true);
+                
+                // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                echo '<div class="youbehero-donation-wrapper" data-ybh-instance="' . esc_attr($callback_instance_id) . '" data-ybh-execution="' . esc_attr($execution_count) . '" data-ybh-hook-time="' . esc_attr($hook_timestamp) . '" data-ybh-hook-ajax="' . ($is_ajax_hook ? '1' : '0') . '">';
+                echo do_shortcode('[youbehero_donation_form]');
+                echo '</div>';
+            }, 5);
+            
+            // Mark as registered for this request
+            $ajax_hook_registered = true;
+            $youbehero_elementor_hooks_registered[$placement_position] = true;
+        }
+    }
+    
+    /**
+     * Register hooks early during AJAX - called on wp_ajax hooks
+     * This ensures hooks are registered before checkout form is rendered
+     */
+    public function youbehero_register_ajax_hooks_early() {
+        // Only run during WooCommerce AJAX
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $wc_ajax = isset($_REQUEST['wc-ajax']) ? sanitize_text_field(wp_unslash($_REQUEST['wc-ajax'])) : '';
+        if ($wc_ajax === 'update_order_review') {
+            $this->youbehero_persist_hooks_on_ajax();
+        }
+    }
+    
+    /**
+     * Quick scan Elementor elements to find widget placement position
+     * Used as fallback during AJAX when global settings aren't available
+     */
+    private function youbehero_quick_scan_placement($elements) {
+        foreach ($elements as $element) {
+            if (isset($element['widgetType']) && $element['widgetType'] === 'youbehero_donation_widget_v2') {
+                $settings = $element['settings'];
+                if (isset($settings['woocommerce_hook_enable']) && $settings['woocommerce_hook_enable'] === 'yes') {
+                    $placement = !empty($settings['placement_position']) ? $settings['placement_position'] : 'woocommerce_after_checkout_billing_form';
+                    return $placement;
+                }
+            }
+            // Recursively check nested elements
+            if (!empty($element['elements'])) {
+                $nested_placement = $this->youbehero_quick_scan_placement($element['elements']);
+                if ($nested_placement) {
+                    return $nested_placement;
+                }
+            }
+        }
+        return null;
     }
 
 
@@ -1268,12 +1416,35 @@ class You_Be_Hero_Public {
 
         // Get the current page ID
         $post_id = get_the_ID();
+        $initial_post_id = $post_id;
 
-        // For AJAX requests, try to get the checkout page ID
-        if (!$post_id && $is_ajax_update) {
+        // For AJAX requests, ALWAYS search for the correct checkout page (even if post_id exists)
+        // This is critical because get_the_ID() may return the wrong page during AJAX
+        if ($is_ajax_update) {
+            // First try the checkout page ID
             $checkout_page_id = wc_get_page_id('checkout');
+            
             if ($checkout_page_id) {
-                $post_id = $checkout_page_id;
+                $checkout_content = get_post_field('post_content', $checkout_page_id);
+                
+                // Use regex instead of has_shortcode() (has_shortcode() fails with WPBakery shortcodes)
+                $shortcode_pattern = '/\[youbehero_donation_wpbakery[^\]]*\]/';
+                $regex_found = $checkout_content && preg_match($shortcode_pattern, $checkout_content);
+                
+                if ($regex_found) {
+                    $post_id = $checkout_page_id;
+                } else {
+                    // Search all published pages for our shortcode (use regex, not has_shortcode)
+                    $all_pages = get_pages(array('post_status' => 'publish', 'number' => 100));
+                    
+                    foreach ($all_pages as $page) {
+                        $page_content = get_post_field('post_content', $page->ID);
+                        if ($page_content && preg_match($shortcode_pattern, $page_content)) {
+                            $post_id = $page->ID;
+                            break;
+                        }
+                    }
+                }
             }
         }
 
@@ -1283,10 +1454,13 @@ class You_Be_Hero_Public {
 
         // Get WPBakery content
         $post_content = get_post_field('post_content', $post_id);
-
         if (empty($post_content)) {
             return;
         }
+
+        // Check if our shortcode exists in content (use regex, has_shortcode() fails with WPBakery)
+        $shortcode_pattern = '/\[youbehero_donation_wpbakery[^\]]*\]/';
+        $regex_matches = preg_match_all($shortcode_pattern, $post_content, $regex_matches_array);
 
         // Parse WPBakery shortcodes to find our widget
         $this->youbehero_wpbakery_scan_and_add_hooks($post_content);
@@ -1298,6 +1472,7 @@ class You_Be_Hero_Public {
     function youbehero_wpbakery_scan_and_add_hooks($content) {
 
         static $hooks_added = false;
+        $is_ajax = defined('DOING_AJAX') && DOING_AJAX;
 
         if ($hooks_added) {
             return;
@@ -1307,7 +1482,8 @@ class You_Be_Hero_Public {
         $pattern = get_shortcode_regex(array('youbehero_donation_wpbakery'));
 
         if (preg_match_all('/' . $pattern . '/s', $content, $matches)) {
-            foreach ($matches[0] as $shortcode) {
+            
+            foreach ($matches[0] as $index => $shortcode) {
                 // Parse shortcode attributes
                 preg_match('/\[youbehero_donation_wpbakery([^\]]*)\]/', $shortcode, $attr_matches);
 
@@ -1319,72 +1495,54 @@ class You_Be_Hero_Public {
 
                     if ($wc_hook_enabled === 'yes') {
 
-                        // Capture widget HTML ONCE at the beginning
-                        // The shortcode itself (render.php) will handle is_scheduled/has_ended checks
-                        ob_start();
-                        echo do_shortcode('[youbehero_donation_form]');
-                        $captured_widget_html = ob_get_clean();
-
                         // Add the WooCommerce hook
-                        add_action($placement_position, function() use ($placement_position, $captured_widget_html) {
-                            static $script_added = false;
-
-                            // Only output if we have captured HTML (shortcode already handled is_scheduled/has_ended checks)
-                            if (empty($captured_widget_html)) {
-                                return; // Don't output widget if empty
+                        // Use global flag to track script addition across all hook executions
+                        global $youbehero_wpbakery_script_added;
+                        if (!isset($youbehero_wpbakery_script_added)) {
+                            $youbehero_wpbakery_script_added = false;
+                        }
+                        
+                        add_action($placement_position, function() use ($placement_position, $is_ajax) {
+                            global $youbehero_wpbakery_script_added;
+                            static $execution_count = 0;
+                            static $callback_instance_id = null;
+                            $instance = $this;
+                            
+                            // Generate unique ID for this callback instance
+                            if ($callback_instance_id === null) {
+                                $callback_instance_id = uniqid('cb_', true);
                             }
-
-                            // Output the widget directly (like Elementor) - wrap it for consistency.
+                            
+                            $execution_count++;
+                            
+                            // Only output widget if not scheduled and not ended
+                            if (!$instance->youbehero_should_display_widget()) {
+                                return;
+                            }
+                            
+                            // Output fresh widget HTML directly (not captured) - reads from current session
                             // Safe HTML generated by internal shortcode.
+                            $is_ajax_hook = defined('DOING_AJAX') && DOING_AJAX;
+                            $hook_timestamp = microtime(true);
+                            
                             // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                            echo '<div class="youbehero-donation-wrapper">' . $captured_widget_html . '</div>';
+                            echo '<div class="youbehero-donation-wrapper" data-ybh-instance="' . esc_attr($callback_instance_id) . '" data-ybh-execution="' . esc_attr($execution_count) . '" data-ybh-hook-time="' . esc_attr($hook_timestamp) . '" data-ybh-hook-ajax="' . ($is_ajax_hook ? '1' : '0') . '">';
+                            echo do_shortcode('[youbehero_donation_form]');
+                            echo '</div>';
 
                             // Add script inline right after the widget (only once)
-                            if (!$script_added) {
+                            if (!$youbehero_wpbakery_script_added) {
+                                $youbehero_wpbakery_script_added = true;
                                 ?>
                                 <script type="text/javascript">
                                     (function() {
                                         if (typeof jQuery === 'undefined') {
-                                            console.error('YouBeHero WPBakery: jQuery not loaded!');
                                             return;
                                         }
 
                                         jQuery(document).ready(function($) {
-                                            let youbeheroWidgetHtml = <?php echo json_encode($captured_widget_html); ?>;
                                             var youbeheroPlacement = <?php echo json_encode($placement_position); ?>;
-
-                                            // Combined initialization and refresh function
-                                            function refreshWidget() {
-                                                // Get fresh HTML if available (from AJAX updates)
-                                                var freshHtml = jQuery('#hidden-donation-html').text();
-                                                if (freshHtml && jQuery.trim(freshHtml) !== '') {
-                                                    var decoded = jQuery('<div/>').html(freshHtml).html();
-                                                    if (decoded) youbeheroWidgetHtml = decoded;
-                                                }
-
-                                                // Skip if widget exists and no fresh HTML (initial load)
-                                                if (jQuery('.youbehero-donation-wrapper').length > 0 && !freshHtml) {
-                                                    initWidget();
-                                                    return;
-                                                }
-
-                                                // Remove existing and inject fresh
-                                                jQuery('.youbehero-donation-wrapper').remove();
-                                                var widget = '<div class="youbehero-donation-wrapper">' + youbeheroWidgetHtml + '</div>';
-                                                var injected = false;
-
-                                                // Inject based on placement
-                                                if (youbeheroPlacement === 'woocommerce_review_order_before_submit') {
-                                                    var target = jQuery('#order_review .place-order, .woocommerce-checkout-payment .place-order').first();
-                                                    if (!target.length) target = jQuery('#place_order').parent();
-                                                    if (target.length) { target.before(widget); injected = true; }
-                                                } else {
-                                                    var target = jQuery('.woocommerce-billing-fields');
-                                                    if (target.length) { target.after(widget); injected = true; }
-                                                }
-                                                
-                                                if (injected) initWidget();
-                                            }
+                                            var executionCount = <?php echo json_encode($execution_count); ?>;
 
                                             // Initialize widget state
                                             function initWidget() {
@@ -1392,7 +1550,7 @@ class You_Be_Hero_Public {
                                                 var cause = jQuery('#donation-cause');
                                                 var selectedOption = jQuery('#selectedOption');
                                                 var hasOrg = (cause.length && cause.val() && cause.val() != '0' && cause.val() != '') ||
-                                                             (selectedOption.length && selectedOption.text() !== '<?php echo esc_js( __( 'Please select a nonprofit organization', 'youbehero' ) ); ?>');
+                                                             (selectedOption.length && selectedOption.text() !== '<?php echo esc_js( __( 'Please select a cause', 'youbehero' ) ); ?>');
                                                 
                                                 if (hasOrg) {
                                                     jQuery('#select-np-ybh-dd-option').addClass('hidden');
@@ -1406,19 +1564,24 @@ class You_Be_Hero_Public {
                                             }
 
                                             // Initialize on load (with delay to ensure widget is rendered)
-                                            setTimeout(initWidget, 300);
+                                            setTimeout(function() {
+                                                initWidget();
+                                            }, 300);
 
-                                            // Refresh on AJAX updates
+                                            // Re-initialize after WooCommerce AJAX updates (hook outputs fresh HTML automatically)
                                             jQuery(document.body).on('updated_checkout', function() {
                                                 jQuery('.donation-btn').removeClass('loading').find('.button-spinner').remove();
                                                 jQuery('.donation-buttons, .donation-amounts').removeClass('disabled');
-                                                setTimeout(refreshWidget, 500);
+                                                
+                                                // Hook outputs fresh HTML automatically, just reinitialize the widget state
+                                                setTimeout(function() {
+                                                    initWidget();
+                                                }, 100);
                                             });
                                         });
                                     })();
                                 </script>
                                 <?php
-                                $script_added = true;
                             }
                         }, 10);
 
@@ -1430,3 +1593,5 @@ class You_Be_Hero_Public {
         }
     }
 }
+
+

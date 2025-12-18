@@ -167,8 +167,8 @@ msgstr "Δωρεά για"
 
 #: src/render.php:66
 #: build/render.php:134
-msgid "Would you like to make a donation?"
-msgstr "Θα θέλατε να κάνετε μια δωρεά;"
+msgid "Would you like to donate to a cause?"
+msgstr "Θα θέλατε να στηρίξετε με μια δωρεά κάποια δράση;"
 
 #: src/render.php:151
 #: build/render.php:151
@@ -192,8 +192,8 @@ msgstr "από την παραγγελία σας σε ένα φιλανθρωπ
 
 #: src/render.php:203
 #: build/render.php:214
-msgid "Please select a nonprofit organization"
-msgstr "Επιλογή φορέα"
+msgid "Please select a cause"
+msgstr "Επιλογή δράσης"
 
 #: src/render.php:237
 #: build/render.php:237
@@ -337,4 +337,12 @@ msgstr "Το WooCommerce Hook είναι ενεργό και το widget θα ε
 #: public/class-you-be-hero-shortcodes-public.php:89
 #: public/class-you-be-hero-shortcodes-public.php:95
 msgid "Less than 10"
-msgstr "Λιγότερες από 10"
+msgstr "περίπου 10"
+
+#: admin/partials/you-be-hero-dashboard.php:54
+msgid "Update"
+msgstr "Ενημέρωση"
+
+#: admin/partials/you-be-hero-dashboard.php:52
+msgid "Fetch latest settings from YouBeHero (colors, organizations, etc.)"
+msgstr "Ενημέρωση ρυθμίσεων από την πλατφόρμα YouBeHero (χρώματα, φορείς κτλ)"
