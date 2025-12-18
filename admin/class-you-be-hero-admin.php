@@ -229,7 +229,12 @@ class You_Be_Hero_Admin {
     public function woocommerce_admin_order_totals_after_discount_fun( $order_id ) {
 
         $order = wc_get_order( $order_id );
-        $donation_total = 0;
+        
+        // Check if order exists
+        if ( ! $order ) {
+            return;
+        }
+        
         $other_fees_total = 0;
 
         foreach ( $order->get_fees() as $fee ) {
