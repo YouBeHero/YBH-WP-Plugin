@@ -48,7 +48,7 @@ if ( isset( $youbehero_data['status'] ) && $youbehero_data['status'] == 'active'
 
                     <!-- Organization box -->
                     <div class="youbehero-tk-org-box" style="background: <?php echo esc_attr( $ybhd_plaisio_color ); ?>;">
-                        <p style="color: <?php echo esc_attr( $ybhd_text_color ); ?>;"><b><?php echo esc_html( $ybhd_selected_cause_info['name'] ); ?></b></p>
+                        <p style="color: <?php echo esc_attr( $ybhd_text_color ); ?>;"><strong><?php echo esc_html( $ybhd_selected_cause_info['name'] ); ?></strong></p>
 
                         <!-- Social Icons -->
                         <div class="youbehero-tk-social-icons">
@@ -163,7 +163,7 @@ if ( isset( $youbehero_data['status'] ) && $youbehero_data['status'] == 'active'
                                     </p>
                                 </li>
                             </ul>
-                            <p class="font-weight-semibold mt-4 mb-2"><?php echo esc_html__( 'Through the YouBeHero platform', 'youbehero' ); ?></p>
+                            <h5 class="youbehero-modal-title"><?php echo esc_html__( 'Through the YouBeHero platform', 'youbehero' ); ?></h5>
                             <div class="col-12 bg-white rounded p-3">
                                 <ul class="youbehero-second-list">
                                     <li class="mb-2 smaller-1">
@@ -179,6 +179,8 @@ if ( isset( $youbehero_data['status'] ) && $youbehero_data['status'] == 'active'
                                 </ul>
                             </div>
                         </div>
+
+                        <a class="youbehero-secondary-btn" href="<?php echo esc_url( $ybhd_selected_cause_info['url'] ); ?>" target="_blank"><?php echo esc_html__( 'Learn more', 'youbehero' )?></a>
 
                         <a class="youbehero-close-btn"><?php echo esc_html__( 'Close', 'youbehero' )?></a>
                     </div>

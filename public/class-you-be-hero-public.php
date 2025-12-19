@@ -99,7 +99,6 @@ class You_Be_Hero_Public {
             wp_enqueue_script(
                 'youbehero-checkout-fields',
                 plugin_dir_url( __FILE__ ) . 'js/you-be-hero-checkout.js',
-//                        [ 'wp-element', 'wc-blocks-checkout' ], // Dependencies
                [ 'lodash', 'react', 'wc-blocks-checkout', 'wp-components', 'wp-data', 'wp-element', 'wp-i18n' ], // Ensure required dependencies
                 filemtime( plugin_dir_path( __FILE__ ) . 'js/you-be-hero-checkout.js' ),
                 true
@@ -393,10 +392,6 @@ class You_Be_Hero_Public {
             if (isset($fee->ybh_donation_cause) || isset($fee->_ybh_donation_amount)) {
                 unset(WC()->cart->fees[$key]);
             }
-
-        }
-        if (WC()->cart) {
-//                WC()->cart->calculate_totals();
         }
     }
 
@@ -797,8 +792,6 @@ class You_Be_Hero_Public {
             $fee_total = (float) method_exists( $fee, 'get_total' ) ? $fee->get_total() : $fee->total;
 
             $name = method_exists( $fee, 'get_name' ) ? $fee->get_name() : $fee->name;
-//            if ( stripos( $fee->get_name(), 'donation' ) !== false ) {
-//            if ( stripos( $fee->get_name(), WC()->session->get( '_donation_org_name' ) ) !== false ) {
             if ( stripos( $name, WC()->session->get( '_donation_org_name' ) ) !== false ) {
                 $donation_total += $fee_total;
             }

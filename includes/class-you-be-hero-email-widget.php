@@ -58,6 +58,10 @@ class YouBeHero_Email_Widget {
                 font-size: 14px;
                 color: #333;
             }
+
+            .youbehero-tk-org-box strong {
+                font-size: 24px;
+            }
             
             .youbehero-tk-social-icons {
                 display: block;
@@ -235,7 +239,7 @@ class YouBeHero_Email_Widget {
 
                 <!-- Organization box -->
                 <div class="youbehero-tk-org-box" style="background: <?php echo esc_attr( $plaisio_color ); ?>;">
-                    <p style="color: <?php echo esc_attr( $text_color ); ?>;"><b><?php echo esc_html( $selected_cause_info['name'] ); ?></b></p>
+                    <p style="color: <?php echo esc_attr( $text_color ); ?>;"><strong><?php echo esc_html( $selected_cause_info['name'] ); ?></strong></p>
 
                     <!-- Social Icons -->
                     <div class="youbehero-tk-social-icons">

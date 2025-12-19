@@ -32,8 +32,13 @@ registerBlockType(metadata.name, {
 
         return (
             <div {...useBlockProps()}>
-                <h3>{__('YouBeHero Donation', 'youbehero')}</h3>
-                <p>{__('YouBeHero donation widget will reside here. For easy relocation use List overview option (Shift+Alt+O)', 'youbehero')}</p>
+                <h3>{__('Add Donation to Cart, YouBeHero', 'youbehero')}</h3>
+                <p style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {__('YouBeHero donation widget will reside here. For easy relocation use List overview option', 'youbehero')}
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-hidden="true" focusable="false">
+                        <path d="M3 6h11v1.5H3V6Zm3.5 5.5h11V13h-11v-1.5ZM21 17H10v1.5h11V17Z"></path>
+                    </svg>
+                </p>             
                 
             </div>
         );

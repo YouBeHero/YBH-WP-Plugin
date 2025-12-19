@@ -2,6 +2,7 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
 #donation-widget {
     margin: 20px 0;
     padding: 15px;
@@ -28,6 +29,7 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
 }
+
 .donation-box h3 {
     background: #ddd;
     padding: 10px;
@@ -35,10 +37,12 @@
     border-radius: 10px 10px 0 0;
     text-align: center;
 }
+
 .donation-box p {
     font-size: 14px;
     margin-bottom: 10px;
 }
+
 .amount-box {
     background: #e0e0e0;
     padding: 5px 10px;
@@ -48,54 +52,53 @@
     float: right;
     color: #007bff;
 }
+
 .donation-item {
     display: flex;
     align-items: center;
     gap: 10px;
-    /*border: 1px solid #ddd;*/
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
 }
+
 .donation-item img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     background: #ccc;
 }
+
 .donation-item select {
     flex-grow: 1;
     border: none;
     background: none;
     font-size: 14px;
 }
+
 .donation-buttons {
     display: flex;
     gap: 10px;
     justify-content: space-between;
 }
+
 .donation-buttons button, .donation-buttons .radio-button {
     flex: 1;
     padding: 8px;
-    /*border: 1px solid #007bff;*/
-    /*border: 1px solid;*/
     background: white;
-    /*color: #007bff;*/
-    /*font-weight: bold;*/
     cursor: pointer;
     border-radius: 5px;
 }
+
 .donation-buttons button:last-child,.donation-buttons .radio-button:last-child {
     border-color: red;
     color: red;
 }
 
-
 .visually-hidden {
   position: absolute;
   opacity: 0;
 }
-
 
 /* Custom styles for the dropdown */
 .custom-dropdown {
@@ -103,6 +106,7 @@
     display: inline-block;
     width: 100%;
 }
+
 .custom-dropdown-toggle {
     display: flex;
     align-items: center;
@@ -113,6 +117,7 @@
     background-color: white;
     cursor: pointer;
 }
+
 .custom-dropdown-menu {
     display: none;
     position: absolute;
@@ -127,22 +132,24 @@
 .custom-dropdown-menu.show {
     display: block;
 }
+
 .custom-dropdown-option {
     display: flex;
     align-items: center;
     padding: 0.5rem;
     cursor: pointer;
 }
+
 .custom-dropdown-option img {
     width: 10% !important;
     border-radius: 2px !important;
     max-width: 24px !important;
 }
+
 .custom-dropdown-option:hover {
     background-color: #f3f4f6;
 }
 
-/*=========IQBAL=========*/
 .donation-box-container {
     background: #F7F7F7;
     border-radius: 10px;
@@ -150,7 +157,6 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    /*width: 70%;*/
 }
 
 .donation-header {
@@ -163,7 +169,6 @@
 }
 
 .donation-header .pill-container {
-    /*background: #339f30;*/
     padding: 2px 5px;
     border-radius: 5px;
     color: #fff;
@@ -249,37 +254,11 @@
     margin-left: 1rem;
     font-size: 1rem;
 }
-/*=========IQBAL=========*/
-
 
 /* Style for selected radio button */
 .radio-button.selected {
-    /*background-color: #3b82f6;*/
     color: white;
 }
-
-/* Then update your existing styles to use these variables */
-/*#donation-widget {
-    margin: var(--margin-lg);
-    padding: var(--padding-md);
-    border: 1px solid #ddd;
-    background: #f9f9f9;
-}
-
-.donation-box {
-    background: white;
-    padding: var(--padding-md);
-    border-radius: var(--radius-md);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin: var(--margin-md);
-}*/
-
-/*.donation-buttons button, 
-.donation-buttons .radio-button {
-    padding: var(--padding-sm);
-    border-radius: var(--radius-sm);
-     rest of your existing styles 
-}*/
 
 .smallPadding { padding: 8px; }
 .midPadding { padding: 16px; }
@@ -294,7 +273,6 @@
 .bigBorderRadius { border-radius: 16px; }
 
 .bordered { border: 1px solid; }
-
 
 /* Loader Container */
 .widget-loader {
@@ -330,16 +308,13 @@
     justify-content: center;
     align-items: center;
 }
+
 .youbehero-tk-card {
-    /*width: 508px;*/
     width: 100%;
-    /*border-radius: 8px;*/
     gap: 20px;
     background: #fff;
-    /*border-radius: 10px;*/
     padding: 30px;
     text-align: center;
-    /*box-shadow: 0 4px 10px rgba(0,0,0,0.1);*/
 }
 
 .youbehero-tk-icon {
@@ -354,6 +329,7 @@
     margin: 10px 0;
     text-transform: unset !important;
 }
+
 .youbehero-tk-card .tk-p1 {
     font-weight: 400;
     font-size: 16px;
@@ -368,8 +344,12 @@
     border-radius: 8px;
     padding: 15px;
     margin: 15px 0;
-    font-size: 14px;
+    font-size: 16px;
     color: #333;
+}
+
+.youbehero-tk-org-box strong {
+    font-size: 24px;
 }
 
 .youbehero-tk-social-icons {
@@ -524,6 +504,8 @@
     background: #000;
     color: #fff !important;
     border: none;
+    box-sizing: border-box;
+    text-decoration: none;
     padding: 12px;
     width: 100%;
     border-radius: 20px;
@@ -533,24 +515,41 @@
     text-align: center;
 }
 
+.youbehero-secondary-btn {
+    background: #fff;
+    color: #000 !important;
+    border: 1px solid #7b96fe;
+    box-sizing: border-box;
+    text-decoration: none;
+    padding: 12px;
+    width: 100%;
+    margin-bottom: 12px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    display: block;
+    text-align: center;
+}
 
 /*test from YouBeHero*/
 .modal-body {
     position: relative;
     flex: 1 1 auto;
-    /*padding: 1rem;*/
 }
+
 .youbehero-modal-title {
     margin: 14px 0px 4px 0px;
     line-height: 1.5;
     font-size: 1.25rem;
     text-transform: unset !important;
 }
+
 .youbehero-modal-text-muted {
     color: #757575 !important;
     font-size: 14px;
     margin: 0px 0px 20px 0px;
 }
+
 .youbehero-vertical-dots {
     list-style: none;
     padding: 8px 20px;
@@ -559,19 +558,24 @@
     padding-left: 20px;
     background: #fff;
     font-size: 14px;
+    border-radius: 8px;
 }
+
 .youbehero-vertical-dots li {
     position: relative;
     margin: 10px 0;
     padding-left: 20px;
 }
+
 .youbehero-vertical-dots li strong {
     line-height: 2;
     font-weight: bold;
 }
+
 .youbehero-vertical-dots li p {
     margin: 0;
 }
+
 .youbehero-vertical-dots li::before {
     content: '';
     position: absolute;
@@ -583,6 +587,7 @@
     background-color: #000;
     border-radius: 50%;
 }
+
 .youbehero-vertical-dots li:not(:last-child)::after {
     content: '';
     position: absolute;
@@ -596,16 +601,20 @@
 .youbehero-second-list {
     list-style: none;
     padding: 10px;
+    border-radius: 8px;
     background: #fff;
     font-size: 14px;
+
 }
 .youbehero-second-list li {
     display: inline-flex;
 }
+
 .youbehero-second-list li img {
     width: 15px;
     margin: 0px 10px 0px 5px;
 }
+
 .youbehero-second-list li p {
     margin: 0;
 }

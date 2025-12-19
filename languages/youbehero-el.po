@@ -233,13 +233,17 @@ msgstr "Μείνετε συντονισμένοι για ενημερώσεις.
 msgid "Learn More"
 msgstr "Μάθετε περισσότερα"
 
+#: public/partials/you-be-hero-thankyou-widget.php:183
+msgid "Learn more"
+msgstr "Μάθετε περισσότερα"
+
 #: public/partials/you-be-hero-thankyou-widget.php:124
 msgid "See how your donation helps!"
 msgstr "Δείτε πως η δωρεά σας κάνει τη διαφορά"
 
 #: public/partials/you-be-hero-thankyou-widget.php:126
 msgid "Sustainability, viability and transparency."
-msgstr "Βιωσιμότητα, λειτουργικότητα και διαφάνεια."
+msgstr "Απλή, διαφανής και ουσιαστική προσφορά — όπως πρέπει να είναι."
 
 #: public/partials/you-be-hero-thankyou-widget.php:129
 msgid "Make a donation"
@@ -255,11 +259,11 @@ msgstr "Ενημερώνεστε άμεσα"
 
 #: public/partials/you-be-hero-thankyou-widget.php:137
 msgid "In the confirmation email you will see details about your donation."
-msgstr "Στο email επιβεβαίωσης θα δείτε λεπτομέρειες σχετικά με τη δωρεά σας."
+msgstr "Στο email της παραγγελίας σας, επιβεβαιώνεστε για τη δωρεά σας."
 
 #: public/partials/you-be-hero-thankyou-widget.php:141
 msgid "Your donation is delivered securely."
-msgstr "Η δωρεά σας φτάνει με ασφάλεια."
+msgstr "Η δωρεά σας φτάνει με ασφάλεια"
 
 #: public/partials/you-be-hero-thankyou-widget.php:143
 msgid "With complete transparency, it supports the goals of the organization of your choice."
@@ -267,7 +271,7 @@ msgstr "Με πλήρη διαφάνεια, τα χρήματα αποδίδον
 
 #: public/partials/you-be-hero-thankyou-widget.php:147
 msgid "You are supporting an important project."
-msgstr "Στηρίζετε ένα σημαντικό έργο."
+msgstr "Στηρίζετε ένα σημαντικό έργο"
 
 #: public/partials/you-be-hero-thankyou-widget.php:149
 msgid "Your every contribution has a meaningful impact."
@@ -292,6 +296,15 @@ msgstr "Βλέπετε την αλλαγή που δημιουργείτε"
 #: public/partials/you-be-hero-thankyou-widget.php:170
 msgid "Close"
 msgstr "Κλείσιμο"
+
+#: includes/class-youbehero-elementor-widget.php:47
+#: includes/class-youbehero-elementor-widget.php:55
+msgid "Content"
+msgstr "Περιεχόμενο"
+
+#: includes/class-youbehero-elementor-widget.php:57
+msgid "Your widget content here"
+msgstr "Μια περιγραφή εδώ"
 
 #: includes/class-youbehero-elementor-widget.php:67
 msgid "Placement method"
@@ -346,3 +359,13 @@ msgstr "Ενημέρωση"
 #: admin/partials/you-be-hero-dashboard.php:52
 msgid "Fetch latest settings from YouBeHero (colors, organizations, etc.)"
 msgstr "Ενημέρωση ρυθμίσεων από την πλατφόρμα YouBeHero (χρώματα, φορείς κτλ)"
+
+#: src/index.js:35
+#: build/index.js:35
+msgid "Add Donation to Cart, YouBeHero"
+msgstr "Προσθήκη Δωρεάς στο Καλάθι, YouBeHero"
+
+#: src/index.js:36
+#: build/index.js:36
+msgid "YouBeHero donation widget will reside here. For easy relocation use List overview option"
+msgstr "Το widget της YouBeHero θα τοποθετηθεί εδώ. Για να αλλάξετε θέση πατήστε στο κουμπί της επισκόπησης εγγράφου"

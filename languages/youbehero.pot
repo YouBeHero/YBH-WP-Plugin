@@ -233,7 +233,7 @@ msgstr ""
 
 #: src/index.js:36
 #: build/index.js:36
-msgid "YouBeHero donation widget will reside here. For easy relocation use List overview option (Shift+Alt+O)"
+msgid "YouBeHero donation widget will reside here. For easy relocation use List overview option"
 msgstr ""
 
 #: src/block.json
