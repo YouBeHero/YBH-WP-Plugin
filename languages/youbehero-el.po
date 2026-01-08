@@ -190,10 +190,6 @@ msgstr "Θα το δωρίσουμε"
 msgid "of your order to a charity"
 msgstr "από την παραγγελία σας σε ένα φιλανθρωπικό ίδρυμα"
 
-#: src/render.php:203
-#: build/render.php:214
-msgid "Please select a cause"
-msgstr "Επιλογή φορέα"
 
 #: src/render.php:237
 #: build/render.php:237

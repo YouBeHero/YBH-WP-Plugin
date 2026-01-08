@@ -12,15 +12,28 @@ jQuery(document).ready(function($) {
         let currencySymbol = wcSettings?.currency?.symbol || '$';
 
         // Store pending donation amount when clicked without org selected
+        // Issue #7: Store data-value instead of jQuery object to avoid stale references
         let pendingDonationAmount = null;
         let pendingDonationLabel = null;
-        let pendingDonationButton = null;
-
-        // Hide "Please select a cause" option if a nonprofit is already selected
-        const donationCauseEle = jQuery('#donation-cause');
-        if (donationCauseEle.length && donationCauseEle.val() && donationCauseEle.val() != '0' && donationCauseEle.val() != '') {
-            jQuery('#select-np-ybh-dd-option').addClass('hidden');
+        let pendingDonationButtonValue = null; // Store data-value instead of jQuery object
+        
+        // Issue #5: Flags to coordinate auto-select and session restore timing
+        let autoSelectInProgress = false;
+        let sessionRestoreInProgress = false;
+        
+        // Issue #6: Function to clear pending donation state
+        function clearPendingDonationState() {
+            if (pendingDonationButtonValue !== null) {
+                const button = jQuery(`button[data-value="${pendingDonationButtonValue}"]`);
+                if (button.length) {
+                    setButtonLoading(button, false);
+                }
+            }
+            pendingDonationAmount = null;
+            pendingDonationLabel = null;
+            pendingDonationButtonValue = null;
         }
+
 
         // Helper function to set button loading state
         function setButtonLoading(jQueryButton, isLoading) {
@@ -38,13 +51,21 @@ jQuery(document).ready(function($) {
 
         const addDonationFee = async (orgId, orgName, amount, orgImg) => {
             try {
-                // 1. Get current cart state
-                const { getCartData } = wp.data.select('wc/store/cart');
-                const currentCart = getCartData();
+                // Issue #4: Check if wp.data is available (Gutenberg/Blocks context)
+                let currentCart = null;
+                if (window.wp && window.wp.data && window.wp.data.select) {
+                    try {
+                        const { getCartData } = wp.data.select('wc/store/cart');
+                        currentCart = getCartData();
+                    } catch (e) {
+                        // wp.data not available or store not initialized
+                        console.warn('wp.data cart store not available, skipping client-side update');
+                    }
+                }
 
                 let updatedFees = [];
 
-                if (Array.isArray(currentCart.fees)) {
+                if (currentCart && Array.isArray(currentCart.fees)) {
                     updatedFees = currentCart.fees.filter((fee) => {
                         return !fee.name.includes('Donation for');
                     });
@@ -67,10 +88,17 @@ jQuery(document).ready(function($) {
                     });
                 }
 
-                await wp.data.dispatch('wc/store/cart').setCartData({
-                    ...currentCart,
-                    fees: updatedFees
-                });
+                // Issue #4: Only update wp.data if available
+                if (currentCart !== null && window.wp && window.wp.data && window.wp.data.dispatch) {
+                    try {
+                        await wp.data.dispatch('wc/store/cart').setCartData({
+                            ...currentCart,
+                            fees: updatedFees
+                        });
+                    } catch (e) {
+                        console.warn('Failed to update wp.data cart store:', e);
+                    }
+                }
 
                 const amountF = isNaN(Number(amount)) ? 0 : Number(amount)/100;
                 const force_remove = isNaN(Number(orgId)) || orgId === '0' || orgId === 0 ? 1 : 0;
@@ -127,9 +155,28 @@ jQuery(document).ready(function($) {
                             });
                         }
                     },
-                    error: function() {
-                        // Re-enable buttons on error
+                    error: function(xhr, status, error) {
+                        // Issue #3: Re-enable buttons on error and clear pending state
                         setButtonLoading(jQuery('.donation-btn.loading'), false);
+                        
+                        // Clear any pending state if AJAX fails
+                        clearPendingDonationState();
+                        
+                        // Issue #16: Handle nonce expiration (403 Forbidden)
+                        if (xhr.status === 403) {
+                            // Nonce expired - show user-friendly message
+                            if (window.wp && window.wp.data && window.wp.data.dispatch) {
+                                wp.data.dispatch('core/notices').createNotice(
+                                    'error',
+                                    'Session expired. Please refresh the page.',
+                                    { id: 'donation-nonce-error', isDismissible: true }
+                                );
+                            } else {
+                                alert('Session expired. Please refresh the page.');
+                            }
+                        } else {
+                            console.error('Donation update failed:', error);
+                        }
                     }
                 });
                 return true;
@@ -137,20 +184,27 @@ jQuery(document).ready(function($) {
             } catch (error) {
                 // Re-enable buttons on error
                 setButtonLoading(jQuery('.donation-btn.loading'), false);
-                //show elegant notice update this
-                wp.data.dispatch('core/notices').createNotice(
-                    'error',
-                    `Failed to add donation: ${error.message}`,
-                    { id: 'donation-error' }
-                );
+                // Issue #3: Clear pending state on error
+                clearPendingDonationState();
+                
+                // Issue #4: Only show notice if wp.data is available
+                if (window.wp && window.wp.data && window.wp.data.dispatch) {
+                    wp.data.dispatch('core/notices').createNotice(
+                        'error',
+                        `Failed to add donation: ${error.message}`,
+                        { id: 'donation-error' }
+                    );
+                }
                 throw error;
             }
         };
         
         const update_totals = async () => {
             try {
-                // Invalidate the current cart data resolution
-                await wp.data.dispatch('wc/store/cart').invalidateResolution('getCartData');
+                // Issue #4: Only invalidate if wp.data is available
+                if (window.wp && window.wp.data && window.wp.data.dispatch) {
+                    await wp.data.dispatch('wc/store/cart').invalidateResolution('getCartData');
+                }
               } catch (error) {
                 // Re-enable buttons on error
                 setButtonLoading(jQuery('.donation-btn.loading'), false);
@@ -263,27 +317,32 @@ jQuery(document).ready(function($) {
         },1000);
     // Handle if only one organisation is set - END
 
-        // Auto-select first organization on page load (if multiple orgs exist and none selected)
+        // Issue #5: Auto-select first organization on page load if not already selected
+        // Increased delay to 500ms to let session restore complete first
         setTimeout(function(){
+            // Skip if session restore is in progress or pending amount exists
+            if (sessionRestoreInProgress || pendingDonationAmount !== null) {
+                return;
+            }
+            
             if (causes && causes.length > 1) {
                 const donationCauseEle = jQuery('#donation-cause');
-                const selectedOption = jQuery('#selectedOption');
                 
-                // Check if no org is selected (value is 0 or empty, or text is "Please select a cause")
-                const hasNoOrg = !donationCauseEle.val() || 
-                                 donationCauseEle.val() == '0' || 
-                                 selectedOption.text() === 'Please select a cause' ||
-                                 selectedOption.text() === jQuery('#select-np-ybh-dd-option').data('text');
+                // Check if no org is selected (value is 0 or empty)
+                // If org is already selected, don't change it
+                const hasNoOrg = !donationCauseEle.val() || donationCauseEle.val() == '0';
                 
                 if (hasNoOrg) {
-                    // Auto-select first org (skip the "Please select" option)
-                    const firstOrgOption = jQuery('.ybh-dd-option').not('#select-np-ybh-dd-option').first();
+                    autoSelectInProgress = true;
+                    // Auto-select first org
+                    const firstOrgOption = jQuery('.ybh-dd-option').first();
                     if (firstOrgOption.length) {
                         firstOrgOption.trigger('click');
                     }
+                    autoSelectInProgress = false;
                 }
             }
-        }, 300);
+        }, 500);
 
         $(document).on('click', '.ybh-dd-option', function (event) {
             event.preventDefault();
@@ -296,44 +355,47 @@ jQuery(document).ready(function($) {
             donationCauseEle.value = $(this).data("value");
             causeImgEle.src = $(this).data("image");
             
-            // Hide "Please select a cause" option when a nonprofit is selected
+            // Process organization selection
             if( $(this).data("value") && $(this).data("value") != 0 ){
-                $('#select-np-ybh-dd-option').addClass('hidden');
-                // Remove rainbow glow animation when org is selected
-                jQuery('#ybh-dd-select').removeClass('animate-rainbow-glow');
                 
-                // Auto-apply pending donation amount if one was stored
+                // Issue #7: Auto-apply pending donation amount if one was stored
+                // Re-query button by data-value to avoid stale references
                 let wasPendingApplied = false;
-                if (pendingDonationAmount !== null && pendingDonationButton !== null) {
-                    // Show loading spinner on the button (consistent with normal flow)
-                    setButtonLoading(pendingDonationButton, true);
+                if (pendingDonationAmount !== null && pendingDonationButtonValue !== null) {
+                    // Re-query button by data-value (always gets current DOM element)
+                    const buttonToUpdate = jQuery(`button[data-value="${pendingDonationButtonValue}"]`);
                     
-                    // Set the amount value
-                    jQuery('#donation-amount').val(pendingDonationAmount);
-                    jQuery('.donation-amount-text').text(pendingDonationLabel + currencySymbol);
-                    
-                    // Update button states
-                    jQuery('.donation-amounts .radio-button').removeClass('selected');
-                    pendingDonationButton.addClass('selected');
-                    
-                    // Mark that we applied pending amount
-                    wasPendingApplied = true;
-                    
-                    // Store button reference before clearing pending values (needed for spinner removal)
-                    const buttonToUpdate = pendingDonationButton;
-                    
-                    // Clear pending values
-                    pendingDonationAmount = null;
-                    pendingDonationLabel = null;
-                    pendingDonationButton = null;
-                    
-                    // Now that both org and amount are set, add to cart
-                    // The spinner will be removed by the AJAX success handler
-                    if (validate_donation_data()) {
-                        add_donation_to_cart();
+                    if (buttonToUpdate.length) {
+                        // Show loading spinner on the button (consistent with normal flow)
+                        setButtonLoading(buttonToUpdate, true);
+                        
+                        // Set the amount value
+                        jQuery('#donation-amount').val(pendingDonationAmount);
+                        jQuery('.donation-amount-text').text(pendingDonationLabel + currencySymbol);
+                        
+                        // Update button states
+                        jQuery('.donation-amounts .radio-button').removeClass('selected');
+                        buttonToUpdate.addClass('selected');
+                        
+                        // Mark that we applied pending amount
+                        wasPendingApplied = true;
+                        
+                        // Clear pending values
+                        pendingDonationAmount = null;
+                        pendingDonationLabel = null;
+                        pendingDonationButtonValue = null;
+                        
+                        // Now that both org and amount are set, add to cart
+                        // The spinner will be removed by the AJAX success handler
+                        if (validate_donation_data()) {
+                            add_donation_to_cart();
+                        } else {
+                            // Re-enable if validation fails
+                            setButtonLoading(buttonToUpdate, false);
+                        }
                     } else {
-                        // Re-enable if validation fails
-                        setButtonLoading(buttonToUpdate, false);
+                        // Button not found, clear pending state
+                        clearPendingDonationState();
                     }
                 }
                 
@@ -346,8 +408,6 @@ jQuery(document).ready(function($) {
                         add_donation_to_cart( );
                     }
                 }
-            }else{
-                $('#select-np-ybh-dd-option').removeClass('hidden');
             }
         });
 
@@ -373,39 +433,7 @@ jQuery(document).ready(function($) {
                 return;
             }
             
-            // Check if organization is selected before allowing amount selection
-            const donationCauseEle = jQuery('#donation-cause');
-            const selectedOption = jQuery('#selectedOption');
-            const hasNoOrg = !donationCauseEle.val() || 
-                            donationCauseEle.val() == '0' || 
-                            selectedOption.text() === 'Please select a cause' ||
-                            selectedOption.text() === jQuery('#select-np-ybh-dd-option').data('text');
-            
-            if (hasNoOrg) {
-                // Store the amount for later auto-application when org is selected
-                const donation_amount = jQueryBtn.data('value');
-                const donation_label = jQueryBtn.data('label');
-                
-                pendingDonationAmount = donation_amount;
-                pendingDonationLabel = donation_label;
-                pendingDonationButton = jQueryBtn;
-                
-                // Show visual feedback (animation only, no dropdown pop)
-                const $dropdown = jQuery('#ybh-dd-select');
-                
-                // Add rainbow glow animation
-                $dropdown.addClass('animate-rainbow-glow');
-                
-                // Remove animation class after animation completes (shake is 0.3s, glow is longer)
-                setTimeout(function() {
-                    $dropdown.removeClass('animate-rainbow-glow');
-                }, 3000);
-                
-                // Don't open dropdown - just show animation to guide user
-                // User can click dropdown when ready
-                
-                return false;
-            }
+            // Organization should always be selected, so we can proceed directly
             
             // Disable buttons and show spinner
             setButtonLoading(jQueryBtn, true);
@@ -438,10 +466,8 @@ jQuery(document).ready(function($) {
                 return;
             }
             
-            // Clear pending donation amount if exists
-            pendingDonationAmount = null;
-            pendingDonationLabel = null;
-            pendingDonationButton = null;
+            // Issue #6: Clear pending donation amount if exists
+            clearPendingDonationState();
             
             // Disable buttons and show spinner
             setButtonLoading(jQueryBtn, true);
@@ -452,23 +478,37 @@ jQuery(document).ready(function($) {
             jQuery('.donation-amounts .radio-button').removeClass('selected');
             jQuery('#donation-amount').trigger('change');
 
-            // Select "Please select a cause" option when amount is deleted
+            // Get current organization data before clearing amount
+            // This ensures the org is preserved in session when amount is deleted
+            const orgId = jQuery('#donation-cause').val();
             const selectedOption = document.getElementById('selectedOption');
-            const donationCauseEle = document.getElementById('donation-cause');
             const causeImgEle = document.getElementById('selected-cause-img');
-            const selectNpOption = jQuery('#select-np-ybh-dd-option');
+            const orgName = selectedOption ? selectedOption.textContent : '';
+            const orgImg = causeImgEle ? causeImgEle.src : '';
             
-            if (selectNpOption.length) {
-                donationCauseEle.value = '0';
-                selectedOption.textContent = selectNpOption.data('text');
-                causeImgEle.src = selectNpOption.data('image');
-                selectNpOption.removeClass('hidden');
+            // Find the org data from causes array if we have the ID
+            let finalOrgName = orgName;
+            let finalOrgImg = orgImg;
+            if (orgId && causes) {
+                const selectedCause = causes.find(cause => cause.value === parseInt(orgId));
+                if (selectedCause) {
+                    finalOrgName = selectedCause.label;
+                    finalOrgImg = selectedCause.image;
+                }
             }
-
-            add_donation_to_cart();
+            
+            // Call addDonationFee with org data but amount = 0 to preserve org in session
+            if (orgId && orgId !== '0' && finalOrgName) {
+                addDonationFee(orgId, finalOrgName, 0, finalOrgImg);
+            } else {
+                // Fallback to add_donation_to_cart if org data not available
+                add_donation_to_cart();
+            }
         });
         
+        // Issue #5: Session restore - coordinate with auto-select timing
         if (selected_amount && selected_amount > 0) {
+            sessionRestoreInProgress = true;
             let selected_amount_cents = selected_amount * 100;
             const currentAmount = jQuery('#donation-amount').val();
             const currentCause = jQuery('#donation-cause').val();
@@ -476,13 +516,21 @@ jQuery(document).ready(function($) {
             // Only auto-click if:
             // 1. No amount is currently set in the input
             // 2. No org is selected (or org is '0')
+            // 3. No pending amount exists
+            // 4. Auto-select is not in progress
             // This prevents auto-clicking when user has explicitly cleared everything
-            if (!currentAmount && (!currentCause || currentCause == '0')) {
+            if (!currentAmount && (!currentCause || currentCause == '0') && !autoSelectInProgress && pendingDonationAmount === null) {
                 if (jQuery(`button[data-value="${selected_amount_cents}"]`).length) {
                     jQuery(`button[data-value="${selected_amount_cents}"]`).click();
                 }
             }
+            sessionRestoreInProgress = false;
         }
+        
+        // Issue #6: Clear pending state on checkout updates (widget may have re-rendered)
+        jQuery(document.body).on('updated_checkout', function() {
+            clearPendingDonationState();
+        });
 });
 
 

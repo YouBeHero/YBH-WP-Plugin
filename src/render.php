@@ -93,6 +93,10 @@ if ( ! is_admin() ) {
                         $ybhd_donation_amount = WC()->session->get( 'ybh_donation_amount', 0 );
                         $ybhd_float           = str_replace( ',', '.', $ybhd_amount );
                         $ybhd_selected        = ( $ybhd_donation_amount == $ybhd_float ) ? 'selected' : '';
+                    } else {
+                        // Set first organization as default when no session exists
+                        $first_cause = reset( $ybhd_causes );
+                        $ybhd_don_cause = $first_cause['value'];
                     }
 
                     $ybhd_html .= '<button type="button" class="donation-btn radio-button ' . $ybhd_selected . '" data-btnclr="' . $ybhd_btn_color . '" style="--btn-color: ' . esc_attr( $ybhd_btn_color ) . ';" data-value="' . $ybhd_amount_cents . '" data-label="' . $ybhd_amount . '">' . $ybhd_amount . $ybhd_currency_symbol . '</button>';
@@ -227,9 +231,13 @@ if ( ! is_admin() ) {
                                         ?>
                                         <img id="selected-cause-img" src="<?php echo esc_html( WC()->session->get( '_donation_org_img' ) ); ?>" alt="Logo">
                                         <span id="selectedOption"><?php echo esc_html( $ybhd_session_cause ); ?></span>
-                                    <?php } else { ?>
-                                        <img id="selected-cause-img" src="<?php echo esc_url( YBHD_PLUGIN_URL ); ?>public/img/ybh.svg" alt="Logo">
-                                        <span id="selectedOption"><?php echo esc_html__( 'Please select a cause', 'youbehero' )?></span>
+                                    <?php } else { 
+                                        // Always select first organization when no session exists
+                                        $first_cause = reset( $ybhd_causes );
+                                        $ybhd_selected_cause = $first_cause['label'];
+                                        ?>
+                                        <img id="selected-cause-img" src="<?php echo esc_html( $first_cause['image'] ); ?>" alt="Logo">
+                                        <span id="selectedOption"><?php echo esc_html( $first_cause['label'] ); ?></span>
                                     <?php }
 
                                     ?>
@@ -240,10 +248,6 @@ if ( ! is_admin() ) {
 
                                 <?php if ( count( $ybhd_causes ) > 1 ) { ?>
                             <div class="custom-dropdown-menu" id="dropdownMenu">
-                            <div class="custom-dropdown-option ybh-dd-option <?php echo ( empty( $ybhd_selected_cause ) ) ? 'hidden' : ''; ?>" id="select-np-ybh-dd-option" data-image="<?php echo esc_url( YBHD_PLUGIN_URL ); ?>public/img/ybh.svg" data-text="<?php echo esc_html__( 'Please select a cause', 'youbehero' ); ?>" data-value="0">
-                                <img alt="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/ybh.svg" src="<?php echo esc_url( YBHD_PLUGIN_URL );?>public/img/ybh.svg"  style="width: min(5%, 2em);"/>
-                                <span class="text-gray-700"><?php echo esc_html__( 'Please select a cause', 'youbehero' ); ?></span>
-                            </div>
                             <?php
                             foreach ( $ybhd_causes as $ybhd_key => $ybhd_cause ) { ?>
                             <div class="custom-dropdown-option ybh-dd-option" id="<?php echo esc_html( $ybhd_key ); ?>-ybh-dd-option" data-image="<?php echo esc_html( $ybhd_cause['image'] ); ?>" data-text="<?php echo esc_html( $ybhd_cause['label'] ); ?>" data-value="<?php echo esc_html( $ybhd_cause['value'] ); ?>")">

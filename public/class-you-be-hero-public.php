@@ -285,9 +285,32 @@ class You_Be_Hero_Public {
             WC()->cart->get_cart();
         }
 
-        // If amount is empty or zero, remove the fee
-        if ( empty($amount) || $amount <= 0 || empty( $org_name ) || empty( $org_id ) ) {
-            $this->donation_widget_remove_fee();
+        // If amount is empty or zero, remove the fee but preserve organization selection
+        if ( empty($amount) || $amount <= 0 ) {
+            // Only clear amount, preserve organization in session
+            WC()->session->set('ybh_donation_amount', 0);
+            
+            // If org data is provided, preserve it in session
+            if ( !empty( $org_id ) && !empty( $org_name ) ) {
+                WC()->session->set('ybh_donation_cause', $org_name);
+                WC()->session->set('_donation_org_name', $org_name);
+                WC()->session->set('_donation_org_id', $org_id);
+                if ( !empty( $org_img ) ) {
+                    WC()->session->set('_donation_org_img', $org_img);
+                }
+            }
+            // If org data not provided but exists in session, keep it (don't clear)
+            // This handles cases where delete is called without org data
+            
+            // Remove fee from cart
+            if (WC()->cart) {
+                $fees = WC()->cart->get_fees();
+                foreach ($fees as $key => $fee) {
+                    if (isset($fee->ybh_donation_cause) || isset($fee->_ybh_donation_amount)) {
+                        unset(WC()->cart->fees[$key]);
+                    }
+                }
+            }
             
             // Force session to be written immediately
             if (method_exists(WC()->session, 'save_data')) {
@@ -304,14 +327,10 @@ class You_Be_Hero_Public {
             $fees = WC()->cart->get_fees();
             $total = WC()->cart->get_total('edit');
             
-            // Verify session is actually cleared
-            $session_amount = WC()->session->get('ybh_donation_amount', 'NOT_SET');
-            
             wp_send_json_success([
                 'fees' => $fees,
                 'total' => $total,
-                'message' => 'Donation removed',
-                'session_amount' => $session_amount // Debug: verify session is cleared
+                'message' => 'Donation removed'
             ]);
             return;
         }
@@ -398,15 +417,15 @@ class You_Be_Hero_Public {
 
     /**
      * @return void
+     * Note: This function now only clears the amount, preserving organization selection.
+     * For full removal including org, use donation_widget_update_fee with amount=0.
      */
     function donation_widget_remove_fee() {
+        // Only clear amount, preserve organization selection
         WC()->session->set('ybh_donation_amount', 0);
-        WC()->session->set('ybh_donation_cause', '');
-        WC()->session->set('_donation_org_name', '');
-        WC()->session->set('_donation_org_id', 0);
-        WC()->session->set('_donation_org_img', '');
+        // Organization data is preserved in session
         
-        // Save session immediately so update_checkout reads cleared values
+        // Save session immediately
         if (method_exists(WC()->session, 'save_data')) {
             WC()->session->save_data();
         } elseif (method_exists(WC()->session, 'write_data')) {
@@ -1218,11 +1237,7 @@ class You_Be_Hero_Public {
 
                                         // Reusable initialization function for widget setup
                                         function initializeYoubeheroWidget() {
-                                            // Hide "Please select a cause" option if a nonprofit is already selected
-                                            const donationCauseEle = document.getElementById('donation-cause');
-                                            if (donationCauseEle && donationCauseEle.value && donationCauseEle.value != '0' && donationCauseEle.value != '') {
-                                                jQuery('#select-np-ybh-dd-option').addClass('hidden');
-                                            }
+                                            // Organization is always selected (first org by default)
 
                                             // Clear any loading states from buttons
                                             jQuery('.donation-btn').removeClass('loading').find('.button-spinner').remove();
@@ -1569,15 +1584,7 @@ class You_Be_Hero_Public {
 
                                             // Initialize widget state
                                             function initWidget() {
-                                                // Check multiple indicators that an org is selected
-                                                var cause = jQuery('#donation-cause');
-                                                var selectedOption = jQuery('#selectedOption');
-                                                var hasOrg = (cause.length && cause.val() && cause.val() != '0' && cause.val() != '') ||
-                                                             (selectedOption.length && selectedOption.text() !== '<?php echo esc_js( __( 'Please select a cause', 'youbehero' ) ); ?>');
-                                                
-                                                if (hasOrg) {
-                                                    jQuery('#select-np-ybh-dd-option').addClass('hidden');
-                                                }
+                                                // Organization is always selected (first org by default)
                                                 
                                                 jQuery('.donation-btn').removeClass('loading').find('.button-spinner').remove()
                                                     .off('touchstart click.youbehero').on('touchstart click.youbehero', function() { this.focus(); });
