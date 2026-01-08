@@ -68,11 +68,6 @@
 						 action: 'ybh_update_dashboard_json',
 					 },
 					 success: function(response) {
-						 // const result = response.json();
-						 // console.log(response)
-						 // data = response.data;
-
-						 // console.log(data.status)
 						 if ( response.status == 'success' ) {
 							 location.reload();
 						 }
@@ -127,8 +122,7 @@
 					 isDataLoaded = true;
 
 				 } catch (error) {
-					 // console.error('Failed to load data:', error);
-					 // alert('Σφάλμα κατά τη φόρτωση των δεδομένων. Παρακαλώ δοκιμάστε ξανά.');
+					 
 				 } finally {
 					 // Reset button
 					 // refreshBtn.innerHTML = '🔄 Ανανέωση';

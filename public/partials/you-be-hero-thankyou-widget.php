@@ -1,6 +1,13 @@
 <?php
 
 /**
+ * Prevent direct access to this file.
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
  * Provide a public-facing view for the plugin's Thank You Widget
  *
  * @link       https://youbehero.com

@@ -1,6 +1,13 @@
 <?php
 
 /**
+ * Prevent direct access to this file.
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
  * Provide a public-facing view for the plugin
  *
  * This file is used to markup the public-facing aspects of the plugin.

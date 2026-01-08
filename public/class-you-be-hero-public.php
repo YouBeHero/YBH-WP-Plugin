@@ -1,6 +1,13 @@
 <?php
 
 /**
+ * Prevent direct access to this file.
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
  * The public-facing functionality of the plugin.
  *
  * @link       https://youbehero.com
@@ -217,8 +224,7 @@ class You_Be_Hero_Public {
      */
     function donation_widget_add_fee($cart) {
         $donation_amount = WC()->session->get('ybh_donation_amount', 0);
-        $donation_cause = WC()->session->get('ybh_donation_cause', '');
-        $donation_cause = WC()->session->get('_donation_org_name', '');
+        $donation_cause = WC()->session->get('_donation_org_name', ''); // Fixed: use _donation_org_name directly
         $donation_cause_id = WC()->session->get('_donation_org_id', 0);
         $donation_cause_img = WC()->session->get('_donation_org_img', '');
 
@@ -227,9 +233,8 @@ class You_Be_Hero_Public {
             return;
         }
 
-        // If amount is empty or zero, remove the fee and clear session
+        // If amount is empty or zero, don't add fee
         if (empty($donation_amount) || floatval($donation_amount) <= 0) {
-            $this->donation_widget_remove_fee();
             return;
         }
 
@@ -283,12 +288,30 @@ class You_Be_Hero_Public {
         // If amount is empty or zero, remove the fee
         if ( empty($amount) || $amount <= 0 || empty( $org_name ) || empty( $org_id ) ) {
             $this->donation_widget_remove_fee();
+            
+            // Force session to be written immediately
+            if (method_exists(WC()->session, 'save_data')) {
+                WC()->session->save_data();
+            } elseif (method_exists(WC()->session, 'write_data')) {
+                WC()->session->write_data();
+            }
+            
+            // Small delay to ensure session is committed to database
+            usleep(100000); // 100ms delay
+            
+            WC()->cart->calculate_totals();
+            
             $fees = WC()->cart->get_fees();
-            $total = WC()->cart->get_total();
+            $total = WC()->cart->get_total('edit');
+            
+            // Verify session is actually cleared
+            $session_amount = WC()->session->get('ybh_donation_amount', 'NOT_SET');
+            
             wp_send_json_success([
                 'fees' => $fees,
                 'total' => $total,
-                'message' => 'Donation removed'
+                'message' => 'Donation removed',
+                'session_amount' => $session_amount // Debug: verify session is cleared
             ]);
             return;
         }
@@ -382,12 +405,19 @@ class You_Be_Hero_Public {
         WC()->session->set('_donation_org_name', '');
         WC()->session->set('_donation_org_id', 0);
         WC()->session->set('_donation_org_img', '');
+        
+        // Save session immediately so update_checkout reads cleared values
+        if (method_exists(WC()->session, 'save_data')) {
+            WC()->session->save_data();
+        } elseif (method_exists(WC()->session, 'write_data')) {
+            WC()->session->write_data();
+        }
+        
         if (!WC()->cart) {
             return;
         }
 
         $fees = WC()->cart->get_fees();
-
         foreach ($fees as $key => $fee) {
             if (isset($fee->ybh_donation_cause) || isset($fee->_ybh_donation_amount)) {
                 unset(WC()->cart->fees[$key]);

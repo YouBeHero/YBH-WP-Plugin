@@ -55,19 +55,22 @@ jQuery(document).ready(function($) {
                     });
                 }
 
-                updatedFees.push({
-                    name: `Donation for ${orgName}`,
-                    totals: {
-                        currency_code: currencyCode,
-                        currency_minor_unit: 2,
-                        total: Math.round(amount).toString(),
-                        total_tax: '0'
-                    },
-                    meta_data: [
-                        { key: '_donation_org_id', value: orgId },
-                        { key: '_donation_org_name', value: orgName }
-                    ]
-                });
+                // Only add donation fee if amount > 0 and orgId is valid
+                if (amount > 0 && orgId && orgId !== '0' && orgId !== 0) {
+                    updatedFees.push({
+                        name: `Donation for ${orgName}`,
+                        totals: {
+                            currency_code: currencyCode,
+                            currency_minor_unit: 2,
+                            total: Math.round(amount).toString(),
+                            total_tax: '0'
+                        },
+                        meta_data: [
+                            { key: '_donation_org_id', value: orgId },
+                            { key: '_donation_org_name', value: orgName }
+                        ]
+                    });
+                }
 
                 await wp.data.dispatch('wc/store/cart').setCartData({
                     ...currentCart,
@@ -92,7 +95,7 @@ jQuery(document).ready(function($) {
                 //Store HTML for widget AJAX - End
 
                 const amountF = isNaN(Number(amount)) ? 0 : Number(amount)/100;
-                const force_remove = isNaN(Number(orgId)) ? 1 : 0;
+                const force_remove = isNaN(Number(orgId)) || orgId === '0' || orgId === 0 ? 1 : 0;
                 
                 //server side update
                 $.ajax({
@@ -125,7 +128,7 @@ jQuery(document).ready(function($) {
                             
                             // Add a delay to ensure session is fully committed on server
                             // This is critical - WooCommerce's update_order_review needs the session to be set
-                            const triggerDelay = 500;
+                            const triggerDelay = 1200;
                             setTimeout(function() {
                                 jQuery(document.body).trigger('update_checkout');
                             }, triggerDelay);
@@ -146,7 +149,7 @@ jQuery(document).ready(function($) {
                             });
                         }
                     },
-                    error: function(xhr, status, error) {
+                    error: function() {
                         // Re-enable buttons on error
                         setButtonLoading(jQuery('.donation-btn.loading'), false);
                     }
@@ -190,6 +193,7 @@ jQuery(document).ready(function($) {
             const orgName = selectedCause ? selectedCause.label : '';
             const orgImg = selectedCause ? selectedCause.image : '';
             const numericAmount = parseFloat(amount);
+            
             addDonationFee( orgId, orgName, numericAmount, orgImg );
         }
 

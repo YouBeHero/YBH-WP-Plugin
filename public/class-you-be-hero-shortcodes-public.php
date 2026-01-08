@@ -1,6 +1,13 @@
 <?php
 
 /**
+ * Prevent direct access to this file.
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
  * The public-facing functionality of the plugin.
  *
  * @link       https://youbehero.com
