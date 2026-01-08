@@ -1,12 +1,4 @@
 jQuery(document).ready(function($) {
-
-    if (!jQuery('form.checkout').length) {
-        const $content = jQuery('.elementor'); // or your specific wrapper
-        if ($content.length) {
-            $content.wrapInner('<form name="checkout" class="checkout woocommerce-checkout" method="post"></form>');
-        }
-    }
-    
         if (!window.ybh_donation_checkout_params || typeof ybh_donation_checkout_params !== 'object') {
             return;
         }
@@ -19,13 +11,16 @@ jQuery(document).ready(function($) {
         let currencyCode = wcSettings?.currency?.code || 'USD';
         let currencySymbol = wcSettings?.currency?.symbol || '$';
 
+        // Store pending donation amount when clicked without org selected
+        let pendingDonationAmount = null;
+        let pendingDonationLabel = null;
+        let pendingDonationButton = null;
+
         // Hide "Please select a cause" option if a nonprofit is already selected
-        jQuery(document).ready(function() {
-            const donationCauseEle = jQuery('#donation-cause').val();
-            if (donationCauseEle && donationCauseEle.value && donationCauseEle.value != '0' && donationCauseEle.value != '') {
-                jQuery('#select-np-ybh-dd-option').addClass('hidden');
-            }
-        });
+        const donationCauseEle = jQuery('#donation-cause');
+        if (donationCauseEle.length && donationCauseEle.val() && donationCauseEle.val() != '0' && donationCauseEle.val() != '') {
+            jQuery('#select-np-ybh-dd-option').addClass('hidden');
+        }
 
         // Helper function to set button loading state
         function setButtonLoading(jQueryButton, isLoading) {
@@ -76,23 +71,6 @@ jQuery(document).ready(function($) {
                     ...currentCart,
                     fees: updatedFees
                 });
-
-                //Store HTML for widget AJAX
-                let wrapper = jQuery('.youbehero-donation-wrapper');
-                if (!wrapper.length) {
-                    wrapper  = jQuery('.youbehero-donation-widget');
-                }
-                // if (!wrapper.length) return;
-                if (wrapper.length) {
-                    var html = wrapper.prop('outerHTML');
-                    // Create hidden div if not already present
-                    if (!jQuery('#hidden-donation-html').length) {
-                        jQuery('body').append('<div id="hidden-donation-html" style="display:none;"></div>');
-                    }
-                    // Store the HTML in the hidden div
-                    jQuery('#hidden-donation-html').text(html);
-                }
-                //Store HTML for widget AJAX - End
 
                 const amountF = isNaN(Number(amount)) ? 0 : Number(amount)/100;
                 const force_remove = isNaN(Number(orgId)) || orgId === '0' || orgId === 0 ? 1 : 0;
@@ -285,6 +263,28 @@ jQuery(document).ready(function($) {
         },1000);
     // Handle if only one organisation is set - END
 
+        // Auto-select first organization on page load (if multiple orgs exist and none selected)
+        setTimeout(function(){
+            if (causes && causes.length > 1) {
+                const donationCauseEle = jQuery('#donation-cause');
+                const selectedOption = jQuery('#selectedOption');
+                
+                // Check if no org is selected (value is 0 or empty, or text is "Please select a cause")
+                const hasNoOrg = !donationCauseEle.val() || 
+                                 donationCauseEle.val() == '0' || 
+                                 selectedOption.text() === 'Please select a cause' ||
+                                 selectedOption.text() === jQuery('#select-np-ybh-dd-option').data('text');
+                
+                if (hasNoOrg) {
+                    // Auto-select first org (skip the "Please select" option)
+                    const firstOrgOption = jQuery('.ybh-dd-option').not('#select-np-ybh-dd-option').first();
+                    if (firstOrgOption.length) {
+                        firstOrgOption.trigger('click');
+                    }
+                }
+            }
+        }, 300);
+
         $(document).on('click', '.ybh-dd-option', function (event) {
             event.preventDefault();
             const selectedOption = document.getElementById('selectedOption');
@@ -299,29 +299,64 @@ jQuery(document).ready(function($) {
             // Hide "Please select a cause" option when a nonprofit is selected
             if( $(this).data("value") && $(this).data("value") != 0 ){
                 $('#select-np-ybh-dd-option').addClass('hidden');
+                // Remove rainbow glow animation when org is selected
+                jQuery('#ybh-dd-select').removeClass('animate-rainbow-glow');
+                
+                // Auto-apply pending donation amount if one was stored
+                let wasPendingApplied = false;
+                if (pendingDonationAmount !== null && pendingDonationButton !== null) {
+                    // Show loading spinner on the button (consistent with normal flow)
+                    setButtonLoading(pendingDonationButton, true);
+                    
+                    // Set the amount value
+                    jQuery('#donation-amount').val(pendingDonationAmount);
+                    jQuery('.donation-amount-text').text(pendingDonationLabel + currencySymbol);
+                    
+                    // Update button states
+                    jQuery('.donation-amounts .radio-button').removeClass('selected');
+                    pendingDonationButton.addClass('selected');
+                    
+                    // Mark that we applied pending amount
+                    wasPendingApplied = true;
+                    
+                    // Store button reference before clearing pending values (needed for spinner removal)
+                    const buttonToUpdate = pendingDonationButton;
+                    
+                    // Clear pending values
+                    pendingDonationAmount = null;
+                    pendingDonationLabel = null;
+                    pendingDonationButton = null;
+                    
+                    // Now that both org and amount are set, add to cart
+                    // The spinner will be removed by the AJAX success handler
+                    if (validate_donation_data()) {
+                        add_donation_to_cart();
+                    } else {
+                        // Re-enable if validation fails
+                        setButtonLoading(buttonToUpdate, false);
+                    }
+                }
+                
+                // Only update cart if amount is already selected (user has committed to donating)
+                // This prevents auto-add when only org is selected, but updates when org changes
+                // Skip if we just auto-applied a pending amount (already handled above)
+                if (!wasPendingApplied) {
+                    const donation_amount = jQuery('#donation-amount').val();
+                    if ( donation_amount && validate_donation_data() ) {
+                        add_donation_to_cart( );
+                    }
+                }
             }else{
                 $('#select-np-ybh-dd-option').removeClass('hidden');
-            }
-            
-            // Only update cart if amount is already selected (user has committed to donating)
-            // This prevents auto-add when only org is selected, but updates when org changes
-            const donation_amount = $('#donation-amount').val();
-            if ( donation_amount && validate_donation_data() ) {
-                add_donation_to_cart( );
             }
         });
 
         // Close the dropdown if clicked outside
-        window.onclick = function(event) {
-            if (!event.target.matches('.custom-dropdown-toggle')) {
-                const dropdowns = document.querySelectorAll('.custom-dropdown-menu');
-                dropdowns.forEach(dropdown => {
-                    if (dropdown.classList.contains('show')) {
-                        dropdown.classList.remove('show');
-                    }
-                });
+        jQuery(document).on('click', function(event) {
+            if (!jQuery(event.target).closest('.custom-dropdown-toggle').length) {
+                jQuery('.custom-dropdown-menu.show').removeClass('show');
             }
-        };
+        });
         
         jQuery('.donation-amounts .radio-button:checked').trigger('click');
         jQuery(document).on('click', '.donation-amounts .radio-button', function (event) {
@@ -336,6 +371,40 @@ jQuery(document).ready(function($) {
             // Prevent if already loading
             if (jQueryBtn.hasClass('loading')) {
                 return;
+            }
+            
+            // Check if organization is selected before allowing amount selection
+            const donationCauseEle = jQuery('#donation-cause');
+            const selectedOption = jQuery('#selectedOption');
+            const hasNoOrg = !donationCauseEle.val() || 
+                            donationCauseEle.val() == '0' || 
+                            selectedOption.text() === 'Please select a cause' ||
+                            selectedOption.text() === jQuery('#select-np-ybh-dd-option').data('text');
+            
+            if (hasNoOrg) {
+                // Store the amount for later auto-application when org is selected
+                const donation_amount = jQueryBtn.data('value');
+                const donation_label = jQueryBtn.data('label');
+                
+                pendingDonationAmount = donation_amount;
+                pendingDonationLabel = donation_label;
+                pendingDonationButton = jQueryBtn;
+                
+                // Show visual feedback (animation only, no dropdown pop)
+                const $dropdown = jQuery('#ybh-dd-select');
+                
+                // Add rainbow glow animation
+                $dropdown.addClass('animate-rainbow-glow');
+                
+                // Remove animation class after animation completes (shake is 0.3s, glow is longer)
+                setTimeout(function() {
+                    $dropdown.removeClass('animate-rainbow-glow');
+                }, 3000);
+                
+                // Don't open dropdown - just show animation to guide user
+                // User can click dropdown when ready
+                
+                return false;
             }
             
             // Disable buttons and show spinner
@@ -369,6 +438,11 @@ jQuery(document).ready(function($) {
                 return;
             }
             
+            // Clear pending donation amount if exists
+            pendingDonationAmount = null;
+            pendingDonationLabel = null;
+            pendingDonationButton = null;
+            
             // Disable buttons and show spinner
             setButtonLoading(jQueryBtn, true);
             
@@ -376,7 +450,7 @@ jQuery(document).ready(function($) {
             donationAmountEle.value = '';
             jQuery('.donation-amount-text').text('0,00' + currencySymbol);
             jQuery('.donation-amounts .radio-button').removeClass('selected');
-            jQuery('.donation-amounts .donation-amount').change();
+            jQuery('#donation-amount').trigger('change');
 
             // Select "Please select a cause" option when amount is deleted
             const selectedOption = document.getElementById('selectedOption');
