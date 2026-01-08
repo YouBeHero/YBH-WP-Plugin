@@ -742,8 +742,9 @@ class You_Be_Hero_Public {
                     /* Hide button text when loading */
                     .donation-btn.loading {
                         pointer-events: none;
-                        opacity: 0.7;
+                        opacity: 1;
                         position: relative;
+                        z-index: 20;
                         font-size: 0;
                         text-align: center;
                         justify-content: center;
@@ -777,7 +778,6 @@ class You_Be_Hero_Public {
                     .donation-buttons.disabled .donation-btn,
                     .donation-amounts.disabled .donation-btn {
                         pointer-events: none;
-                        opacity: 0.6;
                         cursor: not-allowed;
                     }
                     
