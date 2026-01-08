@@ -59,7 +59,7 @@ $ybhd_logout = isset( $_GET['logout'] ) ? sanitize_text_field( wp_unslash( $_GET
         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
             <input type="hidden" name="action" value="ybhd_submit_apikey">
             <?php wp_nonce_field( 'ybhd_submit_apikey', 'ybhd_submit_apikey_nonce' ); ?>
-            <?php do_settings_sections('ybhd-settings'); ?>
+            <?php do_settings_sections('youbehero-settings'); ?>
             <label for="ybhd_token">API <?php echo esc_html__( 'key', 'youbehero' ); ?>:</label>
             <?php
             // Nonce verification not used here because `ybhd_token` is coming from third party api or from wp_options.

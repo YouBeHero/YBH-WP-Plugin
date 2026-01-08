@@ -79,7 +79,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-you-be-hero.php';
  * Add a Settings link on the Plugins page row for this plugin.
  */
 function youbehero_add_settings_link( $links ) {
-	$settings_link = '<a href="' . esc_url( admin_url( 'admin.php?page=ybhd-settings' ) ) . '">' . esc_html__( 'Settings', 'youbehero' ) . '</a>';
+	$settings_link = '<a href="' . esc_url( admin_url( 'admin.php?page=youbehero-settings' ) ) . '">' . esc_html__( 'Settings', 'youbehero' ) . '</a>';
 	array_unshift( $links, $settings_link );
 	return $links;
 }
