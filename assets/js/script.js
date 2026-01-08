@@ -1,3 +1,162 @@
+// Floating Hearts Animation - Vanilla JS Implementation
+(function() {
+    'use strict';
+    
+    // State management for floating hearts
+    const floatingHeartsState = {
+        heartKeyCounter: 0,
+        animationIdCounter: 0,
+        activeTimeouts: new Map(),
+        lastHeartTime: new Map(),
+        HEART_DEBOUNCE_MS: 1500 // 1.5 seconds debounce
+    };
+    
+    /**
+     * Parse RGB color string to get individual RGB values
+     * @param {string} colorString - Color string (rgb(r,g,b) or hex)
+     * @returns {Object} Object with r, g, b values
+     */
+    function parseColor(colorString) {
+        let baseR = 131, baseG = 32, baseB = 189; // Default purple (#8320bd)
+        
+        // Try to parse RGB format
+        const rgbMatch = colorString.match(/\d+/g);
+        if (rgbMatch && rgbMatch.length >= 3) {
+            baseR = parseInt(rgbMatch[0]);
+            baseG = parseInt(rgbMatch[1]);
+            baseB = parseInt(rgbMatch[2]);
+        } else {
+            // Try to parse hex format
+            const hexMatch = colorString.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i);
+            if (hexMatch) {
+                baseR = parseInt(hexMatch[1], 16);
+                baseG = parseInt(hexMatch[2], 16);
+                baseB = parseInt(hexMatch[3], 16);
+            }
+        }
+        
+        return { r: baseR, g: baseG, b: baseB };
+    }
+    
+    /**
+     * Trigger floating hearts animation
+     * @param {string|number} elementId - Unique identifier for the element
+     * @param {HTMLElement} elementRef - The button element that was clicked
+     * @param {string} baseColor - Base color for hearts (default: '#8320bd')
+     */
+    function triggerFloatingHearts(elementId, elementRef, baseColor) {
+        const now = Date.now();
+        const lastTime = floatingHeartsState.lastHeartTime.get(elementId) || 0;
+        const timeSinceLastHeart = now - lastTime;
+        
+        // Debounce: only prevent the same element from being triggered rapidly
+        if (timeSinceLastHeart < floatingHeartsState.HEART_DEBOUNCE_MS) {
+            return;
+        }
+        
+        floatingHeartsState.lastHeartTime.set(elementId, now);
+        
+        // Find the container (donation-box-container)
+        const container = elementRef.closest('.donation-box-container');
+        if (!container) {
+            return;
+        }
+        
+        // Find or create hearts container
+        let heartsContainer = container.querySelector('.hearts-container');
+        if (!heartsContainer) {
+            heartsContainer = document.createElement('div');
+            heartsContainer.className = 'hearts-container';
+            container.insertBefore(heartsContainer, container.firstChild);
+        }
+        
+        const elementRect = elementRef.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        
+        // Parse RGB color to get individual values
+        const colorValues = parseColor(baseColor || '#8320bd');
+        const { r: baseR, g: baseG, b: baseB } = colorValues;
+        
+        // Calculate position relative to container
+        const baseX = elementRect.left + elementRect.width / 2 - containerRect.left;
+        const baseY = elementRect.top + elementRect.height / 2 - containerRect.top;
+        
+        const heartCount = 6;
+        const animationId = floatingHeartsState.animationIdCounter++;
+        
+        // Create new hearts with unique animation ID and randomized properties
+        for (let i = 0; i < heartCount; i++) {
+            // Randomize position horizontally within ±10px of element center
+            const positionOffsetX = (Math.random() - 0.5) * 20; // -10px to +10px
+            // Position hearts only from the top of the element (negative Y offset)
+            const positionOffsetY = -elementRect.height / 2 - Math.random() * 10; // Start from top, random 0-10px above
+            
+            // Random size between 12px and 24px
+            const size = 12 + Math.random() * 12;
+            
+            // Random rotation between -45deg and 45deg
+            const rotation = (Math.random() - 0.5) * 90;
+            
+            // Add slight color variation (±25 for each RGB channel)
+            const colorVariation = 25;
+            const r = Math.max(0, Math.min(255, baseR + (Math.random() - 0.5) * colorVariation * 2));
+            const g = Math.max(0, Math.min(255, baseG + (Math.random() - 0.5) * colorVariation * 2));
+            const b = Math.max(0, Math.min(255, baseB + (Math.random() - 0.5) * colorVariation * 2));
+            const heartColor = `rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)})`;
+            
+            // Create heart element
+            const heartDiv = document.createElement('div');
+            heartDiv.className = `heart-float heart-float-${i % 12}`;
+            heartDiv.style.left = `${baseX + positionOffsetX}px`;
+            heartDiv.style.top = `${baseY + positionOffsetY}px`;
+            heartDiv.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+            heartDiv.style.zIndex = '0';
+            heartDiv.style.setProperty('--heart-rotate', `${rotation}deg`);
+            heartDiv.setAttribute('data-animation-id', animationId.toString());
+            
+            // Create SVG heart
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('width', size.toString());
+            svg.setAttribute('height', (size * 0.9).toString());
+            svg.setAttribute('viewBox', '0 0 20 18');
+            svg.setAttribute('fill', 'none');
+            svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+            
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            // Path data matches public/img/heart.svg but with dynamic fill color
+            path.setAttribute('d', 'M0 5.85223C0 10.7152 4.02 13.3062 6.962 15.6262C8 16.4442 9 17.2152 10 17.2152C11 17.2152 12 16.4452 13.038 15.6252C15.981 13.3072 20 10.7152 20 5.85323C20 0.991221 14.5 -2.45977 10 2.21623C5.5 -2.45977 0 0.989223 0 5.85223Z');
+            path.setAttribute('fill', heartColor);
+            
+            svg.appendChild(path);
+            heartDiv.appendChild(svg);
+            heartsContainer.appendChild(heartDiv);
+        }
+        
+        // Set timeout to remove only this animation's hearts
+        const timeout = setTimeout(function() {
+            const heartsToRemove = heartsContainer.querySelectorAll(`[data-animation-id="${animationId}"]`);
+            heartsToRemove.forEach(function(heart) {
+                heart.remove();
+            });
+            floatingHeartsState.activeTimeouts.delete(animationId);
+        }, 3500);
+        
+        // Store timeout reference for cleanup
+        floatingHeartsState.activeTimeouts.set(animationId, timeout);
+    }
+    
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', function() {
+        floatingHeartsState.activeTimeouts.forEach(function(timeout) {
+            clearTimeout(timeout);
+        });
+        floatingHeartsState.activeTimeouts.clear();
+    });
+    
+    // Expose function globally
+    window.triggerFloatingHearts = triggerFloatingHearts;
+})();
+
 jQuery(document).ready(function($) {
         if (!window.ybh_donation_checkout_params || typeof ybh_donation_checkout_params !== 'object') {
             return;
@@ -422,6 +581,7 @@ jQuery(document).ready(function($) {
         jQuery(document).on('click', '.donation-amounts .radio-button', function (event) {
             event.preventDefault();
             const jQueryBtn = jQuery(this);
+            const buttonElement = this; // Native DOM element for floating hearts
             
             // Do nothing if button is already selected
             if (jQueryBtn.hasClass('selected')) {
@@ -434,6 +594,21 @@ jQuery(document).ready(function($) {
             }
             
             // Organization should always be selected, so we can proceed directly
+            
+            // Trigger floating hearts animation
+            if (typeof window.triggerFloatingHearts === 'function') {
+                try {
+                    // Get button background color for heart color
+                    const computedStyle = window.getComputedStyle(buttonElement);
+                    const buttonColor = computedStyle.backgroundColor || computedStyle.getPropertyValue('--btn-color') || '#8320bd';
+                    const elementId = jQueryBtn.data('value') || 'donation-btn-' + Date.now();
+                    
+                    window.triggerFloatingHearts(elementId, buttonElement, buttonColor);
+                } catch (e) {
+                    // Silently fail if hearts animation fails
+                    console.warn('Floating hearts animation error:', e);
+                }
+            }
             
             // Disable buttons and show spinner
             setButtonLoading(jQueryBtn, true);

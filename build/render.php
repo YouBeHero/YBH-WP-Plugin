@@ -95,8 +95,8 @@ if ( ! is_admin() ) {
                         $ybhd_selected        = ( $ybhd_donation_amount == $ybhd_float ) ? 'selected' : '';
                     } else {
                         // Set first organization as default when no session exists
-                        $first_cause = reset( $ybhd_causes );
-                        $ybhd_don_cause = $first_cause['value'];
+                        $ybhd_first_cause = reset( $ybhd_causes );
+                        $ybhd_don_cause = $ybhd_first_cause['value'];
                     }
 
                     $ybhd_html .= '<button type="button" class="donation-btn radio-button ' . $ybhd_selected . '" data-btnclr="' . $ybhd_btn_color . '" style="--btn-color: ' . esc_attr( $ybhd_btn_color ) . ';" data-value="' . $ybhd_amount_cents . '" data-label="' . $ybhd_amount . '">' . $ybhd_amount . $ybhd_currency_symbol . '</button>';
@@ -208,6 +208,7 @@ if ( ! is_admin() ) {
                 ?>
                 <div class="donation-checkout-widget youbehero-donation-widget">
                     <div class="donation-box-container <?php echo wp_kses_post( $ybhd_class_string ); ?>" style="background-color: <?php echo esc_html( $ybhd_style['background_color'] ); ?>; color: <?php echo esc_html( $ybhd_style['text_color'] ); ?>; border-color: <?php echo esc_html( $ybhd_style['border_color'] ); ?>;">
+                        <div class="hearts-container"></div>
                         <div class="donation-header">
                             <?php echo wp_kses_post( $ybhd_headhtml ); ?>
                         </div>
@@ -233,11 +234,11 @@ if ( ! is_admin() ) {
                                         <span id="selectedOption"><?php echo esc_html( $ybhd_session_cause ); ?></span>
                                     <?php } else { 
                                         // Always select first organization when no session exists
-                                        $first_cause = reset( $ybhd_causes );
-                                        $ybhd_selected_cause = $first_cause['label'];
+                                        $ybhd_first_cause = reset( $ybhd_causes );
+                                        $ybhd_selected_cause = $ybhd_first_cause['label'];
                                         ?>
-                                        <img id="selected-cause-img" src="<?php echo esc_html( $first_cause['image'] ); ?>" alt="Logo">
-                                        <span id="selectedOption"><?php echo esc_html( $first_cause['label'] ); ?></span>
+                                        <img id="selected-cause-img" src="<?php echo esc_html( $ybhd_first_cause['image'] ); ?>" alt="Logo">
+                                        <span id="selectedOption"><?php echo esc_html( $ybhd_first_cause['label'] ); ?></span>
                                     <?php }
 
                                     ?>
