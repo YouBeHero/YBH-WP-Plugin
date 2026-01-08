@@ -80,8 +80,8 @@ if ( ! is_admin() ) {
 
             if ( $ybhd_donor == 'customer' && $ybhd_donation_type == 'fixed' && ! empty( $ybhd_amounts ) ) {
                 $ybhd_donation_amount = WC()->session->get( 'ybh_donation_amount', 0 );
-                $ybhd_txt             = __( 'Would you like to donate to a cause?', 'youbehero' );
-                $ybhd_headhtml       .= '<span style="color:' . $ybhd_text_color . '">' . $ybhd_txt . '</span><span style="background: ' . $ybhd_btn_color . '" class="pill-container"><span class="donation-amount-pill">' . number_format( (float) $ybhd_donation_amount, 2, '.', '' ) . $ybhd_currency_symbol . '</span></span>';
+                $ybhd_txt             = __( 'Would you like to make a donation?', 'youbehero' );
+                $ybhd_headhtml       .= '<span style="color:' . $ybhd_text_color . '">' . $ybhd_txt . '</span><span style="background: ' . $ybhd_btn_color . '" class="pill-container"><img src="' . esc_url( YBHD_PLUGIN_URL ) . 'public/img/donation-heart.svg" class="donation-heart-icon" alt=""><span class="donation-amount-pill"><span class="donation-amount-text">' . number_format( (float) $ybhd_donation_amount, 2, '.', '' ) . $ybhd_currency_symbol . '</span></span></span>';
                 foreach ( $ybhd_amounts as $ybhd_amount ) {
                     $ybhd_amount_cents = (float) str_replace( ',', '.', $ybhd_amount ) * 100;//(float)$amount * 100;
 
@@ -149,8 +149,8 @@ if ( ! is_admin() ) {
                         $ybhd_selected        = $ybhd_donation_amount == $ybhd_roundup_value ? 'selected' : '';
                     }
 
-                    $ybhd_txt       = __( 'Would you like to donate to a cause?', 'youbehero' );
-                    $ybhd_headhtml .= '<span style="color:' . $ybhd_text_color . '">' . $ybhd_txt . '</span><span style="background: ' . $ybhd_btn_color . '" class="pill-container"><span class="donation-amount-pill">' . number_format( (float) $ybhd_donation_amount, 2, '.', '' ) . $ybhd_currency_symbol . '</span></span>';
+                    $ybhd_txt       = __( 'Would you like to make a donation?', 'youbehero' );
+                    $ybhd_headhtml .= '<span style="color:' . $ybhd_text_color . '">' . $ybhd_txt . '</span><span style="background: ' . $ybhd_btn_color . '" class="pill-container"><img src="' . esc_url( YBHD_PLUGIN_URL ) . 'public/img/donation-heart.svg" class="donation-heart-icon" alt=""><span class="donation-amount-pill"><span class="donation-amount-text">' . number_format( (float) $ybhd_donation_amount, 2, '.', '' ) . $ybhd_currency_symbol . '</span></span></span>';
 
                     $ybhd_html .= '<button class="donation-btn radio-button ' . $ybhd_selected . '" data-btnclr="' . $ybhd_btn_color . '" style="--btn-color: ' . esc_attr( $ybhd_btn_color ) . ';" data-value="' . $ybhd_amount_cents . '" data-label="' . number_format( (float) $ybhd_roundup_value, 2, '.', '' ) . '" >' . number_format( (float) $ybhd_roundup_value, 2, '.', '' ) . $ybhd_currency_symbol . '</button>';
                     $ybhd_html .= '<button class="donation-btn delete-button" data-btnclr="' . $ybhd_btn_color . '" style="--btn-color: ' . esc_attr( $ybhd_btn_color ) . ';"><img src="' . esc_url( YBHD_PLUGIN_URL ) . 'public/img/delete.svg"></button>';

@@ -347,7 +347,7 @@ jQuery(document).ready(function($) {
             // Use jQuery to set the value for consistency (matches how it's read in validate_donation_data)
             jQuery('#donation-amount').val(donation_amount);
 
-            jQuery('.donation-amount-pill').text(donation_label + currencySymbol);
+            jQuery('.donation-amount-text').text(donation_label + currencySymbol);
             jQuery('.donation-amounts .radio-button').removeClass('selected');
             jQueryBtn.addClass('selected');
             
@@ -374,7 +374,7 @@ jQuery(document).ready(function($) {
             
             const donationAmountEle = document.getElementById('donation-amount');
             donationAmountEle.value = '';
-            jQuery('.donation-amount-pill').text('0,00' + currencySymbol);
+            jQuery('.donation-amount-text').text('0,00' + currencySymbol);
             jQuery('.donation-amounts .radio-button').removeClass('selected');
             jQuery('.donation-amounts .donation-amount').change();
 

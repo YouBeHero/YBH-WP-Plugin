@@ -618,3 +618,10 @@
 .youbehero-second-list li p {
     margin: 0;
 }
+
+.donation-heart-icon {
+    width: 12px;
+    height: 12px;
+    display: inline-flex;
+    margin-right: 4px;
+}

@@ -157,7 +157,7 @@ export const Block = ( { checkoutExtensionData, extensions } ) => {
 			 */ }
 			<SelectControl
 				label={ __(
-					'Would you like to donate to a cause?',
+					'Would you like to make a donation?',
 					'donatoin-widget'
 				) }
 				value={ selectedYbhDonationInstruction }
