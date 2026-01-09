@@ -82,6 +82,14 @@
     justify-content: space-between;
 }
 
+#dropdownMenu {
+    z-index: 21;
+}
+
+.changeOrg {
+    margin-right: 12px;
+}
+
 .donation-buttons button, .donation-buttons .radio-button {
     flex: 1;
     padding: 8px;
@@ -210,11 +218,13 @@
     gap: 10px;
     font-weight: 600;
     font-size: 14px;
+    width: 85%;
 }
 
 .dropdown-arrow {
     font-size: 16px;
     cursor: pointer;
+    text-wrap: nowrap;
 }
 
 .dropdown-arrow span {

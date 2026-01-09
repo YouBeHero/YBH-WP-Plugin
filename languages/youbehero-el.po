@@ -201,6 +201,11 @@ msgstr "Ενημέρωση"
 msgid "Sorry, you are not eligible for donation."
 msgstr "Λυπούμαστε, δεν είστε επιλέξιμοι για δωρεά."
 
+#: src/render.php:246
+#: build/render.php:246
+msgid "Change"
+msgstr "Αλλαγή"
+
 #: src/block.json
 #: build/block.json
 msgctxt "block title"

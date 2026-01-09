@@ -216,6 +216,11 @@ msgstr ""
 msgid "Sorry, you are not eligible for donation."
 msgstr ""
 
+#: src/render.php:246
+#: build/render.php:246
+msgid "Change"
+msgstr ""
+
 #: src/index.js:16
 #: build/index.js:16
 msgid "YouBeHero Checkout form"

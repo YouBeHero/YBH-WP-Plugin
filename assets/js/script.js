@@ -91,8 +91,8 @@
             // Position hearts only from the top of the element (negative Y offset)
             const positionOffsetY = -elementRect.height / 2 - Math.random() * 10; // Start from top, random 0-10px above
             
-            // Random size between 12px and 24px
-            const size = 12 + Math.random() * 12;
+            // Random size between 16px and 28px (slightly increased)
+            const size = 16 + Math.random() * 12;
             
             // Random rotation between -45deg and 45deg
             const rotation = (Math.random() - 0.5) * 90;
@@ -126,6 +126,8 @@
             // Path data matches public/img/heart.svg but with dynamic fill color
             path.setAttribute('d', 'M0 5.85223C0 10.7152 4.02 13.3062 6.962 15.6262C8 16.4442 9 17.2152 10 17.2152C11 17.2152 12 16.4452 13.038 15.6252C15.981 13.3072 20 10.7152 20 5.85323C20 0.991221 14.5 -2.45977 10 2.21623C5.5 -2.45977 0 0.989223 0 5.85223Z');
             path.setAttribute('fill', heartColor);
+            path.setAttribute('stroke', 'white');
+            path.setAttribute('stroke-width', '2');
             
             svg.appendChild(path);
             heartDiv.appendChild(svg);
@@ -293,7 +295,7 @@ jQuery(document).ready(function($) {
                             
                             // Add a delay to ensure session is fully committed on server
                             // This is critical - WooCommerce's update_order_review needs the session to be set
-                            const triggerDelay = 1200;
+                            const triggerDelay = 350;
                             setTimeout(function() {
                                 jQuery(document.body).trigger('update_checkout');
                             }, triggerDelay);

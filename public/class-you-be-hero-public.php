@@ -744,7 +744,6 @@ class You_Be_Hero_Public {
                         pointer-events: none;
                         opacity: 1;
                         position: relative;
-                        z-index: 20;
                         font-size: 0;
                         text-align: center;
                         justify-content: center;

@@ -13,6 +13,46 @@ class YouBeHero_Email_Widget {
         );
     }
 
+    /**
+     * Map small/mid/big values to actual CSS values
+     * @param string $data_for - 'margin', 'padding', or 'b_radius'
+     * @param string $index - Value like 'smallMargin', 'midPadding', 'bigBorderRadius'
+     * @return string CSS value or empty string
+     */
+    private function youbehero_get_mpb_value( $data_for, $index ) {
+        if ( empty( $index ) ) {
+            return '';
+        }
+
+        $array = array(
+            'margin' => array(
+                'big'   => '20px 0',
+                'mid'   => '12px 0',
+                'small' => '4px 0'
+            ),
+            'padding' => array(
+                'big'   => '24px',
+                'mid'   => '16px',
+                'small' => '8px'
+            ),
+            'b_radius' => array(
+                'big'   => '16px',
+                'mid'   => '8px',
+                'small' => '4px'
+            )
+        );
+
+        if ( ! isset( $array[ $data_for ] ) ) {
+            return '';
+        }
+
+        $matched = array_filter( $array[ $data_for ], function( $v, $k ) use ( $index ) {
+            return strpos( strtolower( $index ), strtolower( $k ) ) !== false;
+        }, ARRAY_FILTER_USE_BOTH );
+
+        return reset( $matched ) ?: '';
+    }
+
     public function youbehero_email_head() {
         ?>
         <style>
@@ -21,7 +61,9 @@ class YouBeHero_Email_Widget {
                 justify-content: center;
                 align-items: center;
                 margin-bottom: 20px;
-                width: 100%
+                width: 100%;
+                box-sizing: border-box;
+                max-width: 100%;
             }
             .youbehero-tk-card {
                 width: 100%;
@@ -29,13 +71,14 @@ class YouBeHero_Email_Widget {
                 background: #fff;
                 padding: 30px;
                 text-align: center;
+                box-sizing: border-box;
+                max-width: 100%;
             }
             
             .youbehero-tk-icon {
                 width: 120px;
                 margin-bottom: 15px;
-            }
-            
+            }            
             .youbehero-tk-card h3 {
                 font-size: 20px;
                 font-weight: 600;
@@ -57,6 +100,8 @@ class YouBeHero_Email_Widget {
                 margin: 15px 0;
                 font-size: 14px;
                 color: #333;
+                box-sizing: border-box;
+                max-width: 100%;
             }
 
             .youbehero-tk-org-box strong {
@@ -86,6 +131,8 @@ class YouBeHero_Email_Widget {
                 color: #777;
                 margin-top: 25px;
                 width: 100%;
+                box-sizing: border-box;
+                max-width: 100%;
             }
 
             .youbehero-tk-footer a {
@@ -115,6 +162,34 @@ class YouBeHero_Email_Widget {
             .youbehero-tk-footer-logo {
                 flex: 1;
                 text-align: end;
+            }
+            
+            /* Mobile-specific fixes for email clients */
+            @media only screen and (max-width: 600px) {
+                .youbehero-thankyou-widget {
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    padding: 0 !important;
+                }
+                .youbehero-tk-card {
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    padding: 20px 15px !important;
+                    box-sizing: border-box !important;
+                }
+                .youbehero-tk-org-box {
+                    padding: 12px !important;
+                    margin: 12px 0 !important;
+                    box-sizing: border-box !important;
+                }
+                .youbehero-tk-footer {
+                    padding: 0 5px !important;
+                    box-sizing: border-box !important;
+                }
+                .youbehero-tk-icon {
+                    max-width: 100px !important;
+                    width: auto !important;
+                }
             }
         </style>
         <?php
@@ -222,8 +297,8 @@ class YouBeHero_Email_Widget {
         $widget_padding = $youbehero_data['widget_configurations']['confirmation_email']['confirmation_email']['padding'] ?? "";
 
         ?>
-        <section class="youbehero-thankyou-widget">
-            <div class="youbehero-tk-card" style="border: <?php echo esc_attr( $border. 'px solid' ); ?>; border-color: <?php echo esc_attr( $border_color ); ?>;  background: <?php echo esc_attr( $background_color ); ?>; color: <?php echo esc_attr( $text_color ); ?>;">
+        <section class="youbehero-thankyou-widget" style="width: 100%; max-width: 100%; box-sizing: border-box; padding: 0; margin: <?php echo !empty($widget_margin) ? esc_attr($this->youbehero_get_mpb_value('margin', $widget_margin)) : '0'; ?>;">
+            <div class="youbehero-tk-card" style="border: <?php echo esc_attr( $border. 'px solid' ); ?>; border-color: <?php echo esc_attr( $border_color ); ?>; border-radius: <?php echo !empty($border_radius) ? esc_attr($this->youbehero_get_mpb_value('b_radius', $border_radius)) : '0'; ?>; background: <?php echo esc_attr( $background_color ); ?>; color: <?php echo esc_attr( $text_color ); ?>; box-sizing: border-box; max-width: 100%; width: 100%; padding: <?php echo !empty($widget_padding) ? esc_attr($this->youbehero_get_mpb_value('padding', $widget_padding)) : '30px'; ?>;">
             <!-- Top Icon -->
                 <?php if( !empty( $selected_cause_info['url'] ) ) { ?>
                     <a href="<?php echo esc_url( $selected_cause_info['url'] ); ?>" target="_blank" rel="noreferrer">

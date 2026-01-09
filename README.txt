@@ -5,7 +5,7 @@ Tags: fundraising, donations, nonprofit, checkout, woocommerce
 Requires at least: 5.7
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.2.1
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -128,6 +128,12 @@ Email support, WordPress plugin forum, and help center at [help.youbehero.com](h
 8. Donations feed at the Angels of Joy's page @YouBeHero
 
 == Changelog ==
+
+= 1.3.0 =
+* Added floating hearts animation on donation amount button clicks
+* Improved button z-index layering for better visual hierarchy
+* Added translation support for "Change" text in organization dropdown
+* Enhanced heart animations with white borders and increased size
 
 = 1.1.1 =
 * Fix hidden files problem (.DS_Store).

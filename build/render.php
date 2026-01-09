@@ -243,7 +243,7 @@ if ( ! is_admin() ) {
 
                                     ?>
                                 </div>
-                                <span class="dropdown-arrow"><img src="<?php echo esc_url( YBHD_PLUGIN_URL ); ?>public/img/caret.svg" alt=""></span>
+                                <span class="dropdown-arrow"><span class="changeOrg"><?php echo esc_html__( 'Change', 'youbehero' ); ?></span><img src="<?php echo esc_url( YBHD_PLUGIN_URL ); ?>public/img/caret.svg" alt=""></span>
                             <?php } ?>
                         </div>
 
