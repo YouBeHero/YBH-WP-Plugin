@@ -23,18 +23,18 @@ Add Donation to Cart by YouBeHero is a powerful WordPress plugin that adds a don
 Currently available for Greek e-commerce stores with English locale support.
 
 **Key Features:**
-* Checkout integration with flexible positioning options
-* Gutenberg block, Elementor widget, WP Bakery integration, and shortcodes
-* Admin dashboard with real-time statistics and transaction history
-* Customizable styling and appearance settings
-* Support for multiple organizations (up to 7)
-* Thank you page widget and email integration
-* Translation-ready (Greek and English)
+* Seamless checkout integration featuring configurable positioning options
+* Comprehensive integration with Gutenberg blocks, Elementor widgets, WP Bakery, and shortcode support
+* Administrative dashboard providing real-time statistics and comprehensive transaction history
+* Extensive styling and appearance customization capabilities
+* Support for multiple nonprofit organizations (up to 7 organizations)
+* Thank you page widget functionality and email integration capabilities
+* Translation-ready with support for Greek and English languages
 
 == Installation ==
 
 1. Install the plugin from WordPress plugins dashboard
-2. Create an account at [YouBeHero](https://dev.youbehero.com/gr/signup-eshop)
+2. Create an account at [YouBeHero](https://youbehero.com/gr/signup-eshop)
 3. Copy your API key and paste it in **YouBeHero** settings in WordPress admin
 4. Add the donation widget using:
    - Gutenberg block: "YouBeHero Donation Widget"
@@ -74,9 +74,9 @@ This plugin integrates with the YouBeHero platform. The following data is shared
 **Callback URL:** YouBeHero may redirect administrators to automatically configure API tokens. Only administrators can access, and tokens are sanitized before storage.
 
 External service: **YouBeHero**
-* Website: [https://dev.youbehero.com](https://dev.youbehero.com)
-* Terms: [https://dev.youbehero.com/gr/termsbusiness](https://dev.youbehero.com/gr/termsbusiness)
-* Privacy: [https://dev.youbehero.com/gr/privacy](https://dev.youbehero.com/gr/privacy)
+* Website: [https://youbehero.com](https://youbehero.com)
+* Terms: [https://youbehero.com/gr/termsbusiness](https://youbehero.com/gr/termsbusiness)
+* Privacy: [https://youbehero.com/gr/privacy](https://youbehero.com/gr/privacy)
 
 == Contributing ==
 
@@ -89,9 +89,6 @@ Yes, WooCommerce must be installed and active.
 
 = Can customers choose the donation amount? =
 Yes, store managers configure preset amounts and customers can select or enter custom amounts.
-
-= Can I show donations outside checkout? =
-Yes, use widgets, blocks, or shortcodes anywhere on your site.
 
 = Does this plugin support multiple organizations? =
 Yes, select up to 7 nonprofit organizations. Customers choose which cause to support.

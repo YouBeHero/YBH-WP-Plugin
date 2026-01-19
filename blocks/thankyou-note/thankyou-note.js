@@ -50,7 +50,7 @@ const withYbhThankyouNote = createHigherOrderComponent((BlockListBlock) => {
                                 createElement(
                                     'a',
                                     {
-                                        href: 'https://dev.youbehero.com/gr/widget-confirmation-page',
+                                        href: 'https://youbehero.com/gr/widget-confirmation-page',
                                         target: '_blank',
                                         rel: 'noopener noreferrer',
                                         className: 'ybhd-link'

@@ -14,7 +14,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       YouBeHero
- * Plugin URI:        https://dev.youbehero.com/gr/signup-eshop
+ * Plugin URI:        https://youbehero.com/gr/signup-eshop
  * Description:       Add Donation to Cart by YouBeHero is a powerful WordPress plugin that adds a donation widget to your WooCommerce checkout, transforming every purchase into an opportunity for social impact.
  * Version:           1.3.0
  * Author:            YouBeHero

@@ -43,7 +43,7 @@ $ybhd_company_name = $data['company_name'] ?? '-';
                 <span class="ybh-status-dot <?php echo esc_html( $ybhd_red_dot ); ?>"></span>
                 <span class="ybh-status-text <?php echo esc_html( $ybhd_red_txt ); ?>"><?php echo esc_html( $ybhd_status_txt ); ?></span>
             </div>
-            <a href="https://dev.youbehero.com/gr/topup" target="_blank" class="ybh-balance-link" title="<?php echo esc_html__( 'Account topup', 'youbehero' ); ?>">
+            <a href="https://youbehero.com/gr/topup" target="_blank" class="ybh-balance-link" title="<?php echo esc_html__( 'Account topup', 'youbehero' ); ?>">
                 <span class="ybh-balance"><?php echo esc_html( isset( $data['total_credits'] ) ? number_format( (float) $data['total_credits'], 2, ',', '' ) . $ybhd_currency_symbol : '-' ); ?>
                     <img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . 'img/fa-solid_plus-circle.svg' ); ?>?v=1.1">
                 </span>
@@ -55,7 +55,7 @@ $ybhd_company_name = $data['company_name'] ?? '-';
         </button>
         <div class="ybh-header-outright">
             <span>
-                <a href="https://dev.youbehero.com/gr/eshop-dashboard" target="_blank" title="<?php echo esc_html__( 'Settings', 'youbehero' ); ?>"><img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . 'img/setting.svg' ); ?>?v=1.1"></a>
+                <a href="https://youbehero.com/gr/eshop-dashboard" target="_blank" title="<?php echo esc_html__( 'Settings', 'youbehero' ); ?>"><img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . 'img/setting.svg' ); ?>?v=1.1"></a>
             </span>
             <span>
                 <a id="ybhd_logout" title="<?php echo esc_html__( 'Logout', 'youbehero' ); ?>"><img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . 'img/logout.svg' ); ?>?v=1.1"></a>

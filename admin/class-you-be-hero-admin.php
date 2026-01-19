@@ -264,7 +264,7 @@ class You_Be_Hero_Admin {
     public function ybh_update_dashboard_json() {
 
         try {
-            $response = wp_remote_get( 'https://dev.youbehero.com/api/shop-details?api_token='.get_option( 'ybhd_token' ) );
+            $response = wp_remote_get( 'https://youbehero.com/api/shop-details?api_token='.get_option( 'ybhd_token' ) );
 
             if ( is_wp_error( $response ) ) {
                 return false;
@@ -305,7 +305,7 @@ class You_Be_Hero_Admin {
             return;
         }
 
-        $response = wp_remote_get( 'https://dev.youbehero.com/api/shop-details?api_token=' . $api_key );
+        $response = wp_remote_get( 'https://youbehero.com/api/shop-details?api_token=' . $api_key );
 
         if ( is_wp_error( $response ) ) {
             return;
@@ -329,7 +329,7 @@ class You_Be_Hero_Admin {
     public function ybhd_fetch_store_info( $token = '' ) {
 
         $api_key = empty( $token ) ? get_option( 'ybhd_token' ) : $token;
-        $response = wp_remote_get( 'https://dev.youbehero.com/api/shop-details?api_token='.$api_key );
+        $response = wp_remote_get( 'https://youbehero.com/api/shop-details?api_token='.$api_key );
 
         if ( is_wp_error( $response ) ) {
             return false;

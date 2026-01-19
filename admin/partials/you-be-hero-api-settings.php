@@ -77,7 +77,7 @@ $ybhd_logout = isset( $_GET['logout'] ) ? sanitize_text_field( wp_unslash( $_GET
             <p class="submit">
                 <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php echo esc_html__( 'Login', 'youbehero' );?>">
             </p>
-            <p><?php echo esc_html__( "Don't have an API key?", 'youbehero' );?> <a href="https://dev.youbehero.com/gr/signup-eshop" target="_blank"><?php echo esc_html__( "Create an account", 'youbehero' );?></a></p>
+            <p><?php echo esc_html__( "Don't have an API key?", 'youbehero' );?> <a href="https://youbehero.com/gr/signup-eshop" target="_blank"><?php echo esc_html__( "Create an account", 'youbehero' );?></a></p>
         </form>
     </div>
     <p><?php echo esc_html__( "Add Donation to Cart is a YouBeHero plugin for WooCommerce that allows you to increase your corporate social responsibility with every online sale.", 'youbehero' );?></p>

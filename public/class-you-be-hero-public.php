@@ -863,7 +863,7 @@ class You_Be_Hero_Public {
         $logger = wc_get_logger();
 
         // Configure your API endpoint and credentials
-        $api_url = 'https://dev.youbehero.com/api/wp-transactions';
+        $api_url = 'https://youbehero.com/api/wp-transactions';
         $api_key = get_option( 'ybhd_token' );
 
         // Prepare the request
