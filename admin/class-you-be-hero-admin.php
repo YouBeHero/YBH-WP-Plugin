@@ -86,8 +86,9 @@ class You_Be_Hero_Admin {
 	 * Register the JavaScript for the admin area.
 	 *
 	 * @since    1.0.1
+	 * @param string $hook_suffix The current admin page hook suffix.
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts( $hook_suffix ) {
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -201,7 +202,7 @@ class You_Be_Hero_Admin {
             'ybh-checkout-block-settings',
             plugins_url( 'js/checkout-block-settings.js', __FILE__ ),
             array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-editor', 'wp-data', 'wp-compose', 'wc-blocks-checkout' ),//'wp-element', 'wc-blocks-checkout'
-            filemtime( YBHD_PLUGIN_ADMIN_DIR . 'js/checkout-block-settings.js' ),
+            $this->version,
             true
         );
 
@@ -216,7 +217,7 @@ class You_Be_Hero_Admin {
             $this->plugin_name.'-checkout-widget',
             YBHD_PLUGIN_URL.'admin/js/checkout-widget.js',
             array('wp-blocks', 'wp-edit-post', 'wp-hooks'),
-            filemtime(YBHD_PLUGIN_ADMIN_DIR . '/js/checkout-widget.js'),
+            $this->version,
             false
         );
 
@@ -364,6 +365,488 @@ class You_Be_Hero_Admin {
         update_option( 'ybhd_token', '' );
         wp_send_json( ['status' => 'success' ] );
 
+    }
+
+
+    /**
+     * Get checkout page ID
+     * 
+     * @return int Checkout page ID or 0 if not found
+     */
+    private static function get_checkout_page_id() {
+        return function_exists('wc_get_page_id') ? wc_get_page_id('checkout') : 0;
+    }
+
+    /**
+     * Get page content (cached per request)
+     * 
+     * @param int $page_id Page ID
+     * @return string|false Page content or false
+     */
+    private static function get_page_content($page_id) {
+        static $content_cache = [];
+        if (!isset($content_cache[$page_id])) {
+            $content_cache[$page_id] = get_post_field('post_content', $page_id);
+        }
+        return $content_cache[$page_id];
+    }
+
+    /**
+     * Check if WPBakery plugin is active
+     * 
+     * @return bool True if WPBakery is active
+     */
+    private static function is_wpbakery_active() {
+        return class_exists('WPBakeryShortCode') || defined('WPB_VC_VERSION');
+    }
+
+    /**
+     * Check if page uses Elementor
+     * 
+     * @param int $page_id Page ID
+     * @return bool True if page uses Elementor
+     */
+    private static function is_elementor_page($page_id) {
+        if (!class_exists('\Elementor\Plugin')) {
+            return false;
+        }
+        
+        // Check post meta first
+        if (get_post_meta($page_id, '_elementor_edit_mode', true) === 'builder') {
+            $elementor_data = get_post_meta($page_id, '_elementor_data', true);
+            if (!empty($elementor_data)) {
+                return true;
+            }
+        }
+        
+        // Check via Elementor API
+        try {
+            $elementor_instance = \Elementor\Plugin::$instance;
+            if ($elementor_instance && isset($elementor_instance->documents)) {
+                $document = $elementor_instance->documents->get($page_id);
+                if ($document && !empty($document->get_elements_data())) {
+                    return true;
+                }
+            }
+        } catch (Exception $e) {
+            // Silent fail
+        }
+        
+        return false;
+    }
+
+    /**
+     * Check if page has WPBakery meta indicators (most reliable)
+     * 
+     * @param int $page_id Page ID
+     * @return bool True if WPBakery meta exists
+     */
+    private static function has_wpbakery_meta($page_id) {
+        return !empty(get_post_meta($page_id, '_wpb_shortcodes_custom_css', true)) ||
+               !empty(get_post_meta($page_id, '_wpb_post_custom_css', true));
+    }
+
+    /**
+     * Check if content has WPBakery shortcodes
+     * 
+     * @param string $content Page content
+     * @return bool True if WPBakery shortcodes found
+     */
+    private static function content_has_wpbakery_shortcodes($content) {
+        if (!$content) {
+            return false;
+        }
+        
+        $vc_patterns = ['[vc_row', '[vc_column', '[vc_', 'youbehero_donation_wpbakery'];
+        foreach ($vc_patterns as $pattern) {
+            if (strpos($content, $pattern) !== false) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    /**
+     * Check if page has Gutenberg blocks
+     * 
+     * @param int $page_id Page ID
+     * @return bool True if page has Gutenberg blocks
+     */
+    private static function has_gutenberg_blocks($page_id) {
+        $content = self::get_page_content($page_id);
+        if (!$content) {
+            return false;
+        }
+        
+        return strpos($content, '<!-- wp:') !== false ||
+               (function_exists('has_blocks') && has_blocks($page_id));
+    }
+
+    /**
+     * Detect which editor is used on the checkout page
+     * Preserves exact original logic order for 100% accuracy
+     * 
+     * @return string Editor name: 'Elementor', 'WPBakery', or 'Gutenberg'
+     */
+    public static function detect_checkout_editor() {
+        $checkout_page_id = self::get_checkout_page_id();
+        
+        if (!$checkout_page_id) {
+            return 'Unknown';
+        }
+        
+        // 1. Check for Elementor (most reliable method)
+        if (self::is_elementor_page($checkout_page_id)) {
+            return 'Elementor';
+        }
+        
+        // 2. Check for WPBakery (check multiple indicators for reliability)
+        // Check post meta FIRST (most reliable indicator)
+        if (self::has_wpbakery_meta($checkout_page_id)) {
+            return 'WPBakery';
+        }
+        
+        // Then check if WPBakery is active and page has WPBakery shortcodes
+        $wpbakery_active = self::is_wpbakery_active();
+        if ($wpbakery_active) {
+            $page_content = self::get_page_content($checkout_page_id);
+            if (self::content_has_wpbakery_shortcodes($page_content)) {
+                return 'WPBakery';
+            }
+        }
+        
+        // 3. Check for Gutenberg blocks (only if WPBakery not detected)
+        if (self::has_gutenberg_blocks($checkout_page_id)) {
+            // Double-check: if WPBakery is active, prioritize it over Gutenberg
+            // This handles edge case where page has both Gutenberg blocks AND WPBakery shortcodes
+            if ($wpbakery_active) {
+                $page_content = self::get_page_content($checkout_page_id);
+                if (strpos($page_content, '[vc_') !== false) {
+                    return 'WPBakery';
+                }
+            }
+            return 'Gutenberg';
+        }
+        
+        // 4. Default fallback - if WPBakery is active and no Gutenberg blocks, assume WPBakery
+        if ($wpbakery_active) {
+            return 'WPBakery';
+        }
+        
+        return 'Gutenberg'; // WordPress default
+    }
+
+    /**
+     * Check if widget is installed on checkout page
+     * 
+     * @param int $page_id Page ID
+     * @param string $editor Editor type
+     * @return bool True if widget is installed
+     */
+    private static function is_widget_installed($page_id, $editor) {
+        $content = self::get_page_content($page_id);
+        
+        // Check for shortcode using regex (works in all editors, including WPBakery raw HTML)
+        // Simple regex pattern that finds the shortcode anywhere in content
+        $has_shortcode = false;
+        if ($content) {
+            $has_shortcode = preg_match('/\[youbehero_donation_form[^\]]*\]/', $content) === 1;
+        }
+        
+        switch ($editor) {
+            case 'Elementor':
+                try {
+                    $elementor_instance = \Elementor\Plugin::$instance;
+                    if ($elementor_instance && isset($elementor_instance->documents)) {
+                        $document = $elementor_instance->documents->get($page_id);
+                        if ($document) {
+                            $elements_data = $document->get_elements_data();
+                            $has_elementor_widget = !empty($elements_data) && 
+                                                   self::get_elementor_widget_data($elements_data) !== false;
+                            return $has_elementor_widget || $has_shortcode;
+                        }
+                    }
+                } catch (Exception $e) {
+                    // Silent fail
+                }
+                return $has_shortcode;
+                
+            case 'WPBakery':
+                $has_wpbakery_widget = $content && strpos($content, 'youbehero_donation_wpbakery') !== false;
+                return $has_wpbakery_widget || $has_shortcode;
+                
+            case 'Gutenberg':
+                if (!$content) {
+                    return false;
+                }
+                $has_gutenberg_block = strpos($content, 'donation-widget/ybh-chekcout-donation-block') !== false;
+                return $has_gutenberg_block || $has_shortcode;
+                
+            default:
+                return $has_shortcode;
+        }
+    }
+
+    /**
+     * Check if widget is installed and if checkout page exists
+     * 
+     * @return array Minimal diagnostic data
+     */
+    public static function get_checkout_widget_diagnostics() {
+        $checkout_page_id = self::get_checkout_page_id();
+        $editor = self::detect_checkout_editor();
+        
+        return [
+            'checkout_page_id' => $checkout_page_id,
+            'checkout_page_exists' => $checkout_page_id > 0,
+            'widget_already_installed' => $checkout_page_id > 0 ? 
+                self::is_widget_installed($checkout_page_id, $editor) : false
+        ];
+    }
+
+    /**
+     * Recursively check if Elementor widget exists and get its data
+     * 
+     * @param array $elements Elementor elements data
+     * @return array|false Widget element data if found, false otherwise
+     */
+    private static function get_elementor_widget_data($elements) {
+        if (!is_array($elements)) {
+            return false;
+        }
+        
+        foreach ($elements as $element) {
+            if (isset($element['widgetType']) && $element['widgetType'] === 'youbehero_donation_widget_v2') {
+                return $element;
+            }
+            
+            if (isset($element['elements']) && is_array($element['elements'])) {
+                $result = self::get_elementor_widget_data($element['elements']);
+                if ($result !== false) {
+                    return $result;
+                }
+            }
+        }
+        
+        return false;
+    }
+
+    /**
+     * Find Gutenberg block position in the block list
+     * 
+     * @param array $blocks Parsed Gutenberg blocks
+     * @param string $block_name Block name to find (e.g., 'donation-widget/ybh-chekcout-donation-block')
+     * @return array|false Position info with index, total, before, after blocks, or false if not found
+     */
+    private static function find_gutenberg_block_position($blocks, $block_name) {
+        if (!is_array($blocks) || empty($blocks)) {
+            return false;
+        }
+        
+        // Flatten blocks (including inner blocks) to get a flat list
+        $flat_blocks = self::flatten_gutenberg_blocks($blocks);
+        $total_blocks = count($flat_blocks);
+        
+        // Find the block
+        foreach ($flat_blocks as $index => $block) {
+            if (isset($block['blockName']) && $block['blockName'] === $block_name) {
+                $result = [
+                    'index' => $index,
+                    'total' => $total_blocks,
+                    'before' => '',
+                    'after' => ''
+                ];
+                
+                // Get block before (if exists)
+                if ($index > 0 && isset($flat_blocks[$index - 1])) {
+                    $before_block = $flat_blocks[$index - 1];
+                    $result['before'] = self::get_block_display_name($before_block);
+                }
+                
+                // Get block after (if exists)
+                if ($index < $total_blocks - 1 && isset($flat_blocks[$index + 1])) {
+                    $after_block = $flat_blocks[$index + 1];
+                    $result['after'] = self::get_block_display_name($after_block);
+                }
+                
+                return $result;
+            }
+        }
+        
+        return false;
+    }
+
+    /**
+     * Flatten Gutenberg blocks including inner blocks
+     * 
+     * @param array $blocks Blocks to flatten
+     * @return array Flattened array of blocks
+     */
+    private static function flatten_gutenberg_blocks($blocks) {
+        $flat = [];
+        
+        foreach ($blocks as $block) {
+            // Skip empty blocks (spacers, etc.)
+            if (empty($block['blockName']) && empty($block['innerBlocks'])) {
+                continue;
+            }
+            
+            // Add the block itself if it has a name
+            if (!empty($block['blockName'])) {
+                $flat[] = $block;
+            }
+            
+            // Recursively add inner blocks
+            if (!empty($block['innerBlocks']) && is_array($block['innerBlocks'])) {
+                $inner_flat = self::flatten_gutenberg_blocks($block['innerBlocks']);
+                $flat = array_merge($flat, $inner_flat);
+            }
+        }
+        
+        return $flat;
+    }
+
+    /**
+     * Find donation block in parsed blocks array
+     * 
+     * @param array $blocks Parsed blocks
+     * @param string $block_name Block name to find
+     * @return array|false Block data if found, false otherwise
+     */
+    private static function find_donation_block_in_parsed($blocks, $block_name) {
+        if (!is_array($blocks)) {
+            return false;
+        }
+        
+        foreach ($blocks as $block) {
+            if (isset($block['blockName']) && $block['blockName'] === $block_name) {
+                return $block;
+            }
+            
+            // Check inner blocks
+            if (!empty($block['innerBlocks']) && is_array($block['innerBlocks'])) {
+                $found = self::find_donation_block_in_parsed($block['innerBlocks'], $block_name);
+                if ($found !== false) {
+                    return $found;
+                }
+            }
+        }
+        
+        return false;
+    }
+
+    /**
+     * Get a readable display name for a Gutenberg block
+     * 
+     * @param array $block Block data
+     * @return string Display name
+     */
+    private static function get_block_display_name($block) {
+        if (empty($block['blockName'])) {
+            return 'Unknown block';
+        }
+        
+        $block_name = $block['blockName'];
+        
+        // Remove namespace for cleaner display
+        $name_parts = explode('/', $block_name);
+        $short_name = end($name_parts);
+        
+        // Common block names mapping
+        $block_labels = [
+            'woocommerce/checkout' => 'WooCommerce Checkout',
+            'woocommerce/checkout-fields-block' => 'Checkout Fields',
+            'woocommerce/checkout-totals-block' => 'Checkout Totals',
+            'core/paragraph' => 'Paragraph',
+            'core/heading' => 'Heading',
+            'core/image' => 'Image',
+            'core/columns' => 'Columns',
+            'core/column' => 'Column',
+            'core/group' => 'Group',
+            'core/spacer' => 'Spacer',
+            'donation-widget/ybh-chekcout-donation-block' => 'YouBeHero Donation Widget',
+        ];
+        
+        if (isset($block_labels[$block_name])) {
+            return $block_labels[$block_name];
+        }
+        
+        // Return formatted name
+        return ucwords(str_replace(['-', '_'], ' ', $short_name));
+    }
+
+    /**
+     * Get installation guidelines for the detected editor
+     * 
+     * @return array Guidelines with steps and editor link
+     */
+    public static function get_installation_guidelines() {
+        $checkout_page_id = function_exists('wc_get_page_id') ? wc_get_page_id('checkout') : 0;
+        $editor = self::detect_checkout_editor();
+        
+        $guidelines = [
+            'editor' => $editor,
+            'checkout_page_id' => $checkout_page_id,
+            'steps' => [],
+            'editor_link' => '',
+            'editor_link_text' => ''
+        ];
+        
+        if (!$checkout_page_id) {
+            return $guidelines;
+        }
+        
+        // Generate editor-specific link
+        switch ($editor) {
+            case 'Elementor':
+                $guidelines['editor_link'] = admin_url('post.php?post=' . $checkout_page_id . '&action=elementor');
+                $guidelines['editor_link_text'] = __('Edit Checkout Page', 'youbehero');
+                $guidelines['steps'] = [
+                    __('Click the "Edit Checkout Page" button above to open the checkout page in Elementor', 'youbehero'),
+                    __('In the Elementor panel on the left, search for "YouBeHero" in the widget search box', 'youbehero'),
+                    __('Click on "YouBeHero Donation Widget" and it will be placed at the end of the page', 'youbehero'),
+                    __('Click the "Publish" button to save your changes', 'youbehero'),
+                    __('You\'re ready!', 'youbehero'),
+                ];
+                $guidelines['additional_info'] = __('Additionally: From the widget settings panel (select widget and Advanced), in the "Placement" menu you can change the position.', 'youbehero');
+                break;
+                
+            case 'WPBakery':
+                $post_type = get_post_type($checkout_page_id);
+                $guidelines['editor_link'] = admin_url('post.php?vc_action=vc_inline&post_id=' . $checkout_page_id . '&post_type=' . $post_type);
+                $guidelines['editor_link_text'] = __('Edit Checkout Page', 'youbehero');
+                $guidelines['steps'] = [
+                    __('Click the "Edit Checkout Page" button above to open the checkout page in WPBakery', 'youbehero'),
+                    __('Click the "+" (Add new element top left) button in the WPBakery editor', 'youbehero'),
+                    __('Search for "YouBeHero" in the search box', 'youbehero'),
+                    __('Click on "YouBeHero Donation Widget" to add it to the page', 'youbehero'),
+                    __('Click "Update" to save your changes', 'youbehero'),
+                    __('You\'re ready!', 'youbehero'),
+                ];
+                $guidelines['additional_info'] = __('Additionally: From the widget settings panel (select widget / edit pencil), in the "Placement Position" menu you can change the position.', 'youbehero');
+                break;
+                
+            case 'Gutenberg':
+            default:
+                $guidelines['editor_link'] = admin_url('post.php?post=' . $checkout_page_id . '&action=edit');
+                $guidelines['editor_link_text'] = __('Edit Checkout Page', 'youbehero');
+                $guidelines['steps'] = [
+                    __('Click the "Edit Checkout Page" button above to open the checkout page in the block editor', 'youbehero'),
+                    __('Click the "+" (Add Block) button or press "/" to open the block inserter', 'youbehero'),
+                    __('Search for "YouBeHero" in the block search', 'youbehero'),
+                    __('Click on "YouBeHero Checkout form" to insert it into the page', 'youbehero'),
+                    __('Click the "List View" button (three horizontal lines icon) in the toolbar to open the block list view', 'youbehero'),
+                    __('In the list view, expand "Checkout" and "Checkout Fields" to see inner blocks', 'youbehero'),
+                    __('Find the "Terms and Conditions" section', 'youbehero'),
+                    __('Drag the "YouBeHero Checkout form" block right above it', 'youbehero'),
+                    __('Click "Save" to save your changes', 'youbehero'),
+                    __('You\'re ready!', 'youbehero'),
+                ];
+                break;
+        }
+        
+        return $guidelines;
     }
 
 }

@@ -2,7 +2,7 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: YouBeHero 1.3.0\n"
+"Project-Id-Version: YouBeHero 1.3.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/youbehero\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -221,6 +221,10 @@ msgstr ""
 msgid "Change"
 msgstr ""
 
+#: admin/partials/you-be-hero-dashboard.php
+msgid "Change eshop avatar"
+msgstr ""
+
 #: src/index.js:16
 #: build/index.js:16
 msgid "YouBeHero Checkout form"
@@ -374,11 +378,119 @@ msgstr ""
 msgid "WooCommerce Hook is Active and the widget will appear on the checkout page at: "
 msgstr ""
 
-#: public/class-you-be-hero-shortcodes-public.php:45
-#: public/class-you-be-hero-shortcodes-public.php:51
-#: public/class-you-be-hero-shortcodes-public.php:68
-#: public/class-you-be-hero-shortcodes-public.php:74
-#: public/class-you-be-hero-shortcodes-public.php:89
-#: public/class-you-be-hero-shortcodes-public.php:95
-msgid "Less than 10"
+#: admin/partials/you-be-hero-dashboard.php:159
+msgid "Editor:"
+msgstr ""
+
+#: admin/partials/you-be-hero-dashboard.php
+msgid "Installation Guide"
+msgstr ""
+
+#: admin/partials/you-be-hero-dashboard.php
+msgid "Detected Editor:"
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+msgid "Edit Checkout Page"
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+#: admin/partials/you-be-hero-dashboard.php
+msgid "Additionally:"
+msgstr ""
+
+#: admin/partials/you-be-hero-dashboard.php
+msgid "Step-by-Step Instructions"
+msgstr ""
+
+#: admin/partials/you-be-hero-dashboard.php
+msgid "Note:"
+msgstr ""
+
+#: admin/partials/you-be-hero-dashboard.php
+msgid "Could not detect the page editor. Please manually add the YouBeHero donation widget to your checkout page using your page builder."
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+msgid "Click the \"Edit Checkout Page\" button above to open the checkout page in Elementor"
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+msgid "In the Elementor panel on the left, search for \"YouBeHero\" in the widget search box"
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+msgid "Click on \"YouBeHero Donation Widget\" and it will be placed at the end of the page"
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+msgid "Click the \"Publish\" button to save your changes"
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+msgid "You're ready!"
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+msgid "Additionally: From the widget settings panel (select widget and Advanced), in the \"Placement\" menu you can change the position."
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+msgid "Click the \"Edit Checkout Page\" button above to open the checkout page in WPBakery"
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+msgid "Click the \"+\" (Add new element top left) button in the WPBakery editor"
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+msgid "Search for \"YouBeHero\" in the search box"
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+msgid "Click on \"YouBeHero Donation Widget\" to add it to the page"
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+msgid "Click \"Update\" to save your changes"
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+msgid "Additionally: From the widget settings panel (select widget / edit pencil), in the \"Placement Position\" menu you can change the position."
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+msgid "Click the \"Edit Checkout Page\" button above to open the checkout page in the block editor"
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+msgid "Click the \"+\" (Add Block) button or press \"/\" to open the block inserter"
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+msgid "Search for \"YouBeHero\" in the block search"
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+msgid "Click on \"YouBeHero Checkout form\" to insert it into the page"
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+msgid "Click the \"List View\" button (three horizontal lines icon) in the toolbar to open the block list view"
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+msgid "In the list view, expand \"Checkout\" and \"Checkout Fields\" to see inner blocks"
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+msgid "Find the \"Terms and Conditions\" section"
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+msgid "Drag the \"YouBeHero Checkout form\" block right above it"
+msgstr ""
+
+#: admin/class-you-be-hero-admin.php
+msgid "Click \"Save\" to save your changes"
 msgstr ""

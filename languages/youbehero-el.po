@@ -1,52 +1,80 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: YouBeHero 1.3.0\n"
+"Project-Id-Version: YouBeHero 1.3.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/youbehero\n"
+"POT-Creation-Date: 2025-09-09T13:36:27+00:00\n"
+"PO-Revision-Date: 2025-09-18 19:31+0500\n"
 "Last-Translator: mac <mac@macs-macbook-pro.local>\n"
 "Language-Team: Greek <team@lists.gnome.gr>\n"
+"Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-09-09T13:36:27+00:00\n"
-"PO-Revision-Date: 2025-09-18 19:31+0500\n"
-"Language: el\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: youbehero\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#. Plugin Name of the plugin
+#: youbehero.php
+msgid "YouBeHero"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: youbehero.php
+msgid "https://youbehero.com"
+msgstr ""
+
 #. Description of the plugin
 #: youbehero.php
-msgid "Add Donation to Cart by YouBeHero is a powerful WordPress plugin that adds a donation widget to your WooCommerce checkout, transforming every purchase into an opportunity for social impact."
-msgstr "Το Add Donation to Cart από την YouBeHero είναι ένα ισχυρό εργαλείο για το WordPress που προσθέτει ένα widget δωρεάς στο checkout του WooCommerce, μετατρέποντας κάθε αγορά σε μια ευκαιρία για κοινωνικό αντίκτυπο."
+msgid ""
+"Add Donation to Cart by YouBeHero is a powerful WordPress plugin that adds a "
+"donation widget to your WooCommerce checkout, transforming every purchase "
+"into an opportunity for social impact."
+msgstr ""
+"Το Add Donation to Cart από την YouBeHero είναι ένα ισχυρό εργαλείο για το "
+"WordPress που προσθέτει ένα widget δωρεάς στο checkout του WooCommerce, "
+"μετατρέποντας κάθε αγορά σε μια ευκαιρία για κοινωνικό αντίκτυπο."
 
 #. Author of the plugin
 #: youbehero.php
 msgid "Vasilis Kolip"
 msgstr "Βασίλης Κολίπ"
 
+#. Author URI of the plugin
+#: youbehero.php
+msgid "https://youbehero.com/"
+msgstr ""
+
 #: admin/class-you-be-hero-admin.php:132
 msgid "You do not have sufficient permissions to access this page."
-msgstr "Δεν έχετε επαρκή δικαιώματα για να αποκτήσετε πρόσβαση σε αυτή τη σελίδα."
+msgstr ""
+"Δεν έχετε επαρκή δικαιώματα για να αποκτήσετε πρόσβαση σε αυτή τη σελίδα."
 
 #: admin/class-you-be-hero-admin.php:240
 msgid "Other Fees:"
 msgstr "Άλλα έξοδα:"
 
 #: admin/partials/you-be-hero-api-settings.php:30
-msgid "We couldn’t verify your API key. Please double-check for any missing characters or extra spaces, then try again."
-msgstr "Δεν μπορέσαμε να επαληθεύσουμε το κλειδί API σας. Ελέγξτε ξανά για τυχόν ελλείποντες χαρακτήρες ή επιπλέον κενά και προσπαθήστε ξανά."
+msgid ""
+"We couldn’t verify your API key. Please double-check for any missing "
+"characters or extra spaces, then try again."
+msgstr ""
+"Δεν μπορέσαμε να επαληθεύσουμε το κλειδί API σας. Ελέγξτε ξανά για τυχόν "
+"ελλείποντες χαρακτήρες ή επιπλέον κενά και προσπαθήστε ξανά."
 
 #: admin/partials/you-be-hero-api-settings.php:40
 msgid "You have successfully logged out."
 msgstr "Αποσυνδεθήκατε με επιτυχία."
 
 #: admin/partials/you-be-hero-api-settings.php:44
-msgid "Thank you for installing"
-msgstr "Σας ευχαριστούμε που εγκαταστήσατε το"
+msgid "Thank you for installing it"
+msgstr ""
 
 #: admin/partials/you-be-hero-api-settings.php:48
 msgid "To connect your YouBeHero account with your eshop"
-msgstr "Για να συνδέσετε τον λογαριασμό σας στη YouBeHero με αυτό το ηλεκτρονικό κατάστημα"
+msgstr ""
+"Για να συνδέσετε τον λογαριασμό σας στη YouBeHero με αυτό το ηλεκτρονικό "
+"κατάστημα"
 
 #: admin/partials/you-be-hero-api-settings.php:51
 msgid "Copy the API key from your account at"
@@ -58,7 +86,7 @@ msgstr "Επικολλήστε το στο παρακάτω πεδίο"
 
 #: admin/partials/you-be-hero-api-settings.php:53
 msgid "Click \"Login\""
-msgstr "Κάντε κλικ στο «Σύνδεση»"
+msgstr "Κάντε click στο «Σύνδεση»"
 
 #: admin/partials/you-be-hero-api-settings.php:62
 msgid "key"
@@ -77,8 +105,13 @@ msgid "Create an account"
 msgstr "Δημιουργία λογαριασμού"
 
 #: admin/partials/you-be-hero-api-settings.php:74
-msgid "Add Donation to Cart is a YouBeHero plugin for WooCommerce that allows you to increase your corporate social responsibility with every online sale."
-msgstr "Το Add Donation to Cart είναι ένα πρόσθετο της YouBeHero για το WooCommerce που σας επιτρέπει να αυξήσετε την εταιρική κοινωνική σας ευθύνη με κάθε online πώληση."
+msgid ""
+"Add Donation to Cart is a YouBeHero plugin for WooCommerce that allows you "
+"to increase your corporate social responsibility with every online sale."
+msgstr ""
+"Το Add Donation to Cart είναι ένα πρόσθετο της YouBeHero για το WooCommerce "
+"που σας επιτρέπει να αυξήσετε την εταιρική κοινωνική σας ευθύνη με κάθε "
+"online πώληση."
 
 #: admin/partials/you-be-hero-dashboard.php:36
 msgid "Account topup"
@@ -109,24 +142,24 @@ msgid "Account Balance"
 msgstr "Υπόλοιπο λογαριασμού"
 
 #: admin/partials/you-be-hero-dashboard.php:72
-msgid "Total donations"
-msgstr "Συνολικές δωρεές"
+msgid "Total Gifts"
+msgstr ""
 
 #: admin/partials/you-be-hero-dashboard.php:76
-msgid "Total sales"
-msgstr "Συνολικές πωλήσεις"
+msgid "Total Sales"
+msgstr ""
 
 #: admin/partials/you-be-hero-dashboard.php:80
-msgid "Average cart value"
-msgstr "Μέση αξία καλαθιού"
+msgid "Average Basket Value"
+msgstr ""
 
 #: admin/partials/you-be-hero-dashboard.php:84
-msgid "Number of orders"
-msgstr "Αριθμός παραγγελιών"
+msgid "Number of Orders"
+msgstr ""
 
 #: admin/partials/you-be-hero-dashboard.php:88
-msgid "Supported NGOs"
-msgstr "Φορείς που στηρίχθηκαν"
+msgid "Benefited NGO's"
+msgstr ""
 
 #: admin/partials/you-be-hero-dashboard.php:96
 msgid "Transaction Table"
@@ -157,66 +190,79 @@ msgid "Organization"
 msgstr "Φορέας"
 
 #: admin/partials/you-be-hero-dashboard.php:136
-msgid "Transaction details will appear here once the first donation purchase is made!"
-msgstr "Οι λεπτομέρειες της συναλλαγής θα εμφανιστούν εδώ μόλις πραγματοποιηθεί η πρώτη αγορά με δωρεά!"
+msgid ""
+"Transaction details will appear here once the first donation purchase is "
+"made!"
+msgstr ""
+"Οι λεπτομέρειες της συναλλαγής θα εμφανιστούν εδώ μόλις πραγματοποιηθεί η "
+"πρώτη αγορά με δωρεά!"
 
 #: public/class-you-be-hero-public.php:197
 #: public/class-you-be-hero-public.php:251
 msgid "Donation for"
 msgstr "Δωρεά για"
 
-#: src/render.php:66
-#: build/render.php:134
+#: src/render.php:66 build/render.php:134
 msgid "Would you like to make a donation?"
-msgstr "Θα θέλατε να κάνετε μια δωρεά;"
+msgstr "Μαζί μπορούμε να στηρίξουμε δράσεις που αλλάζουν ζωές."
 
-#: src/render.php:151
-#: build/render.php:151
+#: src/render.php:151 build/render.php:151
 msgid "Through this market, we will offer"
 msgstr "Μέσω αυτής της αγοράς, θα προσφέρουμε"
 
-#: src/render.php:152
-#: build/render.php:152
+#: src/render.php:152 build/render.php:152
 msgid "to support a non-profit organization"
 msgstr "για να υποστηρίξουμε έναν μη κερδοσκοπικό οργανισμό"
 
-#: src/render.php:170
-#: build/render.php:170
+#: src/render.php:170 build/render.php:170
 msgid "We will donate it"
 msgstr "Θα το δωρίσουμε"
 
-#: src/render.php:171
-#: build/render.php:171
+#: src/render.php:171 build/render.php:171
 msgid "of your order to a charity"
 msgstr "από την παραγγελία σας σε ένα φιλανθρωπικό ίδρυμα"
 
-
-#: src/render.php:237
-#: build/render.php:237
+#: src/render.php:237 build/render.php:237
 msgid "Updating"
 msgstr "Ενημέρωση"
 
-#: src/render.php:244
-#: build/render.php:244
+#: src/render.php:244 build/render.php:244
 msgid "Sorry, you are not eligible for donation."
 msgstr "Λυπούμαστε, δεν είστε επιλέξιμοι για δωρεά."
 
-#: src/render.php:246
-#: build/render.php:246
+#: src/render.php:246 build/render.php:246
 msgid "Change"
 msgstr "Αλλαγή"
 
-#: src/block.json
-#: build/block.json
+#: admin/partials/you-be-hero-dashboard.php
+msgid "Change eshop avatar"
+msgstr "Αλλαγή λογότυπου eshop"
+
+#: src/index.js:16 build/index.js:16
+msgid "YouBeHero Checkout form"
+msgstr ""
+
+#: src/index.js:35 build/index.js:35 blocks/thankyou-note/thankyou-note.js:31
+msgid "YouBeHero Donation"
+msgstr ""
+
+#: src/index.js:36 build/index.js:36
+msgid ""
+"YouBeHero donation widget will reside here. For easy relocation use List "
+"overview option"
+msgstr ""
+"Το widget της YouBeHero θα τοποθετηθεί εδώ. Για να αλλάξετε θέση πατήστε στο "
+"κουμπί της επισκόπησης εγγράφου"
+
+#: src/block.json build/block.json
 msgctxt "block title"
 msgid "YouBeHero Donation Widget"
 msgstr "Μονάδα δωρεών YouBeHero"
 
-#: src/block.json
-#: build/block.json
+#: src/block.json build/block.json
 msgctxt "block description"
-msgid "Your donation has been recorded."
-msgstr "Η δωρεά σας καταγράφηκε."
+msgid "A block for adding a donation widget to the checkout page."
+msgstr ""
 
 #: public/partials/you-be-hero-thankyou-widget.php:33
 msgid "Your donation has been recorded."
@@ -234,10 +280,6 @@ msgstr "Μείνετε συντονισμένοι για ενημερώσεις.
 msgid "Learn More"
 msgstr "Μάθετε περισσότερα"
 
-#: public/partials/you-be-hero-thankyou-widget.php:183
-msgid "Learn more"
-msgstr "Μάθετε περισσότερα"
-
 #: public/partials/you-be-hero-thankyou-widget.php:124
 msgid "See how your donation helps!"
 msgstr "Δείτε πως η δωρεά σας κάνει τη διαφορά"
@@ -252,7 +294,9 @@ msgstr "Κάνετε μια δωρεά"
 
 #: public/partials/you-be-hero-thankyou-widget.php:131
 msgid "Easily support a nonprofit of your choice at checkout."
-msgstr "Υποστηρίξτε εύκολα έναν φορέα της επιλογής σας την ώρα που ολοκληρώνετε την πληρωμή σας."
+msgstr ""
+"Υποστηρίξτε εύκολα έναν φορέα της επιλογής σας την ώρα που ολοκληρώνετε την "
+"πληρωμή σας."
 
 #: public/partials/you-be-hero-thankyou-widget.php:135
 msgid "You are informed immediately"
@@ -267,7 +311,9 @@ msgid "Your donation is delivered securely."
 msgstr "Η δωρεά σας φτάνει με ασφάλεια"
 
 #: public/partials/you-be-hero-thankyou-widget.php:143
-msgid "With complete transparency, it supports the goals of the organization of your choice."
+msgid ""
+"With complete transparency, it supports the goals of the organization of "
+"your choice."
 msgstr "Με πλήρη διαφάνεια, τα χρήματα αποδίδονται στον φορέα που επιλέξατε."
 
 #: public/partials/you-be-hero-thankyou-widget.php:147
@@ -276,7 +322,9 @@ msgstr "Στηρίζετε ένα σημαντικό έργο"
 
 #: public/partials/you-be-hero-thankyou-widget.php:149
 msgid "Your every contribution has a meaningful impact."
-msgstr "Κάθε συνεισφορά σας έχει πραγματικό αντίκτυπο — μικρές πράξεις, μεγάλη αλλαγή."
+msgstr ""
+"Κάθε συνεισφορά σας έχει πραγματικό αντίκτυπο — μικρές πράξεις, μεγάλη "
+"αλλαγή."
 
 #: public/partials/you-be-hero-thankyou-widget.php:153
 msgid "Through the YouBeHero platform"
@@ -298,14 +346,17 @@ msgstr "Βλέπετε την αλλαγή που δημιουργείτε"
 msgid "Close"
 msgstr "Κλείσιμο"
 
-#: includes/class-youbehero-elementor-widget.php:47
-#: includes/class-youbehero-elementor-widget.php:55
-msgid "Content"
-msgstr "Περιεχόμενο"
+#: blocks/thankyou-note/thankyou-note.js:38
+msgid "YouBeHero Order Confirmation widget will reside here."
+msgstr ""
 
-#: includes/class-youbehero-elementor-widget.php:57
-msgid "Your widget content here"
-msgstr "Μια περιγραφή εδώ"
+#: blocks/thankyou-note/thankyou-note.js:48
+msgid "To toggle the visibility of this widget go to "
+msgstr ""
+
+#: blocks/thankyou-note/thankyou-note.js:58
+msgid "this page"
+msgstr ""
 
 #: includes/class-youbehero-elementor-widget.php:67
 msgid "Placement method"
@@ -341,32 +392,218 @@ msgstr "Θέση εμφάνισης"
 
 #: includes/wpbakery-donation-widget.php:95
 #: includes/class-youbehero-elementor-widget.php:126
-msgid "WooCommerce Hook is Active and the widget will appear on the checkout page at: "
-msgstr "Το WooCommerce Hook είναι ενεργό και το widget θα εμφανιστεί στη σελίδα checkout στη θέση: "
+msgid ""
+"WooCommerce Hook is Active and the widget will appear on the checkout page "
+"at: "
+msgstr ""
+"Το WooCommerce Hook είναι ενεργό και το widget θα εμφανιστεί στη σελίδα "
+"checkout στη θέση: "
 
-#: public/class-you-be-hero-shortcodes-public.php:45
-#: public/class-you-be-hero-shortcodes-public.php:51
-#: public/class-you-be-hero-shortcodes-public.php:68
-#: public/class-you-be-hero-shortcodes-public.php:74
-#: public/class-you-be-hero-shortcodes-public.php:89
-#: public/class-you-be-hero-shortcodes-public.php:95
-msgid "Less than 10"
-msgstr "περίπου 10"
+#: admin/partials/you-be-hero-dashboard.php:159
+msgid "Editor:"
+msgstr "Επεξεργαστής:"
 
-#: admin/partials/you-be-hero-dashboard.php:54
-msgid "Update"
-msgstr "Ενημέρωση"
+#: admin/partials/you-be-hero-dashboard.php
+msgid "Installation Guide"
+msgstr "Οδηγός εγκατάστασης widget σελίδας ταμείου"
 
-#: admin/partials/you-be-hero-dashboard.php:52
-msgid "Fetch latest settings from YouBeHero (colors, organizations, etc.)"
-msgstr "Ενημέρωση ρυθμίσεων από την πλατφόρμα YouBeHero (χρώματα, φορείς κτλ)"
+#: admin/partials/you-be-hero-dashboard.php
+msgid "Detected Editor:"
+msgstr "Ο επεξεργαστής (editor) που χρησιμοποείται:"
 
-#: src/index.js:35
-#: build/index.js:35
-msgid "Add Donation to Cart, YouBeHero"
-msgstr "Προσθήκη Δωρεάς στο Καλάθι, YouBeHero"
+#: admin/class-you-be-hero-admin.php
+msgid "Edit Checkout Page"
+msgstr "Επεξεργασία σελίδας ταμείου"
 
-#: src/index.js:36
-#: build/index.js:36
-msgid "YouBeHero donation widget will reside here. For easy relocation use List overview option"
-msgstr "Το widget της YouBeHero θα τοποθετηθεί εδώ. Για να αλλάξετε θέση πατήστε στο κουμπί της επισκόπησης εγγράφου"
+#: admin/class-you-be-hero-admin.php admin/partials/you-be-hero-dashboard.php
+msgid "Additionally:"
+msgstr "Επιπλέον:"
+
+#: admin/partials/you-be-hero-dashboard.php
+msgid "Step-by-Step Instructions"
+msgstr "Οδηγίες βήμα προς βήμα"
+
+#: admin/partials/you-be-hero-dashboard.php
+msgid "Note:"
+msgstr "Σημείωση:"
+
+#: admin/partials/you-be-hero-dashboard.php
+msgid ""
+"Could not detect the page editor. Please manually add the YouBeHero donation "
+"widget to your checkout page using your page builder."
+msgstr ""
+"Δεν ήταν δυνατή η ανίχνευση του επεξεργαστή σελίδας. Παρακαλώ προσθέστε "
+"χειροκίνητα το widget δωρεάς YouBeHero στη σελίδα checkout σας "
+"χρησιμοποιώντας τον page builder σας."
+
+#: admin/class-you-be-hero-admin.php
+msgid ""
+"Click the \"Edit Checkout Page\" button above to open the checkout page in "
+"Elementor"
+msgstr ""
+"Κάνετε click στο κουμπί «Επεξεργασία σελίδας ταμείου» παραπάνω για να "
+"ανοίξετε τη σελίδα ταμείου (checkout) στο Elementor"
+
+#: admin/class-you-be-hero-admin.php
+msgid ""
+"In the Elementor panel on the left, search for \"YouBeHero\" in the widget "
+"search box"
+msgstr ""
+"Στο παράθυρο Elementor στα αριστερά, αναζητήστε «YouBeHero» στο πλαίσιο "
+"αναζήτησης widgets"
+
+#: admin/class-you-be-hero-admin.php
+msgid ""
+"Click on \"YouBeHero Donation Widget\" and it will be placed at the end of "
+"the page"
+msgstr ""
+"Κάνετε ένα click στο «YouBeHero Donation Widget» και αυτό θα τοποθετηθεί στο "
+"τέλος της σελίδας"
+
+#: admin/class-you-be-hero-admin.php
+msgid "Click the \"Publish\" button to save your changes"
+msgstr ""
+"Κάνετε click στο κουμπί «Δημοσίευση» για να αποθηκεύσετε τις αλλαγές σας"
+
+#: admin/class-you-be-hero-admin.php
+msgid "You're ready!"
+msgstr "Είστε έτοιμοι! Ανανεώστε αυτή τη σελίδα και οι οδηγιές εγκατάστασης θα έχουν αφαιρεθεί."
+
+#: admin/class-you-be-hero-admin.php
+msgid ""
+"Additionally: From the widget settings panel (select widget and Advanced), "
+"in the \"Placement\" menu you can change the position."
+msgstr ""
+"Επιπλέον: Από το παράθυρο ρυθμίσεων του widget (επιλογή του widget και Για "
+"προχωρημένους), στο μενού «Τοποθέτηση» μπορείτε να αλλάξετε την θέση του."
+
+#: admin/class-you-be-hero-admin.php
+msgid ""
+"Click the \"Edit Checkout Page\" button above to open the checkout page in "
+"WPBakery"
+msgstr ""
+"Κάνετε click στο κουμπί «Επεξεργασία σελίδας ταμείου» παραπάνω για να "
+"ανοίξετε τη σελίδα ταμείου (checkout) στο WPBakery"
+
+#: admin/class-you-be-hero-admin.php
+msgid ""
+"Click the \"+\" (Add new element top left) button in the WPBakery editor"
+msgstr ""
+"Κάνετε click στο κουμπί « + » (Add new element επάνω αριστερά) στον "
+"επεξεργαστή WPBakery"
+
+#: admin/class-you-be-hero-admin.php
+msgid "Search for \"YouBeHero\" in the search box"
+msgstr "Αναζητήστε «YouBeHero» στο πλαίσιο αναζήτησης"
+
+#: admin/class-you-be-hero-admin.php
+msgid "Click on \"YouBeHero Donation Widget\" to add it to the page"
+msgstr ""
+"Κάνετε click στο «YouBeHero Donation Widget» για να το προσθέσετε στη σελίδα"
+
+#: admin/class-you-be-hero-admin.php
+msgid "Click \"Update\" to save your changes"
+msgstr ""
+"Κάνετε click στο «Ενημέρωση» (Update) για να αποθηκεύσετε τις αλλαγές σας"
+
+#: admin/class-you-be-hero-admin.php
+msgid ""
+"Additionally: From the widget settings panel (select widget / edit pencil), "
+"in the \"Placement Position\" menu you can change the position."
+msgstr ""
+"Επιπλέον: Από το παράθυρο ρυθμίσεων του widget (επιλογή του widget / "
+"μολυβάκι επεξεργασίας), στο μενού «Θέση εμφάνισης» μπορείτε να αλλάξετε την "
+"θέση του."
+
+#: admin/class-you-be-hero-admin.php
+msgid ""
+"Click the \"Edit Checkout Page\" button above to open the checkout page in "
+"the block editor"
+msgstr ""
+"Κάνετε click στο κουμπί «Επεξεργασία σελίδας ταμείου» παραπάνω για να "
+"ανοίξετε τη σελίδα ταμείου (checkout) στον επεξεργαστή"
+
+#: admin/class-you-be-hero-admin.php
+msgid ""
+"Click the \"+\" (Add Block) button or press \"/\" to open the block inserter"
+msgstr ""
+"Κάνετε click στο κουμπί « + » (Εισαγωγή μπλοκ) ή πατήστε \"/\" για να "
+"ανοίξετε τον εισαγωγέα μπλοκ"
+
+#: admin/class-you-be-hero-admin.php
+msgid "Search for \"YouBeHero\" in the block search"
+msgstr "Αναζητήστε «YouBeHero» στην αναζήτηση blocks"
+
+#: admin/class-you-be-hero-admin.php
+msgid "Click on \"YouBeHero Checkout form\" to insert it into the page"
+msgstr ""
+"Κάνετε click στο «YouBeHero Checkout form» για να το εισαγάγετε στη σελίδα"
+
+#: admin/class-you-be-hero-admin.php
+msgid ""
+"Click the \"List View\" button (three horizontal lines icon) in the toolbar "
+"to open the block list view"
+msgstr ""
+"Κάνετε κλικ στο κουμπί «Επισκόπηση εγγράφου» (εικονίδιο τριών οριζόντιων "
+"γραμμών) στη γραμμή εργαλείων για να ανοίξετε την προβολή λίστας μπλοκ"
+
+#: admin/class-you-be-hero-admin.php
+msgid ""
+"In the list view, expand \"Checkout\" and \"Checkout Fields\" to see inner "
+"blocks"
+msgstr ""
+"Στην προβολή λίστας, επεκτείνετε το «Ταμείο» και το «Checkout Fields» για να "
+"δείτε τα εσωτερικά μπλοκ"
+
+#: admin/class-you-be-hero-admin.php
+msgid "Find the \"Terms and Conditions\" section"
+msgstr "Βρείτε την ενότητα «Terms and Conditions»"
+
+#: admin/class-you-be-hero-admin.php
+msgid "Drag the \"YouBeHero Checkout form\" block right above it"
+msgstr "Σύρετε το μπλοκ «YouBeHero Checkout form» ακριβώς από πάνω του"
+
+#: admin/class-you-be-hero-admin.php
+msgid "Click \"Save\" to save your changes"
+msgstr "Κάνετε click στο «Αποθήκευση» για να αποθηκεύσετε τις αλλαγές σας"
+
+#~ msgid "Thank you for installing"
+#~ msgstr "Σας ευχαριστούμε που εγκαταστήσατε το"
+
+#~ msgid "Total donations"
+#~ msgstr "Συνολικές δωρεές"
+
+#~ msgid "Total sales"
+#~ msgstr "Συνολικές πωλήσεις"
+
+#~ msgid "Average cart value"
+#~ msgstr "Μέση αξία καλαθιού"
+
+#~ msgid "Number of orders"
+#~ msgstr "Αριθμός παραγγελιών"
+
+#~ msgid "Supported NGOs"
+#~ msgstr "Φορείς που στηρίχθηκαν"
+
+#~ msgctxt "block description"
+#~ msgid "Your donation has been recorded."
+#~ msgstr "Η δωρεά σας καταγράφηκε."
+
+#~ msgid "Learn more"
+#~ msgstr "Μάθετε περισσότερα"
+
+#~ msgid "Content"
+#~ msgstr "Περιεχόμενο"
+
+#~ msgid "Your widget content here"
+#~ msgstr "Μια περιγραφή εδώ"
+
+#~ msgid "Update"
+#~ msgstr "Ενημέρωση"
+
+#~ msgid "Fetch latest settings from YouBeHero (colors, organizations, etc.)"
+#~ msgstr ""
+#~ "Ενημέρωση ρυθμίσεων από την πλατφόρμα YouBeHero (χρώματα, φορείς κτλ)"
+
+#~ msgid "Add Donation to Cart, YouBeHero"
+#~ msgstr "Προσθήκη Δωρεάς στο Καλάθι, YouBeHero"

@@ -49,14 +49,10 @@ class YouBeHero_ShortCodes_Public {
         $data = $this->get_dashboard_data();
         
         if ( empty( $data ) || ! isset( $data['summary']['total_donations'] ) ) {
-            return esc_html__( 'Less than 10', 'youbehero' );
+            return wp_kses_post( wc_price( 0 ) );
         }
 
         $total_donations = (float) $data['summary']['total_donations'];
-        
-        if ( $total_donations == 0 || $total_donations < 10 ) {
-            return esc_html__( 'Less than 10', 'youbehero' );
-        }
 
         // Use WooCommerce price formatting to respect currency position and formatting settings
         return wp_kses_post( wc_price( $total_donations ) );
@@ -71,14 +67,10 @@ class YouBeHero_ShortCodes_Public {
         $data = $this->get_dashboard_data();
         
         if ( empty( $data ) || ! isset( $data['summary']['total_orders'] ) ) {
-            return esc_html__( 'Less than 10', 'youbehero' );
+            return '0';
         }
 
         $total_orders = (int) $data['summary']['total_orders'];
-        
-        if ( $total_orders == 0 || $total_orders < 10 ) {
-            return esc_html__( 'Less than 10', 'youbehero' );
-        }
 
         return (string) $total_orders;
     }
@@ -92,14 +84,10 @@ class YouBeHero_ShortCodes_Public {
         $data = $this->get_dashboard_data();
         
         if ( empty( $data ) || ! isset( $data['summary']['benefited_organizations'] ) ) {
-            return esc_html__( 'Less than 10', 'youbehero' );
+            return '0';
         }
 
         $benefited_orgs = (int) $data['summary']['benefited_organizations'];
-        
-        if ( $benefited_orgs == 0 || $benefited_orgs < 10 ) {
-            return esc_html__( 'Less than 10', 'youbehero' );
-        }
 
         return (string) $benefited_orgs;
     }

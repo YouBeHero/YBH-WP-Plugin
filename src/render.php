@@ -119,22 +119,42 @@ if ( ! is_admin() ) {
                         case ( $ybhd_subtotal <= 10 ):
                             // Small: round up to nearest €0.50
                             $ybhd_rounded = ceil( $ybhd_subtotal * 2 ) / 2;
+                            // Ensure it's always greater than subtotal
+                            if ($ybhd_rounded <= $ybhd_subtotal) {
+                                $ybhd_rounded = $ybhd_subtotal + 0.50;
+                            }
                             break;
                         case ( $ybhd_subtotal <= 50 ):
                             // Medium: round up to nearest €1
                             $ybhd_rounded = ceil( $ybhd_subtotal );
+                            // Ensure it's always greater than subtotal
+                            if ($ybhd_rounded <= $ybhd_subtotal) {
+                                $ybhd_rounded = $ybhd_subtotal + 1;
+                            }
                             break;
                         case ( $ybhd_subtotal <= 100 ):
                             // Large: round up to nearest €5
                             $ybhd_rounded = ceil( $ybhd_subtotal / 5 ) * 5;
+                            // Ensure it's always greater than subtotal
+                            if ($ybhd_rounded <= $ybhd_subtotal) {
+                                $ybhd_rounded = (floor($ybhd_subtotal / 5) + 1) * 5;
+                            }
                             break;
                         case ( $ybhd_subtotal <= 500 ):
                             // Maximum: round up to nearest €10
                             $ybhd_rounded = ceil( $ybhd_subtotal / 10 ) * 10;
+                            // Ensure it's always greater than subtotal
+                            if ($ybhd_rounded <= $ybhd_subtotal) {
+                                $ybhd_rounded = (floor($ybhd_subtotal / 10) + 1) * 10;
+                            }
                             break;
                         default:
                             // Exceptional: round up to nearest €10
                             $ybhd_rounded = ceil( $ybhd_subtotal / 10 ) * 10;
+                            // Ensure it's always greater than subtotal
+                            if ($ybhd_rounded <= $ybhd_subtotal) {
+                                $ybhd_rounded = (floor($ybhd_subtotal / 10) + 1) * 10;
+                            }
                     }
                 } else {
                     $ybhd_rounded = 0;

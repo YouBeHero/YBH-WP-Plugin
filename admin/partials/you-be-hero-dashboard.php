@@ -33,6 +33,12 @@ $ybhd_red_dot     = ( isset( $data['status'] ) && $data['status'] != 'active' ) 
 $ybhd_red_txt     = ( isset( $data['status'] ) && $data['status'] != 'active' ) ? 'ybh-red-text' : '';
 $ybhd_company_name = $data['company_name'] ?? '-';
 
+// Get diagnostic data for checkout widget
+$ybhd_diagnostics = You_Be_Hero_Admin::get_checkout_widget_diagnostics();
+
+// Get installation guidelines
+$ybhd_guidelines = You_Be_Hero_Admin::get_installation_guidelines();
+
 ?>
 <header class="ybh-header">
     <div class="ybh-logo"><img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . 'img/logo.svg' ); ?>"></div>
@@ -63,14 +69,15 @@ $ybhd_company_name = $data['company_name'] ?? '-';
         </div>
     </div>
 </header>
-
 <div class="ybh-main-container">
     <div class="ybh-stats-grid">
         <div class="ybh-stat-card ybh-flex-box-1">
             <div class="ybh-account-info">
-                <div class="ybh-account-avatar">
-                    <img src="<?php echo esc_url( $data['eshop_logo'] ?? plugin_dir_url( __DIR__ ) . 'img/eshop.png' ); ?>">
-                </div>
+                <a href="https://youbehero.com/gr/eshop-info" target="_blank" class="ybh-account-avatar-link" title="<?php echo esc_attr__( 'Change eshop avatar', 'youbehero' ); ?>">
+                    <div class="ybh-account-avatar">
+                        <img src="<?php echo esc_url( $data['eshop_logo'] ?? plugin_dir_url( __DIR__ ) . 'img/eshop.png' ); ?>">
+                    </div>
+                </a>
                 <div class="ybh-account-details">
                     <h3><?php echo esc_html( $ybhd_company_name ); ?></h3>
                     <div class="ybh-account-status">
@@ -108,6 +115,56 @@ $ybhd_company_name = $data['company_name'] ?? '-';
             </div>
         </div>
     </div>
+
+    <!-- Installation Guidelines Section -->
+    <?php if ( ! $ybhd_diagnostics['widget_already_installed'] && $ybhd_diagnostics['checkout_page_exists'] ) : ?>
+    <div class="ybh-installation-guide-section" style="margin: 30px 0; background: #fff; border: 1px solid #0073aa; border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <h2 style="margin: 0 0 20px 0; font-size: 18px; color: #1d2327;">📚 <?php echo esc_html__( 'Installation Guide', 'youbehero' ); ?></h2>
+        
+        <div style="margin-bottom: 20px; padding: 15px; background: #f0f6fc; border-left: 4px solid #0073aa; border-radius: 4px;">
+            <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: 600; color: #1d2327;">
+                <?php echo esc_html__( 'Detected Editor:', 'youbehero' ); ?> 
+                <span style="color: #0073aa;"><?php echo esc_html( $ybhd_guidelines['editor'] ); ?></span>
+            </p>
+            <?php if ( ! empty( $ybhd_guidelines['editor_link'] ) ) : ?>
+                <a href="<?php echo esc_url( $ybhd_guidelines['editor_link'] ); ?>" target="_blank" class="button button-primary" style="text-decoration: none; display: inline-block; padding: 8px 16px; margin-top: 10px;">
+                    <?php echo esc_html( $ybhd_guidelines['editor_link_text'] ); ?>
+                </a>
+            <?php endif; ?>
+        </div>
+
+        <?php if ( ! empty( $ybhd_guidelines['steps'] ) ) : ?>
+        <div style="background: #f9f9f9; padding: 20px; border-radius: 6px;">
+            <h3 style="margin: 0 0 15px 0; font-size: 16px; color: #1d2327; font-weight: 600;">
+                <?php echo esc_html__( 'Step-by-Step Instructions', 'youbehero' ); ?>
+            </h3>
+            <ol style="margin: 0; padding-left: 25px; font-size: 14px; line-height: 1.8; color: #1d2327;">
+                <?php foreach ( $ybhd_guidelines['steps'] as $ybhd_index => $ybhd_step ) : ?>
+                    <li style="margin-bottom: 12px;">
+                        <?php echo esc_html( $ybhd_step ); ?>
+                    </li>
+                <?php endforeach; ?>
+            </ol>
+        </div>
+        <?php endif; ?>
+
+        <?php if ( ! empty( $ybhd_guidelines['additional_info'] ) ) : ?>
+        <p style="margin-top: 20px; font-size: 14px; color: #1d2327;">
+            <strong><?php echo esc_html__( 'Additionally:', 'youbehero' ); ?></strong><br>
+            <?php echo esc_html( $ybhd_guidelines['additional_info'] ); ?>
+        </p>
+        <?php endif; ?>
+
+        <?php if ( $ybhd_guidelines['editor'] === 'Unknown' ) : ?>
+        <div style="margin-top: 15px; padding: 15px; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 4px;">
+            <p style="margin: 0; font-size: 13px; color: #856404;">
+                <strong><?php echo esc_html__( 'Note:', 'youbehero' ); ?></strong> 
+                <?php echo esc_html__( 'Could not detect the page editor. Please manually add the YouBeHero donation widget to your checkout page using your page builder.', 'youbehero' ); ?>
+            </p>
+        </div>
+        <?php endif; ?>
+    </div>
+    <?php endif; ?>
 
     <div class="ybh-orders-section" id="ybh-orders-section">
         <div class="ybh-orders-header">

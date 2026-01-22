@@ -5,7 +5,7 @@ Tags: fundraising, donations, nonprofit, checkout, woocommerce
 Requires at least: 5.7
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -140,6 +140,13 @@ Email support, WordPress plugin forum, and help center at [help.youbehero.com](h
 * Clarified third-party service usage
 * Standardized slugs to match text domain
 * Improved widget security
+
+= 1.3.1 =
+* Refactored editor detection code for better maintainability
+* Improved widget detection to support shortcode in all editors (Elementor, WPBakery, Gutenberg)
+* Enhanced WPBakery raw HTML widget support for shortcode detection
+* Added clickable avatar with link to eshop info page
+* Added translation string for "Change eshop avatar"
 
 = 1.0.1 =
 * Fix translation problems.

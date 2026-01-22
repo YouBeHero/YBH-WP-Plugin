@@ -116,6 +116,17 @@
     gap: 15px;
 }
 
+.ybh-account-avatar-link {
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.ybh-account-avatar-link:hover {
+    opacity: 0.8;
+}
+
 .ybh-account-avatar {
     width: 64px;
     height: 64px;
