@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: YouBeHero 1.3.1\n"
+"Project-Id-Version: YouBeHero 1.3.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/youbehero\n"
 "POT-Creation-Date: 2025-09-09T13:36:27+00:00\n"
 "PO-Revision-Date: 2025-09-18 19:31+0500\n"
@@ -266,7 +266,7 @@ msgstr ""
 
 #: public/partials/you-be-hero-thankyou-widget.php:33
 msgid "Your donation has been recorded."
-msgstr "Η δωρεά σας καταγράφηκε."
+msgstr "Η δωρεά σας καταγράφηκε επιτυχώς."
 
 #: public/partials/you-be-hero-thankyou-widget.php:34
 msgid "Thank you very much for your support and generosity."
@@ -567,43 +567,56 @@ msgstr "Σύρετε το μπλοκ «YouBeHero Checkout form» ακριβώς 
 msgid "Click \"Save\" to save your changes"
 msgstr "Κάνετε click στο «Αποθήκευση» για να αποθηκεύσετε τις αλλαγές σας"
 
-#~ msgid "Thank you for installing"
-#~ msgstr "Σας ευχαριστούμε που εγκαταστήσατε το"
+#: admin/partials/you-be-hero-api-settings.php
+msgid "Thank you for installing"
+msgstr "Σας ευχαριστούμε που εγκαταστήσατε το"
 
-#~ msgid "Total donations"
-#~ msgstr "Συνολικές δωρεές"
+#: admin/partials/you-be-hero-dashboard.php:97
+msgid "Total donations"
+msgstr "Συνολικές δωρεές"
 
-#~ msgid "Total sales"
-#~ msgstr "Συνολικές πωλήσεις"
+#: admin/partials/you-be-hero-dashboard.php:101
+msgid "Total sales"
+msgstr "Συνολικές πωλήσεις"
 
-#~ msgid "Average cart value"
-#~ msgstr "Μέση αξία καλαθιού"
+#: admin/partials/you-be-hero-dashboard.php:105
+msgid "Average cart value"
+msgstr "Μέση αξία καλαθιού"
 
-#~ msgid "Number of orders"
-#~ msgstr "Αριθμός παραγγελιών"
+#: admin/partials/you-be-hero-dashboard.php:109
+msgid "Number of orders"
+msgstr "Αριθμός παραγγελιών"
 
-#~ msgid "Supported NGOs"
-#~ msgstr "Φορείς που στηρίχθηκαν"
+#: admin/partials/you-be-hero-dashboard.php:113
+msgid "Supported NGOs"
+msgstr "Φορείς που στηρίχθηκαν"
 
-#~ msgctxt "block description"
-#~ msgid "Your donation has been recorded."
-#~ msgstr "Η δωρεά σας καταγράφηκε."
+#: public/partials/you-be-hero-thankyou-widget.php
+msgctxt "block description"
+msgid "Your donation has been recorded."
+msgstr "Η δωρεά σας έχει καταγραφεί."
 
-#~ msgid "Learn more"
-#~ msgstr "Μάθετε περισσότερα"
+#: public/partials/you-be-hero-thankyou-widget.php
+msgid "Learn more"
+msgstr "Μάθετε περισσότερα"
 
-#~ msgid "Content"
-#~ msgstr "Περιεχόμενο"
+#: blocks/thankyou-note/thankyou-note.js
+msgid "Content"
+msgstr "Περιεχόμενο"
 
-#~ msgid "Your widget content here"
-#~ msgstr "Μια περιγραφή εδώ"
+#: blocks/thankyou-note/thankyou-note.js
+msgid "Your widget content here"
+msgstr "Μια περιγραφή εδώ"
 
-#~ msgid "Update"
-#~ msgstr "Ενημέρωση"
+#: admin/partials/you-be-hero-dashboard.php:60
+msgid "Update"
+msgstr "Ενημέρωση"
 
-#~ msgid "Fetch latest settings from YouBeHero (colors, organizations, etc.)"
-#~ msgstr ""
-#~ "Ενημέρωση ρυθμίσεων από την πλατφόρμα YouBeHero (χρώματα, φορείς κτλ)"
+#: admin/partials/you-be-hero-dashboard.php:58
+msgid "Fetch latest settings from YouBeHero (colors, organizations, etc.)"
+msgstr ""
+"Ενημέρωση ρυθμίσεων από την πλατφόρμα YouBeHero (χρώματα, φορείς κτλ)"
 
-#~ msgid "Add Donation to Cart, YouBeHero"
-#~ msgstr "Προσθήκη Δωρεάς στο Καλάθι, YouBeHero"
+#: blocks/thankyou-note/thankyou-note.js
+msgid "Add Donation to Cart, YouBeHero"
+msgstr "Προσθήκη Δωρεάς στο Καλάθι, YouBeHero"

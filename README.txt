@@ -5,7 +5,7 @@ Tags: fundraising, donations, nonprofit, checkout, woocommerce
 Requires at least: 5.7
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -125,6 +125,10 @@ Email support, WordPress plugin forum, and help center at [help.youbehero.com](h
 8. Donations feed at the Angels of Joy's page @YouBeHero
 
 == Changelog ==
+
+= 1.3.2 =
+* Fixed missing Greek translations for dashboard statistics
+* Added translation strings for "Update", "Total donations", "Total sales", "Average cart value", "Number of orders", and "Supported NGOs"
 
 = 1.3.0 =
 * Added floating hearts animation on donation amount button clicks

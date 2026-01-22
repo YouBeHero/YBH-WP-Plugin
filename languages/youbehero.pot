@@ -2,7 +2,7 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: YouBeHero 1.3.1\n"
+"Project-Id-Version: YouBeHero 1.3.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/youbehero\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -143,6 +143,30 @@ msgstr ""
 msgid "Benefited NGO's"
 msgstr ""
 
+#: admin/partials/you-be-hero-dashboard.php:60
+msgid "Update"
+msgstr ""
+
+#: admin/partials/you-be-hero-dashboard.php:97
+msgid "Total donations"
+msgstr ""
+
+#: admin/partials/you-be-hero-dashboard.php:101
+msgid "Total sales"
+msgstr ""
+
+#: admin/partials/you-be-hero-dashboard.php:105
+msgid "Average cart value"
+msgstr ""
+
+#: admin/partials/you-be-hero-dashboard.php:109
+msgid "Number of orders"
+msgstr ""
+
+#: admin/partials/you-be-hero-dashboard.php:113
+msgid "Supported NGOs"
+msgstr ""
+
 #: admin/partials/you-be-hero-dashboard.php:96
 msgid "Transaction Table"
 msgstr ""
@@ -265,8 +289,37 @@ msgstr ""
 msgid "Stay tuned for updates."
 msgstr ""
 
+#: admin/partials/you-be-hero-api-settings.php
+msgid "Thank you for installing"
+msgstr ""
+
+#: public/partials/you-be-hero-thankyou-widget.php
+msgctxt "block description"
+msgid "Your donation has been recorded."
+msgstr ""
+
+#: public/partials/you-be-hero-thankyou-widget.php
+msgid "Learn more"
+msgstr ""
+
 #: public/partials/you-be-hero-thankyou-widget.php:96
 msgid "Learn More"
+msgstr ""
+
+#: blocks/thankyou-note/thankyou-note.js
+msgid "Content"
+msgstr ""
+
+#: blocks/thankyou-note/thankyou-note.js
+msgid "Your widget content here"
+msgstr ""
+
+#: admin/partials/you-be-hero-dashboard.php:58
+msgid "Fetch latest settings from YouBeHero (colors, organizations, etc.)"
+msgstr ""
+
+#: blocks/thankyou-note/thankyou-note.js
+msgid "Add Donation to Cart, YouBeHero"
 msgstr ""
 
 #: public/partials/you-be-hero-thankyou-widget.php:124
