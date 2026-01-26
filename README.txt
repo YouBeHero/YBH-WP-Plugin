@@ -5,7 +5,7 @@ Tags: fundraising, donations, nonprofit, checkout, woocommerce
 Requires at least: 5.7
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.3.2
+Stable tag: 1.3.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -125,6 +125,12 @@ Email support, WordPress plugin forum, and help center at [help.youbehero.com](h
 8. Donations feed at the Angels of Joy's page @YouBeHero
 
 == Changelog ==
+
+= 1.3.3 =
+* Updated installation guide UI with action-required badge
+* Changed roundup donation calculation to use grand total (includes shipping and fees)
+* Added dynamic CTA text support from JSON for Greek language
+* Added Greek translation for "One more step" badge
 
 = 1.3.2 =
 * Fixed missing Greek translations for dashboard statistics

@@ -78,9 +78,16 @@ if ( ! is_admin() ) {
             $ybhd_headhtml = '';
             $ybhd_eligible = true;
 
+            // Get CTA text: use JSON cta_text if WordPress language is Greek, otherwise use translation
+            $ybhd_wp_locale = get_locale();
+            $ybhd_is_greek = ( strpos( $ybhd_wp_locale, 'el' ) === 0 ); // Check if locale starts with 'el' (Greek)
+            $ybhd_cta_text = $ybhd_is_greek && ! empty( $ybhd_style['cta_text'] ) 
+                ? $ybhd_style['cta_text'] 
+                : __( 'Would you like to make a donation?', 'youbehero' );
+
             if ( $ybhd_donor == 'customer' && $ybhd_donation_type == 'fixed' && ! empty( $ybhd_amounts ) ) {
                 $ybhd_donation_amount = WC()->session->get( 'ybh_donation_amount', 0 );
-                $ybhd_txt             = __( 'Would you like to make a donation?', 'youbehero' );
+                $ybhd_txt             = $ybhd_cta_text;
                 $ybhd_headhtml       .= '<span style="color:' . $ybhd_text_color . '">' . $ybhd_txt . '</span><span style="background: ' . $ybhd_btn_color . '" class="pill-container"><img src="' . esc_url( YBHD_PLUGIN_URL ) . 'public/img/donation-heart.svg" class="donation-heart-icon" alt=""><span class="donation-amount-pill"><span class="donation-amount-text">' . number_format( (float) $ybhd_donation_amount, 2, '.', '' ) . $ybhd_currency_symbol . '</span></span></span>';
                 foreach ( $ybhd_amounts as $ybhd_amount ) {
                     $ybhd_amount_cents = (float) str_replace( ',', '.', $ybhd_amount ) * 100;//(float)$amount * 100;
@@ -179,7 +186,7 @@ if ( ! is_admin() ) {
                         $ybhd_selected        = $ybhd_donation_amount == $ybhd_roundup_value ? 'selected' : '';
                     }
 
-                    $ybhd_txt       = __( 'Would you like to make a donation?', 'youbehero' );
+                    $ybhd_txt       = $ybhd_cta_text;
                     $ybhd_headhtml .= '<span style="color:' . $ybhd_text_color . '">' . $ybhd_txt . '</span><span style="background: ' . $ybhd_btn_color . '" class="pill-container"><img src="' . esc_url( YBHD_PLUGIN_URL ) . 'public/img/donation-heart.svg" class="donation-heart-icon" alt=""><span class="donation-amount-pill"><span class="donation-amount-text">' . number_format( (float) $ybhd_donation_amount, 2, '.', '' ) . $ybhd_currency_symbol . '</span></span></span>';
 
                     $ybhd_html .= '<button type="button" class="donation-btn radio-button ' . $ybhd_selected . '" data-btnclr="' . $ybhd_btn_color . '" style="--btn-color: ' . esc_attr( $ybhd_btn_color ) . ';" data-value="' . $ybhd_amount_cents . '" data-label="' . number_format( (float) $ybhd_roundup_value, 2, '.', '' ) . '" >' . number_format( (float) $ybhd_roundup_value, 2, '.', '' ) . $ybhd_currency_symbol . '</button>';
