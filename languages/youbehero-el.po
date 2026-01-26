@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: YouBeHero 1.3.2\n"
+"Project-Id-Version: YouBeHero 1.3.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/youbehero\n"
 "POT-Creation-Date: 2025-09-09T13:36:27+00:00\n"
 "PO-Revision-Date: 2025-09-18 19:31+0500\n"
@@ -406,6 +406,10 @@ msgstr "Επεξεργαστής:"
 #: admin/partials/you-be-hero-dashboard.php
 msgid "Installation Guide"
 msgstr "Οδηγός εγκατάστασης widget σελίδας ταμείου"
+
+#: admin/partials/you-be-hero-dashboard.php
+msgid "One more step"
+msgstr "Ένα ακόμα βήμα"
 
 #: admin/partials/you-be-hero-dashboard.php
 msgid "Detected Editor:"

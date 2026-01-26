@@ -70,56 +70,20 @@ $ybhd_guidelines = You_Be_Hero_Admin::get_installation_guidelines();
     </div>
 </header>
 <div class="ybh-main-container">
-    <div class="ybh-stats-grid">
-        <div class="ybh-stat-card ybh-flex-box-1">
-            <div class="ybh-account-info">
-                <a href="https://youbehero.com/gr/eshop-info" target="_blank" class="ybh-account-avatar-link" title="<?php echo esc_attr__( 'Change eshop avatar', 'youbehero' ); ?>">
-                    <div class="ybh-account-avatar">
-                        <img src="<?php echo esc_url( $data['eshop_logo'] ?? plugin_dir_url( __DIR__ ) . 'img/eshop.png' ); ?>">
-                    </div>
-                </a>
-                <div class="ybh-account-details">
-                    <h3><?php echo esc_html( $ybhd_company_name ); ?></h3>
-                    <div class="ybh-account-status">
-                        <span><?php echo esc_html__( 'Status', 'youbehero' ); ?>: </span>
-                        <div class="ybh-status-indicator">
-                            <span class="ybh-status-dot <?php echo esc_html( $ybhd_red_dot ); ?>"></span>
-                            <span class="ybh-status-text <?php echo esc_html( $ybhd_red_txt ); ?>"><?php echo esc_html( $ybhd_status_txt ); ?></span>
-                        </div>
-                    </div>
-                    <div><?php echo esc_html__( 'Account Balance', 'youbehero' ); ?>: <span id="ybh-account-balance"><?php echo esc_html( isset( $data['total_credits'] ) ? number_format( (float) $data['total_credits'], 2, ',', '' ) . $ybhd_currency_symbol : '-' ); ?></span></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="ybh-flex-cards">
-            <div class="ybh-stat-card ybh-flex-box-2">
-                <h4><?php echo esc_html__( 'Total donations', 'youbehero' ); ?></h4>
-                <div class="ybh-stat-value <?php echo esc_html( $ybhd_blur ); ?>" id="ybh-total-gifts"><?php echo esc_html( isset( $data['summary']['total_donations'] ) ? number_format( (float) $data['summary']['total_donations'], 2, ',', '' ) . $ybhd_currency_symbol : '-' ); ?></div>
-            </div>
-            <div class="ybh-stat-card ybh-flex-box-2">
-                <h4><?php echo esc_html__( 'Total sales', 'youbehero' ); ?></h4>
-                <div class="ybh-stat-value <?php echo esc_html( $ybhd_blur ); ?>" id="ybh-total-sales"><?php echo esc_html( isset( $data['summary']['total_sales'] ) ? number_format( (float) $data['summary']['total_sales'], 2, ',', '' ) . $ybhd_currency_symbol : '-' ); ?></div>
-            </div>
-            <div class="ybh-stat-card ybh-flex-box-2">
-                <h4><?php echo esc_html__( 'Average cart value', 'youbehero' ); ?></h4>
-                <div class="ybh-stat-value <?php echo esc_html( $ybhd_blur ); ?>" id="ybh-avg-basket"><?php echo esc_html( isset( $data['summary']['average_order_value'] ) ? number_format( (float) $data['summary']['average_order_value'], 2, ',', '' ) . $ybhd_currency_symbol : '-' ); ?></div>
-            </div>
-            <div class="ybh-stat-card ybh-flex-box-2">
-                <h4><?php echo esc_html__( 'Number of orders', 'youbehero' ); ?></h4>
-                <div class="ybh-stat-value <?php echo esc_html( $ybhd_blur ); ?>" id="ybh-order-count"><?php echo esc_html( $data['summary']['total_orders'] ?? '-' ); ?></div>
-            </div>
-            <div class="ybh-stat-card ybh-flex-box-2">
-                <h4><?php echo esc_html__( "Supported NGOs", 'youbehero' ); ?></h4>
-                <div class="ybh-stat-value <?php echo esc_html( $ybhd_blur ); ?>" id="ybh-pending-ngo"><?php echo esc_html( $data['summary']['benefited_organizations'] ?? '-' ); ?></div>
-            </div>
-        </div>
-    </div>
-
     <!-- Installation Guidelines Section -->
     <?php if ( ! $ybhd_diagnostics['widget_already_installed'] && $ybhd_diagnostics['checkout_page_exists'] ) : ?>
-    <div class="ybh-installation-guide-section" style="margin: 30px 0; background: #fff; border: 1px solid #0073aa; border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-        <h2 style="margin: 0 0 20px 0; font-size: 18px; color: #1d2327;">📚 <?php echo esc_html__( 'Installation Guide', 'youbehero' ); ?></h2>
+    <div class="ybh-installation-guide-section" style="margin-bottom: 30px; background: #fff; border: 1px solid #0073aa; border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <h2 style="margin: 0 0 20px 0; font-size: 18px; color: #1d2327; display: flex; align-items: center; gap: 12px;">
+            <span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: #fffef2; border: 1.5px solid #e0d8a8; border-radius: 999px; font-size: 13px; font-weight: 600; color: #a0743b; white-space: nowrap;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <?php echo esc_html__( 'One more step', 'youbehero' ); ?>
+            </span>
+            <?php echo esc_html__( 'Installation Guide', 'youbehero' ); ?>
+        </h2>
         
         <div style="margin-bottom: 20px; padding: 15px; background: #f0f6fc; border-left: 4px solid #0073aa; border-radius: 4px;">
             <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: 600; color: #1d2327;">
@@ -165,6 +129,52 @@ $ybhd_guidelines = You_Be_Hero_Admin::get_installation_guidelines();
         <?php endif; ?>
     </div>
     <?php endif; ?>
+
+    <div class="ybh-stats-grid">
+        <div class="ybh-stat-card ybh-flex-box-1">
+            <div class="ybh-account-info">
+                <a href="https://youbehero.com/gr/eshop-info" target="_blank" class="ybh-account-avatar-link" title="<?php echo esc_attr__( 'Change eshop avatar', 'youbehero' ); ?>">
+                    <div class="ybh-account-avatar">
+                        <img src="<?php echo esc_url( $data['eshop_logo'] ?? plugin_dir_url( __DIR__ ) . 'img/eshop.png' ); ?>">
+                    </div>
+                </a>
+                <div class="ybh-account-details">
+                    <h3><?php echo esc_html( $ybhd_company_name ); ?></h3>
+                    <div class="ybh-account-status">
+                        <span><?php echo esc_html__( 'Status', 'youbehero' ); ?>: </span>
+                        <div class="ybh-status-indicator">
+                            <span class="ybh-status-dot <?php echo esc_html( $ybhd_red_dot ); ?>"></span>
+                            <span class="ybh-status-text <?php echo esc_html( $ybhd_red_txt ); ?>"><?php echo esc_html( $ybhd_status_txt ); ?></span>
+                        </div>
+                    </div>
+                    <div><?php echo esc_html__( 'Account Balance', 'youbehero' ); ?>: <span id="ybh-account-balance"><?php echo esc_html( isset( $data['total_credits'] ) ? number_format( (float) $data['total_credits'], 2, ',', '' ) . $ybhd_currency_symbol : '-' ); ?></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ybh-flex-cards">
+            <div class="ybh-stat-card ybh-flex-box-2">
+                <h4><?php echo esc_html__( 'Total donations', 'youbehero' ); ?></h4>
+                <div class="ybh-stat-value <?php echo esc_html( $ybhd_blur ); ?>" id="ybh-total-gifts"><?php echo esc_html( isset( $data['summary']['total_donations'] ) ? number_format( (float) $data['summary']['total_donations'], 2, ',', '' ) . $ybhd_currency_symbol : '-' ); ?></div>
+            </div>
+            <div class="ybh-stat-card ybh-flex-box-2">
+                <h4><?php echo esc_html__( 'Total sales', 'youbehero' ); ?></h4>
+                <div class="ybh-stat-value <?php echo esc_html( $ybhd_blur ); ?>" id="ybh-total-sales"><?php echo esc_html( isset( $data['summary']['total_sales'] ) ? number_format( (float) $data['summary']['total_sales'], 2, ',', '' ) . $ybhd_currency_symbol : '-' ); ?></div>
+            </div>
+            <div class="ybh-stat-card ybh-flex-box-2">
+                <h4><?php echo esc_html__( 'Average cart value', 'youbehero' ); ?></h4>
+                <div class="ybh-stat-value <?php echo esc_html( $ybhd_blur ); ?>" id="ybh-avg-basket"><?php echo esc_html( isset( $data['summary']['average_order_value'] ) ? number_format( (float) $data['summary']['average_order_value'], 2, ',', '' ) . $ybhd_currency_symbol : '-' ); ?></div>
+            </div>
+            <div class="ybh-stat-card ybh-flex-box-2">
+                <h4><?php echo esc_html__( 'Number of orders', 'youbehero' ); ?></h4>
+                <div class="ybh-stat-value <?php echo esc_html( $ybhd_blur ); ?>" id="ybh-order-count"><?php echo esc_html( $data['summary']['total_orders'] ?? '-' ); ?></div>
+            </div>
+            <div class="ybh-stat-card ybh-flex-box-2">
+                <h4><?php echo esc_html__( "Supported NGOs", 'youbehero' ); ?></h4>
+                <div class="ybh-stat-value <?php echo esc_html( $ybhd_blur ); ?>" id="ybh-pending-ngo"><?php echo esc_html( $data['summary']['benefited_organizations'] ?? '-' ); ?></div>
+            </div>
+        </div>
+    </div>
 
     <div class="ybh-orders-section" id="ybh-orders-section">
         <div class="ybh-orders-header">

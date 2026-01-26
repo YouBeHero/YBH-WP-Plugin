@@ -75,7 +75,7 @@ class You_Be_Hero {
 	 */
 	public function __construct() {
 		$this->plugin_name = 'youbehero';                
-		$this->version = '1.3.2';
+		$this->version = '1.3.3';
 		$this->load_dependencies();
 		$this->ybhd_set_compatibility();
 		$this->define_admin_hooks();

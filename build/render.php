@@ -110,57 +110,63 @@ if ( ! is_admin() ) {
             } elseif ( $ybhd_donor == 'customer' && $ybhd_donation_type == 'roundup' ) {
 
                 if ( function_exists( 'WC' ) && WC() !== null && WC()->cart !== null ) {
-                    $ybhd_cart     = WC()->cart;
-                    $ybhd_subtotal = $ybhd_cart->get_subtotal();
+                    $ybhd_cart = WC()->cart;
+                    $ybhd_cart->calculate_totals();
+                    
+                    // Get grand total excluding donation fees
+                    $ybhd_grand_total = $ybhd_cart->get_total('edit') - array_sum( array_map( function( $fee ) {
+                        return ( isset( $fee->ybh_donation_cause ) || isset( $fee->_ybh_donation_amount ) ) ? $fee->get_total() : 0;
+                    }, $ybhd_cart->get_fees() ) );
 
                     $ybhd_rounded = 0;
 
                     switch (true) {
-                        case ( $ybhd_subtotal <= 10 ):
+                        case ( $ybhd_grand_total <= 10 ):
                             // Small: round up to nearest €0.50
-                            $ybhd_rounded = ceil( $ybhd_subtotal * 2 ) / 2;
-                            // Ensure it's always greater than subtotal
-                            if ($ybhd_rounded <= $ybhd_subtotal) {
-                                $ybhd_rounded = $ybhd_subtotal + 0.50;
+                            $ybhd_rounded = ceil( $ybhd_grand_total * 2 ) / 2;
+                            // Ensure it's always greater than grand total
+                            if ($ybhd_rounded <= $ybhd_grand_total) {
+                                $ybhd_rounded = $ybhd_grand_total + 0.50;
                             }
                             break;
-                        case ( $ybhd_subtotal <= 50 ):
+                        case ( $ybhd_grand_total <= 50 ):
                             // Medium: round up to nearest €1
-                            $ybhd_rounded = ceil( $ybhd_subtotal );
-                            // Ensure it's always greater than subtotal
-                            if ($ybhd_rounded <= $ybhd_subtotal) {
-                                $ybhd_rounded = $ybhd_subtotal + 1;
+                            $ybhd_rounded = ceil( $ybhd_grand_total );
+                            // Ensure it's always greater than grand total
+                            if ($ybhd_rounded <= $ybhd_grand_total) {
+                                $ybhd_rounded = $ybhd_grand_total + 1;
                             }
                             break;
-                        case ( $ybhd_subtotal <= 100 ):
+                        case ( $ybhd_grand_total <= 100 ):
                             // Large: round up to nearest €5
-                            $ybhd_rounded = ceil( $ybhd_subtotal / 5 ) * 5;
-                            // Ensure it's always greater than subtotal
-                            if ($ybhd_rounded <= $ybhd_subtotal) {
-                                $ybhd_rounded = (floor($ybhd_subtotal / 5) + 1) * 5;
+                            $ybhd_rounded = ceil( $ybhd_grand_total / 5 ) * 5;
+                            // Ensure it's always greater than grand total
+                            if ($ybhd_rounded <= $ybhd_grand_total) {
+                                $ybhd_rounded = (floor($ybhd_grand_total / 5) + 1) * 5;
                             }
                             break;
-                        case ( $ybhd_subtotal <= 500 ):
+                        case ( $ybhd_grand_total <= 500 ):
                             // Maximum: round up to nearest €10
-                            $ybhd_rounded = ceil( $ybhd_subtotal / 10 ) * 10;
-                            // Ensure it's always greater than subtotal
-                            if ($ybhd_rounded <= $ybhd_subtotal) {
-                                $ybhd_rounded = (floor($ybhd_subtotal / 10) + 1) * 10;
+                            $ybhd_rounded = ceil( $ybhd_grand_total / 10 ) * 10;
+                            // Ensure it's always greater than grand total
+                            if ($ybhd_rounded <= $ybhd_grand_total) {
+                                $ybhd_rounded = (floor($ybhd_grand_total / 10) + 1) * 10;
                             }
                             break;
                         default:
                             // Exceptional: round up to nearest €10
-                            $ybhd_rounded = ceil( $ybhd_subtotal / 10 ) * 10;
-                            // Ensure it's always greater than subtotal
-                            if ($ybhd_rounded <= $ybhd_subtotal) {
-                                $ybhd_rounded = (floor($ybhd_subtotal / 10) + 1) * 10;
+                            $ybhd_rounded = ceil( $ybhd_grand_total / 10 ) * 10;
+                            // Ensure it's always greater than grand total
+                            if ($ybhd_rounded <= $ybhd_grand_total) {
+                                $ybhd_rounded = (floor($ybhd_grand_total / 10) + 1) * 10;
                             }
                     }
                 } else {
                     $ybhd_rounded = 0;
+                    $ybhd_grand_total = 0;
                 }
 
-                $ybhd_roundup_value = round( $ybhd_rounded - $ybhd_subtotal, 2 );
+                $ybhd_roundup_value = isset( $ybhd_grand_total ) ? round( $ybhd_rounded - $ybhd_grand_total, 2 ) : 0;
                 $ybhd_amount_cents  = (float) str_replace( ',', '.', $ybhd_roundup_value ) * 100;//(float)$roundupValue * 100;
                 $ybhd_donation_amount = 0;
                 if ( $ybhd_amount_cents > 0 ) {
