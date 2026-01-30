@@ -278,13 +278,6 @@ class YouBeHero_Email_Widget {
     }
 
     public function youbehero_email_body( $youbehero_data, $selected_cause_info ) {
-
-//        $social_links = $selected_cause_info['social_links'];
-//        $org_logo = $selected_cause_info['image'] ?? esc_url( YBHD_PLUGIN_URL ) . 'public/img/humanity_fund.png';
-//        $background_color = $youbehero_data['widget_configurations']['confirmation_email']['confirmation_email']['background_color'] ?? "#ffffff";
-//        $text_color = $youbehero_data['widget_configurations']['confirmation_email']['confirmation_email']['text_color'] ?? "#000000";
-//        $plaisio_color = $youbehero_data['widget_configurations']['confirmation_email']['confirmation_email']['plaisio_color'] ?? "#cccccc";
-
         $social_links = $selected_cause_info['social_links'];
         $org_logo = $selected_cause_info['image'] ?? esc_url( YBHD_PLUGIN_URL ) . 'public/img/humanity_fund.png';
         $background_color = $youbehero_data['widget_configurations']['confirmation_email']['confirmation_email']['background_color'] ?? "#ffffff";

@@ -71,34 +71,6 @@
 						 if ( response.status == 'success' ) {
 							 location.reload();
 						 }
-						 // Update stats
-	// 					 document.getElementById('ybh-account-balance').textContent = data.account_balance || '0,00€';
-	// 					 document.getElementById('ybh-total-gifts').textContent = data.stats?.totalGifts || '-';
-	// 					 document.getElementById('ybh-total-sales').textContent = data.stats?.totalSales || '-';
-	// 					 document.getElementById('ybh-avg-basket').textContent = data.stats?.avgBasket || '-';
-	// 					 document.getElementById('ybh-order-count').textContent = data.stats?.orderCount || '-';
-	// 					 document.getElementById('ybh-pending-ngo').textContent = data.stats?.pendingNgo || '-';
-	//
-	// 					 // Populate table
-	// 					 const tbody = document.getElementById('ybh-orders-tbody');
-	// 					 tbody.innerHTML = '';
-	//
-	// 					 const orders = data.transactions || [];
-	// 					 orders.forEach(order => {
-	// 						 const row = document.createElement('tr');
-	// 						 row.innerHTML = `
-	// 							<td>${order.id}</td>
-	// 							<td>${order.order_number}</td>
-	// 							<td>${order.date}</td>
-	// 							<td>${order.total}</td>
-	// 							<td>${order.donation}</td>
-	// <!--                            <td><a href="#" class="ybh-order-link">${order.org}</a></td>-->
-	// 						`;
-	// 						 tbody.appendChild(row);
-	// 					 });
-	//
-	// 					 // Show table, hide empty state
-	// 					 document.getElementById('ybh-orders-section').classList.add('ybh-show-table');
 					 }
 				 });
 				 return data;
