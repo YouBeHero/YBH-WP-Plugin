@@ -111,8 +111,9 @@ if ( ! is_admin() ) {
                 }
 
                 $ybhd_html .= '<button type="button" class="donation-btn delete-button" data-btnclr="' . $ybhd_btn_color . '" style="--btn-color: ' . esc_attr( $ybhd_btn_color ) . ';"><img src="' . esc_url( YBHD_PLUGIN_URL ) . 'public/img/delete.svg"></button>';
+                $ybhd_amount_input_value = ( isset( WC()->session ) && (float) $ybhd_donation_amount > 0 ) ? (int) round( (float) $ybhd_donation_amount * 100 ) : '';
                 $ybhd_html .= '<input name="donation_cause" id="donation-cause" value="' . $ybhd_don_cause . '" type="hidden"/>
-                            <input name="donation_amount" id="donation-amount" type="hidden"/>';
+                            <input name="donation_amount" id="donation-amount" type="hidden" value="' . esc_attr( $ybhd_amount_input_value ) . '"/>';
 
             } elseif ( $ybhd_donor == 'customer' && $ybhd_donation_type == 'roundup' ) {
 

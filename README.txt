@@ -42,6 +42,22 @@ Currently available for Greek e-commerce stores with English locale support.
    - WP Bakery: Drag and drop the donation widget
    - Shortcode: `[youbehero_donation_form]`
 
+== Video tutorials ==
+
+Step-by-step video guides (in Greek) to get you started:
+
+**Installation guide** – How to install and configure the Add Donation to Cart plugin on your WordPress store
+
+https://www.youtube.com/watch?v=pa3H92HXAi4
+
+**Gutenberg** – How to add the donation widget to checkout using the Gutenberg block editor
+
+https://www.youtube.com/watch?v=Xwpa1gcUgmw
+
+**Elementor** – How to add the donation widget to checkout using Elementor editor
+
+https://www.youtube.com/watch?v=46m8FOV26Ko
+
 == Shortcodes ==
 
 **Donation Form:**
