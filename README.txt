@@ -5,7 +5,7 @@ Tags: fundraising, donations, nonprofit, checkout, woocommerce
 Requires at least: 5.7
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.3.4
+Stable tag: 1.3.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -141,6 +141,10 @@ Email support, WordPress plugin forum, and help center at [help.youbehero.com](h
 8. Donations feed at the Angels of Joy's page @YouBeHero
 
 == Changelog ==
+
+= 1.3.5 =
+* Fixed cart totals not updating when only changing donation organization after page refresh (Gutenberg, Elementor, WPBakery)
+* Pre-populate donation amount hidden input from session so org-only change triggers fee update
 
 = 1.3.4 =
 * Removed unused images (admin and public) and unused partials to reduce plugin size
