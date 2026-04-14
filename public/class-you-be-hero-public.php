@@ -808,12 +808,18 @@ class You_Be_Hero_Public {
         // Extract order data
         $order_data = $this->ybh_extract_order_data( $order );
 
-        // Execute API call
-        $api_response = $this->ybh_call_external_api( $order_data );
+        // Only send to API if there's an actual donation amount (> 0)
+        if ( isset( $order_data['commission_amount'] ) && $order_data['commission_amount'] > 0 ) {
+            // Execute API call
+            $api_response = $this->ybh_call_external_api( $order_data );
 
-        // Log the response (optional)
-        if ( $api_response ) {
-            $logger->error( 'API Response for Order #' . $order_id . ': ' . $api_response, [ 'source' => 'youbehero' ] );
+            // Log the response (optional)
+            if ( $api_response ) {
+                $logger->error( 'API Response for Order #' . $order_id . ': ' . $api_response, [ 'source' => 'youbehero' ] );
+            }
+        } else {
+            // Skip API call for orders with no donation amount
+            $logger->info( 'Skipping API call for Order #' . $order_id . ' - commission_amount is 0 or not set', [ 'source' => 'youbehero' ] );
         }
 
     }

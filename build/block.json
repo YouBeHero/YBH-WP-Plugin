@@ -1,5 +1,5 @@
 {
-  "apiVersion": 2,
+  "apiVersion": 3,
   "name": "donation-widget/ybh-chekcout-donation-block",
   "title": "YouBeHero Donation Widget",
   "category": "woocommerce",
