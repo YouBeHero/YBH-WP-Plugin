@@ -78,7 +78,7 @@
 
 .donation-buttons {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     justify-content: space-between;
 }
 
@@ -90,8 +90,8 @@
     margin-right: 12px;
 }
 
-.donation-buttons button, .donation-buttons .radio-button {
-    flex: 1;
+.donation-buttons button,
+.donation-buttons .radio-button {
     padding: 8px;
     background: white;
     cursor: pointer;
@@ -100,9 +100,47 @@
     z-index: 20;
 }
 
-.donation-buttons button:last-child,.donation-buttons .radio-button:last-child {
-    border-color: red;
-    color: red;
+/* Donation amounts row: force consistent button sizing/alignment (theme-proof) */
+.donation-buttons.donation-amounts .donation-btn {
+    box-sizing: border-box;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+/* Amount buttons share remaining row width; allow shrinking on narrow containers */
+.donation-buttons .radio-button {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+/* Trash: fixed width on narrow viewports so it is not squeezed off-screen */
+.donation-buttons .delete-button {
+    flex: 0 0 40px;
+    width: 40px;
+    min-width: 40px;
+    padding: 8px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Larger screens: match amount buttons — equal flex share for all four */
+@media (min-width: 480px) {
+    .donation-buttons.donation-amounts .delete-button {
+        flex: 1 1 0;
+        width: auto;
+        min-width: 0;
+    }
+}
+
+.donation-buttons .delete-button img {
+    width: 16px;
+    height: 16px;
+    display: block;
 }
 
 .visually-hidden {
@@ -186,7 +224,7 @@
     color: #fff;
     font-size: 12px;
     margin-left: 10px;
-    min-width: 52px;
+    min-width: 64px;
 }
 
 .donation-amount {
@@ -226,6 +264,7 @@
     font-size: 16px;
     cursor: pointer;
     text-wrap: nowrap;
+    min-width: 68px;
 }
 
 .dropdown-arrow span {
@@ -326,6 +365,11 @@
     align-items: center;
 }
 
+.youbehero-tk-social-icons br,
+.youbehero-tk-footer br {
+  display: none !important;
+}
+
 .youbehero-tk-card {
     width: 100%;
     gap: 20px;
@@ -374,6 +418,7 @@
     justify-content: center;
     gap: 15px;
     margin-top: 10px;
+    margin-bottom: 10px
 }
 
 .youbehero-tk-social-icons a {
@@ -451,6 +496,10 @@
     padding: 20px;
     position: relative;
 }
+
+.youbehero-modal-content p {
+    margin-bottom: 10px;
+  }
 
 /* Header */
 .youbehero-modal-header {
@@ -548,10 +597,9 @@
     text-align: center;
 }
 
-/*test from YouBeHero*/
 .modal-body {
     position: relative;
-    flex: 1 1 auto;
+    margin-bottom: 20px
 }
 
 .youbehero-modal-title {
@@ -569,10 +617,9 @@
 
 .youbehero-vertical-dots {
     list-style: none;
-    padding: 8px 20px;
+    padding: 10px 20px 20px 20px !important;
     margin: 10px 0px;
     position: relative;
-    padding-left: 20px;
     background: #fff;
     font-size: 14px;
     border-radius: 8px;
@@ -621,6 +668,7 @@
     border-radius: 8px;
     background: #fff;
     font-size: 14px;
+    margin: 0;
 
 }
 .youbehero-second-list li {
@@ -641,6 +689,7 @@
     height: 12px;
     display: inline-flex;
     margin-right: 4px;
+    margin-top: -3px;
 }
 
 /* Floating heart animation */

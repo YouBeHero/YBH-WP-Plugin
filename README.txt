@@ -5,7 +5,7 @@ Tags: fundraising, donations, nonprofit, checkout, woocommerce
 Requires at least: 5.7
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.3.6
+Stable tag: 1.3.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -141,6 +141,10 @@ Email support, WordPress plugin forum, and help center at [help.youbehero.com](h
 8. Donations feed at the Angels of Joy's page @YouBeHero
 
 == Changelog ==
+
+= 1.3.7 =
+* Fix checkout floating-hearts color: prefer `data-btnclr` and `--btn-color` over computed background so hearts match the configured button color instead of sometimes appearing white.
+* Tweak donation buttons layout and sizing (gap, flex behavior, delete button sizing, min-widths) and several modal/list spacing fixes to improve theme resilience and narrow-viewport behavior.
 
 = 1.3.6 =
 * Add API call guard.

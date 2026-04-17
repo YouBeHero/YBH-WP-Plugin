@@ -600,9 +600,13 @@ jQuery(document).ready(function($) {
             // Trigger floating hearts animation
             if (typeof window.triggerFloatingHearts === 'function') {
                 try {
-                    // Get button background color for heart color
+                    // Brand color from markup first — computed background is often white at click (focus/touch/before .selected).
                     const computedStyle = window.getComputedStyle(buttonElement);
-                    const buttonColor = computedStyle.backgroundColor || computedStyle.getPropertyValue('--btn-color') || '#8320bd';
+                    const buttonColor =
+                        (buttonElement.getAttribute('data-btnclr') || '').trim() ||
+                        computedStyle.getPropertyValue('--btn-color').trim() ||
+                        computedStyle.backgroundColor ||
+                        '#8320bd';
                     const elementId = jQueryBtn.data('value') || 'donation-btn-' + Date.now();
                     
                     window.triggerFloatingHearts(elementId, buttonElement, buttonColor);
