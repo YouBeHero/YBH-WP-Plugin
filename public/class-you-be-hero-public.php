@@ -163,9 +163,9 @@ class You_Be_Hero_Public {
         if ( is_checkout() ) {
             // Fetch data from the API
             $data = $this->donation_widget_fetch_data();
-            wp_enqueue_style( 'donation-widget-style', YBHD_PLUGIN_URL.'assets/css/style.css', array(), $this->version, 'all' );
+            wp_enqueue_style( 'donation-widget-style', YBHD_PLUGIN_URL . 'assets/css/style.css', array(), $this->version, 'all' );
             wp_deregister_script('donation-widget-script');
-            wp_enqueue_script( 'donation-widget-script', YBHD_PLUGIN_URL.'assets/js/script.js', array( 'jquery' ), $this->version, true );
+            wp_enqueue_script( 'donation-widget-script', YBHD_PLUGIN_URL . 'assets/js/script.js', array( 'jquery' ), $this->version, true );
 
             if ($data) {
 

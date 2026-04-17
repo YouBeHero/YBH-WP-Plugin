@@ -16,7 +16,7 @@
  * Plugin Name:       YouBeHero
  * Plugin URI:        https://youbehero.com/gr/signup-eshop
  * Description:       Add Donation to Cart by YouBeHero is a powerful WordPress plugin that adds a donation widget to your WooCommerce checkout, transforming every purchase into an opportunity for social impact.
- * Version:           1.3.7
+ * Version:           1.3.8
  * Author:            YouBeHero
  * Author URI:        https://youbehero.com/
  * License:           GPL-2.0+
@@ -32,17 +32,23 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-/**
- * Currently plugin version.
- * Start at version 1.0.1 and use SemVer - https://semver.org
- * Rename this for your plugin and update it as you release new versions.
- */
-
 // Plugin directory path.
 define('YBHD_PLUGIN_DIR', plugin_dir_path(__FILE__));
 
 // Plugin URL.
 define('YBHD_PLUGIN_URL', plugin_dir_url(__FILE__));
+
+// Runtime version: same string as * Version: in the plugin header above (WordPress reads that for the Plugins screen).
+if ( ! defined( 'YBHD_VERSION' ) ) {
+	$ybhd_file_headers = get_file_data(
+		__FILE__,
+		array(
+			'Version' => 'Version',
+		)
+	);
+	$ybhd_ver = isset( $ybhd_file_headers['Version'] ) ? trim( (string) $ybhd_file_headers['Version'] ) : '';
+	define( 'YBHD_VERSION', '' !== $ybhd_ver ? $ybhd_ver : '0.0.0' );
+}
 
 // Directories for organized structure.
 define('YBHD_PLUGIN_ADMIN_DIR', YBHD_PLUGIN_DIR . 'admin/');
