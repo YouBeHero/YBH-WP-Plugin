@@ -24,7 +24,7 @@
  * Text Domain:       youbehero
  * Domain Path:       /languages
  * Requires at least: 5.7
- * Tested up to:      6.9
+ * Tested up to:      7.0
  */
 
 // If this file is called directly, abort.
