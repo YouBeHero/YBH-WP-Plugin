@@ -5,7 +5,7 @@ Tags: fundraising, donations, nonprofit, checkout, woocommerce
 Requires at least: 5.7
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.8
+Stable tag: 1.3.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,6 +14,8 @@ Add Donation to Cart by YouBeHero is a powerful WordPress plugin that adds a don
 == Description ==
 
 **Add Donation to Cart** by YouBeHero adds a donation widget to your WooCommerce checkout, allowing customers to support nonprofit organizations during purchase. The widget is optional and seamlessly integrates without disrupting the checkout flow.
+
+https://www.youtube.com/watch?v=0NiNyY0z9NU
 
 **Benefits:**
 * Increase customer loyalty and conversions
@@ -141,6 +143,9 @@ Email support, WordPress plugin forum, and help center at [help.youbehero.com](h
 8. Donations feed at the Angels of Joy's page @YouBeHero
 
 == Changelog ==
+
+= 1.3.9 =
+* Load the `youbehero` text domain from the plugin `languages` folder so translations work on WordPress versions before 6.8.
 
 = 1.3.8 =
 * Define `YBHD_VERSION` from the main plugin file header via `get_file_data()` so the PHP runtime version stays in sync with the single `Version:` line.
